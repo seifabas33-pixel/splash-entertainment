@@ -1,9 +1,0 @@
-[build]
-  base    = "SplashEntertainmentExpo"
-  command = "npx expo export --platform web"
-  publish = "SplashEntertainmentExpo/dist"
-
-[[redirects]]
-  from   = "/*"
-  to     = "/index.html"
-  status = 200

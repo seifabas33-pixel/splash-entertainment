@@ -1,6 +1,7 @@
 [build]
-  command = "cd SplashEntertainmentExpo && npm install && npx expo export --platform web"
-  publish = "SplashEntertainmentExpo/dist"
+  base    = "SplashEntertainmentExpo"
+  command = "npm install && npx expo export --platform web"
+  publish = "dist"
 
 [[redirects]]
   from   = "/*"
