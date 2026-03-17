@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall:*)",
+      "Bash(node -e:*)",
+      "Bash(npm start)",
+      "WebFetch(domain:www.hilton.com)",
+      "WebFetch(domain:www.booking.com)",
+      "WebFetch(domain:www.tripadvisor.com)",
+      "Bash(npx expo start)",
+      "Bash(npx expo install:*)",
+      "Bash(powershell \"Get-Process -Id 10132 | Select-Object Name, Id, MainWindowTitle\")",
+      "Bash(npx expo start:*)",
+      "Bash(eas build:*)",
+      "Bash(eas update:configure:*)",
+      "Bash(eas update:*)",
+      "Bash(netlify:*)",
+      "Bash(npx expo export:*)",
+      "Bash(npx vercel:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
