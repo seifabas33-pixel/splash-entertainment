@@ -154,20 +154,23 @@ export default function LandingScreen() {
       <StatusBar style="light" />
 
       {/* ── Slideshow backgrounds ── */}
-      <Animated.View style={[styles.fullscreen, styles.bgLayer, { transform: [{ scale: bgScale }] }]}>
-        <ImageBackground source={BG_IMAGES[currentIdx]} style={styles.fullscreen} resizeMode="cover" />
-      </Animated.View>
-      <Animated.View style={[styles.fullscreen, styles.bgLayer, { opacity: crossFade }]}>
-        <ImageBackground source={BG_IMAGES[nextIdx]} style={styles.fullscreen} resizeMode="cover" />
-      </Animated.View>
-
-      {/* ── Gradient (covers hero only) ── */}
-      <LinearGradient
-        colors={['rgba(0,0,0,0.62)', 'rgba(0,0,0,0.12)', 'rgba(0,0,0,0.68)']}
-        locations={[0, 0.45, 1]}
-        style={[styles.fullscreen, styles.bgLayer]}
-        pointerEvents="none"
-      />
+      {/* On web: fixed plain View wrapper so CSS transform on Animated child
+          doesn't break the viewport-level positioning */}
+      <View style={styles.bgLayer}>
+        <Animated.View style={[styles.fullscreen, { transform: [{ scale: bgScale }] }]}>
+          <ImageBackground source={BG_IMAGES[currentIdx]} style={styles.fullscreen} resizeMode="cover" />
+        </Animated.View>
+        <Animated.View style={[styles.fullscreen, { opacity: crossFade }]}>
+          <ImageBackground source={BG_IMAGES[nextIdx]} style={styles.fullscreen} resizeMode="cover" />
+        </Animated.View>
+        {/* ── Gradient ── */}
+        <LinearGradient
+          colors={['rgba(0,0,0,0.62)', 'rgba(0,0,0,0.12)', 'rgba(0,0,0,0.68)']}
+          locations={[0, 0.45, 1]}
+          style={styles.fullscreen}
+          pointerEvents="none"
+        />
+      </View>
 
       {/* ── Language selector ── */}
       <View style={styles.langBar}>
