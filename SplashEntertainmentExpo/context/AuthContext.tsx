@@ -435,6 +435,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         idPhoto:      idPhoto,
       };
       await set(ref(db, `employees/${cred.user.uid}`), employee);
+      // onAuthStateChanged fires before the DB write completes, so we fix
+      // the state here to guarantee the correct pending/approved screen shows.
+      setStaff(employee);
+      if (employee.status === 'approved') {
+        setIsAuthenticated(true);
+        setIsPending(false);
+        registerForPushNotifications(employee.id).catch(() => {});
+        scheduleShiftReminders(SHIFT_SCHEDULE).catch(() => {});
+      } else {
+        setIsAuthenticated(false);
+        setIsPending(true);
+      }
       // Notify admin(s) about the new pending request
       if (!isEmpty) {
         sendPushToAll(
@@ -449,7 +461,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (code === 'auth/weak-password')        return { success: false, error: 'weak_password' };
       return { success: false, error: 'network_error' };
     }
-  }, []);
+  }, [setStaff, setIsAuthenticated, setIsPending]);
 
   const deleteEmployee = useCallback(async (id: string) => {
     await remove(ref(db, `employees/${id}`)).catch(() => {});
