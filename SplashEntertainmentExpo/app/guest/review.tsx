@@ -39,9 +39,9 @@ const OVERALL_COLORS = ['#FF4D4D', '#FF8C00', '#FFD700', '#7BC67E', '#00C853'];
 
 // ─── Star row ─────────────────────────────────────────────────────────────────
 
-function Stars({ value, onChange, size = 36 }: { value: number; onChange?: (n: number) => void; size?: number }) {
+function Stars({ value, onChange, size = 28 }: { value: number; onChange?: (n: number) => void; size?: number }) {
   return (
-    <View style={{ flexDirection: 'row', gap: 4 }}>
+    <View style={{ flexDirection: 'row', gap: 6 }}>
       {[1, 2, 3, 4, 5].map((n) => (
         <TouchableOpacity
           key={n}
@@ -50,7 +50,9 @@ function Stars({ value, onChange, size = 36 }: { value: number; onChange?: (n: n
           disabled={!onChange}
           hitSlop={{ top: 10, bottom: 10, left: 4, right: 4 }}
         >
-          <Text style={{ fontSize: size, opacity: n <= value ? 1 : 0.18 }}>⭐</Text>
+          <Text style={{ fontSize: size, color: n <= value ? '#FFB800' : 'rgba(255,255,255,0.2)', lineHeight: size + 4 }}>
+            {n <= value ? '★' : '☆'}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -166,7 +168,7 @@ export default function ReviewScreen() {
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Overall Experience</Text>
             <View style={styles.overallStars}>
-              <Stars value={overall} onChange={setOverall} size={52} />
+              <Stars value={overall} onChange={setOverall} size={36} />
             </View>
             {overall > 0 && (
               <Text style={[styles.overallLabel, { color: OVERALL_COLORS[overall - 1] }]}>
