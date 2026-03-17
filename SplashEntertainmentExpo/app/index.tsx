@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -149,10 +150,10 @@ export default function LandingScreen() {
       <StatusBar style="light" />
 
       {/* ── Slideshow backgrounds ── */}
-      <Animated.View style={[styles.fullscreen, { transform: [{ scale: bgScale }] }]}>
+      <Animated.View style={[styles.fullscreen, styles.bgLayer, { transform: [{ scale: bgScale }] }]}>
         <ImageBackground source={BG_IMAGES[currentIdx]} style={styles.fullscreen} resizeMode="cover" />
       </Animated.View>
-      <Animated.View style={[styles.fullscreen, { opacity: crossFade }]}>
+      <Animated.View style={[styles.fullscreen, styles.bgLayer, { opacity: crossFade }]}>
         <ImageBackground source={BG_IMAGES[nextIdx]} style={styles.fullscreen} resizeMode="cover" />
       </Animated.View>
 
@@ -160,7 +161,7 @@ export default function LandingScreen() {
       <LinearGradient
         colors={['rgba(0,0,0,0.62)', 'rgba(0,0,0,0.12)', 'rgba(0,0,0,0.68)']}
         locations={[0, 0.45, 1]}
-        style={styles.fullscreen}
+        style={[styles.fullscreen, styles.bgLayer]}
         pointerEvents="none"
       />
 
@@ -341,8 +342,10 @@ export default function LandingScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  container:  { flex: 1, backgroundColor: '#000', width: '100%' },
+  container:  { flex: 1, backgroundColor: '#000', width: '100%', overflow: 'hidden' },
   fullscreen: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  // On web use position:fixed so backgrounds always cover the full viewport
+  bgLayer: Platform.OS === 'web' ? ({ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 } as any) : {},
   // Language bar
   langBar: {
     position: 'absolute',
@@ -579,8 +582,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   headerContainer: { alignItems: 'center' },
-  logoWrap: { marginBottom: 12, marginHorizontal: -20 },
-  logo: { width: '100%', height: 140 },
+  logoWrap: { marginBottom: 12, alignSelf: 'stretch' },
+  logo: { width: '100%', height: 120 },
   title: {
     fontSize: 54, fontWeight: '300', letterSpacing: 14, color: Brand.white, marginBottom: 8,
     textShadowColor: 'rgba(0,0,0,0.85)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 10,
