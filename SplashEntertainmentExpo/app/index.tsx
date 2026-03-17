@@ -342,7 +342,7 @@ export default function LandingScreen() {
 
 const styles = StyleSheet.create({
   container:  { flex: 1, backgroundColor: '#000' },
-  fullscreen: { position: 'absolute', top: 0, left: 0, width, height },
+  fullscreen: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   // Language bar
   langBar: {
     position: 'absolute',
