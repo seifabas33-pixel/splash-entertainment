@@ -158,9 +158,6 @@ interface AuthContextValue {
 // ─── Storage keys (AsyncStorage) ─────────────────────────────────────────────
 
 const CHECKINS_KEY = 'splash_checkins_v1';
-const SALES_KEY    = 'splash_sales_v1';
-const TARGETS_KEY  = 'splash_targets_v1';
-const DEBITS_KEY   = 'splash_debits_v1';
 
 // ─── Shift schedule ───────────────────────────────────────────────────────────
 
@@ -275,35 +272,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     AsyncStorage.setItem(CHECKINS_KEY, JSON.stringify(checkIns)).catch(() => {});
   }, [checkIns]);
 
-  // ── AsyncStorage — load & persist sales ───────────────────────────────────
+  // ── Firebase — real-time sales (shared across all devices) ──────────────
   useEffect(() => {
-    AsyncStorage.getItem(SALES_KEY).then((raw) => {
-      if (raw) try { setSalesRecords(JSON.parse(raw)); } catch { /* ignore */ }
+    const unsub = onValue(ref(db, 'sales'), (snap) => {
+      if (!snap.exists()) { setSalesRecords([]); return; }
+      setSalesRecords(Object.values(snap.val() as Record<string, SaleRecord>));
     });
+    return () => unsub();
   }, []);
-  useEffect(() => {
-    AsyncStorage.setItem(SALES_KEY, JSON.stringify(salesRecords)).catch(() => {});
-  }, [salesRecords]);
 
-  // ── AsyncStorage — load & persist targets ─────────────────────────────────
+  // ── Firebase — real-time targets (shared across all devices) ─────────────
   useEffect(() => {
-    AsyncStorage.getItem(TARGETS_KEY).then((raw) => {
-      if (raw) try { setSalesTargets(JSON.parse(raw)); } catch { /* ignore */ }
+    const unsub = onValue(ref(db, 'targets'), (snap) => {
+      if (!snap.exists()) { setSalesTargets([]); return; }
+      setSalesTargets(Object.values(snap.val() as Record<string, SalesTarget>));
     });
+    return () => unsub();
   }, []);
-  useEffect(() => {
-    AsyncStorage.setItem(TARGETS_KEY, JSON.stringify(salesTargets)).catch(() => {});
-  }, [salesTargets]);
 
-  // ── AsyncStorage — load & persist debits ──────────────────────────────────
+  // ── Firebase — real-time debits (shared across all devices) ──────────────
   useEffect(() => {
-    AsyncStorage.getItem(DEBITS_KEY).then((raw) => {
-      if (raw) try { setDebitRecords(JSON.parse(raw)); } catch { /* ignore */ }
+    const unsub = onValue(ref(db, 'debits'), (snap) => {
+      if (!snap.exists()) { setDebitRecords([]); return; }
+      setDebitRecords(Object.values(snap.val() as Record<string, DebitRecord>));
     });
+    return () => unsub();
   }, []);
-  useEffect(() => {
-    AsyncStorage.setItem(DEBITS_KEY, JSON.stringify(debitRecords)).catch(() => {});
-  }, [debitRecords]);
 
   // ── Firebase — real-time tasks (shared across all devices) ───────────────
   useEffect(() => {
@@ -524,8 +518,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!staff) return;
     const emp = employees.find((e) => e.id === employeeId);
     if (!emp) return;
+    const id = `sale-${Date.now()}`;
     const record: SaleRecord = {
-      id:           `sale-${Date.now()}`,
+      id,
       employeeId,
       employeeName: emp.name,
       item,
@@ -534,37 +529,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       date:         new Date().toISOString(),
       recordedBy:   staff.id,
     };
-    setSalesRecords((prev) => [...prev, record]);
+    set(ref(db, `sales/${id}`), record).catch(() => {});
   }, [staff, employees]);
 
   const deleteSaleRecord = useCallback((id: string) => {
-    setSalesRecords((prev) => prev.filter((r) => r.id !== id));
+    remove(ref(db, `sales/${id}`)).catch(() => {});
   }, []);
 
   const setSalesTarget = useCallback((employeeId: string, year: number, month: number, tshirt: number, lottery: number, disco: number) => {
-    setSalesTargets((prev) => {
-      const filtered = prev.filter(
-        (t) => !(t.employeeId === employeeId && t.year === year && t.month === month),
-      );
-      return [...filtered, { employeeId, year, month, tshirt, lottery, disco }];
-    });
+    const key = `${employeeId}-${year}-${month}`;
+    set(ref(db, `targets/${key}`), { employeeId, year, month, tshirt, lottery, disco }).catch(() => {});
   }, []);
 
   // ── Debit callbacks ───────────────────────────────────────────────────────
 
   const addDebitRecord = useCallback((amount: number, note: string) => {
     if (!staff) return;
-    setDebitRecords((prev) => [...prev, {
-      id:         `debit-${Date.now()}`,
+    const id = `debit-${Date.now()}`;
+    set(ref(db, `debits/${id}`), {
+      id,
       amount,
       note,
       date:       new Date().toISOString(),
       recordedBy: staff.id,
-    }]);
+    }).catch(() => {});
   }, [staff]);
 
   const deleteDebitRecord = useCallback((id: string) => {
-    setDebitRecords((prev) => prev.filter((r) => r.id !== id));
+    remove(ref(db, `debits/${id}`)).catch(() => {});
   }, []);
 
   // ── Task callbacks ────────────────────────────────────────────────────────
