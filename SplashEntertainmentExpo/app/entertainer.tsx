@@ -368,6 +368,21 @@ function Dashboard({
       .reduce((acc, r) => acc + COMMISSIONS[role][r.item] * r.quantity, 0);
   }
 
+  function empAllTimeCommission(empId: string, role: Role): number {
+    return salesRecords
+      .filter((r) => r.employeeId === empId)
+      .reduce((acc, r) => acc + COMMISSIONS[role][r.item] * r.quantity, 0);
+  }
+
+  function empAllTimeQty(empId: string): { tshirt: number; lottery: number; disco: number } {
+    const recs = salesRecords.filter((r) => r.employeeId === empId);
+    return {
+      tshirt:  recs.filter((r) => r.item === 'tshirt').reduce((s, r) => s + r.quantity, 0),
+      lottery: recs.filter((r) => r.item === 'lottery').reduce((s, r) => s + r.quantity, 0),
+      disco:   recs.filter((r) => r.item === 'disco').reduce((s, r) => s + r.quantity, 0),
+    };
+  }
+
   function monthlyCompanyRevenue(): number {
     return salesRecords
       .filter((r) => { const d = new Date(r.date); return d.getFullYear() === curYear && d.getMonth() === curMonth; })
@@ -1639,15 +1654,38 @@ QUESTION: ${aiInput.trim()}`;
               showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="handled"
               ListHeaderComponent={staff.role !== 'admin' ? (() => {
-                const qty        = empMonthlyQty(staff.id);
-                const target     = empTarget(staff.id);
-                const commission = empMonthlyCommission(staff.id, staff.role);
+                const qty           = empMonthlyQty(staff.id);
+                const target        = empTarget(staff.id);
+                const commission    = empMonthlyCommission(staff.id, staff.role);
+                const allTimeComm   = empAllTimeCommission(staff.id, staff.role);
+                const allTimeQty    = empAllTimeQty(staff.id);
                 const ITEM_LABELS: Record<SaleItem, string> = { tshirt: t('tshirt_label'), lottery: t('lottery_label'), disco: t('disco_label') };
-                const hasAnySales = qty.tshirt > 0 || qty.lottery > 0 || qty.disco > 0;
+                const hasAnySales   = qty.tshirt > 0 || qty.lottery > 0 || qty.disco > 0;
+                const hasTargets    = target.tshirt > 0 || target.lottery > 0 || target.disco > 0;
+                const monthLabel    = new Date(curYear, curMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
                 return (
                   <BlurView intensity={70} tint="light" style={[styles.mySalesCard, { marginHorizontal: 0, marginBottom: 16 }]}>
                     <Text style={styles.mySalesTitle}>{t('sales_title')}</Text>
-                    {/* Commission rate chips */}
+
+                    {/* ── TOTAL EARNED (all-time) ── */}
+                    <View style={styles.myEarningsTotalBox}>
+                      <Text style={styles.myEarningsTotalLabel}>TOTAL EARNED</Text>
+                      <Text style={styles.myEarningsTotalAmt}>${fmtComm(allTimeComm)}</Text>
+                      <View style={styles.myEarningsAllTimeRow}>
+                        {(['tshirt', 'lottery', 'disco'] as SaleItem[]).map((item) => (
+                          allTimeQty[item] > 0 ? (
+                            <View key={item} style={styles.myEarningsAllTimeChip}>
+                              <Text style={styles.myEarningsAllTimeChipLabel}>
+                                {item === 'tshirt' ? 'T-SHIRT' : item === 'lottery' ? 'LOTTERY' : 'DISCO'}
+                              </Text>
+                              <Text style={styles.myEarningsAllTimeChipVal}>{allTimeQty[item]} sold</Text>
+                            </View>
+                          ) : null
+                        ))}
+                      </View>
+                    </View>
+
+                    {/* ── Commission rate chips ── */}
                     <View style={styles.myRateRow}>
                       {(['tshirt', 'lottery', 'disco'] as SaleItem[]).map((item) => (
                         <View key={item} style={styles.myRateChip}>
@@ -1658,12 +1696,22 @@ QUESTION: ${aiInput.trim()}`;
                         </View>
                       ))}
                     </View>
-                    {/* Per-item qty sold vs target — no dollar amounts shown */}
+
+                    {/* ── This month section header ── */}
+                    <View style={styles.myEarningsMonthHeader}>
+                      <Text style={styles.myEarningsMonthLabel}>{monthLabel.toUpperCase()}</Text>
+                      {commission > 0 && (
+                        <Text style={styles.myEarningsMonthComm}>${fmtComm(commission)}</Text>
+                      )}
+                    </View>
+
+                    {/* Per-item qty sold vs target */}
                     {(['tshirt', 'lottery', 'disco'] as SaleItem[]).map((item) => {
-                      const qSold = qty[item];
-                      const qTgt  = target[item];
-                      const pct   = qTgt > 0 ? Math.min(qSold / qTgt, 1) : 0;
+                      const qSold  = qty[item];
+                      const qTgt   = target[item];
+                      const pct    = qTgt > 0 ? Math.min(qSold / qTgt, 1) : 0;
                       const earned = COMMISSIONS[staff.role][item] * qSold;
+                      if (!hasTargets && qSold === 0) return null;
                       return (
                         <View key={item} style={{ marginBottom: 6 }}>
                           <View style={styles.salesItemRow}>
@@ -1688,12 +1736,8 @@ QUESTION: ${aiInput.trim()}`;
                         </View>
                       );
                     })}
-                    {/* Total commission earned */}
-                    {hasAnySales ? (
-                      <View style={[styles.salesItemRow, { marginTop: 8, borderTopWidth: 1, borderTopColor: 'rgba(255,255,255,0.15)', paddingTop: 8 }]}>
-                        <Text style={[styles.myShiftsTitle, { letterSpacing: 1 }]}>{t('commission_earned', { n: fmtComm(commission) })}</Text>
-                      </View>
-                    ) : (
+
+                    {!hasAnySales && (
                       <Text style={styles.noSalesText}>{t('no_sales_yet')}</Text>
                     )}
                   </BlurView>
@@ -2995,6 +3039,76 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 4,
     textAlign: 'right',
+  },
+  myEarningsTotalBox: {
+    backgroundColor: 'rgba(0,196,140,0.12)',
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 14,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(0,196,140,0.25)',
+  },
+  myEarningsTotalLabel: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: '#00C48C',
+    letterSpacing: 3,
+    marginBottom: 4,
+  },
+  myEarningsTotalAmt: {
+    fontSize: 36,
+    fontWeight: '900',
+    color: '#00C48C',
+    letterSpacing: 1,
+  },
+  myEarningsAllTimeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 8,
+    justifyContent: 'center',
+  },
+  myEarningsAllTimeChip: {
+    backgroundColor: 'rgba(0,196,140,0.15)',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  myEarningsAllTimeChipLabel: {
+    fontSize: 9,
+    fontWeight: '700',
+    color: 'rgba(255,255,255,0.6)',
+    letterSpacing: 1,
+  },
+  myEarningsAllTimeChipVal: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#00C48C',
+  },
+  myEarningsMonthHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+    marginTop: 2,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.12)',
+    paddingTop: 10,
+  },
+  myEarningsMonthLabel: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: 'rgba(255,255,255,0.5)',
+    letterSpacing: 2,
+  },
+  myEarningsMonthComm: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#00C48C',
   },
   noSalesText: {
     fontSize: 12,
