@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
   },
   // Glass card
   glassCard: {
-    width: width * 0.9, maxWidth: 460, alignSelf: 'center',
+    width: '100%', maxWidth: 460, alignSelf: 'center',
     borderRadius: 32, padding: 30, overflow: 'hidden',
     borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)',
   },
