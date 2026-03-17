@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
@@ -31,6 +32,7 @@ const LANGUAGES = Object.keys(LANGUAGE_META) as Language[];
 export default function LandingScreen() {
   const router = useRouter();
   const { t, language, setLanguage } = useLanguage();
+  const { width: winW } = useWindowDimensions();
 
   // ── Slideshow ──────────────────────────────────────────────────────────────
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -40,7 +42,7 @@ export default function LandingScreen() {
   // ── Entrance animated values ───────────────────────────────────────────────
   const logoOpacity     = useRef(new Animated.Value(0)).current;
   const logoScale       = useRef(new Animated.Value(0.7)).current;
-  const bgScale         = useRef(new Animated.Value(1.1)).current;
+  const bgScale         = useRef(new Animated.Value(Platform.OS === 'web' ? 1 : 1.1)).current;
   const titleOpacity    = useRef(new Animated.Value(0)).current;
   const titleY          = useRef(new Animated.Value(50)).current;
   const subtitleOpacity = useRef(new Animated.Value(0)).current;
@@ -79,7 +81,9 @@ export default function LandingScreen() {
 
   // Entrance animations
   useEffect(() => {
-    Animated.timing(bgScale, { toValue: 1, duration: 4000, useNativeDriver: true }).start();
+    if (Platform.OS !== 'web') {
+      Animated.timing(bgScale, { toValue: 1, duration: 4000, useNativeDriver: true }).start();
+    }
     Animated.parallel([
       Animated.timing(logoOpacity, { toValue: 1, duration: 600, useNativeDriver: true }),
       Animated.spring(logoScale,   { toValue: 1, tension: 60, friction: 8, useNativeDriver: true }),
@@ -293,7 +297,7 @@ export default function LandingScreen() {
               { src: require('@/assets/images/resort_beach.webp') as number, caption: 'Private Beach · Abu Dabbab Bay' },
               { src: require('@/assets/images/resort_lobby.webp') as number, caption: 'Main Lobby & Reception' },
             ] as { src: number; caption: string }[]).map((photo, i) => (
-              <View key={i} style={styles.galleryCard}>
+              <View key={i} style={[styles.galleryCard, { width: winW * 0.72 }]}>
                 <ImageBackground source={photo.src} style={styles.galleryImage} resizeMode="cover" imageStyle={{ borderRadius: 16 }}>
                   <LinearGradient colors={['transparent', 'rgba(0,0,0,0.72)']} style={styles.galleryGradient}>
                     <Text style={styles.galleryCaption}>{photo.caption}</Text>
@@ -342,7 +346,7 @@ export default function LandingScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  container:  { flex: 1, backgroundColor: '#000', width: '100%', overflow: 'hidden' },
+  container:  { flex: 1, backgroundColor: '#000', width: '100%', ...(Platform.OS !== 'web' ? { overflow: 'hidden' } : {}) },
   fullscreen: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   // On web use position:fixed so backgrounds always cover the full viewport
   bgLayer: Platform.OS === 'web' ? ({ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 } as any) : {},
