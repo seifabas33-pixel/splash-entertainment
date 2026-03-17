@@ -21,6 +21,7 @@ import {
   registerForPushNotifications,
   scheduleShiftReminders,
   sendPushToEmployee,
+  sendPushToAll,
 } from '@/utils/notifications';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -429,6 +430,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         idPhoto:      idPhoto,
       };
       await set(ref(db, `employees/${cred.user.uid}`), employee);
+      // Notify admin(s) about the new pending request
+      if (!isEmpty) {
+        sendPushToAll(
+          '🔔 New Staff Request',
+          `${name.trim()} wants to join the team. Open the Employees tab to approve.`,
+        ).catch(() => {});
+      }
       return { success: true };
     } catch (e: unknown) {
       const code = (e as { code?: string })?.code ?? '';

@@ -857,13 +857,35 @@ QUESTION: ${aiInput.trim()}`;
                     onPress={() => setActiveTab('employees')}
                     activeOpacity={0.8}
                   >
-                    <Text style={[styles.tabBtnText, activeTab === 'employees' && styles.tabBtnTextActive]}>
-                      {t('employees_tab')}
-                    </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                      <Text style={[styles.tabBtnText, activeTab === 'employees' && styles.tabBtnTextActive]}>
+                        {t('employees_tab')}
+                      </Text>
+                      {pendingEmployees.length > 0 && (
+                        <View style={styles.tabPendingBadge}>
+                          <Text style={styles.tabPendingBadgeText}>{pendingEmployees.length}</Text>
+                        </View>
+                      )}
+                    </View>
                   </TouchableOpacity>
                 </>
               )}
             </View>
+          )}
+
+          {/* ── Pending requests alert banner (admin only, when not on employees tab) ── */}
+          {staff.role === 'admin' && pendingEmployees.length > 0 && activeTab !== 'employees' && (
+            <TouchableOpacity
+              style={styles.pendingAlertBanner}
+              onPress={() => setActiveTab('employees')}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.pendingAlertIcon}>🔔</Text>
+              <Text style={styles.pendingAlertText}>
+                {pendingEmployees.length} new staff request{pendingEmployees.length > 1 ? 's' : ''} waiting for approval
+              </Text>
+              <Text style={styles.pendingAlertArrow}>→</Text>
+            </TouchableOpacity>
           )}
 
           {/* ── Day selector (schedule tab only) ── */}
@@ -2078,6 +2100,39 @@ const styles = StyleSheet.create({
   tabBtnTextActive: {
     color: Brand.navy,
   },
+  tabPendingBadge: {
+    backgroundColor: '#FF3B30',
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    paddingHorizontal: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabPendingBadgeText: {
+    color: '#fff',
+    fontSize: 9,
+    fontWeight: '700',
+  },
+  pendingAlertBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF8C00',
+    marginHorizontal: 20,
+    marginBottom: 10,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    gap: 8,
+  },
+  pendingAlertIcon: { fontSize: 16 },
+  pendingAlertText: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  pendingAlertArrow: { fontSize: 14, color: '#fff', fontWeight: '700' },
   // Employee cards
   emptyEmpCard: {
     borderRadius: 16,
