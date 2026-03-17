@@ -26,7 +26,7 @@ import {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type Role = 'entertainer' | 'leader' | 'admin';
+export type Role = 'entertainer' | 'leader' | 'admin' | 'kids' | 'dj' | 'pr';
 
 export type SaleItem = 'tshirt' | 'lottery' | 'disco';
 
@@ -40,6 +40,9 @@ export const COMMISSIONS: Record<Role, Record<SaleItem, number>> = {
   entertainer: { tshirt: 5,   lottery: 1.5, disco: 5   },
   leader:      { tshirt: 2.5, lottery: 0.5, disco: 2.5 },
   admin:       { tshirt: 0,   lottery: 0,   disco: 0   },
+  kids:        { tshirt: 5,   lottery: 1.5, disco: 5   },
+  dj:          { tshirt: 5,   lottery: 1.5, disco: 5   },
+  pr:          { tshirt: 5,   lottery: 1.5, disco: 5   },
 };
 
 export interface SaleRecord {

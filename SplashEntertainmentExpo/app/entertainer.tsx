@@ -148,6 +148,9 @@ const ROLE_BADGE_COLOR: Record<Role, string> = {
   entertainer: Brand.turquoise,
   leader:      '#00C48C',
   admin:       '#FF6B6B',
+  kids:        '#FF9500',
+  dj:          '#AF52DE',
+  pr:          '#FF2D55',
 };
 
 // ─── Group tasks into Morning / Afternoon / Evening ───────────────────────────
@@ -1329,6 +1332,36 @@ QUESTION: ${aiInput.trim()}`;
                   </>
                 )}
 
+                {/* KIDS ENTERTAINERS section */}
+                {employees.filter((e) => e.role === 'kids').length > 0 && (
+                  <>
+                    <View style={[styles.salesSheetHeader, { borderLeftColor: '#FF9500' }]}>
+                      <Text style={[styles.salesSheetTitle, { color: '#FF9500' }]}>{t('kids_sheet')}</Text>
+                    </View>
+                    {employees.filter((e) => e.role === 'kids').map(renderSalesEmpCard)}
+                  </>
+                )}
+
+                {/* DJs section */}
+                {employees.filter((e) => e.role === 'dj').length > 0 && (
+                  <>
+                    <View style={[styles.salesSheetHeader, { borderLeftColor: '#AF52DE' }]}>
+                      <Text style={[styles.salesSheetTitle, { color: '#AF52DE' }]}>{t('dj_sheet')}</Text>
+                    </View>
+                    {employees.filter((e) => e.role === 'dj').map(renderSalesEmpCard)}
+                  </>
+                )}
+
+                {/* PUBLIC RELATIONS section */}
+                {employees.filter((e) => e.role === 'pr').length > 0 && (
+                  <>
+                    <View style={[styles.salesSheetHeader, { borderLeftColor: '#FF2D55' }]}>
+                      <Text style={[styles.salesSheetTitle, { color: '#FF2D55' }]}>{t('pr_sheet')}</Text>
+                    </View>
+                    {employees.filter((e) => e.role === 'pr').map(renderSalesEmpCard)}
+                  </>
+                )}
+
                 {/* CASH DEDUCTIONS sheet */}
                 <View style={[styles.salesSheetHeader, { borderLeftColor: '#FFB800', marginTop: 20 }]}>
                   <Text style={[styles.salesSheetTitle, { color: '#FFB800' }]}>{t('debit_sheet')}</Text>
@@ -1566,7 +1599,7 @@ QUESTION: ${aiInput.trim()}`;
                   {/* Role change — admin can promote/demote anyone except themselves */}
                   {emp.id !== staff.id && (
                     <View style={styles.roleChangeRow}>
-                      {(['entertainer', 'leader', 'admin'] as Role[]).map((r) => (
+                      {(['entertainer', 'kids', 'dj', 'pr', 'leader', 'admin'] as Role[]).map((r) => (
                         <TouchableOpacity
                           key={r}
                           style={[styles.roleChangeBtn, emp.role === r && { backgroundColor: `${ROLE_BADGE_COLOR[r]}22`, borderColor: ROLE_BADGE_COLOR[r] }]}
@@ -1670,12 +1703,12 @@ QUESTION: ${aiInput.trim()}`;
                 <BlurView intensity={70} tint="light" style={styles.emptyTaskCard}>
                   <Text style={styles.emptyTaskIcon}>📋</Text>
                   <Text style={styles.emptyTaskTitle}>
-                    {staff.role === 'entertainer' || staff.role === 'leader'
+                    {staff.role !== 'admin'
                       ? 'No tasks assigned yet'
                       : 'No tasks for this day'}
                   </Text>
                   <Text style={styles.emptyTaskSub}>
-                    {staff.role === 'entertainer'
+                    {staff.role !== 'admin' && staff.role !== 'leader'
                       ? 'Your admin or leader will assign tasks here'
                       : 'Tap "+ Add Task" below to create one'}
                   </Text>
