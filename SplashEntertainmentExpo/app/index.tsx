@@ -341,7 +341,7 @@ export default function LandingScreen() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
-  container:  { flex: 1, backgroundColor: '#000' },
+  container:  { flex: 1, backgroundColor: '#000', width: '100%' },
   fullscreen: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   // Language bar
   langBar: {
@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   galleryCard: {
-    width: width * 0.70,
+    width: '70%',
     height: 200,
   },
   galleryImage: {
@@ -532,7 +532,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   highlightCard: {
-    width: (width - 52) / 3,
+    width: '30%',
     borderRadius: 18,
     padding: 14,
     overflow: 'hidden',
