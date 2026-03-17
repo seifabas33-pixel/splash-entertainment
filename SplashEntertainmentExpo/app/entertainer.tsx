@@ -1644,6 +1644,21 @@ QUESTION: ${aiInput.trim()}`;
                   </BlurView>
                 );
               })() : null}
+              ListEmptyComponent={(
+                <BlurView intensity={70} tint="light" style={styles.emptyTaskCard}>
+                  <Text style={styles.emptyTaskIcon}>📋</Text>
+                  <Text style={styles.emptyTaskTitle}>
+                    {staff.role === 'entertainer' || staff.role === 'leader'
+                      ? 'No tasks assigned yet'
+                      : 'No tasks for this day'}
+                  </Text>
+                  <Text style={styles.emptyTaskSub}>
+                    {staff.role === 'entertainer'
+                      ? 'Your admin or leader will assign tasks here'
+                      : 'Tap "+ Add Task" below to create one'}
+                  </Text>
+                </BlurView>
+              )}
               ListFooterComponent={(
                 <View style={styles.myShiftsFooter}>
                   {/* ── Add Task form (admin / leader only) ── */}
@@ -1824,8 +1839,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width,
-    height,
+    right: 0,
+    bottom: 0,
   },
   overlay: {
     flex: 1,
@@ -2448,6 +2463,18 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   // ── MY SHIFTS footer (schedule tab) ──────────────────────────────────────────
+  emptyTaskCard: {
+    borderRadius: 20,
+    padding: 28,
+    alignItems: 'center',
+    overflow: 'hidden',
+    marginVertical: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.4)',
+  },
+  emptyTaskIcon: { fontSize: 36, marginBottom: 12 },
+  emptyTaskTitle: { fontSize: 15, fontWeight: '700', color: Brand.navy, marginBottom: 6, textAlign: 'center' },
+  emptyTaskSub:   { fontSize: 12, color: 'rgba(0,0,80,0.45)', textAlign: 'center', lineHeight: 18 },
   myShiftsFooter: {
     marginTop: 28,
     marginBottom: 16,

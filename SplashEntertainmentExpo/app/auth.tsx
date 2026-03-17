@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Animated,
-  Dimensions,
   Image,
   ImageBackground,
   KeyboardAvoidingView,
@@ -22,7 +21,6 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { Brand } from '@/constants/theme';
 
-const { width, height } = Dimensions.get('window');
 const BG_IMAGE = require('@/assets/images/resort_pool.webp');
 const CARD_MAX  = 420;
 
@@ -104,16 +102,21 @@ export default function AuthScreen() {
           setError(res.error === 'invalid_credentials'
             ? 'Incorrect email or password.'
             : 'Connection error — please try again.');
+          setBusy(false);
         }
+        // On success: keep spinner — navigation effect will fire when isAuthenticated becomes true
       } else {
         const res = await register(name.trim(), em, password, whatsapp.trim(), profilePhoto, idPhoto);
         if (!res.success) {
           if (res.error === 'email_taken')        setError('This email is already registered. Sign in instead.');
           else if (res.error === 'weak_password') setError('Password too weak — use at least 6 characters.');
           else setError('Connection error — please try again.');
+          setBusy(false);
         }
+        // On success: keep spinner — navigation effect will fire when isPending becomes true
       }
-    } finally {
+    } catch {
+      setError('Connection error — please try again.');
       setBusy(false);
     }
   }, [mode, name, email, whatsapp, password, profilePhoto, idPhoto, login, register]);
@@ -243,7 +246,14 @@ export default function AuthScreen() {
             disabled={busy}
           >
             {busy
-              ? <ActivityIndicator color={Brand.white} />
+              ? (
+                <View style={{ alignItems: 'center', gap: 6 }}>
+                  <ActivityIndicator color={Brand.white} />
+                  <Text style={styles.busyTxt}>
+                    {mode === 'signup' ? 'Uploading photos…' : 'Signing in…'}
+                  </Text>
+                </View>
+              )
               : <Text style={styles.submitTxt}>
                   {mode === 'signin' ? 'SIGN IN' : 'SUBMIT REQUEST'}
                 </Text>
@@ -313,7 +323,7 @@ function Field({
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#000' },
-  bg:   { position: 'absolute', top: 0, left: 0, width, height },
+  bg:   { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   scroll: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -381,6 +391,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.45, shadowRadius: 10, elevation: 6,
   },
   submitTxt: { color: Brand.white, fontSize: 14, fontWeight: '700', letterSpacing: 1.5 },
+  busyTxt:   { color: 'rgba(255,255,255,0.7)', fontSize: 11, fontWeight: '500' },
   switchRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20 },
   switchHint: { fontSize: 13, color: 'rgba(255,255,255,0.45)', fontWeight: '500' },
   switchLink: { fontSize: 13, color: Brand.turquoise, fontWeight: '700', textDecorationLine: 'underline' },

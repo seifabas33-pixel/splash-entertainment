@@ -157,7 +157,6 @@ const CHECKINS_KEY = 'splash_checkins_v1';
 const SALES_KEY    = 'splash_sales_v1';
 const TARGETS_KEY  = 'splash_targets_v1';
 const DEBITS_KEY   = 'splash_debits_v1';
-const TASKS_KEY    = 'splash_tasks_v1';
 
 // ─── Shift schedule ───────────────────────────────────────────────────────────
 
@@ -297,15 +296,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     AsyncStorage.setItem(DEBITS_KEY, JSON.stringify(debitRecords)).catch(() => {});
   }, [debitRecords]);
 
-  // ── AsyncStorage — load & persist tasks ───────────────────────────────────
+  // ── Firebase — real-time tasks (shared across all devices) ───────────────
   useEffect(() => {
-    AsyncStorage.getItem(TASKS_KEY).then((raw) => {
-      if (raw) try { setTasks(JSON.parse(raw)); } catch { /* ignore */ }
+    const unsub = onValue(ref(db, 'tasks'), (snap) => {
+      if (!snap.exists()) { setTasks([]); return; }
+      setTasks(Object.values(snap.val() as Record<string, Task>));
     });
+    return () => unsub();
   }, []);
-  useEffect(() => {
-    AsyncStorage.setItem(TASKS_KEY, JSON.stringify(tasks)).catch(() => {});
-  }, [tasks]);
 
   // ── Auto check-in/out at scheduled shift times ────────────────────────────
   useEffect(() => {
@@ -545,34 +543,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const addTask = useCallback((task: Omit<Task, 'id' | 'status' | 'note' | 'completedAt' | 'createdBy'>): void => {
     if (!staff) return;
-    setTasks((prev) => [...prev, {
+    const id = `task-${Date.now()}`;
+    const fullTask: Task = {
       ...task,
-      id:          `task-${Date.now()}`,
+      id,
       createdBy:   staff.id,
       status:      'Pending',
       note:        '',
       completedAt: null,
-    }]);
+    };
+    set(ref(db, `tasks/${id}`), fullTask).catch(() => {});
   }, [staff]);
 
   const deleteTask = useCallback((id: string) => {
-    setTasks((prev) => prev.filter((t) => t.id !== id));
+    remove(ref(db, `tasks/${id}`)).catch(() => {});
   }, []);
 
   const updateTaskStatus = useCallback((id: string, status: TaskStatus) => {
-    setTasks((prev) => prev.map((t) =>
-      t.id === id ? {
-        ...t,
-        status,
-        completedAt: status === 'Complete'
-          ? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : null,
-      } : t,
-    ));
+    const completedAt = status === 'Complete'
+      ? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : null;
+    set(ref(db, `tasks/${id}/status`), status).catch(() => {});
+    set(ref(db, `tasks/${id}/completedAt`), completedAt).catch(() => {});
   }, []);
 
   const updateTaskNote = useCallback((id: string, note: string) => {
-    setTasks((prev) => prev.map((t) => t.id === id ? { ...t, note } : t));
+    set(ref(db, `tasks/${id}/note`), note).catch(() => {});
   }, []);
 
   const myCheckIn = staff
