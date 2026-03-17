@@ -71,6 +71,7 @@ export default function ReviewScreen() {
   const [comment,     setComment]     = useState('');
   const [guestName,   setGuestName]   = useState('');
   const [nationality, setNationality] = useState('');
+  const [roomNumber,  setRoomNumber]  = useState('');
   const [busy,        setBusy]        = useState(false);
   const [submitted,   setSubmitted]   = useState(false);
 
@@ -89,6 +90,7 @@ export default function ReviewScreen() {
         comment:     comment.trim(),
         guestName:   guestName.trim() || 'Anonymous',
         nationality: nationality.trim(),
+        roomNumber:  roomNumber.trim(),
         submittedAt: new Date().toISOString(),
       });
     } finally {
@@ -228,6 +230,14 @@ export default function ReviewScreen() {
               placeholder="Your country  (e.g. Germany)"
               placeholderTextColor="rgba(255,255,255,0.28)"
               autoCapitalize="words"
+            />
+            <TextInput
+              style={[styles.nameInput, { marginTop: 12 }]}
+              value={roomNumber}
+              onChangeText={setRoomNumber}
+              placeholder="Room number  (e.g. 412)"
+              placeholderTextColor="rgba(255,255,255,0.28)"
+              keyboardType="numeric"
             />
           </View>
 
