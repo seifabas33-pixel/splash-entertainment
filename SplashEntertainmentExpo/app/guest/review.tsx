@@ -184,7 +184,7 @@ export default function ReviewScreen() {
               <View key={a.key} style={styles.aspectRow}>
                 <Text style={styles.aspectIcon}>{a.icon}</Text>
                 <Text style={styles.aspectLabel}>{a.label}</Text>
-                <Stars value={aspects[a.key]} onChange={(v) => setAspect(a.key, v)} size={26} />
+                <Stars value={aspects[a.key]} onChange={(v) => setAspect(a.key, v)} size={20} />
               </View>
             ))}
           </View>
@@ -385,17 +385,17 @@ const styles = StyleSheet.create({
   aspectRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 18,
-    gap: 14,
+    marginBottom: 16,
+    gap: 8,
   },
   aspectIcon: {
-    fontSize: 22,
-    width: 30,
+    fontSize: 20,
+    width: 26,
     textAlign: 'center',
   },
   aspectLabel: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     color: 'rgba(255,255,255,0.8)',
     fontWeight: '600',
   },
