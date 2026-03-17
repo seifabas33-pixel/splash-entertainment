@@ -21,7 +21,7 @@ import { ref as dbRef, onValue } from 'firebase/database';
 import { db } from '@/constants/firebase';
 import StaffMap, { type LiveLocation } from '@/components/StaffMap';
 import { useAuth } from '@/context/AuthContext';
-import { sendPushToAll } from '@/utils/notifications';
+import { sendPushToAll, sendPushToEmployee } from '@/utils/notifications';
 import { CheckInRecord, Employee, Role, SHIFT_SCHEDULE, SaleItem, SALE_PRODUCTS, SaleRecord, SalesTarget, COMMISSIONS, Task, TaskStatus, TaskPeriod } from '@/context/AuthContext';
 import { Brand } from '@/constants/theme';
 import { GROQ_API_KEY, GROQ_MODEL, GEMINI_SYSTEM_PROMPT } from '@/constants/gemini';
@@ -447,16 +447,26 @@ function Dashboard({
 
   const handleAddTask = useCallback(() => {
     const t24 = addTaskTime24.trim() || '09:00';
-    if (!addTaskTitle.trim()) return;
+    const title = addTaskTitle.trim();
+    if (!title) return;
+    const location = addTaskLocation.trim() || 'TBD';
     addTask({
-      title:      addTaskTitle.trim(),
+      title,
       time:       displayTime(t24),
       time24:     t24,
-      location:   addTaskLocation.trim() || 'TBD',
+      location,
       period:     periodFromTime24(t24),
       assignedTo: addTaskAssignTo,
       date:       selectedDate,
     });
+    // Send push notification to assigned person(s)
+    const notifTitle = '📋 New Task Assigned';
+    const notifBody  = `${title} · ${displayTime(t24)} · ${location}`;
+    if (addTaskAssignTo === 'all') {
+      sendPushToAll(notifTitle, notifBody).catch(() => {});
+    } else {
+      sendPushToEmployee(addTaskAssignTo, notifTitle, notifBody).catch(() => {});
+    }
     setAddTaskTitle('');
     setAddTaskLocation('');
     setAddTaskTime24('09:00');
