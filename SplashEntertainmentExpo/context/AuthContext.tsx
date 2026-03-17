@@ -15,7 +15,7 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChanged,
 } from 'firebase/auth';
-import { ref, set, get, remove, onValue } from 'firebase/database';
+import { ref, set, get, remove, onValue, query, limitToFirst } from 'firebase/database';
 import { auth, db } from '@/constants/firebase';
 import {
   registerForPushNotifications,
@@ -250,7 +250,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const empRef = ref(db, 'employees');
     const unsub = onValue(empRef, (snap) => {
       if (!snap.exists()) { setEmployees([]); setPendingEmployees([]); return; }
-      const all = Object.values(snap.val() as Record<string, Employee>);
+      // Strip base64 photos from approved employees — not needed for the roster list.
+      // Pending employees keep their photos so admin can review them.
+      const all = Object.values(snap.val() as Record<string, Employee>).map((e) => {
+        if (e.status === 'pending') return e;
+        return { ...e, profilePhoto: '', idPhoto: '' };
+      });
       setEmployees(all.filter((e) => !e.status || e.status === 'approved'));
       setPendingEmployees(all.filter((e) => e.status === 'pending'));
     });
@@ -412,9 +417,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   ): Promise<RegisterResult> => {
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
-      // First person to register becomes admin (auto-approved)
-      const snap = await get(ref(db, 'employees'));
-      const isEmpty = !snap.exists() || Object.keys(snap.val() ?? {}).length === 0;
+      // Check if any employee exists — fetch only 1 record to avoid large downloads
+      const snap = await get(query(ref(db, 'employees'), limitToFirst(1)));
+      const isEmpty = !snap.exists();
       const employee: Employee = {
         id:           cred.user.uid,
         name:         name.trim(),
