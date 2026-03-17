@@ -580,7 +580,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: { alignItems: 'center' },
   logoWrap: { marginBottom: 12, marginHorizontal: -20 },
-  logo: { width, height: 140 },
+  logo: { width: '100%', height: 140 },
   title: {
     fontSize: 54, fontWeight: '300', letterSpacing: 14, color: Brand.white, marginBottom: 8,
     textShadowColor: 'rgba(0,0,0,0.85)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 10,
