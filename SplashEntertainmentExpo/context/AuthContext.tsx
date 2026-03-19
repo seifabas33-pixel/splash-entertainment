@@ -107,6 +107,7 @@ export interface Employee {
 }
 
 export interface CheckInRecord {
+  id:           string;
   employeeId:   string;
   employeeName: string;
   employeeRole: Role;
@@ -157,7 +158,6 @@ interface AuthContextValue {
 
 // ─── Storage keys (AsyncStorage) ─────────────────────────────────────────────
 
-const CHECKINS_KEY = 'splash_checkins_v1';
 
 // ─── Shift schedule ───────────────────────────────────────────────────────────
 
@@ -183,7 +183,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [salesTargets,    setSalesTargets]    = useState<SalesTarget[]>([]);
   const [debitRecords,    setDebitRecords]    = useState<DebitRecord[]>([]);
   const [tasks,           setTasks]           = useState<Task[]>([]);
-  const autoTriggered = useRef<Set<string>>(new Set());
+  const autoTriggered  = useRef<Set<string>>(new Set());
+  const checkInsRef    = useRef<CheckInRecord[]>([]);
+  useEffect(() => { checkInsRef.current = checkIns; }, [checkIns]);
 
   // ── Firebase Auth session — auto-restores on app open ────────────────────
   useEffect(() => {
@@ -262,15 +264,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsub();
   }, []);
 
-  // ── AsyncStorage — load & persist check-ins ───────────────────────────────
+  // ── Firebase — real-time check-ins (shared across all devices) ──────────
   useEffect(() => {
-    AsyncStorage.getItem(CHECKINS_KEY).then((raw) => {
-      if (raw) try { setCheckIns(JSON.parse(raw)); } catch { /* ignore */ }
+    const unsub = onValue(ref(db, 'checkins'), (snap) => {
+      if (!snap.exists()) { setCheckIns([]); return; }
+      setCheckIns(Object.values(snap.val() as Record<string, CheckInRecord>));
     });
+    return () => unsub();
   }, []);
-  useEffect(() => {
-    AsyncStorage.setItem(CHECKINS_KEY, JSON.stringify(checkIns)).catch(() => {});
-  }, [checkIns]);
 
   // ── Firebase — real-time sales (shared across all devices) ──────────────
   useEffect(() => {
@@ -324,27 +325,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           autoTriggered.current.add(inKey);
           const inTime = new Date(now);
           inTime.setHours(shift.startH, shift.startM, 0, 0);
-          setCheckIns((prev) => {
-            const closed = prev.map((r) =>
-              r.employeeId === staff.id && r.checkedOutAt === null
-                ? { ...r, checkedOutAt: inTime.toISOString() } : r);
-            return [...closed, {
-              employeeId:   staff.id,
-              employeeName: staff.name,
-              employeeRole: staff.role,
-              checkedInAt:  inTime.toISOString(),
-              checkedOutAt: null,
-            }];
-          });
+          const openIn = checkInsRef.current.find((r) => r.employeeId === staff.id && r.checkedOutAt === null);
+          if (openIn) set(ref(db, `checkins/${openIn.id}/checkedOutAt`), inTime.toISOString()).catch(() => {});
+          const newInId = `checkin-${Date.now()}`;
+          set(ref(db, `checkins/${newInId}`), {
+            id: newInId, employeeId: staff.id, employeeName: staff.name,
+            employeeRole: staff.role, checkedInAt: inTime.toISOString(), checkedOutAt: null,
+          }).catch(() => {});
         }
         if (!autoTriggered.current.has(outKey) && totalMins >= endMins && totalMins <= endMins + 2) {
           autoTriggered.current.add(outKey);
           const outTime = new Date(now);
           outTime.setHours(shift.endH, shift.endM, 0, 0);
-          setCheckIns((prev) =>
-            prev.map((r) =>
-              r.employeeId === staff.id && r.checkedOutAt === null
-                ? { ...r, checkedOutAt: outTime.toISOString() } : r));
+          const openOut = checkInsRef.current.find((r) => r.employeeId === staff.id && r.checkedOutAt === null);
+          if (openOut) set(ref(db, `checkins/${openOut.id}/checkedOutAt`), outTime.toISOString()).catch(() => {});
         }
       });
     };
@@ -487,29 +481,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkIn = useCallback(() => {
     if (!staff) return;
-    setCheckIns((prev) => {
-      const closed = prev.map((r) =>
-        r.employeeId === staff.id && r.checkedOutAt === null
-          ? { ...r, checkedOutAt: new Date().toISOString() } : r,
-      );
-      return [...closed, {
-        employeeId:   staff.id,
-        employeeName: staff.name,
-        employeeRole: staff.role,
-        checkedInAt:  new Date().toISOString(),
-        checkedOutAt: null,
-      }];
-    });
+    const now = new Date().toISOString();
+    const open = checkInsRef.current.find((r) => r.employeeId === staff.id && r.checkedOutAt === null);
+    if (open) set(ref(db, `checkins/${open.id}/checkedOutAt`), now).catch(() => {});
+    const id = `checkin-${Date.now()}`;
+    set(ref(db, `checkins/${id}`), {
+      id, employeeId: staff.id, employeeName: staff.name,
+      employeeRole: staff.role, checkedInAt: now, checkedOutAt: null,
+    }).catch(() => {});
   }, [staff]);
 
   const checkOut = useCallback(() => {
     if (!staff) return;
-    setCheckIns((prev) =>
-      prev.map((r) =>
-        r.employeeId === staff.id && r.checkedOutAt === null
-          ? { ...r, checkedOutAt: new Date().toISOString() } : r,
-      ),
-    );
+    const open = checkInsRef.current.find((r) => r.employeeId === staff.id && r.checkedOutAt === null);
+    if (open) set(ref(db, `checkins/${open.id}/checkedOutAt`), new Date().toISOString()).catch(() => {});
   }, [staff]);
 
   // ── Sales callbacks ───────────────────────────────────────────────────────
