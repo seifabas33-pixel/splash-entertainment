@@ -1982,19 +1982,19 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: Brand.turquoise,
-    fontSize: 9,
+    fontSize: 11,
     fontWeight: '800',
-    letterSpacing: 2,
+    letterSpacing: 1.5,
   },
   roleBadge: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
-    letterSpacing: 3,
+    letterSpacing: 2.5,
     textTransform: 'uppercase',
     marginBottom: 2,
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: '300',
     color: Brand.white,
     letterSpacing: 0,
@@ -2009,17 +2009,17 @@ const styles = StyleSheet.create({
   },
   rolePill: {
     borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
   rolePillText: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '800',
     letterSpacing: 1.5,
   },
   progressCompact: {
-    fontSize: 10,
-    color: 'rgba(255,255,255,0.4)',
+    fontSize: 11,
+    color: 'rgba(255,255,255,0.5)',
     fontWeight: '600',
     letterSpacing: 0.5,
   },
@@ -2066,9 +2066,9 @@ const styles = StyleSheet.create({
     borderColor: `${Brand.turquoise}88`,
   },
   dayBtnName: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '700',
-    color: 'rgba(255,255,255,0.5)',
+    color: 'rgba(255,255,255,0.55)',
     letterSpacing: 1,
     textTransform: 'uppercase',
   },
@@ -2129,10 +2129,10 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   periodHeaderText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '800',
     color: Brand.turquoise,
-    letterSpacing: 4,
+    letterSpacing: 3.5,
     textTransform: 'uppercase',
     textShadowColor: 'rgba(0,0,0,0.4)',
     textShadowOffset: { width: 0, height: 1 },
@@ -2169,10 +2169,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   tabBtnText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '700',
-    color: 'rgba(255,255,255,0.52)',
-    letterSpacing: 1.5,
+    color: 'rgba(255,255,255,0.55)',
+    letterSpacing: 1.2,
   },
   tabBtnTextActive: {
     color: Brand.navy,
@@ -2180,15 +2180,15 @@ const styles = StyleSheet.create({
   tabPendingBadge: {
     backgroundColor: '#FF3B30',
     borderRadius: 8,
-    minWidth: 16,
-    height: 16,
-    paddingHorizontal: 4,
+    minWidth: 18,
+    height: 18,
+    paddingHorizontal: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   tabPendingBadgeText: {
     color: '#fff',
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '700',
   },
   pendingAlertBanner: {
@@ -2257,9 +2257,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   empRoleText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '800',
-    letterSpacing: 1.2,
+    letterSpacing: 1.0,
   },
   empDetail: {
     fontSize: 13,
@@ -2282,17 +2282,17 @@ const styles = StyleSheet.create({
   roleChangeBtn: {
     flex: 1,
     borderRadius: 8,
-    paddingVertical: 6,
+    paddingVertical: 8,
     alignItems: 'center',
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.1)',
     backgroundColor: 'rgba(0,0,0,0.04)',
   },
   roleChangeTxt: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '800',
-    color: 'rgba(0,0,0,0.35)',
-    letterSpacing: 1,
+    color: 'rgba(0,0,0,0.4)',
+    letterSpacing: 0.8,
   },
   // Progress bar
   progressBarWrap: {
@@ -2304,14 +2304,14 @@ const styles = StyleSheet.create({
   },
   progressBarTrack: {
     flex: 1,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: 'rgba(255,255,255,0.18)',
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     overflow: 'hidden',
   },
   progressBarFill: {
-    height: 5,
-    borderRadius: 3,
+    height: 7,
+    borderRadius: 4,
     backgroundColor: Brand.turquoise,
   },
   progressPct: {
@@ -2382,10 +2382,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statusText: {
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '800',
     textTransform: 'uppercase',
-    letterSpacing: 1.2,
+    letterSpacing: 1.0,
   },
   // Note section
   noteSection: {
@@ -2489,10 +2489,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   clockBtnText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
     color: Brand.white,
-    letterSpacing: 1.2,
+    letterSpacing: 1.0,
   },
   // ── HR tab ───────────────────────────────────────────────────────────────────
   hrStatsRow: {
@@ -2514,10 +2514,10 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   hrStatLabel: {
-    fontSize: 9,
-    fontWeight: '800',
-    color: '#999',
-    letterSpacing: 1.5,
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#888',
+    letterSpacing: 1.2,
     textTransform: 'uppercase',
   },
   // ── Roster cards (shared by HR + Roster tab) ─────────────────────────────────
@@ -2564,13 +2564,13 @@ const styles = StyleSheet.create({
   },
   // ── History toggle + panel (HR tab) ──────────────────────────────────────────
   historyToggleText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '800',
     color: Brand.turquoise,
-    letterSpacing: 0.8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
+    letterSpacing: 0.5,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 7,
     borderWidth: 1,
     borderColor: `${Brand.turquoise}44`,
   },
@@ -2908,16 +2908,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   salesProgressBar: {
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: 'rgba(0,0,0,0.07)',
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: 'rgba(0,0,0,0.08)',
     overflow: 'hidden',
     marginBottom: 8,
     marginTop: 4,
   },
   salesProgressFill: {
-    height: 5,
-    borderRadius: 3,
+    height: 7,
+    borderRadius: 4,
     backgroundColor: '#00C48C',
   },
   salesBreakdown: {
