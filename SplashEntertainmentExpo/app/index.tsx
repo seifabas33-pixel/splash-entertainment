@@ -128,8 +128,8 @@ export default function LandingScreen() {
     const pulseTimeout = setTimeout(() => {
       pulseAnim = Animated.loop(
         Animated.sequence([
-          Animated.timing(dividerGlow, { toValue: 1,    duration: 1500, useNativeDriver: true }),
-          Animated.timing(dividerGlow, { toValue: 0.45, duration: 1500, useNativeDriver: true }),
+          Animated.timing(dividerGlow, { toValue: 1,    duration: 1800, useNativeDriver: true }),
+          Animated.timing(dividerGlow, { toValue: 0.35, duration: 1800, useNativeDriver: true }),
         ])
       );
       pulseAnim.start();
@@ -154,8 +154,6 @@ export default function LandingScreen() {
       <StatusBar style="light" />
 
       {/* ── Slideshow backgrounds ── */}
-      {/* On web: fixed plain View wrapper so CSS transform on Animated child
-          doesn't break the viewport-level positioning */}
       <View style={styles.bgLayer}>
         <Animated.View style={[styles.fullscreen, { transform: [{ scale: bgScale }] }]}>
           <ImageBackground source={BG_IMAGES[currentIdx]} style={styles.fullscreen} resizeMode="cover" />
@@ -163,10 +161,17 @@ export default function LandingScreen() {
         <Animated.View style={[styles.fullscreen, { opacity: crossFade }]}>
           <ImageBackground source={BG_IMAGES[nextIdx]} style={styles.fullscreen} resizeMode="cover" />
         </Animated.View>
-        {/* ── Gradient ── */}
+        {/* Cinematic vignette gradient */}
         <LinearGradient
-          colors={['rgba(0,0,0,0.62)', 'rgba(0,0,0,0.12)', 'rgba(0,0,0,0.68)']}
-          locations={[0, 0.45, 1]}
+          colors={['rgba(0,5,20,0.72)', 'rgba(0,0,0,0.08)', 'rgba(0,5,20,0.85)']}
+          locations={[0, 0.5, 1]}
+          style={styles.fullscreen}
+          pointerEvents="none"
+        />
+        {/* Subtle side vignette */}
+        <LinearGradient
+          colors={['rgba(0,5,20,0.5)', 'transparent', 'rgba(0,5,20,0.5)']}
+          start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }}
           style={styles.fullscreen}
           pointerEvents="none"
         />
@@ -203,26 +208,31 @@ export default function LandingScreen() {
             <Animated.View style={[styles.logoWrap, { opacity: logoOpacity, transform: [{ scale: logoScale }] }]}>
               <Image source={require('@/assets/images/splash_logo.png')} style={styles.logo} resizeMode="contain" />
             </Animated.View>
-            <Animated.Text style={[styles.title, { opacity: titleOpacity, transform: [{ translateY: titleY }] }]}>
-              HILTON
+            <Animated.Text style={[styles.eyebrow, { opacity: subtitleOpacity }]}>
+              HILTON · MARSA ALAM
             </Animated.Text>
-            <Animated.Text style={[styles.subtitle, { opacity: subtitleOpacity, transform: [{ translateY: subtitleY }] }]}>
-              MARSA ALAM NUBIAN RESORT
+            <Animated.Text style={[styles.title, { opacity: titleOpacity, transform: [{ translateY: titleY }] }]}>
+              NUBIAN RESORT
             </Animated.Text>
             <Animated.View style={[styles.divider, { opacity: dividerGlow, transform: [{ scaleX: dividerScaleX }] }]} />
             <Animated.Text style={[styles.tagline, { opacity: taglineOpacity, transform: [{ translateY: taglineY }] }]}>
               Splash Entertainment Platform
             </Animated.Text>
             <Animated.Text style={[styles.location, { opacity: locationOpacity }]}>
-              📍 Abu Dabbab Bay · Egypt
+              📍  Abu Dabbab Bay · Red Sea, Egypt
             </Animated.Text>
           </View>
 
           {/* Buttons + scroll hint */}
           <View>
             <Animated.View style={{ opacity: cardOpacity, transform: [{ translateY: cardY }] }}>
-              <BlurView intensity={55} tint="dark" style={styles.glassCard}>
+              {/* Glass card */}
+              <BlurView intensity={22} tint="dark" style={styles.glassCard}>
+                {/* Gold top accent line */}
+                <View style={styles.cardGoldLine} />
                 <Text style={styles.instruction}>{t('welcome_tap')}</Text>
+
+                {/* Guest button */}
                 <Animated.View style={{ transform: [{ scale: guestScale }] }}>
                   <TouchableOpacity
                     style={styles.primaryButton}
@@ -231,30 +241,41 @@ export default function LandingScreen() {
                     onPressOut={() => pressOut(guestScale)}
                     onPress={() => router.push('/guest')}
                   >
+                    <LinearGradient
+                      colors={[Brand.navyDeep, '#002878']}
+                      start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
+                      style={StyleSheet.absoluteFill}
+                    />
                     <Text style={styles.buttonTitle}>🏖️  {t('guest_experience')}</Text>
                     <Text style={styles.buttonSubtitle}>{t('guest_sub')}</Text>
                   </TouchableOpacity>
                 </Animated.View>
+
+                {/* Gold divider */}
+                <View style={styles.cardInnerDivider} />
+
+                {/* Staff pill */}
+                <Animated.View style={{ transform: [{ scale: staffScale }] }}>
+                  <TouchableOpacity
+                    style={styles.staffPill}
+                    activeOpacity={1}
+                    onPressIn={() => pressIn(staffScale)}
+                    onPressOut={() => pressOut(staffScale)}
+                    onPress={() => router.push('/auth')}
+                  >
+                    <Text style={styles.staffPillIcon}>🔐</Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.staffPillTitle}>{t('staff_portal')}</Text>
+                      <Text style={styles.staffPillSub}>{t('staff_sub')}</Text>
+                    </View>
+                    <Text style={styles.staffPillChevron}>›</Text>
+                  </TouchableOpacity>
+                </Animated.View>
               </BlurView>
-              <Animated.View style={{ transform: [{ scale: staffScale }] }}>
-                <TouchableOpacity
-                  style={styles.staffPill}
-                  activeOpacity={1}
-                  onPressIn={() => pressIn(staffScale)}
-                  onPressOut={() => pressOut(staffScale)}
-                  onPress={() => router.push('/auth')}
-                >
-                  <Text style={styles.staffPillIcon}>🔐</Text>
-                  <View>
-                    <Text style={styles.staffPillTitle}>{t('staff_portal')}</Text>
-                    <Text style={styles.staffPillSub}>{t('staff_sub')}</Text>
-                  </View>
-                  <Text style={styles.staffPillChevron}>›</Text>
-                </TouchableOpacity>
-              </Animated.View>
             </Animated.View>
+
             {/* Scroll hint */}
-            <Animated.View style={{ alignItems: 'center', marginTop: 14, transform: [{ translateY: scrollHintY }] }}>
+            <Animated.View style={{ alignItems: 'center', marginTop: 20, transform: [{ translateY: scrollHintY }] }}>
               <Text style={styles.scrollHint}>↓  {t('scroll_to_explore')}</Text>
             </Animated.View>
           </View>
@@ -262,6 +283,9 @@ export default function LandingScreen() {
 
         {/* ── PORTFOLIO SECTION ── */}
         <View style={styles.portfolioSection}>
+
+          {/* Thin gold top border */}
+          <View style={styles.sectionTopBorder} />
 
           {/* About header */}
           <View style={styles.portfolioHeader}>
@@ -285,7 +309,7 @@ export default function LandingScreen() {
               { value: '35+', label: 'Dive Sites' },
               { value: '11',  label: 'Venues' },
             ] as { value: string; label: string }[]).map((s, i) => (
-              <View key={i} style={styles.statItem}>
+              <View key={i} style={[styles.statItem, i < 3 && styles.statItemBorder]}>
                 <Text style={styles.statValue}>{s.value}</Text>
                 <Text style={styles.statLabel}>{s.label}</Text>
               </View>
@@ -296,14 +320,17 @@ export default function LandingScreen() {
           <Text style={styles.portfolioSectionTitle}>GALLERY</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.galleryRow}>
             {([
-              { src: require('@/assets/images/resort_pool.webp')  as number,  caption: 'Entertainment Pool Complex' },
+              { src: require('@/assets/images/resort_pool.webp')  as number, caption: 'Entertainment Pool Complex' },
               { src: require('@/assets/images/resort_beach.webp') as number, caption: 'Private Beach · Abu Dabbab Bay' },
               { src: require('@/assets/images/resort_lobby.webp') as number, caption: 'Main Lobby & Reception' },
             ] as { src: number; caption: string }[]).map((photo, i) => (
-              <View key={i} style={[styles.galleryCard, { width: winW * 0.72 }]}>
-                <ImageBackground source={photo.src} style={styles.galleryImage} resizeMode="cover" imageStyle={{ borderRadius: 16 }}>
-                  <LinearGradient colors={['transparent', 'rgba(0,0,0,0.72)']} style={styles.galleryGradient}>
-                    <Text style={styles.galleryCaption}>{photo.caption}</Text>
+              <View key={i} style={[styles.galleryCard, { width: winW * 0.75 }]}>
+                <ImageBackground source={photo.src} style={styles.galleryImage} resizeMode="cover" imageStyle={{ borderRadius: 18 }}>
+                  <LinearGradient colors={['transparent', 'rgba(0,0,0,0.82)']} style={styles.galleryGradient}>
+                    <View style={styles.galleryCaptionRow}>
+                      <View style={styles.galleryCaptionBar} />
+                      <Text style={styles.galleryCaption}>{photo.caption}</Text>
+                    </View>
                   </LinearGradient>
                 </ImageBackground>
               </View>
@@ -321,24 +348,24 @@ export default function LandingScreen() {
               { icon: '🎭', title: 'Nightly Shows',    sub: 'Amphitheater' },
               { icon: '🍽️', title: '5 Restaurants',   sub: '6 bars & lounges' },
             ] as { icon: string; title: string; sub: string }[]).map((h, i) => (
-              <BlurView key={i} intensity={12} tint="dark" style={styles.highlightCard}>
+              <View key={i} style={styles.highlightCard}>
                 <Text style={styles.highlightIcon}>{h.icon}</Text>
                 <Text style={styles.highlightTitle}>{h.title}</Text>
                 <Text style={styles.highlightSub}>{h.sub}</Text>
-              </BlurView>
+              </View>
             ))}
           </View>
 
           {/* Tags */}
           <View style={styles.tagsRow}>
-            {(['All-Inclusive Available', 'Family Friendly', 'Adults Retreat', 'Private Beach'] as string[]).map((tag) => (
+            {(['All-Inclusive', 'Family Friendly', 'Adults Retreat', 'Private Beach'] as string[]).map((tag) => (
               <View key={tag} style={styles.portfolioTag}>
                 <Text style={styles.portfolioTagText}>{tag}</Text>
               </View>
             ))}
           </View>
 
-          <View style={{ height: 56 }} />
+          <View style={{ height: 64 }} />
         </View>
 
       </ScrollView>
@@ -351,295 +378,201 @@ export default function LandingScreen() {
 const styles = StyleSheet.create({
   container:  { flex: 1, backgroundColor: '#000', width: '100%', ...(Platform.OS !== 'web' ? { overflow: 'hidden' } : {}) },
   fullscreen: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
-  // On web use position:fixed so backgrounds always cover the full viewport
   bgLayer: Platform.OS === 'web' ? ({ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 } as any) : {},
-  // Language bar
-  langBar: {
-    position: 'absolute',
-    top: 52,
-    right: 0,
-    left: 0,
-    zIndex: 20,
-  },
-  langScroll: {
-    paddingHorizontal: 16,
-    gap: 6,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
+
+  // ── Language bar ────────────────────────────────────────────────────────────
+  langBar: { position: 'absolute', top: 52, right: 0, left: 0, zIndex: 20 },
+  langScroll: { paddingHorizontal: 16, gap: 6, flexDirection: 'row', justifyContent: 'flex-end' },
   langPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.35)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.15)',
+    flexDirection: 'row', alignItems: 'center', gap: 4,
+    paddingHorizontal: 10, paddingVertical: 5, borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)',
   },
   langPillActive: {
-    backgroundColor: 'rgba(0,74,173,0.60)',
-    borderColor: Brand.turquoise,
+    backgroundColor: 'rgba(0,15,50,0.7)',
+    borderColor: Brand.goldBorder,
   },
   langFlag: { fontSize: 14 },
-  langCode: {
-    fontSize: 10, fontWeight: '700', color: 'rgba(255,255,255,0.65)', letterSpacing: 0.5,
-  },
-  langCodeActive: { color: Brand.white },
-  // Scroll + Hero
+  langCode: { fontSize: 10, fontWeight: '700', color: 'rgba(255,255,255,0.55)', letterSpacing: 0.5 },
+  langCodeActive: { color: Brand.gold },
+
+  // ── Scroll + Hero ───────────────────────────────────────────────────────────
   mainScroll: { flex: 1 },
   heroPage: {
     minHeight: height,
     justifyContent: 'space-between',
-    paddingTop: 100,
-    paddingBottom: 40,
-    paddingHorizontal: 20,
+    paddingTop: 110,
+    paddingBottom: 44,
+    paddingHorizontal: 22,
     maxWidth: 540,
     width: '100%',
     alignSelf: 'center',
   },
   scrollHint: {
-    color: 'rgba(255,255,255,0.50)',
-    fontSize: 11,
+    color: Brand.gold,
+    fontSize: 10,
     fontWeight: '600',
-    letterSpacing: 2,
-    textTransform: 'uppercase',
-  },
-  // ── Portfolio section ──────────────────────────────────────────────────────
-  portfolioSection: {
-    backgroundColor: '#070D1B',
-  },
-  portfolioHeader: {
-    paddingHorizontal: 24,
-    paddingTop: 44,
-    paddingBottom: 28,
-  },
-  portfolioStarsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginBottom: 18,
-  },
-  portfolioStarText: {
-    color: '#C9A84C',
-    fontSize: 15,
-    letterSpacing: 4,
-  },
-  portfolioStarBadge: {
-    borderWidth: 1,
-    borderColor: '#C9A84C',
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-  },
-  portfolioStarBadgeText: {
-    color: '#C9A84C',
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 1.5,
-  },
-  portfolioTitle: {
-    color: Brand.white,
-    fontSize: 30,
-    fontWeight: '300',
-    letterSpacing: 1.5,
-    marginBottom: 14,
-  },
-  portfolioTitleDivider: {
-    width: 40,
-    height: 2,
-    backgroundColor: Brand.turquoise,
-    marginBottom: 16,
-  },
-  portfolioAddressText: {
-    color: 'rgba(255,255,255,0.55)',
-    fontSize: 13,
-    fontWeight: '500',
-    marginBottom: 14,
-  },
-  portfolioDesc: {
-    color: 'rgba(255,255,255,0.72)',
-    fontSize: 15,
-    lineHeight: 24,
-    fontWeight: '300',
-  },
-  // Stats strip
-  statsStrip: {
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(255,255,255,0.07)',
-    paddingVertical: 22,
-    paddingHorizontal: 20,
-  },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statValue: {
-    color: Brand.turquoise,
-    fontSize: 28,
-    fontWeight: '300',
-    letterSpacing: 1,
-  },
-  statLabel: {
-    color: 'rgba(255,255,255,0.45)',
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 1.5,
-    marginTop: 4,
-    textTransform: 'uppercase',
-  },
-  // Gallery
-  portfolioSectionTitle: {
-    color: 'rgba(255,255,255,0.35)',
-    fontSize: 11,
-    fontWeight: '700',
     letterSpacing: 3,
     textTransform: 'uppercase',
-    paddingHorizontal: 24,
-    paddingTop: 36,
-    paddingBottom: 16,
+    opacity: 0.7,
   },
-  galleryRow: {
-    paddingHorizontal: 20,
-    gap: 12,
-    paddingBottom: 4,
-  },
-  galleryCard: {
-    width: '70%',
-    height: 200,
-  },
-  galleryImage: {
-    width: '100%',
-    height: '100%',
-    overflow: 'hidden',
-  },
-  galleryGradient: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 80,
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-    justifyContent: 'flex-end',
-    padding: 14,
-  },
-  galleryCaption: {
-    color: Brand.white,
-    fontSize: 12,
-    fontWeight: '600',
-    letterSpacing: 0.3,
-  },
-  // Highlights
-  highlightsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 16,
-    gap: 10,
-    paddingBottom: 8,
-  },
-  highlightCard: {
-    width: '30%',
-    borderRadius: 18,
-    padding: 14,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.07)',
-    alignItems: 'center',
-    gap: 6,
-  },
-  highlightIcon: { fontSize: 26 },
-  highlightTitle: {
-    color: Brand.white,
-    fontSize: 11,
-    fontWeight: '700',
-    textAlign: 'center',
-    lineHeight: 15,
-  },
-  highlightSub: {
-    color: 'rgba(255,255,255,0.40)',
-    fontSize: 10,
-    fontWeight: '500',
-    textAlign: 'center',
-  },
-  // Tags
-  tagsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 20,
-    gap: 8,
-    paddingTop: 28,
-    paddingBottom: 16,
-  },
-  portfolioTag: {
-    paddingHorizontal: 13,
-    paddingVertical: 7,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(0,180,216,0.35)',
-    backgroundColor: 'rgba(0,180,216,0.07)',
-  },
-  portfolioTagText: {
-    color: Brand.turquoise,
-    fontSize: 11,
-    fontWeight: '600',
-    letterSpacing: 0.8,
-  },
+
+  // ── Hero typography ─────────────────────────────────────────────────────────
   headerContainer: { alignItems: 'center' },
-  logoWrap: { marginBottom: 12, alignSelf: 'stretch' },
-  logo: { width: '100%', height: 120 },
-  title: {
-    fontSize: 54, fontWeight: '300', letterSpacing: 14, color: Brand.white, marginBottom: 8,
-    textShadowColor: 'rgba(0,0,0,0.85)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 10,
+  logoWrap: { marginBottom: 20, alignSelf: 'stretch' },
+  logo: { width: '100%', height: 110 },
+  eyebrow: {
+    fontSize: 11, fontWeight: '400', color: Brand.gold,
+    letterSpacing: 6, textTransform: 'uppercase', marginBottom: 10,
+    textShadowColor: 'rgba(0,0,0,0.8)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6,
   },
-  subtitle: {
-    fontSize: 14, fontWeight: '700', letterSpacing: 4, color: Brand.white,
-    textAlign: 'center', textTransform: 'uppercase',
-    textShadowColor: 'rgba(0,0,0,0.80)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 8,
+  title: {
+    fontSize: 48, fontWeight: '200', letterSpacing: 10, color: Brand.white, marginBottom: 4,
+    textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.9)', textShadowOffset: { width: 0, height: 2 }, textShadowRadius: 12,
   },
   divider: {
-    width: 60, height: 2, backgroundColor: Brand.turquoise, marginVertical: 18,
-    shadowColor: Brand.turquoise, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 1, shadowRadius: 10, elevation: 6,
+    width: 64, height: 1, backgroundColor: Brand.gold, marginVertical: 20,
+    shadowColor: Brand.gold, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 1, shadowRadius: 8, elevation: 6,
   },
   tagline: {
-    fontSize: 12, color: 'rgba(255,255,255,0.95)', letterSpacing: 3.5,
-    fontWeight: '600', textTransform: 'uppercase', marginBottom: 8,
+    fontSize: 11, color: 'rgba(255,255,255,0.8)', letterSpacing: 4,
+    fontWeight: '400', textTransform: 'uppercase', marginBottom: 10,
     textShadowColor: 'rgba(0,0,0,0.75)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6,
   },
   location: {
-    fontSize: 13, color: 'rgba(255,255,255,0.90)', letterSpacing: 1, fontWeight: '500', marginTop: 4,
+    fontSize: 12, color: 'rgba(255,255,255,0.65)', letterSpacing: 1, fontWeight: '400', marginTop: 4,
     textShadowColor: 'rgba(0,0,0,0.75)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 6,
   },
-  // Glass card
+
+  // ── Glass card ──────────────────────────────────────────────────────────────
   glassCard: {
     width: '100%', maxWidth: 460, alignSelf: 'center',
-    borderRadius: 32, padding: 30, overflow: 'hidden',
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)',
+    borderRadius: 28, paddingBottom: 28, overflow: 'hidden',
+    borderWidth: 1, borderColor: Brand.goldBorder,
+  },
+  cardGoldLine: {
+    height: 1, backgroundColor: Brand.gold, opacity: 0.6, marginBottom: 28,
   },
   instruction: {
-    fontSize: 14, color: 'rgba(255,255,255,0.75)', marginBottom: 24,
-    fontWeight: '500', textAlign: 'center', letterSpacing: 0.5, fontStyle: 'italic',
+    fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 20,
+    fontWeight: '400', textAlign: 'center', letterSpacing: 1.5,
+    fontStyle: 'italic', paddingHorizontal: 28,
   },
   primaryButton: {
-    backgroundColor: Brand.navy, borderRadius: 16, paddingVertical: 18,
-    paddingHorizontal: 20, alignItems: 'center',
-    shadowColor: Brand.navy, shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.45, shadowRadius: 16, elevation: 10,
+    borderRadius: 18, paddingVertical: 20, paddingHorizontal: 24,
+    alignItems: 'center', overflow: 'hidden',
+    borderWidth: 1, borderColor: Brand.goldBorder,
+    marginHorizontal: 20,
+    shadowColor: Brand.gold, shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2, shadowRadius: 12, elevation: 6,
   },
-  buttonTitle:    { fontSize: 17, fontWeight: '700', color: Brand.white, marginBottom: 4, letterSpacing: 0.5 },
-  buttonSubtitle: { fontSize: 12, color: 'rgba(255,255,255,0.72)', fontWeight: '400', letterSpacing: 0.3 },
-  // Staff pill
+  buttonTitle:    { fontSize: 16, fontWeight: '600', color: Brand.gold, marginBottom: 5, letterSpacing: 1.5 },
+  buttonSubtitle: { fontSize: 12, color: 'rgba(255,255,255,0.55)', fontWeight: '300', letterSpacing: 0.8 },
+  cardInnerDivider: {
+    height: 1, backgroundColor: Brand.goldBorder, marginVertical: 18, marginHorizontal: 20,
+  },
   staffPill: {
-    flexDirection: 'row', alignItems: 'center', marginTop: 14, marginHorizontal: 12,
-    backgroundColor: 'rgba(0,0,0,0.45)', borderRadius: 20,
-    paddingVertical: 14, paddingHorizontal: 20,
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.14)', gap: 14,
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    borderRadius: 16, paddingVertical: 14, paddingHorizontal: 20,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)', gap: 14,
+    marginHorizontal: 20,
   },
-  staffPillIcon:    { fontSize: 22 },
-  staffPillTitle:   { fontSize: 15, fontWeight: '700', color: Brand.white, letterSpacing: 0.3 },
-  staffPillSub:     { fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: '400', marginTop: 1 },
-  staffPillChevron: { marginLeft: 'auto' as any, fontSize: 22, color: 'rgba(255,255,255,0.40)', fontWeight: '300' },
+  staffPillIcon:    { fontSize: 20 },
+  staffPillTitle:   { fontSize: 14, fontWeight: '600', color: Brand.white, letterSpacing: 0.8 },
+  staffPillSub:     { fontSize: 11, color: 'rgba(255,255,255,0.45)', fontWeight: '300', marginTop: 2, letterSpacing: 0.3 },
+  staffPillChevron: { fontSize: 22, color: Brand.gold, fontWeight: '200', opacity: 0.7 },
+
+  // ── Portfolio section ───────────────────────────────────────────────────────
+  portfolioSection: { backgroundColor: '#060C1A' },
+  sectionTopBorder: { height: 1, backgroundColor: Brand.gold, opacity: 0.25 },
+  portfolioHeader: { paddingHorizontal: 28, paddingTop: 52, paddingBottom: 32 },
+  portfolioStarsRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 20 },
+  portfolioStarText: { color: Brand.gold, fontSize: 14, letterSpacing: 5 },
+  portfolioStarBadge: {
+    borderWidth: 1, borderColor: Brand.goldBorder,
+    borderRadius: 6, paddingHorizontal: 9, paddingVertical: 3,
+  },
+  portfolioStarBadgeText: { color: Brand.gold, fontSize: 9, fontWeight: '700', letterSpacing: 2 },
+  portfolioTitle: {
+    color: Brand.white, fontSize: 32, fontWeight: '200',
+    letterSpacing: 2, marginBottom: 16, lineHeight: 40,
+  },
+  portfolioTitleDivider: {
+    width: 48, height: 1, backgroundColor: Brand.gold, marginBottom: 20, opacity: 0.8,
+  },
+  portfolioAddressText: {
+    color: 'rgba(255,255,255,0.45)', fontSize: 12,
+    fontWeight: '400', marginBottom: 16, letterSpacing: 0.5,
+  },
+  portfolioDesc: {
+    color: 'rgba(255,255,255,0.65)', fontSize: 15,
+    lineHeight: 26, fontWeight: '300', letterSpacing: 0.3,
+  },
+
+  // ── Stats strip ─────────────────────────────────────────────────────────────
+  statsStrip: {
+    flexDirection: 'row',
+    borderTopWidth: 1, borderBottomWidth: 1,
+    borderColor: 'rgba(201,168,76,0.15)',
+    paddingVertical: 28, paddingHorizontal: 20,
+    backgroundColor: 'rgba(201,168,76,0.03)',
+  },
+  statItem: { flex: 1, alignItems: 'center' },
+  statItemBorder: {
+    borderRightWidth: 1, borderRightColor: 'rgba(201,168,76,0.15)',
+  },
+  statValue: { color: Brand.gold, fontSize: 30, fontWeight: '200', letterSpacing: 1 },
+  statLabel: {
+    color: 'rgba(255,255,255,0.38)', fontSize: 9,
+    fontWeight: '700', letterSpacing: 2, marginTop: 5, textTransform: 'uppercase',
+  },
+
+  // ── Gallery ─────────────────────────────────────────────────────────────────
+  portfolioSectionTitle: {
+    color: Brand.gold, fontSize: 9, fontWeight: '700',
+    letterSpacing: 4, textTransform: 'uppercase',
+    paddingHorizontal: 28, paddingTop: 44, paddingBottom: 18,
+    opacity: 0.8,
+  },
+  galleryRow: { paddingHorizontal: 22, gap: 14, paddingBottom: 4 },
+  galleryCard: { height: 240 },
+  galleryImage: { width: '100%', height: '100%', overflow: 'hidden' },
+  galleryGradient: {
+    position: 'absolute', bottom: 0, left: 0, right: 0, height: 100,
+    borderBottomLeftRadius: 18, borderBottomRightRadius: 18,
+    justifyContent: 'flex-end', padding: 16,
+  },
+  galleryCaptionRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  galleryCaptionBar: { width: 3, height: 14, backgroundColor: Brand.gold, borderRadius: 2, opacity: 0.9 },
+  galleryCaption: { color: Brand.white, fontSize: 12, fontWeight: '500', letterSpacing: 0.5 },
+
+  // ── Highlights ──────────────────────────────────────────────────────────────
+  highlightsGrid: {
+    flexDirection: 'row', flexWrap: 'wrap',
+    paddingHorizontal: 18, gap: 10, paddingBottom: 8,
+  },
+  highlightCard: {
+    width: '30%', borderRadius: 18, padding: 16,
+    borderWidth: 1, borderColor: 'rgba(201,168,76,0.18)',
+    backgroundColor: 'rgba(201,168,76,0.04)',
+    alignItems: 'center', gap: 7,
+  },
+  highlightIcon:  { fontSize: 26 },
+  highlightTitle: { color: Brand.white, fontSize: 11, fontWeight: '600', textAlign: 'center', lineHeight: 15, letterSpacing: 0.3 },
+  highlightSub:   { color: Brand.gold, fontSize: 9, fontWeight: '500', textAlign: 'center', opacity: 0.7, letterSpacing: 0.5 },
+
+  // ── Tags ────────────────────────────────────────────────────────────────────
+  tagsRow: {
+    flexDirection: 'row', flexWrap: 'wrap',
+    paddingHorizontal: 22, gap: 8, paddingTop: 36, paddingBottom: 16,
+  },
+  portfolioTag: {
+    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
+    borderWidth: 1, borderColor: Brand.goldBorder,
+    backgroundColor: Brand.goldLight,
+  },
+  portfolioTagText: { color: Brand.gold, fontSize: 11, fontWeight: '500', letterSpacing: 1 },
 });
