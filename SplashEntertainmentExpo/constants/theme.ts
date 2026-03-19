@@ -4,9 +4,13 @@ import { Platform } from 'react-native';
 export const Brand = {
   navy: '#004AAD',
   navyDark: '#003580',
+  navyDeep: '#001F5B',
   navyLight: 'rgba(0, 74, 173, 0.85)',
   turquoise: '#00B4D8',
   turquoiseDark: '#0096B4',
+  gold: '#C9A84C',
+  goldLight: 'rgba(201,168,76,0.18)',
+  goldBorder: 'rgba(201,168,76,0.35)',
   white: '#FFFFFF',
   offWhite: '#F5F2F0',
   surfaceLight: '#F5F9FF',

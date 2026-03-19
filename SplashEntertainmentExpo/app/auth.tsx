@@ -130,7 +130,8 @@ export default function AuthScreen() {
 
       <ImageBackground source={BG_IMAGE} style={styles.bg} resizeMode="cover" />
       <LinearGradient
-        colors={['rgba(0,0,0,0.50)', 'rgba(0,10,40,0.88)']}
+        colors={['rgba(0,5,20,0.55)', 'rgba(0,15,55,0.78)', 'rgba(0,5,20,0.97)']}
+        locations={[0, 0.45, 1]}
         style={styles.bg}
       />
 
@@ -148,6 +149,7 @@ export default function AuthScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.logoMark}>🌊</Text>
+          <Text style={styles.resortName}>SPLASH ENTERTAINMENT</Text>
           <Text style={styles.title}>STAFF PORTAL</Text>
           <View style={styles.divider} />
           <Text style={styles.subtitle}>
@@ -335,31 +337,45 @@ const styles = StyleSheet.create({
   },
   backBtn: { position: 'absolute', top: 60, left: 24, zIndex: 10, paddingVertical: 4 },
   backText: { fontSize: 13, color: Brand.white, fontWeight: '700', letterSpacing: 2 },
-  header: { alignItems: 'center', marginBottom: 36 },
-  logoMark: { fontSize: 40, marginBottom: 14 },
-  title: { fontSize: 30, fontWeight: '200', color: Brand.white, letterSpacing: 9 },
-  divider: { width: 48, height: 2, backgroundColor: Brand.turquoise, marginVertical: 14, borderRadius: 1 },
-  subtitle: { fontSize: 13, color: 'rgba(255,255,255,0.55)', fontWeight: '500', letterSpacing: 0.5 },
+  header: { alignItems: 'center', marginBottom: 40 },
+  logoMark: { fontSize: 44, marginBottom: 16 },
+  resortName: {
+    fontSize: 10, fontWeight: '600', color: Brand.gold,
+    letterSpacing: 5, textTransform: 'uppercase', marginBottom: 10,
+  },
+  title: { fontSize: 32, fontWeight: '200', color: Brand.white, letterSpacing: 10 },
+  divider: {
+    width: 60, height: 1, marginVertical: 16, borderRadius: 1,
+    backgroundColor: Brand.gold,
+  },
+  subtitle: { fontSize: 13, color: 'rgba(255,255,255,0.5)', fontWeight: '400', letterSpacing: 1 },
   card: {
-    borderRadius: 28, paddingVertical: 30, paddingHorizontal: 26,
-    overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.16)',
+    borderRadius: 28, paddingVertical: 32, paddingHorizontal: 26,
+    overflow: 'hidden',
+    borderWidth: 1, borderColor: Brand.goldBorder,
     maxWidth: CARD_MAX, width: '100%',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3, shadowRadius: 24, elevation: 10,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.5, shadowRadius: 32, elevation: 16,
   },
   modeRow: {
-    flexDirection: 'row', backgroundColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 14, padding: 4, marginBottom: 26,
+    flexDirection: 'row', backgroundColor: 'rgba(255,255,255,0.06)',
+    borderRadius: 14, padding: 4, marginBottom: 28,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)',
   },
   modeBtn: { flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center' },
-  modeBtnActive: { backgroundColor: Brand.navy, shadowColor: Brand.navy, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.5, shadowRadius: 6, elevation: 4 },
-  modeTxt: { fontSize: 12, fontWeight: '700', color: 'rgba(255,255,255,0.45)', letterSpacing: 1.5 },
-  modeTxtActive: { color: Brand.white },
+  modeBtnActive: {
+    backgroundColor: Brand.navyDark,
+    borderWidth: 1, borderColor: Brand.goldBorder,
+    shadowColor: Brand.gold, shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3, shadowRadius: 8, elevation: 4,
+  },
+  modeTxt: { fontSize: 12, fontWeight: '700', color: 'rgba(255,255,255,0.38)', letterSpacing: 2 },
+  modeTxtActive: { color: Brand.gold },
   fieldWrap: { marginBottom: 18 },
-  label: { fontSize: 11, fontWeight: '700', color: 'rgba(255,255,255,0.55)', letterSpacing: 1.5, marginBottom: 8 },
+  label: { fontSize: 10, fontWeight: '700', color: Brand.gold, letterSpacing: 2.5, marginBottom: 8 },
   input: {
-    backgroundColor: 'rgba(255,255,255,0.09)', borderRadius: 13,
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.16)',
+    backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: 13,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.14)',
     paddingHorizontal: 16, paddingVertical: 14, fontSize: 15, color: Brand.white,
   },
   passRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
@@ -367,36 +383,38 @@ const styles = StyleSheet.create({
   eyeTxt: { fontSize: 18 },
   // Photo buttons
   photoBtn: {
-    backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 13,
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.16)',
+    backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: 13,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.14)',
     height: 100, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
   },
   photoBtnId: { height: 86 },
-  photoBtnTxt: { fontSize: 14, color: 'rgba(255,255,255,0.5)', fontWeight: '600', letterSpacing: 0.3 },
+  photoBtnTxt: { fontSize: 13, color: 'rgba(255,255,255,0.45)', fontWeight: '500', letterSpacing: 0.5 },
   photoThumb: { width: 92, height: 92, borderRadius: 12 },
   photoThumbId: { width: '100%', height: 84, borderRadius: 12 },
   // Error / note
   errorBox: {
-    backgroundColor: 'rgba(255,80,80,0.13)', borderRadius: 12,
-    borderWidth: 1, borderColor: 'rgba(255,80,80,0.4)',
+    backgroundColor: 'rgba(255,80,80,0.1)', borderRadius: 12,
+    borderWidth: 1, borderColor: 'rgba(255,80,80,0.35)',
     paddingHorizontal: 16, paddingVertical: 12, marginBottom: 16,
   },
   errorTxt: { fontSize: 13, color: '#FF7070', fontWeight: '600', textAlign: 'center', lineHeight: 20 },
   noteBox: {
-    backgroundColor: 'rgba(255,200,0,0.08)', borderRadius: 12,
-    borderWidth: 1, borderColor: 'rgba(255,200,0,0.25)',
+    backgroundColor: Brand.goldLight, borderRadius: 12,
+    borderWidth: 1, borderColor: Brand.goldBorder,
     paddingHorizontal: 16, paddingVertical: 12, marginTop: 14,
   },
-  noteTxt: { fontSize: 13, color: 'rgba(255,220,80,0.9)', textAlign: 'center', lineHeight: 20 },
+  noteTxt: { fontSize: 13, color: Brand.gold, textAlign: 'center', lineHeight: 20 },
   submitBtn: {
-    backgroundColor: Brand.navy, borderRadius: 16, paddingVertical: 17,
-    alignItems: 'center', marginTop: 6,
-    shadowColor: Brand.navy, shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5, shadowRadius: 12, elevation: 8,
+    borderRadius: 16, paddingVertical: 17, alignItems: 'center', marginTop: 8,
+    overflow: 'hidden',
+    shadowColor: Brand.gold, shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4, shadowRadius: 14, elevation: 8,
+    backgroundColor: Brand.navyDark,
+    borderWidth: 1, borderColor: Brand.goldBorder,
   },
-  submitTxt: { color: Brand.white, fontSize: 15, fontWeight: '800', letterSpacing: 2 },
-  busyTxt:   { color: 'rgba(255,255,255,0.7)', fontSize: 12, fontWeight: '500' },
-  switchRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 22 },
-  switchHint: { fontSize: 14, color: 'rgba(255,255,255,0.45)', fontWeight: '500' },
-  switchLink: { fontSize: 14, color: Brand.turquoise, fontWeight: '700', textDecorationLine: 'underline' },
+  submitTxt: { color: Brand.gold, fontSize: 14, fontWeight: '800', letterSpacing: 3 },
+  busyTxt:   { color: 'rgba(255,255,255,0.6)', fontSize: 12, fontWeight: '400', letterSpacing: 0.5 },
+  switchRow: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24 },
+  switchHint: { fontSize: 13, color: 'rgba(255,255,255,0.38)', fontWeight: '400' },
+  switchLink: { fontSize: 13, color: Brand.gold, fontWeight: '700' },
 });
