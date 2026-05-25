@@ -1,0 +1,16 @@
+<svg width="340" height="140" viewBox="0 0 340 140" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Splash Entertainment Logo</title>
+  <desc id="desc">Colorful abstract figure with Splash Entertainment text.</desc>
+
+  <circle cx="52" cy="22" r="8" fill="#111111"/>
+
+  <path d="M22 44C30 55 35 75 40 118C28 102 20 83 20 63C20 55 21 49 22 44Z" fill="#FDB515"/>
+  <path d="M40 118C55 90 73 61 103 34C80 72 66 102 61 127L40 118Z" fill="#F04E23"/>
+  <path d="M41 117C57 97 66 76 76 41C69 76 68 103 69 132L41 117Z" fill="#6F2DBD"/>
+  <path d="M33 59C50 44 73 40 103 34C75 50 55 65 45 95L33 59Z" fill="#38B6FF" fill-opacity="0.75"/>
+  <path d="M37 48C46 57 59 76 69 130" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
+  <path d="M102 35C84 54 73 72 62 106" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
+
+  <text x="72" y="82" fill="#D11111" font-size="56" font-family="Brush Script MT, Segoe Script, cursive">Splash</text>
+  <text x="74" y="112" fill="#111111" font-size="44" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="700">Entertainment</text>
+</svg>

@@ -1,12 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Splash Entertainment</title>
-  <link rel="stylesheet" href="/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Old Palace Resort — Entertainment Program</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:wght@400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Welcome to Splash Entertainment</h1>
-  <p>This is a simple placeholder homepage. Visit <a href="/hotels">Our Hotels</a> to see the listings.</p>
+
+  <!-- ═══ ENTRANCE ═══ -->
+  <div id="entrance" class="entrance">
+    <div class="entrance-bg"></div>
+    <div class="entrance-overlay"></div>
+    <div class="entrance-vignette"></div>
+
+    <div class="entrance-content">
+
+      <!-- Logo area — replace src with your real logos -->
+      <div class="e-logos">
+        <div class="e-logo-placeholder e-hotel-logo">
+          <span>OLD PALACE</span>
+          <span class="e-logo-sub">RESORT</span>
+        </div>
+        <div class="e-logo-divider"></div>
+        <div class="e-logo-placeholder e-splash-logo">
+          <span>SPLASH</span>
+          <span class="e-logo-sub">ENTERTAINMENT</span>
+        </div>
+      </div>
+
+      <div class="e-divider"></div>
+
+      <h1 class="e-heading">Your Entertainment Awaits</h1>
+      <p class="e-loc">Sahl Hasheesh · Hurghada, Egypt</p>
+      <p class="e-date" id="e-date"></p>
+
+      <div class="e-show-pill" id="e-show-pill"></div>
+
+      <button class="e-btn" id="enter-btn">
+        <span class="e-btn-inner">Explore Today's Programme</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ═══ APP ═══ -->
+  <div id="app" class="app hidden">
+
+    <header class="app-header">
+      <div class="app-header-logos">
+        <div class="h-logo-placeholder">OLD PALACE RESORT</div>
+        <div class="h-sep"></div>
+        <div class="h-logo-placeholder h-splash">SPLASH ENTERTAINMENT</div>
+      </div>
+      <div class="app-date-line" id="app-date-line"></div>
+    </header>
+
+    <main class="app-main">
+      <div id="now-banner" class="now-banner hidden"></div>
+
+      <div class="content-wrap">
+        <div id="show-section"></div>
+        <div class="filter-bar" id="filter-bar"></div>
+        <div class="activity-grid" id="activity-grid"></div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
