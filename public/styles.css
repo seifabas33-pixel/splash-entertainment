@@ -98,34 +98,19 @@ body {
   animation: fadeSlideUp 0.9s ease 0.5s both;
 }
 
-.e-logo-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1;
+.e-logo-img {
+  display: block;
+  object-fit: contain;
 }
-.e-hotel-logo {
-  font-family: 'Cormorant Garant', serif;
-  font-size: clamp(1rem, 3.5vw, 1.45rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--gold-light);
-  text-shadow: 0 0 30px rgba(201,168,76,0.4);
+.e-hotel-logo-img {
+  height: clamp(72px, 12vw, 110px);
+  width: auto;
+  filter: brightness(1.1) drop-shadow(0 0 18px rgba(201,168,76,0.35));
 }
-.e-splash-logo {
-  font-family: 'Raleway', sans-serif;
-  font-size: clamp(0.7rem, 2.2vw, 0.9rem);
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: var(--cream);
-  opacity: 0.8;
-}
-.e-logo-sub {
-  font-size: 0.6em;
-  letter-spacing: 0.25em;
-  color: var(--gold);
-  opacity: 0.75;
-  margin-top: 0.3em;
+.e-splash-logo-img {
+  height: clamp(52px, 8vw, 76px);
+  width: auto;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.5));
 }
 .e-logo-divider {
   width: 1px;
@@ -279,24 +264,24 @@ body {
   align-items: center;
   gap: 1.1rem;
 }
-.h-logo-placeholder {
-  font-family: 'Cormorant Garant', serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--gold-light);
+.h-logo-img {
+  display: block;
+  object-fit: contain;
+}
+.h-hotel-img {
+  height: 44px;
+  width: auto;
+  filter: brightness(1.1) drop-shadow(0 0 8px rgba(201,168,76,0.25));
+}
+.h-splash-img {
+  height: 32px;
+  width: auto;
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,0.4));
 }
 .h-sep {
   width: 1px;
   height: 22px;
   background: var(--gold-dim);
-}
-.h-splash {
-  font-family: 'Raleway', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  color: var(--muted);
 }
 
 .app-date-line {

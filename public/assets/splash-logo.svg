@@ -1,16 +1,51 @@
-<svg width="340" height="140" viewBox="0 0 340 140" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Splash Entertainment Logo</title>
-  <desc id="desc">Colorful abstract figure with Splash Entertainment text.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 160" width="320" height="160">
+  <defs>
+    <linearGradient id="sl-y" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0%" stop-color="#f5b800"/>
+      <stop offset="100%" stop-color="#f07020"/>
+    </linearGradient>
+    <linearGradient id="sl-r" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0%" stop-color="#e84040"/>
+      <stop offset="100%" stop-color="#b01030"/>
+    </linearGradient>
+    <linearGradient id="sl-t" x1="0" y1="0" x2="1" y2="0.5">
+      <stop offset="0%" stop-color="#20c0b0"/>
+      <stop offset="60%" stop-color="#e05090"/>
+      <stop offset="100%" stop-color="#c02060"/>
+    </linearGradient>
+    <linearGradient id="sl-p" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a030c0"/>
+      <stop offset="100%" stop-color="#602090"/>
+    </linearGradient>
+  </defs>
 
-  <circle cx="52" cy="22" r="8" fill="#111111"/>
+  <!-- Head -->
+  <circle cx="62" cy="14" r="10" fill="#111"/>
 
-  <path d="M22 44C30 55 35 75 40 118C28 102 20 83 20 63C20 55 21 49 22 44Z" fill="#FDB515"/>
-  <path d="M40 118C55 90 73 61 103 34C80 72 66 102 61 127L40 118Z" fill="#F04E23"/>
-  <path d="M41 117C57 97 66 76 76 41C69 76 68 103 69 132L41 117Z" fill="#6F2DBD"/>
-  <path d="M33 59C50 44 73 40 103 34C75 50 55 65 45 95L33 59Z" fill="#38B6FF" fill-opacity="0.75"/>
-  <path d="M37 48C46 57 59 76 69 130" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
-  <path d="M102 35C84 54 73 72 62 106" stroke="#111111" stroke-width="4" stroke-linecap="round"/>
+  <!-- Left yellow/orange blade -->
+  <path d="M44 42 Q36 65 44 118 Q50 105 58 78 Q64 55 62 32 Q54 34 44 42Z" fill="url(#sl-y)"/>
+  <!-- Right teal→pink blade -->
+  <path d="M62 32 Q72 22 82 28 Q96 40 92 80 Q88 105 78 128 Q68 110 62 78 Q60 55 62 32Z" fill="url(#sl-t)"/>
+  <!-- Inner red/purple overlap -->
+  <path d="M52 118 Q56 95 58 68 Q60 50 62 36 Q66 50 66 70 Q66 95 62 122Z" fill="url(#sl-r)" opacity="0.9"/>
+  <!-- Purple lower wing -->
+  <path d="M44 120 Q48 100 54 72 Q58 52 60 38 L48 44 Q38 62 38 90 Q38 108 44 120Z" fill="url(#sl-p)" opacity="0.75"/>
+  <!-- Black outline strokes -->
+  <path d="M46 40 Q40 68 46 120" stroke="#111" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.75"/>
+  <path d="M82 28 Q98 55 86 120" stroke="#111" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.75"/>
 
-  <text x="72" y="82" fill="#D11111" font-size="56" font-family="Brush Script MT, Segoe Script, cursive">Splash</text>
-  <text x="74" y="112" fill="#111111" font-size="44" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-weight="700">Entertainment</text>
+  <!-- "Splash" — italic serif, crimson red -->
+  <text x="102" y="88"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="58"
+        font-style="italic"
+        font-weight="bold"
+        fill="#cc0010">Splash</text>
+  <!-- "Entertainment" — bold, white for dark backgrounds -->
+  <text x="106" y="122"
+        font-family="'Arial Black', Arial, sans-serif"
+        font-size="27"
+        font-weight="900"
+        fill="#ffffff"
+        letter-spacing="0.5">Entertainment</text>
 </svg>
