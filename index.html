@@ -3,101 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Splash Entertainment | Hilton Marsa Alam Nubian Resort</title>
+  <title>Old Palace Resort — Entertainment Program</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:wght@400;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <section id="intro-screen" class="intro-screen" aria-label="Join application">
-    <div class="intro-glow glow-a"></div>
-    <div class="intro-glow glow-b"></div>
-    <div class="intro-card">
-      <img class="logo" src="assets/splash-logo.svg" alt="Splash Entertainment logo" />
-      <h1>Welcome to Splash Entertainment</h1>
-      <p>Choose how you want to join the application.</p>
 
-      <div class="intro-actions">
-        <button class="primary-button join-button" data-role="guests">Join as Guest</button>
-        <button class="secondary-button join-button" data-role="workers">Join as Worker</button>
+  <!-- ═══ ENTRANCE ═══ -->
+  <div id="entrance" class="entrance">
+    <div class="entrance-bg"></div>
+    <div class="entrance-overlay"></div>
+    <div class="entrance-vignette"></div>
+
+    <div class="entrance-content">
+
+      <!-- Logo area — replace src with your real logos -->
+      <div class="e-logos">
+        <div class="e-logo-placeholder e-hotel-logo">
+          <span>OLD PALACE</span>
+          <span class="e-logo-sub">RESORT</span>
+        </div>
+        <div class="e-logo-divider"></div>
+        <div class="e-logo-placeholder e-splash-logo">
+          <span>SPLASH</span>
+          <span class="e-logo-sub">ENTERTAINMENT</span>
+        </div>
       </div>
+
+      <div class="e-divider"></div>
+
+      <h1 class="e-heading">Your Entertainment Awaits</h1>
+      <p class="e-loc">Sahl Hasheesh · Hurghada, Egypt</p>
+      <p class="e-date" id="e-date"></p>
+
+      <div class="e-show-pill" id="e-show-pill"></div>
+
+      <button class="e-btn" id="enter-btn">
+        <span class="e-btn-inner">Explore Today's Programme</span>
+      </button>
+
     </div>
-  </section>
+  </div>
 
-  <div id="app-shell" class="app-shell hidden">
-    <header class="hero">
-      <div class="overlay"></div>
-      <div class="hero-content">
-        <img class="logo" src="assets/splash-logo.svg" alt="Splash Entertainment logo" />
-        <h1>Hilton Marsa Alam Nubian Resort</h1>
-        <p class="subtitle">Entertainment Hub for Guests & Team Members</p>
-        <button id="change-mode" class="secondary-button mini">Change Join Type</button>
+  <!-- ═══ APP ═══ -->
+  <div id="app" class="app hidden">
+
+    <header class="app-header">
+      <div class="app-header-logos">
+        <div class="h-logo-placeholder">OLD PALACE RESORT</div>
+        <div class="h-sep"></div>
+        <div class="h-logo-placeholder h-splash">SPLASH ENTERTAINMENT</div>
       </div>
+      <div class="app-date-line" id="app-date-line"></div>
     </header>
 
-    <main class="container">
-      <section class="tabs" aria-label="Platform sections">
-        <button class="tab-button active" data-tab="guests">Guest Program</button>
-        <button class="tab-button" data-tab="workers">Worker Onboarding</button>
-      </section>
+    <main class="app-main">
+      <div id="now-banner" class="now-banner hidden"></div>
 
-      <section id="guests" class="tab-panel active" aria-labelledby="Guest Program">
-        <h2>Entertainment Program</h2>
-        <p>Guests can browse daily activities and choose what they would like to join.</p>
-        <form id="activity-form" class="card-grid"></form>
-        <button id="submit-activities" class="primary-button">Save My Activities</button>
-        <div id="guest-result" class="result" aria-live="polite"></div>
-      </section>
-
-      <section id="workers" class="tab-panel" aria-labelledby="Worker Onboarding">
-        <h2>Worker Onboarding</h2>
-        <p>Workers can start by signing in with any email provider and filling in required details.</p>
-
-        <form id="worker-form" class="worker-form">
-          <label>
-            Work Email (Gmail or any provider)
-            <input type="email" name="email" placeholder="name@example.com" required />
-          </label>
-
-          <label>
-            Full Name
-            <input type="text" name="fullName" placeholder="Enter full name" required />
-          </label>
-
-          <label>
-            ID Number
-            <input type="text" name="idNumber" placeholder="National ID" required />
-          </label>
-
-          <label>
-            Passport Number
-            <input type="text" name="passport" placeholder="Passport number" required />
-          </label>
-
-          <label>
-            Mobile Number
-            <input type="tel" name="mobile" placeholder="+20 ..." required />
-          </label>
-
-          <label>
-            Instagram
-            <input type="text" name="instagram" placeholder="@username" required />
-          </label>
-
-          <label>
-            Facebook Profile
-            <input type="text" name="facebook" placeholder="facebook.com/username" required />
-          </label>
-
-          <label>
-            WhatsApp Number
-            <input type="tel" name="whatsapp" placeholder="+20 ..." required />
-          </label>
-
-          <button type="submit" class="primary-button">Create Worker Profile</button>
-        </form>
-
-        <div id="worker-result" class="result" aria-live="polite"></div>
-      </section>
+      <div class="content-wrap">
+        <div id="show-section"></div>
+        <div class="filter-bar" id="filter-bar"></div>
+        <div class="activity-grid" id="activity-grid"></div>
+      </div>
     </main>
+
   </div>
 
   <script src="script.js"></script>
