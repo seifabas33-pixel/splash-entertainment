@@ -136,12 +136,12 @@ body {
   object-fit: contain;
 }
 .e-hotel-logo-img {
-  height: clamp(90px, 14vw, 140px);
+  height: clamp(110px, 16vw, 170px);
   width: auto;
   filter: brightness(1.2) drop-shadow(0 0 24px rgba(201,168,76,0.5));
 }
 .e-splash-logo-img {
-  height: clamp(70px, 10vw, 100px);
+  height: clamp(90px, 13vw, 140px);
   width: auto;
   filter: drop-shadow(0 2px 16px rgba(0,0,0,0.6));
 }
