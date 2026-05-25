@@ -44,13 +44,46 @@ body {
   overflow: hidden;
 }
 
-/* background image — swap url() to assets/palace-bg.jpg once uploaded */
+/* cinematic sunset CSS background — swap to a real photo later with url('assets/palace-bg.jpg') */
 .entrance-bg {
   position: absolute;
   inset: 0;
-  background: url('assets/beach-bg.svg') center / cover no-repeat;
+  background:
+    radial-gradient(ellipse 80% 40% at 52% 62%, rgba(240,160,60,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 18% at 52% 58%, rgba(255,220,100,0.7) 0%, transparent 60%),
+    linear-gradient(
+      to bottom,
+      #0d1a4a 0%,
+      #162260 18%,
+      #1e3280 35%,
+      #2a4898 48%,
+      #7a4a26 62%,
+      #c87030 74%,
+      #e09040 84%,
+      #c87828 100%
+    );
   animation: bgReveal 2.2s cubic-bezier(.4,0,.2,1) forwards;
   transform-origin: center;
+}
+/* stars layer */
+.entrance-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10%  5%,  #fff 100%, transparent),
+    radial-gradient(1px   1px   at 25%  8%,  #fff 100%, transparent),
+    radial-gradient(1.5px 1.5px at 42%  3%,  #fff 100%, transparent),
+    radial-gradient(1px   1px   at 58%  9%,  #fff 100%, transparent),
+    radial-gradient(1.5px 1.5px at 72%  4%,  #fff 100%, transparent),
+    radial-gradient(1px   1px   at 85%  7%,  #fff 100%, transparent),
+    radial-gradient(1.5px 1.5px at 93%  2%,  #fff 100%, transparent),
+    radial-gradient(1px   1px   at 15%  14%, #fff 100%, transparent),
+    radial-gradient(1px   1px   at 55%  12%, #fff 100%, transparent),
+    radial-gradient(1px   1px   at 78%  15%, #fff 100%, transparent);
+  background-size: 100% 55%;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 @keyframes bgReveal {
   0%   { opacity: 0; transform: scale(1.06); }
@@ -63,9 +96,9 @@ body {
   inset: 0;
   background: linear-gradient(
     160deg,
-    rgba(5,5,12,0.78) 0%,
-    rgba(5,5,12,0.55) 50%,
-    rgba(5,5,12,0.82) 100%
+    rgba(5,5,12,0.38) 0%,
+    rgba(5,5,12,0.22) 50%,
+    rgba(5,5,12,0.45) 100%
   );
 }
 
@@ -73,7 +106,7 @@ body {
 .entrance-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(2,2,8,0.75) 100%);
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(2,2,8,0.45) 100%);
 }
 
 /* ── Entrance content ───────────────────────────────*/
@@ -85,8 +118,8 @@ body {
   align-items: center;
   text-align: center;
   padding: 2rem 1.5rem 3rem;
-  max-width: 560px;
-  width: 94%;
+  max-width: 700px;
+  width: 96%;
   gap: 0;
 }
 
@@ -103,19 +136,20 @@ body {
   object-fit: contain;
 }
 .e-hotel-logo-img {
-  height: clamp(72px, 12vw, 110px);
+  height: clamp(90px, 14vw, 140px);
   width: auto;
-  filter: brightness(1.1) drop-shadow(0 0 18px rgba(201,168,76,0.35));
+  filter: brightness(1.2) drop-shadow(0 0 24px rgba(201,168,76,0.5));
 }
 .e-splash-logo-img {
-  height: clamp(52px, 8vw, 76px);
+  height: clamp(70px, 10vw, 100px);
   width: auto;
-  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 2px 16px rgba(0,0,0,0.6));
 }
 .e-logo-divider {
   width: 1px;
-  height: 36px;
-  background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.5;
 }
 
 /* gold rule */
@@ -241,8 +275,22 @@ body {
 .app {
   min-height: 100vh;
   background:
-    linear-gradient(rgba(8,8,14,0.6), rgba(8,8,14,0.78)),
-    url('assets/beach-bg.svg') center / cover fixed no-repeat;
+    linear-gradient(
+      180deg,
+      rgba(8,8,20,0.72) 0%,
+      rgba(8,8,20,0.60) 40%,
+      rgba(8,8,20,0.80) 100%
+    ),
+    radial-gradient(ellipse 70% 35% at 52% 38%, rgba(200,112,48,0.4) 0%, transparent 70%),
+    linear-gradient(
+      to bottom,
+      #0d1a4a 0%,
+      #1e3280 35%,
+      #7a4a26 60%,
+      #c87030 80%,
+      #c87828 100%
+    );
+  background-attachment: fixed;
 }
 
 /* ── Header ─────────────────────────────────────── */
@@ -269,14 +317,14 @@ body {
   object-fit: contain;
 }
 .h-hotel-img {
-  height: 44px;
+  height: 52px;
   width: auto;
-  filter: brightness(1.1) drop-shadow(0 0 8px rgba(201,168,76,0.25));
+  filter: brightness(1.15) drop-shadow(0 0 10px rgba(201,168,76,0.3));
 }
 .h-splash-img {
-  height: 32px;
+  height: 40px;
   width: auto;
-  filter: drop-shadow(0 1px 6px rgba(0,0,0,0.4));
+  filter: drop-shadow(0 1px 8px rgba(0,0,0,0.5));
 }
 .h-sep {
   width: 1px;
