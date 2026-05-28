@@ -1932,3 +1932,44 @@ html[dir="rtl"] .wifi-block  { text-align: right; }
   .wifi-row { flex-direction: column; align-items: flex-start; }
   .wifi-copy-btn { align-self: flex-end; }
 }
+
+/* ── Excursions Tab ──────────────────────────────────────────────────────────── */
+
+.excursion-card .info-card-body { gap: 0.6rem; }
+
+.excursion-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+.excursion-detail {
+  font-size: 0.83rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.excursion-book-btn {
+  background: linear-gradient(135deg, #25d366, #1da851);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: filter 0.15s;
+}
+.excursion-book-btn::before { content: ''; }
+.excursion-book-btn:hover { filter: brightness(1.1); }
+.excursion-book-btn:active { filter: brightness(0.95); }
+
+html[dir="rtl"] .excursion-footer { flex-direction: row-reverse; }
