@@ -1848,3 +1848,87 @@ html[dir="rtl"] .prog-weather { flex-direction: row-reverse; }
   .prog-weather { padding: 0.55rem 1rem; font-size: 0.82rem; }
   .e-weather    { font-size: 0.83rem; max-width: 92vw; }
 }
+
+/* ── WiFi Card ──────────────────────────────────────────────────────────────── */
+
+.wifi-card .info-card-body { gap: 0.7rem; }
+
+.wifi-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem 0.9rem;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+}
+.wifi-zone-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.wifi-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.wifi-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 100px;
+}
+.wifi-field-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.wifi-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f4e4b8;
+  letter-spacing: 0.02em;
+}
+.wifi-password {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: #f4e4b8;
+}
+.wifi-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  color: var(--gold-light);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.wifi-copy-btn:hover { background: rgba(212, 175, 55, 0.25); border-color: rgba(212, 175, 55, 0.6); }
+.wifi-copy-btn.wifi-copy-done {
+  background: rgba(80, 200, 120, 0.18);
+  border-color: rgba(80, 200, 120, 0.5);
+  color: #90e6a8;
+}
+.wifi-copy-icon { font-size: 1rem; }
+
+/* RTL */
+html[dir="rtl"] .wifi-row    { flex-direction: row-reverse; }
+html[dir="rtl"] .wifi-block  { text-align: right; }
+
+@media (max-width: 480px) {
+  .wifi-row { flex-direction: column; align-items: flex-start; }
+  .wifi-copy-btn { align-self: flex-end; }
+}

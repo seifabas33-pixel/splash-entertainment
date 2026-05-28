@@ -395,13 +395,48 @@
               </div>
             </div>
 
-            <div class="info-card">
+            <div class="info-card wifi-card featured-card">
               <div class="info-card-icon">📶</div>
               <div class="info-card-body">
                 <div class="info-card-badge" data-i18n="yourstay.wifi.badge">Connectivity</div>
                 <div class="info-card-title" data-i18n="yourstay.wifi.title">Wi-Fi &amp; Internet</div>
                 <div class="info-card-meta" data-i18n="yourstay.wifi.meta">Complimentary throughout the resort</div>
-                <p class="info-card-desc" data-i18n="yourstay.wifi.desc">High-speed Wi-Fi is available in all rooms, public areas, pools and the beach free of charge. Connect to the <strong>OldPalace_Guest</strong> network. Password available at Reception.</p>
+                <!-- Rooms network -->
+                <div class="wifi-block">
+                  <span class="wifi-zone-label" data-i18n="yourstay.wifi.zone_rooms">🛏 Rooms &amp; Corridors</span>
+                  <div class="wifi-row">
+                    <div class="wifi-detail">
+                      <span class="wifi-field-label" data-i18n="yourstay.wifi.network_label">Network</span>
+                      <span class="wifi-value" data-i18n="yourstay.wifi.rooms_ssid">OldPalace_Rooms</span>
+                    </div>
+                    <div class="wifi-detail">
+                      <span class="wifi-field-label" data-i18n="yourstay.wifi.password_label">Password</span>
+                      <span class="wifi-value wifi-password" id="wifi-pass-rooms" data-i18n="yourstay.wifi.rooms_pass">OldPalace2025</span>
+                    </div>
+                    <button class="wifi-copy-btn" type="button" data-target="wifi-pass-rooms" data-i18n-aria="yourstay.wifi.copy_aria" aria-label="Copy password">
+                      <span class="wifi-copy-icon">⎘</span>
+                      <span class="wifi-copy-label" data-i18n="yourstay.wifi.copy">Copy</span>
+                    </button>
+                  </div>
+                </div>
+                <!-- Public network -->
+                <div class="wifi-block">
+                  <span class="wifi-zone-label" data-i18n="yourstay.wifi.zone_public">🏊 Pool, Beach &amp; Lobby</span>
+                  <div class="wifi-row">
+                    <div class="wifi-detail">
+                      <span class="wifi-field-label" data-i18n="yourstay.wifi.network_label">Network</span>
+                      <span class="wifi-value" data-i18n="yourstay.wifi.public_ssid">OldPalace_Guest</span>
+                    </div>
+                    <div class="wifi-detail">
+                      <span class="wifi-field-label" data-i18n="yourstay.wifi.password_label">Password</span>
+                      <span class="wifi-value wifi-password" id="wifi-pass-public" data-i18n="yourstay.wifi.public_pass">OldPalace2025</span>
+                    </div>
+                    <button class="wifi-copy-btn" type="button" data-target="wifi-pass-public" data-i18n-aria="yourstay.wifi.copy_aria" aria-label="Copy password">
+                      <span class="wifi-copy-icon">⎘</span>
+                      <span class="wifi-copy-label" data-i18n="yourstay.wifi.copy">Copy</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
