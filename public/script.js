@@ -568,6 +568,7 @@ function buildApp() {
   initReminders();
   initQuickContact();
   initStay();
+  initWifi();
   paintCountdownRibbon();
   startHappeningNowTick();
 
@@ -2039,4 +2040,44 @@ async function loadWeather() {
   } catch {
     // Offline or API down — silently keep cached data or stay hidden
   }
+}
+
+// ── WiFi tap-to-copy ──────────────────────────────────────────────────────────
+
+function initWifi() {
+  document.querySelectorAll('.wifi-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const passEl = document.getElementById(targetId);
+      if (!passEl) return;
+      const password = passEl.textContent.trim();
+      const labelEl = btn.querySelector('.wifi-copy-label');
+      const iconEl  = btn.querySelector('.wifi-copy-icon');
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(password).then(() => showCopied(btn, labelEl, iconEl));
+      } else {
+        // Fallback for older iOS / non-HTTPS
+        const ta = document.createElement('textarea');
+        ta.value = password;
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showCopied(btn, labelEl, iconEl); } catch {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+}
+
+function showCopied(btn, labelEl, iconEl) {
+  btn.classList.add('wifi-copy-done');
+  const prev = labelEl.textContent;
+  labelEl.textContent = t('yourstay.wifi.copied');
+  iconEl.textContent = '✓';
+  setTimeout(() => {
+    btn.classList.remove('wifi-copy-done');
+    labelEl.textContent = prev;
+    iconEl.textContent = '⎘';
+  }, 2000);
 }
