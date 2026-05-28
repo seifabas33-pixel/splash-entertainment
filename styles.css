@@ -1284,3 +1284,139 @@ html[dir="rtl"] .qc-concierge-link {
   border-left: none;
   border-right: 3px solid rgba(201,168,76,0.55);
 }
+
+/* ── Feedback & Ratings ───────────────────────────────────────────────── */
+
+.feedback-trust-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.6rem;
+}
+.feedback-trust-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.feedback-trust-text {
+  font-family: 'Cormorant Garant', serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.82);
+  font-style: italic;
+  margin: 0;
+}
+
+.feedback-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+@media (max-width: 480px) { .feedback-grid { grid-template-columns: 1fr; } }
+
+.feedback-cat-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 1rem 1rem 1rem 1.1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.15s;
+  color: inherit;
+  font: inherit;
+}
+.feedback-cat-card:hover,
+.feedback-cat-card:focus-visible {
+  background: rgba(201,168,76,0.1);
+  border-color: rgba(201,168,76,0.4);
+  transform: translateY(-2px);
+  outline: none;
+}
+.feedback-cat-featured {
+  grid-column: 1 / -1;
+  background: rgba(201,168,76,0.08);
+  border-color: rgba(201,168,76,0.3);
+}
+.feedback-cat-icon  { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.feedback-cat-body  { flex: 1; min-width: 0; }
+.feedback-cat-title {
+  font-family: 'Cormorant Garant', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #c9a84c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.feedback-cat-sub   { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+.feedback-cat-arrow {
+  font-size: 1.4rem;
+  color: rgba(201,168,76,0.6);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Star rating widget */
+.fb-star-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  margin: 0.5rem 0 0.1rem;
+}
+.fb-star {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: rgba(255,255,255,0.2);
+  cursor: pointer;
+  padding: 0.15rem;
+  transition: color 0.15s, transform 0.1s;
+}
+.fb-star:hover,
+.fb-star.active { color: #c9a84c; transform: scale(1.15); }
+.fb-star-hint {
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0.3rem 0 0.9rem;
+  min-height: 1.2em;
+  transition: color 0.2s;
+}
+
+/* Smile-meter (inline in My Day) */
+.fb-smile-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.8rem 0.45rem 1rem;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.18);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  margin-top: -4px;
+  margin-bottom: 0.6rem;
+}
+.fb-smile-label {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  flex: 1;
+}
+.fb-smile-btn {
+  background: none;
+  border: none;
+  font-size: 1.35rem;
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  border-radius: 6px;
+  transition: transform 0.12s, background 0.12s;
+}
+.fb-smile-btn:hover { transform: scale(1.25); background: rgba(255,255,255,0.08); }
+
+/* RTL — Feedback */
+html[dir="rtl"] .feedback-cat-card { text-align: right; }
+html[dir="rtl"] .feedback-cat-arrow { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .fb-smile-bar { flex-direction: row-reverse; }

@@ -336,6 +336,7 @@ function initTabs() {
       if (fab) fab.classList.remove('hidden');
       if (target === 'myday') renderMyDay();
       if (target === 'concierge') renderConcierge();
+      if (target === 'feedback') renderFeedback();
     });
   });
 }
@@ -762,6 +763,7 @@ function renderMyDay() {
         renderMyDay();
       });
       list.appendChild(card);
+      if (offset === 0) renderSmileMeter(dow, act, list);
     });
     group.appendChild(list);
     container.appendChild(group);
@@ -1332,4 +1334,146 @@ function sendRequest(req, values) {
   const msg = buildMessage(req, values);
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank', 'noopener');
+}
+
+// ── Feedback & Ratings ───────────────────────────────────────────────────────
+
+// Same as WA_NUMBER for now — swap with management-only WhatsApp number when available.
+const WA_MANAGEMENT = '201283110400';
+const FB_SENT_PREFIX = 'fb_react_';
+
+const FEEDBACK_CATEGORIES = [
+  { id: 'room' }, { id: 'food' }, { id: 'pool' },
+  { id: 'spa'  }, { id: 'activities' }, { id: 'staff' },
+];
+
+function renderFeedback() {
+  const grid = document.getElementById('feedback-grid');
+  if (!grid || grid.dataset.bound) return;
+  grid.dataset.bound = '1';
+  FEEDBACK_CATEGORIES.forEach(cat => {
+    const card = grid.querySelector(`.feedback-cat-card[data-cat="${cat.id}"]`);
+    if (card) card.addEventListener('click', () => openFeedbackForm(cat));
+  });
+}
+
+function openFeedbackForm(cat) {
+  const modal     = document.getElementById('req-modal');
+  const titleEl   = document.getElementById('req-modal-title');
+  const fieldsEl  = document.getElementById('req-form-fields');
+  const form      = document.getElementById('req-form');
+  const submitBtn = form ? form.querySelector('[type="submit"]') : null;
+  if (!modal || !titleEl || !fieldsEl || !form) return;
+
+  titleEl.textContent = t(`feedback.cat.${cat.id}.title`);
+  if (submitBtn) submitBtn.dataset.i18n = 'feedback.send_button';
+
+  let rating = 0;
+  fieldsEl.innerHTML = `
+    <div class="fb-star-row" id="fb-stars">
+      ${[1,2,3,4,5].map(n => `<button type="button" class="fb-star" data-val="${n}" aria-label="${n}">★</button>`).join('')}
+    </div>
+    <p class="fb-star-hint" id="fb-star-hint">${t('feedback.tap_stars')}</p>
+    <label class="req-field">${t('feedback.form.stood_out')}<input type="text" name="stood" /></label>
+    <label class="req-field">${t('feedback.form.notes')}<textarea name="notes" rows="2"></textarea></label>
+  `;
+
+  const starsEl = fieldsEl.querySelector('#fb-stars');
+  const hintEl  = fieldsEl.querySelector('#fb-star-hint');
+  fieldsEl.querySelectorAll('.fb-star').forEach(btn => {
+    btn.addEventListener('click', () => {
+      rating = parseInt(btn.dataset.val);
+      starsEl.dataset.rating = rating;
+      fieldsEl.querySelectorAll('.fb-star').forEach(s =>
+        s.classList.toggle('active', parseInt(s.dataset.val) <= rating)
+      );
+      hintEl.textContent = rating > 0 && rating <= 3
+        ? t('feedback.low_rating_hint')
+        : t('feedback.tap_stars');
+    });
+  });
+
+  applyI18n(modal);
+  modal.classList.remove('hidden');
+
+  const close = () => {
+    modal.classList.add('hidden');
+    if (submitBtn) { submitBtn.dataset.i18n = 'concierge.send_button'; applyI18n(submitBtn); }
+  };
+  document.getElementById('req-modal-close').onclick = close;
+  document.getElementById('req-backdrop').onclick   = close;
+  document.getElementById('req-cancel').onclick     = close;
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    if (!rating) { alert(t('feedback.no_rating')); return; }
+    const stood = form.querySelector('[name="stood"]').value;
+    const notes = form.querySelector('[name="notes"]').value;
+    sendFeedback(cat, rating, stood, notes);
+    close();
+  };
+}
+
+function buildFeedbackMessage(cat, rating, stood, notes) {
+  const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  const lines = [
+    `*${t('feedback.tmpl.header')}*`,
+    `${t('concierge.tmpl.room')}: ${getRoomNumber() || t('concierge.tmpl.no_room')}`,
+    `${t('feedback.tmpl.category')}: ${t(`feedback.cat.${cat.id}.title`)}`,
+    `${t('feedback.tmpl.rating')}: ${stars} (${rating}/5)`,
+  ];
+  if (stood) lines.push(`${t('feedback.tmpl.stood_out')}: ${stood}`);
+  if (notes) lines.push(`${t('feedback.tmpl.notes')}: ${notes}`);
+  lines.push('', `— ${t('concierge.tmpl.footer')}`);
+  return lines.join('\n');
+}
+
+function sendFeedback(cat, rating, stood, notes) {
+  const msg = buildFeedbackMessage(cat, rating, stood, notes);
+  window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+}
+
+// Smile-meter (inline after completed today's activities in My Day)
+function smileKey(dow, act) { return `${FB_SENT_PREFIX}${favKey(dow, act)}`; }
+
+function activityEnded(act) {
+  const [hh, mm] = act.time.split(':').map(Number);
+  const now = new Date();
+  const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm + (act.dur || 0));
+  return now >= end;
+}
+
+function renderSmileMeter(dow, act, container) {
+  if (localStorage.getItem(smileKey(dow, act))) return;
+  if (!activityEnded(act)) return;
+
+  const bar = document.createElement('div');
+  bar.className = 'fb-smile-bar';
+  bar.innerHTML = `
+    <span class="fb-smile-label">${t('feedback.smile_prompt')}</span>
+    <button class="fb-smile-btn" type="button" data-react="neg" aria-label="${t('feedback.smile_neg')}">😞</button>
+    <button class="fb-smile-btn" type="button" data-react="neu" aria-label="${t('feedback.smile_neu')}">😐</button>
+    <button class="fb-smile-btn" type="button" data-react="pos" aria-label="${t('feedback.smile_pos')}">😊</button>
+  `;
+  bar.querySelectorAll('.fb-smile-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sendActivityReaction(dow, act, btn.dataset.react);
+      bar.remove();
+    });
+  });
+  container.appendChild(bar);
+}
+
+function sendActivityReaction(dow, act, react) {
+  localStorage.setItem(smileKey(dow, act), react);
+  const emoji = { neg: '😞', neu: '😐', pos: '😊' }[react] || react;
+  const label = { neg: t('feedback.smile_neg'), neu: t('feedback.smile_neu'), pos: t('feedback.smile_pos') }[react] || react;
+  const lines = [
+    `*${t('feedback.tmpl.activity_header')}*`,
+    `${t('concierge.tmpl.room')}: ${getRoomNumber() || t('concierge.tmpl.no_room')}`,
+    `${t('feedback.tmpl.activity')}: ${pickLang(act.title)} (${act.time})`,
+    `${t('feedback.tmpl.reaction')}: ${emoji} ${label}`,
+    '', `— ${t('concierge.tmpl.footer')}`,
+  ];
+  window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
 }
