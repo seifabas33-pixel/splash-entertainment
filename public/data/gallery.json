@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "_note": "Drop JPGs into public/assets/gallery/<category>/ and list filenames below. Captions support {en, ar, de, ru} objects or plain strings.",
+  "categories": [
+    {
+      "id": "beach",
+      "icon": "🏖",
+      "titleKey": "gallery.cat.beach",
+      "photos": []
+    },
+    {
+      "id": "pools",
+      "icon": "🏊",
+      "titleKey": "gallery.cat.pools",
+      "photos": []
+    },
+    {
+      "id": "dining",
+      "icon": "🍽",
+      "titleKey": "gallery.cat.dining",
+      "photos": []
+    },
+    {
+      "id": "rooms",
+      "icon": "🛏",
+      "titleKey": "gallery.cat.rooms",
+      "photos": []
+    },
+    {
+      "id": "spa",
+      "icon": "💆",
+      "titleKey": "gallery.cat.spa",
+      "photos": []
+    },
+    {
+      "id": "grounds",
+      "icon": "🌴",
+      "titleKey": "gallery.cat.grounds",
+      "photos": []
+    }
+  ]
+}
