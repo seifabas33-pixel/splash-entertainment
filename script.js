@@ -65,7 +65,84 @@ function deriveTime(t24) {
   return { hh: `${h12}:${String(m).padStart(2, '0')}`, ap };
 }
 
-// Normalise loaded activity — adds hh/ap if missing so renderers don't care.
+// ── i18n ─────────────────────────────────────────────────────────────────────
+const SUPPORTED_LANGS = ['en', 'ar', 'de', 'ru'];
+const RTL_LANGS = ['ar'];
+let I18N = {};
+let LANG = 'en';
+
+function getLang() {
+  const saved = localStorage.getItem('lang');
+  if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+  const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  return SUPPORTED_LANGS.includes(nav) ? nav : 'en';
+}
+
+function t(key, fallback) {
+  const entry = I18N[key];
+  if (!entry) return fallback ?? key;
+  return entry[LANG] || entry.en || fallback || key;
+}
+
+// Pick the language-appropriate value from an i18n-shaped field (object) or
+// a plain string (legacy / scalar).
+function pickLang(field) {
+  if (field == null) return '';
+  if (typeof field === 'string') return field;
+  if (typeof field === 'object') return field[LANG] || field.en || Object.values(field)[0] || '';
+  return String(field);
+}
+
+function applyI18n(root) {
+  root = root || document;
+  root.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key, el.textContent);
+    // Preserve any HTML inside (e.g. <strong> in wifi.desc) only if dictionary
+    // value contains markup; else use textContent for safety.
+    if (val.includes('<')) el.innerHTML = val; else el.textContent = val;
+  });
+  root.querySelectorAll('[data-i18n-attr]').forEach(el => {
+    el.getAttribute('data-i18n-attr').split(',').forEach(pair => {
+      const [attr, key] = pair.split(':').map(s => s.trim());
+      if (attr && key) el.setAttribute(attr, t(key));
+    });
+  });
+}
+
+function setLang(lang) {
+  if (!SUPPORTED_LANGS.includes(lang)) lang = 'en';
+  LANG = lang;
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = RTL_LANGS.includes(lang) ? 'rtl' : 'ltr';
+  applyI18n();
+  document.querySelectorAll('#lang-picker .lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+}
+
+async function loadI18n() {
+  try {
+    const res = await fetch('data/i18n.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('fetch failed');
+    I18N = await res.json();
+  } catch (e) {
+    console.warn('i18n load failed, using DOM defaults.', e);
+    I18N = {};
+  }
+}
+
+function dayName(dow, short) {
+  return t(`days.${short ? 'short' : 'full'}.${dow}`, short ? ['SUN','MON','TUE','WED','THU','FRI','SAT'][dow] : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dow]);
+}
+function monthName(m) {
+  return t(`months.${m}`, ['January','February','March','April','May','June','July','August','September','October','November','December'][m]);
+}
+
+// Normalise loaded activity — adds hh/ap (derived from 24-h time) so renderers
+// don't care. Keeps title/location/desc as-is (string OR per-language object;
+// renderers call pickLang() at use site).
 function normaliseAct(a) {
   if (!a) return a;
   if (a.hh && a.ap) return a;
@@ -158,7 +235,7 @@ function isNow(act, now) {
 }
 
 function fmtDate(now) {
-  return `${DAYS[now.getDay()]}  ·  ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+  return `${dayName(now.getDay())}  ·  ${now.getDate()} ${monthName(now.getMonth())} ${now.getFullYear()}`;
 }
 
 // ── Entrance ──────────────────────────────────────────────────────────────────
@@ -167,17 +244,30 @@ function fmtDate(now) {
   const now = new Date();
   const dow = now.getDay();
 
+  await Promise.all([loadI18n(), loadProgramme()]);
+  setLang(getLang());
+
   document.getElementById('e-date').textContent = fmtDate(now);
 
-  await loadProgramme();
+  const renderShowPill = () => {
+    const show = EVENING_SHOWS[dow];
+    document.getElementById('e-show-pill').innerHTML = `
+      <div class="e-show-inner">
+        <span class="e-show-tag">${t('entrance.tonight')}</span>
+        🎭&nbsp; ${pickLang(show.title)} &nbsp;·&nbsp; ${show.time}
+      </div>
+    `;
+  };
+  renderShowPill();
 
-  const show = EVENING_SHOWS[dow];
-  document.getElementById('e-show-pill').innerHTML = `
-    <div class="e-show-inner">
-      <span class="e-show-tag">Tonight</span>
-      🎭&nbsp; ${show.title} &nbsp;·&nbsp; ${show.time}
-    </div>
-  `;
+  // Language picker
+  document.querySelectorAll('#lang-picker .lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setLang(btn.dataset.lang);
+      document.getElementById('e-date').textContent = fmtDate(new Date());
+      renderShowPill();
+    });
+  });
 
   // Skip entrance for deep-link hashes (reminder click or admin route).
   if (location.hash === '#myday' || location.hash === '#admin') {
@@ -191,7 +281,7 @@ function fmtDate(now) {
 
   // Staff sign-in: passcode prompt on entrance, then jump straight to admin.
   document.getElementById('staff-link').addEventListener('click', () => {
-    const code = prompt('Staff passcode:');
+    const code = prompt(t('entrance.staff') + ':');
     if (code !== ADMIN_PASSCODE) {
       if (code !== null) alert('Wrong passcode.');
       return;
@@ -277,7 +367,8 @@ let currentActs  = [];
 // ── Favorites ("My Day") ───────────────────────────────────────────────────────
 const FAV_KEY = 'oldpalace_favorites';
 
-function favKey(dow, act) { return `${dow}|${act.time}|${act.title}`; }
+function titleKey(act) { return typeof act.title === 'object' ? (act.title.en || Object.values(act.title)[0] || '') : (act.title || ''); }
+function favKey(dow, act) { return `${dow}|${act.time}|${titleKey(act)}`; }
 
 function getFavorites() {
   try { return new Set(JSON.parse(localStorage.getItem(FAV_KEY)) || []); }
@@ -325,7 +416,7 @@ function ymd(d) {
   const day = String(d.getDate()).padStart(2, '0');
   return `${d.getFullYear()}${m}${day}`;
 }
-function notifyKey(date, act) { return `${ymd(date)}|${act.time}|${act.title}`; }
+function notifyKey(date, act) { return `${ymd(date)}|${act.time}|${titleKey(act)}`; }
 
 function activityStartDate(offset, act) {
   const d = dateForOffset(offset);
@@ -335,8 +426,9 @@ function activityStartDate(offset, act) {
 }
 
 function showReminder(act, startDate) {
-  const title = `${act.icon || '⭐'} ${act.title}`;
-  const body  = `Starts at ${act.hh}${act.ap ? ' ' + act.ap : ''}${act.location ? ' · ' + act.location : ''}`;
+  const title = `${act.icon || '⭐'} ${pickLang(act.title)}`;
+  const loc   = pickLang(act.location);
+  const body  = `${act.hh}${act.ap ? ' ' + act.ap : ''}${loc ? ' · ' + loc : ''}`;
   const tag   = notifyKey(startDate, act);
   if (navigator.serviceWorker && navigator.serviceWorker.controller) {
     navigator.serviceWorker.controller.postMessage({ type: 'SHOW_REMINDER', title, body, tag });
@@ -391,7 +483,7 @@ function initReminders() {
   if (!bar || !toggle || !hint) return;
 
   if (!('Notification' in window)) {
-    hint.textContent = 'Reminders not supported on this device.';
+    hint.textContent = t('reminders.unsupported');
     bar.classList.remove('hidden');
     toggle.style.display = 'none';
     return;
@@ -403,17 +495,15 @@ function initReminders() {
     const enabled = remindersEnabled() && Notification.permission === 'granted';
     toggle.classList.toggle('is-on', enabled);
     toggle.querySelector('.reminder-toggle-label').textContent =
-      enabled ? 'Reminders on' : 'Enable reminders';
+      enabled ? t('reminders.on') : t('reminders.enable');
     if (Notification.permission === 'denied') {
-      hint.textContent = 'Notifications blocked — enable them in your browser settings.';
+      hint.textContent = t('reminders.blocked');
       hint.classList.remove('is-success');
     } else if (enabled) {
-      hint.textContent = "We'll ping you 15 min before each starred show.";
+      hint.textContent = t('reminders.confirm');
       hint.classList.add('is-success');
     } else {
-      hint.textContent = getFavorites().size
-        ? 'Turn on reminders to get pinged 15 min before each show.'
-        : '';
+      hint.textContent = getFavorites().size ? t('reminders.hint') : '';
       hint.classList.remove('is-success');
     }
   };
@@ -494,8 +584,8 @@ function buildDaySelector(now) {
     const pill = document.createElement('button');
     pill.className = 'day-pill' + (isToday ? ' active' : '');
     pill.innerHTML = `
-      ${isToday ? '<span class="day-today-badge">Today</span>' : ''}
-      <span class="day-name">${DAYS[dow].slice(0, 3).toUpperCase()}</span>
+      ${isToday ? `<span class="day-today-badge">${t('myday.today')}</span>` : ''}
+      <span class="day-name">${dayName(dow, true)}</span>
       <span class="day-num">${d.getDate()}</span>
     `;
     pill.addEventListener('click', () => {
@@ -520,7 +610,7 @@ function renderDay(dow, isToday) {
   const current = isToday ? acts.find(a => isNow(a, now)) : null;
   if (current) {
     banner.classList.remove('hidden');
-    banner.innerHTML = `<div class="now-dot"></div><span><strong>Happening Now</strong> &nbsp;—&nbsp; ${current.icon} ${current.title}, ${current.location}</span>`;
+    banner.innerHTML = `<div class="now-dot"></div><span><strong>${t('programme.happening_now')}</strong> &nbsp;—&nbsp; ${current.icon} ${pickLang(current.title)}, ${pickLang(current.location)}</span>`;
   } else {
     banner.classList.add('hidden');
     banner.innerHTML = '';
@@ -531,10 +621,10 @@ function renderDay(dow, isToday) {
     <div class="show-card">
       <div class="show-icon">🎭</div>
       <div>
-        <div class="show-badge">${isToday ? "Tonight's Show" : 'Evening Show'}</div>
-        <div class="show-title">${show.title}</div>
-        <div class="show-meta">📍 ${show.venue} &nbsp;&nbsp;·&nbsp;&nbsp; 🕐 ${show.time}</div>
-        <div class="show-desc">${show.desc}</div>
+        <div class="show-badge">${isToday ? t('programme.tonight_show') : t('programme.evening_show')}</div>
+        <div class="show-title">${pickLang(show.title)}</div>
+        <div class="show-meta">📍 ${pickLang(show.venue)} &nbsp;&nbsp;·&nbsp;&nbsp; 🕐 ${show.time}</div>
+        <div class="show-desc">${pickLang(show.desc)}</div>
       </div>
     </div>
   `;
@@ -546,7 +636,7 @@ function renderDay(dow, isToday) {
   cats.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn' + (cat === activeFilter ? ' active' : '');
-    btn.textContent = cat;
+    btn.textContent = cat === 'All' ? t('programme.filter_all') : t(`cats.${cat}`, cat);
     btn.addEventListener('click', () => {
       activeFilter = cat;
       filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -565,7 +655,7 @@ function renderGrid(acts, now, isToday, dow) {
   grid.innerHTML  = '';
 
   if (!filtered.length) {
-    grid.innerHTML = '<p style="color:var(--faint);padding:0.5rem 0;font-size:0.85rem;letter-spacing:0.06em">No activities in this category on this day.</p>';
+    grid.innerHTML = `<p style="color:var(--faint);padding:0.5rem 0;font-size:0.85rem;letter-spacing:0.06em">${t('programme.no_acts')}</p>`;
     return;
   }
 
@@ -583,14 +673,14 @@ function renderGrid(acts, now, isToday, dow) {
       </div>
       <div class="a-icon">${act.icon}</div>
       <div class="a-body">
-        <div class="a-title">${act.title}</div>
-        <div class="a-loc">📍 ${act.location}</div>
-        <div class="a-desc">${act.desc}</div>
+        <div class="a-title">${pickLang(act.title)}</div>
+        <div class="a-loc">📍 ${pickLang(act.location)}</div>
+        <div class="a-desc">${pickLang(act.desc)}</div>
       </div>
       <div class="a-meta">
-        <button class="a-fav${fav ? ' is-fav' : ''}" title="Add to My Day" aria-label="Add to My Day">${fav ? '★' : '☆'}</button>
-        <span class="a-cat" style="color:${style.color};border-color:${style.color}">${act.cat}</span>
-        <span class="a-dur">${act.dur} min</span>
+        <button class="a-fav${fav ? ' is-fav' : ''}" aria-label="★">${fav ? '★' : '☆'}</button>
+        <span class="a-cat" style="color:${style.color};border-color:${style.color}">${t(`cats.${act.cat}`, act.cat)}</span>
+        <span class="a-dur">${act.dur} ${t('programme.min')}</span>
       </div>
     `;
     const favBtn = card.querySelector('.a-fav');
@@ -620,8 +710,8 @@ function renderMyDay() {
     container.innerHTML = `
       <div class="myday-empty">
         <div class="myday-empty-icon">★</div>
-        <p class="myday-empty-title">Your day is a blank canvas</p>
-        <p class="myday-empty-sub">Browse the Programme and tap the ☆ star on any activity to build your personal itinerary.</p>
+        <p class="myday-empty-title">${t('myday.empty_title')}</p>
+        <p class="myday-empty-sub">${t('myday.empty_sub')}</p>
       </div>`;
     return;
   }
@@ -634,11 +724,11 @@ function renderMyDay() {
 
     const group = document.createElement('div');
     group.className = 'myday-group';
-    const label = offset === 0 ? 'Today' : DAYS[dow];
+    const label = offset === 0 ? t('myday.today') : dayName(dow);
     group.innerHTML = `
       <div class="myday-group-head">
         <span class="myday-group-day">${label}</span>
-        <span class="myday-group-date">${d.getDate()} ${MONTHS[d.getMonth()]}</span>
+        <span class="myday-group-date">${d.getDate()} ${monthName(d.getMonth())}</span>
       </div>`;
 
     const list = document.createElement('div');
@@ -655,14 +745,14 @@ function renderMyDay() {
         </div>
         <div class="a-icon">${act.icon}</div>
         <div class="a-body">
-          <div class="a-title">${act.title}</div>
-          <div class="a-loc">📍 ${act.location}</div>
-          <div class="a-desc">${act.desc}</div>
+          <div class="a-title">${pickLang(act.title)}</div>
+          <div class="a-loc">📍 ${pickLang(act.location)}</div>
+          <div class="a-desc">${pickLang(act.desc)}</div>
         </div>
         <div class="a-meta">
-          <button class="a-fav is-fav" title="Remove from My Day" aria-label="Remove from My Day">★</button>
-          <span class="a-cat" style="color:${style.color};border-color:${style.color}">${act.cat}</span>
-          <span class="a-dur">${act.dur} min</span>
+          <button class="a-fav is-fav" aria-label="★">★</button>
+          <span class="a-cat" style="color:${style.color};border-color:${style.color}">${t(`cats.${act.cat}`, act.cat)}</span>
+          <span class="a-dur">${act.dur} ${t('programme.min')}</span>
         </div>`;
       card.querySelector('.a-fav').addEventListener('click', () => {
         toggleFavorite(dow, act);
@@ -749,7 +839,7 @@ function openAdmin() {
   const panel = document.getElementById('tab-admin');
   if (!panel) return;
   if (sessionStorage.getItem(ADMIN_SESSION) !== 'true') {
-    const tries = prompt('Staff passcode:');
+    const tries = prompt(t('entrance.staff') + ':');
     if (tries !== ADMIN_PASSCODE) { alert('Wrong passcode.'); return; }
     sessionStorage.setItem(ADMIN_SESSION, 'true');
   }
@@ -789,7 +879,7 @@ function renderAdmin() {
 
       ${needsDay ? `
         <div class="admin-days">
-          ${DAYS.map((d, i) => `<button class="admin-day${String(i) === adminDayKey ? ' active' : ''}" data-dow="${i}">${d.slice(0,3)}</button>`).join('')}
+          ${[0,1,2,3,4,5,6].map(i => `<button class="admin-day${String(i) === adminDayKey ? ' active' : ''}" data-dow="${i}">${dayName(i, true)}</button>`).join('')}
         </div>` : ''}
 
       <div id="admin-list" class="admin-list"></div>
@@ -833,6 +923,21 @@ function setCurrentDraftRows(rows) {
   adminDraft[adminSection][adminDayKey] = rows[0];
 }
 
+// Read/write a possibly-per-language field. Returns string for the requested lang.
+function langGet(field, lang) {
+  if (field == null) return '';
+  if (typeof field === 'string') return lang === 'en' ? field : '';
+  return field[lang] || '';
+}
+function langSet(field, lang, value) {
+  if (field == null || typeof field === 'string') {
+    return { en: typeof field === 'string' ? field : '', ar: '', de: '', ru: '', [lang]: value };
+  }
+  return { ...field, [lang]: value };
+}
+
+let adminRowLangs = {}; // per-row currently-selected sub-tab
+
 function renderAdminList() {
   const list = document.getElementById('admin-list');
   if (!list) return;
@@ -844,47 +949,77 @@ function renderAdminList() {
     return;
   }
 
-  list.innerHTML = rows.map((r, i) => isEvening ? `
+  const langTabs = (i, current) => `
+    <div class="admin-lang-tabs">
+      ${SUPPORTED_LANGS.map(l => `<button class="admin-lang-tab${l === current ? ' active' : ''}" data-row="${i}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')}
+    </div>`;
+
+  list.innerHTML = rows.map((r, i) => {
+    const rowLang = adminRowLangs[i] || LANG;
+    const title    = langGet(r.title,    rowLang);
+    const location = langGet(r.location, rowLang);
+    const venue    = langGet(r.venue,    rowLang);
+    const desc     = langGet(r.desc,     rowLang);
+    const titleEn  = langGet(r.title, 'en') || title;
+
+    return isEvening ? `
     <div class="admin-row" data-i="${i}">
       <div class="admin-row-head">
-        <span class="admin-row-time">${DAYS[r.dow]}</span>
-        <span class="admin-row-title">${escapeHtml(r.title)}</span>
+        <span class="admin-row-time">${dayName(r.dow)}</span>
+        <span class="admin-row-title">${escapeHtml(titleEn)}</span>
         <button class="admin-row-del" data-i="${i}">✕</button>
       </div>
+      ${langTabs(i, rowLang)}
       <div class="admin-form">
-        <label>Day <select data-f="dow">${DAYS.map((d, j) => `<option value="${j}"${j === r.dow ? ' selected' : ''}>${d}</option>`).join('')}</select></label>
-        <label>Title <input data-f="title" value="${escapeAttr(r.title)}" /></label>
-        <label>Venue <input data-f="venue" value="${escapeAttr(r.venue)}" /></label>
+        <label>Day <select data-f="dow">${[0,1,2,3,4,5,6].map(j => `<option value="${j}"${j === r.dow ? ' selected' : ''}>${dayName(j)}</option>`).join('')}</select></label>
         <label>Time <input data-f="time" value="${escapeAttr(r.time)}" placeholder="8:45 PM" /></label>
-        <label class="admin-wide">Description <textarea data-f="desc" rows="2">${escapeHtml(r.desc)}</textarea></label>
+        <label class="admin-wide">Title (${rowLang.toUpperCase()}) <input data-f="title" data-lang="${rowLang}" value="${escapeAttr(title)}" /></label>
+        <label class="admin-wide">Venue (${rowLang.toUpperCase()}) <input data-f="venue" data-lang="${rowLang}" value="${escapeAttr(venue)}" /></label>
+        <label class="admin-wide">Description (${rowLang.toUpperCase()}) <textarea data-f="desc" data-lang="${rowLang}" rows="2">${escapeHtml(desc)}</textarea></label>
       </div>
     </div>` : `
     <div class="admin-row" data-i="${i}">
       <div class="admin-row-head">
         <span class="admin-row-time">${escapeHtml(r.time)}</span>
-        <span class="admin-row-title">${escapeHtml(r.title)}</span>
+        <span class="admin-row-title">${escapeHtml(titleEn)}</span>
         ${adminSection === 'base' ? `<button class="admin-row-del" data-i="${i}">✕</button>` : ''}
       </div>
+      ${langTabs(i, rowLang)}
       <div class="admin-form">
         <label>Time (24-h) <input data-f="time" value="${escapeAttr(r.time)}" placeholder="HH:MM" /></label>
-        <label>Title <input data-f="title" value="${escapeAttr(r.title)}" /></label>
-        <label>Location <input data-f="location" value="${escapeAttr(r.location)}" /></label>
         <label>Category <select data-f="cat">${CATS.map(c => `<option${c === r.cat ? ' selected' : ''}>${c}</option>`).join('')}</select></label>
         <label>Duration (min) <input data-f="dur" type="number" min="5" max="300" value="${r.dur}" /></label>
         <label>Icon <input data-f="icon" value="${escapeAttr(r.icon || '')}" maxlength="4" /></label>
-        <label class="admin-wide">Description <textarea data-f="desc" rows="2">${escapeHtml(r.desc)}</textarea></label>
+        <label class="admin-wide">Title (${rowLang.toUpperCase()}) <input data-f="title" data-lang="${rowLang}" value="${escapeAttr(title)}" /></label>
+        <label class="admin-wide">Location (${rowLang.toUpperCase()}) <input data-f="location" data-lang="${rowLang}" value="${escapeAttr(location)}" /></label>
+        <label class="admin-wide">Description (${rowLang.toUpperCase()}) <textarea data-f="desc" data-lang="${rowLang}" rows="2">${escapeHtml(desc)}</textarea></label>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.admin-lang-tab').forEach(b => {
+    b.addEventListener('click', () => {
+      adminRowLangs[Number(b.dataset.row)] = b.dataset.lang;
+      renderAdminList();
+    });
+  });
 
   list.querySelectorAll('.admin-row').forEach(rowEl => {
     const i = Number(rowEl.dataset.i);
     rowEl.querySelectorAll('[data-f]').forEach(inp => {
       inp.addEventListener('input', () => {
         const rows2 = currentDraftRows();
-        const v = inp.tagName === 'SELECT' && inp.dataset.f === 'dow' ? Number(inp.value)
-                : inp.dataset.f === 'dur' ? Number(inp.value)
-                : inp.value;
-        rows2[i] = { ...rows2[i], [inp.dataset.f]: v };
+        const f = inp.dataset.f;
+        const lang = inp.dataset.lang;
+        let v;
+        if (lang) {
+          v = langSet(rows2[i][f], lang, inp.value);
+        } else {
+          v = inp.tagName === 'SELECT' && f === 'dow' ? Number(inp.value)
+            : f === 'dur' ? Number(inp.value)
+            : inp.value;
+        }
+        rows2[i] = { ...rows2[i], [f]: v };
         setCurrentDraftRows(rows2);
       });
     });
@@ -893,18 +1028,21 @@ function renderAdminList() {
       const rows2 = currentDraftRows();
       rows2.splice(i, 1);
       setCurrentDraftRows(rows2);
+      delete adminRowLangs[i];
       renderAdminList();
     });
   });
 }
 
+function blankLang(text) { return { en: text, ar: text, de: text, ru: text }; }
+
 function adminAdd() {
   const rows = currentDraftRows();
   let blank;
   if (adminSection === 'eveningShows') {
-    blank = { dow: 0, title: 'New Show', venue: '', time: '8:00 PM', desc: '' };
+    blank = { dow: 0, title: blankLang('New Show'), venue: blankLang(''), time: '8:00 PM', desc: blankLang('') };
   } else {
-    blank = { time: '12:00', title: 'New Activity', location: '', cat: 'Games', dur: 30, desc: '', icon: '✨' };
+    blank = { time: '12:00', title: blankLang('New Activity'), location: blankLang(''), cat: 'Games', dur: 30, desc: blankLang(''), icon: '✨' };
   }
   if (['afternoonClass','kidsMorning','kidsAfternoon'].includes(adminSection)) {
     adminDraft[adminSection][adminDayKey] = blank;
