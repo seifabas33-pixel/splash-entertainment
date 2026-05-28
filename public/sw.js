@@ -1,4 +1,4 @@
-const CACHE = 'oldpalace-v17';
+const CACHE = 'oldpalace-v18';
 
 const CORE = [
   '.',
@@ -9,6 +9,7 @@ const CORE = [
   'data/programme.json',
   'data/i18n.json',
   'data/gallery.json',
+  'data/resort-info.json',
   'assets/old-palace-logo.png',
   'assets/splash-logo.png',
   'assets/entrance-bg.png',
@@ -95,7 +96,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Programme + i18n JSON: network-first so edits propagate when online.
-  if (url.origin === self.location.origin && (url.pathname.endsWith('data/programme.json') || url.pathname.endsWith('data/i18n.json') || url.pathname.endsWith('data/gallery.json'))) {
+  if (url.origin === self.location.origin && (url.pathname.endsWith('data/programme.json') || url.pathname.endsWith('data/i18n.json') || url.pathname.endsWith('data/gallery.json') || url.pathname.endsWith('data/resort-info.json'))) {
     event.respondWith(
       fetch(request).then((res) => {
         if (res && res.ok) {
