@@ -19,77 +19,96 @@
   --on-gold:     #06060f;
 }
 
-/* ── Light theme ──────────────────────────────────────────────────────────── */
-[data-theme="light"] {
+/* ── Light theme ─────────────────────────────────────────────────────────────
+   Scoped to #app so the entrance screen (fixed dark photo overlay) is never
+   affected even if the user reloads with a saved light preference.
+─────────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] #app {
   --gold:        #a68329;
   --gold-light:  #7a5f1c;
   --gold-dim:    rgba(166,131,41,0.35);
   --gold-glow:   rgba(166,131,41,0.12);
   --ivory:       #1f1a14;
   --cream:       #4a3f30;
-  --ink:         #f7f3e8;
+  --ink:         #f5f0e6;
   --deep:        #ede5d2;
-  --card-bg:     rgba(255,252,244,0.92);
+  --card-bg:     rgba(255,252,244,0.95);
   --card-border: rgba(166,131,41,0.32);
   --text:        #1f1a14;
-  --muted:       rgba(31,26,20,0.62);
-  --faint:       rgba(31,26,20,0.38);
-  --surface-1:   rgba(255,252,244,0.85);
-  --surface-2:   rgba(245,235,210,0.95);
+  --muted:       rgba(31,26,20,0.65);
+  --faint:       rgba(31,26,20,0.42);
+  --surface-1:   rgba(255,252,244,0.90);
+  --surface-2:   rgba(245,235,210,0.98);
   --on-gold:     #ffffff;
 }
 
+/* Body background follows the app theme */
+[data-theme="light"] body {
+  background: #f5f0e6;
+  color: #1f1a14;
+}
+
 /* Light-mode overrides for elements that hardcode dark rgba backgrounds */
-[data-theme="light"] .app-header,
-[data-theme="light"] .tab-nav {
+[data-theme="light"] #app .app-header,
+[data-theme="light"] #app .tab-nav {
   background: var(--card-bg);
   border-color: var(--card-border);
 }
-[data-theme="light"] .admin-tab,
-[data-theme="light"] .admin-editor-btn,
-[data-theme="light"] .admin-resort-section,
-[data-theme="light"] .admin-day,
-[data-theme="light"] .filter-btn,
-[data-theme="light"] .info-card,
-[data-theme="light"] .act-card,
-[data-theme="light"] .suggestion-card,
-[data-theme="light"] .excursion-card,
-[data-theme="light"] .gallery-thumb,
-[data-theme="light"] .feedback-cat-card,
-[data-theme="light"] .welcome-card,
-[data-theme="light"] .wifi-card,
-[data-theme="light"] .happening-now,
-[data-theme="light"] .prog-weather,
-[data-theme="light"] .countdown-ribbon {
+[data-theme="light"] #app .admin-tab,
+[data-theme="light"] #app .admin-editor-btn,
+[data-theme="light"] #app .admin-resort-section,
+[data-theme="light"] #app .admin-day,
+[data-theme="light"] #app .filter-btn,
+[data-theme="light"] #app .info-card,
+[data-theme="light"] #app .act-card,
+[data-theme="light"] #app .suggestion-card,
+[data-theme="light"] #app .excursion-card,
+[data-theme="light"] #app .gallery-thumb,
+[data-theme="light"] #app .feedback-cat-card,
+[data-theme="light"] #app .welcome-card,
+[data-theme="light"] #app .wifi-card,
+[data-theme="light"] #app .happening-now,
+[data-theme="light"] #app .prog-weather,
+[data-theme="light"] #app .countdown-ribbon {
   background: var(--card-bg);
   border-color: var(--card-border);
   color: var(--text);
 }
-[data-theme="light"] .admin-tab.active,
-[data-theme="light"] .admin-editor-btn.active,
-[data-theme="light"] .admin-day.active,
-[data-theme="light"] .filter-btn.active {
+[data-theme="light"] #app .admin-tab.active,
+[data-theme="light"] #app .admin-editor-btn.active,
+[data-theme="light"] #app .admin-day.active,
+[data-theme="light"] #app .filter-btn.active {
   background: var(--surface-2);
 }
-[data-theme="light"] .admin-form input,
-[data-theme="light"] .admin-form select,
-[data-theme="light"] .admin-form textarea {
+[data-theme="light"] #app .admin-form input,
+[data-theme="light"] #app .admin-form select,
+[data-theme="light"] #app .admin-form textarea {
   background: #fffdf6;
   color: var(--text);
   border-color: var(--card-border);
 }
-[data-theme="light"] .lightbox { background: rgba(247,243,232,0.97); }
-[data-theme="light"] .lightbox-caption { color: var(--text); background: var(--card-bg); }
-[data-theme="light"] .qc-sheet { background: var(--card-bg); }
-[data-theme="light"] .qc-backdrop { background: rgba(31,26,20,0.4); }
-[data-theme="light"] .filter-btn.active {
-  color: var(--gold-light);
-}
-[data-theme="light"] body { background: var(--ink); color: var(--text); }
-/* Tab buttons use literal dark color in places */
-[data-theme="light"] .tab-btn { color: var(--muted); }
-[data-theme="light"] .tab-btn:hover { color: var(--gold-light); }
-[data-theme="light"] .tab-btn.active { color: var(--gold); }
+[data-theme="light"] #app .lightbox { background: rgba(247,243,232,0.98); }
+[data-theme="light"] #app .lightbox-caption { color: var(--text); background: var(--card-bg); }
+[data-theme="light"] #app .lightbox-close,
+[data-theme="light"] #app .lightbox-prev,
+[data-theme="light"] #app .lightbox-next { color: var(--text); }
+[data-theme="light"] #app .qc-sheet { background: var(--card-bg); }
+[data-theme="light"] #app .qc-backdrop { background: rgba(31,26,20,0.4); }
+[data-theme="light"] #app .tab-btn { color: var(--muted); }
+[data-theme="light"] #app .tab-btn:hover { color: var(--gold-light); }
+[data-theme="light"] #app .tab-btn.active { color: var(--gold); }
+[data-theme="light"] #app .section-title,
+[data-theme="light"] #app .section-sub,
+[data-theme="light"] #app .info-card-title,
+[data-theme="light"] #app .info-card-meta,
+[data-theme="light"] #app .info-card-detail,
+[data-theme="light"] #app .act-title,
+[data-theme="light"] #app .act-loc,
+[data-theme="light"] #app .act-desc,
+[data-theme="light"] #app .show-title,
+[data-theme="light"] #app .show-meta { color: var(--text); }
+[data-theme="light"] #app .act-time,
+[data-theme="light"] #app .show-time { color: var(--muted); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }

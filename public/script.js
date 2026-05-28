@@ -88,9 +88,9 @@ function getTheme() {
 }
 
 function applyTheme(theme) {
-  const app = document.getElementById('app');
-  if (theme === 'light') app?.setAttribute('data-theme', 'light');
-  else                   app?.removeAttribute('data-theme');
+  const html = document.documentElement;
+  if (theme === 'light') html.setAttribute('data-theme', 'light');
+  else                   html.removeAttribute('data-theme');
   const icon = document.getElementById('theme-icon');
   if (icon) icon.textContent = theme === 'light' ? '☀' : '☾';
   const btn = document.getElementById('theme-toggle');
