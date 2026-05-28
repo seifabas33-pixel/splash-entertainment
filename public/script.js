@@ -568,6 +568,7 @@ function buildApp() {
   initQuickContact();
   initStay();
   paintCountdownRibbon();
+  startHappeningNowTick();
 
   if (location.hash === '#myday') {
     const tab = document.querySelector('.tab-btn[data-tab="myday"]');
@@ -612,16 +613,10 @@ function renderDay(dow, isToday) {
   const show = EVENING_SHOWS[dow];
   currentActs = acts;
 
-  // Happening Now — only meaningful for today
-  const banner = document.getElementById('now-banner');
-  const current = isToday ? acts.find(a => isNow(a, now)) : null;
-  if (current) {
-    banner.classList.remove('hidden');
-    banner.innerHTML = `<div class="now-dot"></div><span><strong>${t('programme.happening_now')}</strong> &nbsp;—&nbsp; ${current.icon} ${pickLang(current.title)}, ${pickLang(current.location)}</span>`;
-  } else {
-    banner.classList.add('hidden');
-    banner.innerHTML = '';
-  }
+  // Legacy thin banner — keep hidden, replaced by happening-now section
+  document.getElementById('now-banner').classList.add('hidden');
+
+  renderHappeningNow(isToday, acts, show);
 
   // Evening Show card
   document.getElementById('show-section').innerHTML = `
@@ -699,6 +694,109 @@ function renderGrid(acts, now, isToday, dow) {
     });
     grid.appendChild(card);
   });
+}
+
+// ── Happening Now ─────────────────────────────────────────────────────────────
+
+function minsUntilAct(act) {
+  const [h, m] = act.time.split(':').map(Number);
+  const now = new Date();
+  return (h * 60 + m) - (now.getHours() * 60 + now.getMinutes());
+}
+
+function minsUntilShow(show) {
+  const raw = show.time; // e.g. "9:00 PM", "8:30 PM", "7:30 PM"
+  const match = raw.match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!match) return null;
+  let h = parseInt(match[1], 10);
+  const m = parseInt(match[2], 10);
+  const ap = match[3].toUpperCase();
+  if (ap === 'PM' && h !== 12) h += 12;
+  if (ap === 'AM' && h === 12) h = 0;
+  const now = new Date();
+  return (h * 60 + m) - (now.getHours() * 60 + now.getMinutes());
+}
+
+function fmtCountdown(mins) {
+  if (mins <= 0) return null;
+  if (mins < 60) return t('hn.in_mins').replace('{n}', mins);
+  const h = Math.floor(mins / 60), m = mins % 60;
+  return m > 0
+    ? t('hn.in_hm').replace('{h}', h).replace('{m}', m)
+    : t('hn.in_hours').replace('{h}', h);
+}
+
+function renderHappeningNow(isToday, acts, show) {
+  const wrap = document.getElementById('happening-now');
+  if (!wrap) return;
+  if (!isToday) { wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
+
+  const now = new Date();
+  const liveAct = acts.find(a => isNow(a, now));
+  const comingActs = acts
+    .map(a => ({ a, mins: minsUntilAct(a) }))
+    .filter(({ mins }) => mins > 0 && mins <= 120)
+    .sort((x, y) => x.mins - y.mins)
+    .slice(0, 3);
+  const showMins = minsUntilShow(show);
+  const showCountdown = showMins !== null && showMins > 0 ? fmtCountdown(showMins) : null;
+
+  if (!liveAct && !comingActs.length && !showCountdown) {
+    wrap.classList.add('hidden'); wrap.innerHTML = ''; return;
+  }
+
+  wrap.classList.remove('hidden');
+  let html = '';
+
+  if (liveAct) {
+    html += `
+      <div class="hn-live">
+        <span class="hn-live-dot"></span>
+        <span class="hn-live-label">${t('hn.now')}</span>
+        <span class="hn-live-icon">${liveAct.icon}</span>
+        <span class="hn-live-title">${pickLang(liveAct.title)}</span>
+        <span class="hn-live-loc">· ${pickLang(liveAct.location)}</span>
+      </div>`;
+  }
+
+  if (comingActs.length) {
+    html += `<div class="hn-coming-row">`;
+    comingActs.forEach(({ a, mins }) => {
+      const label = fmtCountdown(mins);
+      html += `
+        <div class="hn-coming-chip">
+          <span class="hn-chip-icon">${a.icon}</span>
+          <span class="hn-chip-body">
+            <span class="hn-chip-title">${pickLang(a.title)}</span>
+            <span class="hn-chip-time">${label}</span>
+          </span>
+        </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (showCountdown) {
+    html += `
+      <div class="hn-show-row">
+        <span class="hn-show-icon">🎭</span>
+        <span class="hn-show-label">${t('hn.show_label')}</span>
+        <span class="hn-show-title">${pickLang(show.title)}</span>
+        <span class="hn-show-countdown">${showCountdown}</span>
+      </div>`;
+  }
+
+  wrap.innerHTML = html;
+}
+
+let _hnTick = null;
+function startHappeningNowTick() {
+  if (_hnTick) return;
+  _hnTick = setInterval(() => {
+    if (selectedDow === new Date().getDay()) {
+      renderHappeningNow(true, currentActs, EVENING_SHOWS[selectedDow]);
+      refreshProgrammeGrid();
+    }
+  }, 60000);
 }
 
 // Re-render the Programme grid for the currently selected day (keeps stars in sync)
