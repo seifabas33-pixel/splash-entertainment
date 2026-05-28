@@ -14,7 +14,82 @@
   --muted:       rgba(237,232,223,0.52);
   --faint:       rgba(237,232,223,0.32);
   --red:         #8a1828;
+  --surface-1:   rgba(12,15,30,0.6);
+  --surface-2:   rgba(30,22,7,0.85);
+  --on-gold:     #06060f;
 }
+
+/* ── Light theme ──────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --gold:        #a68329;
+  --gold-light:  #7a5f1c;
+  --gold-dim:    rgba(166,131,41,0.35);
+  --gold-glow:   rgba(166,131,41,0.12);
+  --ivory:       #1f1a14;
+  --cream:       #4a3f30;
+  --ink:         #f7f3e8;
+  --deep:        #ede5d2;
+  --card-bg:     rgba(255,252,244,0.92);
+  --card-border: rgba(166,131,41,0.32);
+  --text:        #1f1a14;
+  --muted:       rgba(31,26,20,0.62);
+  --faint:       rgba(31,26,20,0.38);
+  --surface-1:   rgba(255,252,244,0.85);
+  --surface-2:   rgba(245,235,210,0.95);
+  --on-gold:     #ffffff;
+}
+
+/* Light-mode overrides for elements that hardcode dark rgba backgrounds */
+[data-theme="light"] .app-header,
+[data-theme="light"] .tab-nav {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+}
+[data-theme="light"] .admin-tab,
+[data-theme="light"] .admin-editor-btn,
+[data-theme="light"] .admin-resort-section,
+[data-theme="light"] .admin-day,
+[data-theme="light"] .filter-btn,
+[data-theme="light"] .info-card,
+[data-theme="light"] .act-card,
+[data-theme="light"] .suggestion-card,
+[data-theme="light"] .excursion-card,
+[data-theme="light"] .gallery-thumb,
+[data-theme="light"] .feedback-cat-card,
+[data-theme="light"] .welcome-card,
+[data-theme="light"] .wifi-card,
+[data-theme="light"] .happening-now,
+[data-theme="light"] .prog-weather,
+[data-theme="light"] .countdown-ribbon {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+  color: var(--text);
+}
+[data-theme="light"] .admin-tab.active,
+[data-theme="light"] .admin-editor-btn.active,
+[data-theme="light"] .admin-day.active,
+[data-theme="light"] .filter-btn.active {
+  background: var(--surface-2);
+}
+[data-theme="light"] .admin-form input,
+[data-theme="light"] .admin-form select,
+[data-theme="light"] .admin-form textarea {
+  background: #fffdf6;
+  color: var(--text);
+  border-color: var(--card-border);
+}
+[data-theme="light"] .lightbox { background: rgba(247,243,232,0.97); }
+[data-theme="light"] .lightbox-caption { color: var(--text); background: var(--card-bg); }
+[data-theme="light"] .qc-sheet { background: var(--card-bg); }
+[data-theme="light"] .qc-backdrop { background: rgba(31,26,20,0.4); }
+[data-theme="light"] .filter-btn.active {
+  color: var(--gold-light);
+}
+[data-theme="light"] body { background: var(--ink); color: var(--text); }
+/* Tab buttons use literal dark color in places */
+[data-theme="light"] .tab-btn { color: var(--muted); }
+[data-theme="light"] .tab-btn:hover { color: var(--gold-light); }
+[data-theme="light"] .tab-btn.active { color: var(--gold); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -290,6 +365,26 @@ body {
 .h-back-btn:hover { background: rgba(201,168,76,0.18); border-color: var(--gold); }
 .h-back-icon { font-size: 1.1rem; line-height: 1; }
 .h-back-label { display: inline; }
+
+.h-theme-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  color: var(--gold-light);
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+.h-theme-btn:hover {
+  background: rgba(201,168,76,0.18);
+  border-color: var(--gold);
+  transform: rotate(15deg);
+}
+.h-theme-icon { font-size: 1.05rem; line-height: 1; }
+html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
 .h-sep { width: 1px; height: 24px; background: var(--gold-dim); }
 
 .app-date-line {
