@@ -248,6 +248,7 @@ function fmtDate(now) {
 
   await Promise.all([loadI18n(), loadProgramme()]);
   setLang(getLang());
+  loadWeather();
 
   document.getElementById('e-date').textContent = fmtDate(now);
 
@@ -1929,4 +1930,113 @@ function renderBeforeYouLeave() {
     card.querySelector('.suggestion-done').addEventListener('click', () => markTried(s.id));
     list.appendChild(card);
   });
+}
+
+// ── Live Weather (Open-Meteo, no API key required) ────────────────────────────
+
+const WEATHER_KEY    = 'oldpalace_weather';
+const WEATHER_TS_KEY = 'oldpalace_weather_ts';
+const WEATHER_TTL    = 30 * 60 * 1000; // 30 minutes
+const WEATHER_LAT    = 27.17;
+const WEATHER_LON    = 33.90;
+
+const WMO_CODES = {
+  0:  { icon: '☀️',  labelKey: 'weather.clear' },
+  1:  { icon: '🌤',  labelKey: 'weather.mostly_clear' },
+  2:  { icon: '⛅️', labelKey: 'weather.partly_cloudy' },
+  3:  { icon: '☁️',  labelKey: 'weather.cloudy' },
+  45: { icon: '🌫',  labelKey: 'weather.fog' },
+  48: { icon: '🌫',  labelKey: 'weather.fog' },
+  51: { icon: '🌦',  labelKey: 'weather.rain' },
+  53: { icon: '🌦',  labelKey: 'weather.rain' },
+  55: { icon: '🌧',  labelKey: 'weather.rain' },
+  61: { icon: '🌧',  labelKey: 'weather.rain' },
+  63: { icon: '🌧',  labelKey: 'weather.rain' },
+  65: { icon: '🌧',  labelKey: 'weather.rain' },
+  80: { icon: '🌦',  labelKey: 'weather.showers' },
+  81: { icon: '🌧',  labelKey: 'weather.showers' },
+  82: { icon: '🌧',  labelKey: 'weather.showers' },
+  95: { icon: '⛈',  labelKey: 'weather.storm' },
+  99: { icon: '⛈',  labelKey: 'weather.storm' },
+};
+
+function wmoLookup(code) {
+  return WMO_CODES[code] || WMO_CODES[Math.floor(code / 10) * 10] || { icon: '🌡', labelKey: 'weather.clear' };
+}
+
+function uvChip(uv) {
+  if (uv == null) return '';
+  const rounded = Math.round(uv);
+  if (rounded >= 11) return `<span class="weather-uv-chip weather-uv-extreme">UV ${rounded} ${t('weather.uv_vhigh')}</span>`;
+  if (rounded >= 8)  return `<span class="weather-uv-chip weather-uv-high">UV ${rounded} ${t('weather.uv_high')}</span>`;
+  return `UV ${rounded}`;
+}
+
+function paintWeather(data) {
+  if (!data) return;
+  const { temp, windspeed, code, uv } = data;
+  const { icon, labelKey } = wmoLookup(code);
+  const condition = t(labelKey);
+  const uvStr = uvChip(uv);
+  const windStr = `💨 ${Math.round(windspeed)} km/h`;
+  const tempStr = `${Math.round(temp)}°C`;
+
+  // Entrance strip — compact
+  const eEl = document.getElementById('e-weather');
+  if (eEl) {
+    eEl.classList.remove('hidden');
+    eEl.innerHTML =
+      `${icon} <span class="ew-temp">${tempStr}</span>` +
+      ` <span class="ew-sep">·</span> ${uvStr}` +
+      ` <span class="ew-sep">·</span> ${windStr}` +
+      ` <span class="ew-sep">·</span> <span class="ew-cond">${condition}</span>`;
+  }
+
+  // Programme tab row — slightly more spacious
+  const pEl = document.getElementById('prog-weather');
+  if (pEl) {
+    pEl.classList.remove('hidden');
+    pEl.innerHTML =
+      `<span class="pw-icon">${icon}</span>` +
+      `<span class="pw-temp">${tempStr}</span>` +
+      `<span class="pw-sep">·</span>` +
+      `<span class="pw-uv">${uvStr}</span>` +
+      `<span class="pw-sep">·</span>` +
+      `<span class="pw-wind">${windStr}</span>` +
+      `<span class="pw-sep">·</span>` +
+      `<span class="pw-cond">${condition}</span>`;
+  }
+}
+
+async function loadWeather() {
+  // 1. Paint from cache immediately if fresh
+  const cached = localStorage.getItem(WEATHER_KEY);
+  const ts     = parseInt(localStorage.getItem(WEATHER_TS_KEY) || '0', 10);
+  if (cached && Date.now() - ts < WEATHER_TTL) {
+    try { paintWeather(JSON.parse(cached)); } catch {}
+  }
+
+  // 2. Fetch fresh data in background
+  try {
+    const now = new Date();
+    const hour = now.getHours();
+    const url =
+      `https://api.open-meteo.com/v1/forecast` +
+      `?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}` +
+      `&current_weather=true` +
+      `&hourly=uv_index` +
+      `&forecast_days=1` +
+      `&timezone=Africa%2FCairo`;
+    const res  = await fetch(url);
+    if (!res.ok) return;
+    const json = await res.json();
+    const cw   = json.current_weather;
+    const uv   = json.hourly?.uv_index?.[hour] ?? null;
+    const data = { temp: cw.temperature, windspeed: cw.windspeed, code: cw.weathercode, uv };
+    localStorage.setItem(WEATHER_KEY, JSON.stringify(data));
+    localStorage.setItem(WEATHER_TS_KEY, String(Date.now()));
+    paintWeather(data);
+  } catch {
+    // Offline or API down — silently keep cached data or stay hidden
+  }
 }

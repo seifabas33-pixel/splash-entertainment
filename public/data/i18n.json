@@ -546,5 +546,16 @@
   "hn.in_hm":         { "en": "in {h}h {m}m",     "ar": "بعد {h}س {m}د",      "de": "in {h}h {m}m",      "ru": "через {h}ч {m}м" },
   "hn.show_label":    { "en": "Tonight:",          "ar": "الليلة:",             "de": "Heute Abend:",      "ru": "Сегодня вечером:" },
 
+  "weather.clear":          { "en": "Clear sky",      "ar": "سماء صافية",         "de": "Klarer Himmel",      "ru": "Ясно" },
+  "weather.mostly_clear":   { "en": "Mostly clear",   "ar": "صافٍ في معظمه",     "de": "Meist klar",         "ru": "Преимущественно ясно" },
+  "weather.partly_cloudy":  { "en": "Partly cloudy",  "ar": "غائم جزئيًا",       "de": "Teils bewölkt",      "ru": "Переменная облачность" },
+  "weather.cloudy":         { "en": "Cloudy",          "ar": "غائم",              "de": "Bewölkt",            "ru": "Облачно" },
+  "weather.fog":            { "en": "Foggy",           "ar": "ضبابي",             "de": "Neblig",             "ru": "Туман" },
+  "weather.rain":           { "en": "Rain",            "ar": "ممطر",              "de": "Regen",              "ru": "Дождь" },
+  "weather.showers":        { "en": "Showers",         "ar": "زخات مطر",          "de": "Schauer",            "ru": "Ливни" },
+  "weather.storm":          { "en": "Thunderstorm",    "ar": "عاصفة رعدية",       "de": "Gewitter",           "ru": "Гроза" },
+  "weather.uv_high":        { "en": "High",            "ar": "مرتفع",             "de": "Hoch",               "ru": "Высок." },
+  "weather.uv_vhigh":       { "en": "Extreme",         "ar": "شديد جدًا",         "de": "Extrem",             "ru": "Экстрем." },
+
   "stay.sugg.spa":            { "en": "Treat yourself at the Spa",                            "ar": "دلّل نفسك في السبا",                                                  "de": "Gönnen Sie sich einen Spa-Besuch",                                "ru": "Побалуйте себя в спа" }
 }
