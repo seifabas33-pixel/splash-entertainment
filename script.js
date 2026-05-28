@@ -340,6 +340,7 @@ function initTabs() {
       if (target === 'myday') renderMyDay();
       if (target === 'concierge') renderConcierge();
       if (target === 'feedback') renderFeedback();
+      if (target === 'excursions') initExcursions();
     });
   });
 }
@@ -2080,4 +2081,35 @@ function showCopied(btn, labelEl, iconEl) {
     labelEl.textContent = prev;
     iconEl.textContent = '⎘';
   }, 2000);
+}
+
+// ── Excursions ────────────────────────────────────────────────────────────────
+
+const TOUR_MESSAGE_KEYS = {
+  disco:  'excursions.msg.disco',
+  safari: 'excursions.msg.safari',
+  diving: 'excursions.msg.diving',
+};
+
+function initExcursions() {
+  document.querySelectorAll('.excursion-book-btn').forEach(btn => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      const tour = btn.dataset.tour;
+      const room = getRoomNumber();
+      const roomStr = room ? room : t('concierge.tmpl.no_room');
+      const tourName = t(`excursions.${tour}.title`);
+      const lines = [
+        `*${t('excursions.msg.header')}*`,
+        `${t('concierge.tmpl.room')}: ${roomStr}`,
+        `${t('excursions.msg.tour')}: ${tourName}`,
+        `${t('excursions.msg.request')}`,
+        '',
+        `— ${t('concierge.tmpl.footer')}`,
+      ];
+      const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+      window.open(url, '_blank', 'noopener');
+    });
+  });
 }
