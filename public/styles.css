@@ -86,7 +86,7 @@ body {
 }
 .e-logo-img { display: block; object-fit: contain; }
 .e-hotel-logo-img {
-  height: clamp(100px, 14vw, 160px); width: auto;
+  height: clamp(76px, 10vw, 120px); width: auto;
   filter:
     drop-shadow(0 0 16px rgba(201,168,76,0.75))
     drop-shadow(0 0 44px rgba(201,168,76,0.38))
