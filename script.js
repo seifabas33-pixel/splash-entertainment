@@ -160,6 +160,27 @@ function initTabs() {
   });
 }
 
+function goHome() {
+  const app = document.getElementById('app');
+  app.style.transition = 'opacity 0.5s ease';
+  app.style.opacity = '0';
+  setTimeout(() => {
+    app.classList.add('hidden');
+    app.style.opacity = '';
+    app.style.transition = '';
+    const entrance = document.getElementById('entrance');
+    entrance.style.display = '';
+    entrance.style.opacity = '0';
+    entrance.style.transform = '';
+    entrance.style.pointerEvents = '';
+    entrance.style.transition = 'opacity 0.7s ease';
+    requestAnimationFrame(() => { entrance.style.opacity = '1'; });
+    setTimeout(() => { entrance.style.transition = ''; }, 750);
+  }, 520);
+}
+
+document.getElementById('back-home-btn').addEventListener('click', goHome);
+
 let activeFilter = 'All';
 
 function buildApp() {
