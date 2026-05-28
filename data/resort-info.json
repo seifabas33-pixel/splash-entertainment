@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "updated": "2026-05-28",
+  "_note": "Staff-editable resort info. Edit via #admin → Resort Info Editor, or directly here. After editing, commit & push — the app will pick up changes on next load.",
+  "wifi": {
+    "rooms": {
+      "ssid": "OldPalace_Rooms",
+      "pass": "OldPalace2025"
+    },
+    "public": {
+      "ssid": "OldPalace_Guest",
+      "pass": "OldPalace2025"
+    }
+  },
+  "contacts": {
+    "reception": "+201001570273",
+    "in_room_dining": "+201001570273",
+    "emergency": "+201001570273",
+    "whatsapp": "201001570273"
+  }
+}

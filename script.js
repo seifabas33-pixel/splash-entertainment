@@ -570,6 +570,7 @@ function buildApp() {
   initReminders();
   initQuickContact();
   initStay();
+  loadResortInfo();
   initWifi();
   initLightbox();
   paintCountdownRibbon();
@@ -926,6 +927,8 @@ const CATS = ['Aqua', 'Sport', 'Kids', 'Dance', 'Games', 'Evening'];
 let adminDraft = null;
 let adminSection = 'base';
 let adminDayKey  = '0';
+let adminEditor  = 'programme'; // 'programme' | 'resort'
+let adminResortDraft = null;
 
 function snapshotProgramme() {
   return {
@@ -970,6 +973,20 @@ function renderAdmin() {
   const panel = document.getElementById('tab-admin');
   if (!adminDraft) adminDraft = snapshotProgramme();
 
+  const editorSwitcher = `
+    <div class="admin-editor-switcher">
+      <button class="admin-editor-btn${adminEditor === 'programme' ? ' active' : ''}" data-editor="programme">📅 Programme</button>
+      <button class="admin-editor-btn${adminEditor === 'resort' ? ' active' : ''}" data-editor="resort">🛎 Resort Info</button>
+    </div>`;
+
+  if (adminEditor === 'resort') {
+    renderAdminResort(panel, editorSwitcher);
+    panel.querySelectorAll('.admin-editor-btn').forEach(b => {
+      b.addEventListener('click', () => { adminEditor = b.dataset.editor; renderAdmin(); });
+    });
+    return;
+  }
+
   const tabs = [
     { id: 'base',           label: 'Base' },
     { id: 'afternoonClass', label: 'Afternoon' },
@@ -985,6 +1002,8 @@ function renderAdmin() {
         <h2 class="section-title">Programme Editor</h2>
         <p class="section-sub">Edit, preview, then download the updated <code>programme.json</code>.</p>
       </div>
+
+      ${editorSwitcher}
 
       <div class="admin-tabs">
         ${tabs.map(t => `<button class="admin-tab${adminSection === t.id ? ' active' : ''}" data-id="${t.id}">${t.label}</button>`).join('')}
@@ -1007,6 +1026,9 @@ function renderAdmin() {
     </div>
   `;
 
+  panel.querySelectorAll('.admin-editor-btn').forEach(b => {
+    b.addEventListener('click', () => { adminEditor = b.dataset.editor; renderAdmin(); });
+  });
   panel.querySelectorAll('.admin-tab').forEach(b => {
     b.addEventListener('click', () => { adminSection = b.dataset.id; renderAdmin(); });
   });
@@ -1204,6 +1226,117 @@ function escapeHtml(s) {
 }
 function escapeAttr(s) { return escapeHtml(s); }
 
+// ── Admin · Resort Info Editor ───────────────────────────────────────────────
+function renderAdminResort(panel, switcherHtml) {
+  if (!adminResortDraft) {
+    adminResortDraft = RESORT_INFO
+      ? JSON.parse(JSON.stringify(RESORT_INFO))
+      : { wifi: { rooms: { ssid: '', pass: '' }, public: { ssid: '', pass: '' } }, contacts: { reception: '', in_room_dining: '', emergency: '', whatsapp: '' } };
+  }
+  const d = adminResortDraft;
+  const wRooms  = d.wifi?.rooms  || {};
+  const wPublic = d.wifi?.public || {};
+  const c = d.contacts || {};
+
+  panel.innerHTML = `
+    <div class="content-wrap">
+      <div class="section-header">
+        <h2 class="section-title">Resort Info Editor</h2>
+        <p class="section-sub">Wi-Fi, phone numbers, WhatsApp — edit, then download <code>resort-info.json</code> and replace the file on GitHub.</p>
+      </div>
+
+      ${switcherHtml}
+
+      <div class="admin-resort-section">
+        <h3 class="admin-resort-h3">📶 Wi-Fi · Rooms & Corridors</h3>
+        <div class="admin-form">
+          <label class="admin-wide">Network name (SSID) <input data-r="wifi.rooms.ssid" value="${escapeAttr(wRooms.ssid || '')}" /></label>
+          <label class="admin-wide">Password <input data-r="wifi.rooms.pass" value="${escapeAttr(wRooms.pass || '')}" /></label>
+        </div>
+      </div>
+
+      <div class="admin-resort-section">
+        <h3 class="admin-resort-h3">🏊 Wi-Fi · Pool, Beach & Lobby</h3>
+        <div class="admin-form">
+          <label class="admin-wide">Network name (SSID) <input data-r="wifi.public.ssid" value="${escapeAttr(wPublic.ssid || '')}" /></label>
+          <label class="admin-wide">Password <input data-r="wifi.public.pass" value="${escapeAttr(wPublic.pass || '')}" /></label>
+        </div>
+      </div>
+
+      <div class="admin-resort-section">
+        <h3 class="admin-resort-h3">📞 Contact Numbers</h3>
+        <p class="admin-hint">Include country code, e.g. <code>+201001570273</code>. WhatsApp number: digits only, no <code>+</code>.</p>
+        <div class="admin-form">
+          <label class="admin-wide">Reception (tel) <input data-r="contacts.reception" value="${escapeAttr(c.reception || '')}" placeholder="+201001570273" /></label>
+          <label class="admin-wide">In-room dining (tel) <input data-r="contacts.in_room_dining" value="${escapeAttr(c.in_room_dining || '')}" placeholder="+201001570273" /></label>
+          <label class="admin-wide">Emergency (tel) <input data-r="contacts.emergency" value="${escapeAttr(c.emergency || '')}" placeholder="+201001570273" /></label>
+          <label class="admin-wide">WhatsApp (digits only) <input data-r="contacts.whatsapp" value="${escapeAttr(c.whatsapp || '')}" placeholder="201001570273" /></label>
+        </div>
+      </div>
+
+      <div class="admin-footer">
+        <button class="admin-btn" id="resort-preview">Preview in app</button>
+        <button class="admin-btn" id="resort-reset">Reset</button>
+        <button class="admin-btn admin-btn-primary" id="resort-download">Download resort-info.json</button>
+        <button class="admin-btn admin-btn-exit" id="resort-exit">Exit</button>
+      </div>
+    </div>
+  `;
+
+  panel.querySelectorAll('[data-r]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      setDeep(adminResortDraft, inp.dataset.r, inp.value);
+    });
+  });
+  document.getElementById('resort-preview').addEventListener('click', () => {
+    RESORT_INFO = JSON.parse(JSON.stringify(adminResortDraft));
+    applyResortInfo();
+    document.querySelector('.tab-btn[data-tab="yourstay"]')?.click();
+  });
+  document.getElementById('resort-reset').addEventListener('click', async () => {
+    RESORT_INFO = null;
+    await loadResortInfo();
+    adminResortDraft = JSON.parse(JSON.stringify(RESORT_INFO));
+    renderAdmin();
+  });
+  document.getElementById('resort-download').addEventListener('click', () => {
+    const out = {
+      version: 1,
+      updated: new Date().toISOString().slice(0, 10),
+      _note: 'Staff-editable resort info. Edit via #admin → Resort Info Editor, or directly here. After editing, commit & push.',
+      ...adminResortDraft,
+    };
+    downloadJson('resort-info.json', out);
+  });
+  document.getElementById('resort-exit').addEventListener('click', () => {
+    location.hash = '';
+    location.reload();
+  });
+}
+
+function setDeep(obj, path, value) {
+  const parts = path.split('.');
+  let o = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (typeof o[parts[i]] !== 'object' || o[parts[i]] === null) o[parts[i]] = {};
+    o = o[parts[i]];
+  }
+  o[parts[parts.length - 1]] = value;
+}
+
+function downloadJson(filename, data) {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 // ── Quick Contact (FAB + sheet) ────────────────────────────────────────────────
 function initQuickContact() {
   const fab      = document.getElementById('qc-fab');
@@ -1233,7 +1366,7 @@ function initQuickContact() {
 }
 
 // ── Concierge (one-tap service requests) ──────────────────────────────────────
-const WA_NUMBER = '201001570273';
+let WA_NUMBER = '201001570273';
 const ROOM_KEY  = 'oldpalace_room';
 
 const SPA_TREATMENTS = ['massage', 'facial', 'bodywrap', 'couples', 'hammam'];
@@ -1452,7 +1585,7 @@ function sendRequest(req, values) {
 // ── Feedback & Ratings ───────────────────────────────────────────────────────
 
 // Same as WA_NUMBER for now — swap with management-only WhatsApp number when available.
-const WA_MANAGEMENT = '201001570273';
+let WA_MANAGEMENT = '201001570273';
 const FB_SENT_PREFIX = 'fb_react_';
 
 const FEEDBACK_CATEGORIES = [
@@ -2046,6 +2179,50 @@ async function loadWeather() {
 }
 
 // ── WiFi tap-to-copy ──────────────────────────────────────────────────────────
+
+// ── Resort Info (WiFi + contacts, staff-editable via admin) ───────────────────
+let RESORT_INFO = null;
+
+async function loadResortInfo() {
+  if (RESORT_INFO) return RESORT_INFO;
+  try {
+    const res = await fetch('data/resort-info.json', { cache: 'no-cache' });
+    if (res.ok) RESORT_INFO = await res.json();
+  } catch {}
+  if (!RESORT_INFO) {
+    RESORT_INFO = {
+      wifi: {
+        rooms:  { ssid: 'OldPalace_Rooms', pass: 'OldPalace2025' },
+        public: { ssid: 'OldPalace_Guest', pass: 'OldPalace2025' },
+      },
+      contacts: { reception: '+201001570273', in_room_dining: '+201001570273', emergency: '+201001570273', whatsapp: '201001570273' },
+    };
+  }
+  applyResortInfo();
+  return RESORT_INFO;
+}
+
+function applyResortInfo() {
+  if (!RESORT_INFO) return;
+  const r = RESORT_INFO;
+  // WhatsApp numbers (digits only, no '+')
+  if (r.contacts && r.contacts.whatsapp) {
+    WA_NUMBER     = String(r.contacts.whatsapp).replace(/[^0-9]/g, '');
+    WA_MANAGEMENT = String(r.contacts.whatsapp).replace(/[^0-9]/g, '');
+  }
+  // WiFi card values (Your Stay tab)
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val != null) el.textContent = val; };
+  if (r.wifi) {
+    if (r.wifi.rooms)  { set('wifi-ssid-rooms',  r.wifi.rooms.ssid);  set('wifi-pass-rooms',  r.wifi.rooms.pass);  }
+    if (r.wifi.public) { set('wifi-ssid-public', r.wifi.public.ssid); set('wifi-pass-public', r.wifi.public.pass); }
+  }
+  // Quick Contact FAB tel link
+  if (r.contacts && r.contacts.reception) {
+    const telLink = document.getElementById('qc-tel-link');
+    if (telLink) telLink.setAttribute('href', `tel:${r.contacts.reception}`);
+    set('qc-tel-sub', r.contacts.reception);
+  }
+}
 
 function initWifi() {
   document.querySelectorAll('.wifi-copy-btn').forEach(btn => {
