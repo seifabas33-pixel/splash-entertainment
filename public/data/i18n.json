@@ -468,5 +468,45 @@
   "concierge.tmpl.footer":   { "en": "Sent via the guest app", "ar": "أُرسل عبر تطبيق الضيف",     "de": "Gesendet via Gäste-App",   "ru": "Отправлено через гостевое приложение" },
 
   "qc.concierge":      { "en": "Open Concierge",                  "ar": "افتح الكونسيرج",                   "de": "Concierge öffnen",                  "ru": "Открыть консьерж" },
-  "qc.concierge_sub":  { "en": "Request a service from your room", "ar": "اطلبوا خدمة من غرفتكم",            "de": "Service vom Zimmer anfordern",      "ru": "Запросить услугу из номера" }
+  "qc.concierge_sub":  { "en": "Request a service from your room", "ar": "اطلبوا خدمة من غرفتكم",            "de": "Service vom Zimmer anfordern",      "ru": "Запросить услугу из номера" },
+
+  "tabs.feedback": { "en": "Feedback", "ar": "التقييم", "de": "Bewertung", "ru": "Отзыв" },
+
+  "feedback.title": { "en": "Guest Feedback",               "ar": "تقييم الضيوف",                       "de": "Gästebewertung",                      "ru": "Отзывы гостей" },
+  "feedback.sub":   { "en": "Your experience matters to us","ar": "تجربتكم تهمّنا",                      "de": "Ihre Erfahrung liegt uns am Herzen",  "ru": "Ваше мнение важно для нас" },
+  "feedback.trust": { "en": "We read every message. The General Manager personally reviews all feedback daily.", "ar": "نقرأ كل رسالة. يراجع المدير العام شخصيًا جميع التعليقات يوميًا.", "de": "Wir lesen jede Nachricht. Der General Manager prüft täglich persönlich alle Rückmeldungen.", "ru": "Мы читаем каждое сообщение. Генеральный менеджер лично просматривает все отзывы ежедневно." },
+
+  "feedback.cat.room.title":       { "en": "Room",                    "ar": "الغرفة",              "de": "Zimmer",                "ru": "Номер" },
+  "feedback.cat.room.sub":         { "en": "Cleanliness, comfort & amenities", "ar": "النظافة والراحة والمرافق",  "de": "Sauberkeit, Komfort & Ausstattung", "ru": "Чистота, комфорт и удобства" },
+  "feedback.cat.food.title":       { "en": "Food & Beverage",         "ar": "الطعام والمشروبات",   "de": "Speisen & Getränke",    "ru": "Питание и напитки" },
+  "feedback.cat.food.sub":         { "en": "Buffet, à la carte & bars", "ar": "البوفيه والمطاعم والبارات", "de": "Buffet, à la carte & Bars", "ru": "Шведский стол, меню и бары" },
+  "feedback.cat.pool.title":       { "en": "Pool & Beach",            "ar": "المسبح والشاطئ",      "de": "Pool & Strand",         "ru": "Бассейн и пляж" },
+  "feedback.cat.pool.sub":         { "en": "Sunbeds, towels & water quality", "ar": "الكراسي والمناشف وجودة الماء", "de": "Liegen, Handtücher & Wasserqualität", "ru": "Лежаки, полотенца и качество воды" },
+  "feedback.cat.spa.title":        { "en": "Spa & Wellness",          "ar": "السبا والعافية",       "de": "Spa & Wellness",        "ru": "СПА и велнес" },
+  "feedback.cat.spa.sub":          { "en": "Treatments & staff",      "ar": "العلاجات والكادر",     "de": "Behandlungen & Personal","ru": "Процедуры и персонал" },
+  "feedback.cat.activities.title": { "en": "Activities & Shows",      "ar": "الأنشطة والعروض",      "de": "Aktivitäten & Shows",   "ru": "Мероприятия и шоу" },
+  "feedback.cat.activities.sub":   { "en": "Animation team & evening shows", "ar": "فريق الترفيه والعروض المسائية", "de": "Animationsteam & Abendshows", "ru": "Команда аниматоров и вечерние шоу" },
+  "feedback.cat.staff.title":      { "en": "Staff & Service",         "ar": "الكادر والخدمة",       "de": "Personal & Service",    "ru": "Персонал и сервис" },
+  "feedback.cat.staff.sub":        { "en": "Reception, housekeeping & butlers", "ar": "الاستقبال والتدبير المنزلي والخدمة", "de": "Rezeption, Housekeeping & Butler", "ru": "Ресепшн, горничные и батлеры" },
+
+  "feedback.send_button":    { "en": "Send to Management",     "ar": "إرسال إلى الإدارة",           "de": "An Management senden",       "ru": "Отправить руководству" },
+  "feedback.tap_stars":      { "en": "Tap to rate",            "ar": "اضغط للتقييم",                "de": "Zum Bewerten tippen",         "ru": "Нажмите для оценки" },
+  "feedback.low_rating_hint":{ "en": "We'd like to make this right", "ar": "نودّ تحسين هذه التجربة","de": "Wir möchten dies besser machen","ru": "Мы хотим исправить ситуацию" },
+  "feedback.no_rating":      { "en": "Please select a star rating first", "ar": "يرجى تحديد تقييم بالنجوم أولًا", "de": "Bitte zuerst eine Sternbewertung auswählen", "ru": "Пожалуйста, сначала выберите оценку" },
+  "feedback.form.stood_out": { "en": "What stood out? (optional)", "ar": "ما الذي تميّز؟ (اختياري)", "de": "Was ist aufgefallen? (optional)", "ru": "Что запомнилось? (по желанию)" },
+  "feedback.form.notes":     { "en": "Tell us more (optional)",  "ar": "أخبرونا أكثر (اختياري)",    "de": "Erzählen Sie uns mehr (optional)", "ru": "Расскажите подробнее (по желанию)" },
+
+  "feedback.smile_prompt":   { "en": "How was this?",          "ar": "كيف كانت التجربة؟",           "de": "Wie war das?",               "ru": "Как вам?" },
+  "feedback.smile_neg":      { "en": "Not great",              "ar": "ليس جيدًا",                   "de": "Nicht so gut",               "ru": "Не понравилось" },
+  "feedback.smile_neu":      { "en": "OK",                     "ar": "مقبول",                       "de": "OK",                         "ru": "Нормально" },
+  "feedback.smile_pos":      { "en": "Great!",                 "ar": "رائع!",                       "de": "Super!",                     "ru": "Отлично!" },
+
+  "feedback.tmpl.header":          { "en": "Old Palace — Guest Feedback",  "ar": "أولد بالاس — تقييم الضيف",        "de": "Old Palace — Gästebewertung",        "ru": "Old Palace — Отзыв гостя" },
+  "feedback.tmpl.category":        { "en": "Category",                     "ar": "الفئة",                           "de": "Kategorie",                          "ru": "Категория" },
+  "feedback.tmpl.rating":          { "en": "Rating",                       "ar": "التقييم",                         "de": "Bewertung",                          "ru": "Оценка" },
+  "feedback.tmpl.stood_out":       { "en": "Stood out",                    "ar": "ما تميّز",                        "de": "Aufgefallen",                        "ru": "Запомнилось" },
+  "feedback.tmpl.notes":           { "en": "Notes",                        "ar": "ملاحظات",                         "de": "Notizen",                            "ru": "Заметки" },
+  "feedback.tmpl.activity_header": { "en": "Old Palace — Activity Feedback","ar": "أولد بالاس — تقييم نشاط",        "de": "Old Palace — Aktivitätsbewertung",   "ru": "Old Palace — Отзыв о мероприятии" },
+  "feedback.tmpl.activity":        { "en": "Activity",                     "ar": "النشاط",                          "de": "Aktivität",                          "ru": "Мероприятие" },
+  "feedback.tmpl.reaction":        { "en": "Reaction",                     "ar": "التفاعل",                         "de": "Reaktion",                           "ru": "Реакция" }
 }

@@ -88,6 +88,9 @@
       <button class="tab-btn" data-tab="yourstay">
         <span class="tab-icon">🗝</span><span class="tab-label" data-i18n="tabs.yourstay">Your Stay</span>
       </button>
+      <button class="tab-btn" data-tab="feedback">
+        <span class="tab-icon">💬</span><span class="tab-label" data-i18n="tabs.feedback">Feedback</span>
+      </button>
     </nav>
 
     <main class="app-main">
@@ -497,6 +500,70 @@
               </div>
             </div>
 
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FEEDBACK TAB ── -->
+      <div id="tab-feedback" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="feedback.title">Guest Feedback</h2>
+            <p class="section-sub" data-i18n="feedback.sub">Your experience matters to us</p>
+          </div>
+          <div class="feedback-trust-card">
+            <div class="feedback-trust-icon">💌</div>
+            <p class="feedback-trust-text" data-i18n="feedback.trust">We read every message. The General Manager personally reviews all feedback daily.</p>
+          </div>
+          <div class="feedback-grid" id="feedback-grid">
+            <button class="feedback-cat-card feedback-cat-featured" data-cat="room" type="button">
+              <div class="feedback-cat-icon">🛏</div>
+              <div class="feedback-cat-body">
+                <div class="feedback-cat-title" data-i18n="feedback.cat.room.title">Room</div>
+                <div class="feedback-cat-sub" data-i18n="feedback.cat.room.sub">Cleanliness, comfort &amp; amenities</div>
+              </div>
+              <span class="feedback-cat-arrow">›</span>
+            </button>
+            <button class="feedback-cat-card" data-cat="food" type="button">
+              <div class="feedback-cat-icon">🍽</div>
+              <div class="feedback-cat-body">
+                <div class="feedback-cat-title" data-i18n="feedback.cat.food.title">Food &amp; Beverage</div>
+                <div class="feedback-cat-sub" data-i18n="feedback.cat.food.sub">Buffet, à la carte &amp; bars</div>
+              </div>
+              <span class="feedback-cat-arrow">›</span>
+            </button>
+            <button class="feedback-cat-card" data-cat="pool" type="button">
+              <div class="feedback-cat-icon">🏖</div>
+              <div class="feedback-cat-body">
+                <div class="feedback-cat-title" data-i18n="feedback.cat.pool.title">Pool &amp; Beach</div>
+                <div class="feedback-cat-sub" data-i18n="feedback.cat.pool.sub">Sunbeds, towels &amp; water quality</div>
+              </div>
+              <span class="feedback-cat-arrow">›</span>
+            </button>
+            <button class="feedback-cat-card" data-cat="spa" type="button">
+              <div class="feedback-cat-icon">💆</div>
+              <div class="feedback-cat-body">
+                <div class="feedback-cat-title" data-i18n="feedback.cat.spa.title">Spa &amp; Wellness</div>
+                <div class="feedback-cat-sub" data-i18n="feedback.cat.spa.sub">Treatments &amp; staff</div>
+              </div>
+              <span class="feedback-cat-arrow">›</span>
+            </button>
+            <button class="feedback-cat-card" data-cat="activities" type="button">
+              <div class="feedback-cat-icon">🎭</div>
+              <div class="feedback-cat-body">
+                <div class="feedback-cat-title" data-i18n="feedback.cat.activities.title">Activities &amp; Shows</div>
+                <div class="feedback-cat-sub" data-i18n="feedback.cat.activities.sub">Animation team &amp; evening shows</div>
+              </div>
+              <span class="feedback-cat-arrow">›</span>
+            </button>
+            <button class="feedback-cat-card" data-cat="staff" type="button">
+              <div class="feedback-cat-icon">✨</div>
+              <div class="feedback-cat-body">
+                <div class="feedback-cat-title" data-i18n="feedback.cat.staff.title">Staff &amp; Service</div>
+                <div class="feedback-cat-sub" data-i18n="feedback.cat.staff.sub">Reception, housekeeping &amp; butlers</div>
+              </div>
+              <span class="feedback-cat-arrow">›</span>
+            </button>
           </div>
         </div>
       </div>
