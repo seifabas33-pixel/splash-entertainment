@@ -1657,3 +1657,116 @@ html[dir="rtl"] .countdown-ribbon { direction: rtl; }
   .suggestion-action-primary { font-size: 0.75rem; padding: 0.3rem 0.6rem; }
   .countdown-ribbon { font-size: 0.85rem; padding: 0.5rem 0.85rem; }
 }
+
+/* ── Happening Now ──────────────────────────────────────────────────────────── */
+
+.happening-now {
+  max-width: 1180px;
+  margin: 1rem auto 0;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Live now row */
+.hn-live {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: #f4e4b8;
+  font-size: 0.92rem;
+}
+.hn-live-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #d4af37;
+  flex-shrink: 0;
+  animation: dotPulse 1.8s ease infinite;
+}
+.hn-live-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+.hn-live-icon { font-size: 1.1rem; flex-shrink: 0; }
+.hn-live-title { font-weight: 600; flex: 1; }
+.hn-live-loc { color: rgba(244, 228, 184, 0.7); font-size: 0.84rem; flex-shrink: 0; }
+
+/* Coming up chips */
+.hn-coming-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.hn-coming-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  flex: 1;
+  min-width: 130px;
+}
+.hn-chip-icon { font-size: 1rem; flex-shrink: 0; }
+.hn-chip-body { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.hn-chip-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #f4e4b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hn-chip-time {
+  font-size: 0.72rem;
+  color: rgba(212, 175, 55, 0.9);
+  font-weight: 600;
+}
+
+/* Show countdown */
+.hn-show-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.84rem;
+  color: rgba(244, 228, 184, 0.8);
+}
+.hn-show-icon { font-size: 1rem; flex-shrink: 0; }
+.hn-show-label { font-weight: 600; color: rgba(244, 228, 184, 0.65); flex-shrink: 0; }
+.hn-show-title { flex: 1; color: #f4e4b8; font-weight: 500; }
+.hn-show-countdown {
+  color: #d4af37;
+  font-weight: 700;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+
+/* RTL */
+html[dir="rtl"] .hn-live { flex-direction: row-reverse; }
+html[dir="rtl"] .hn-show-row { flex-direction: row-reverse; }
+html[dir="rtl"] .hn-live-loc { text-align: right; }
+
+@media (max-width: 640px) {
+  .happening-now { padding: 0 1rem; }
+  .hn-live { font-size: 0.87rem; }
+  .hn-live-loc { display: none; }
+  .hn-coming-chip { min-width: 120px; }
+}

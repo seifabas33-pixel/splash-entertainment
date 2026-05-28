@@ -540,5 +540,11 @@
 
   "stay.sugg.gazebo":         { "en": "Dinner at The Gazebo",                                 "ar": "العشاء في ذا غازيبو",                                                  "de": "Abendessen im The Gazebo",                                        "ru": "Ужин в The Gazebo" },
   "stay.sugg.cucina":         { "en": "Dinner at La Cucina",                                  "ar": "العشاء في لا كوتشينا",                                                "de": "Abendessen im La Cucina",                                          "ru": "Ужин в La Cucina" },
+  "hn.now":           { "en": "Now",             "ar": "الآن",               "de": "Jetzt",            "ru": "Сейчас" },
+  "hn.in_mins":       { "en": "in {n} min",      "ar": "بعد {n} دقيقة",      "de": "in {n} Min.",       "ru": "через {n} мин." },
+  "hn.in_hours":      { "en": "in {h}h",          "ar": "بعد {h} ساعة",       "de": "in {h} Std.",       "ru": "через {h} ч." },
+  "hn.in_hm":         { "en": "in {h}h {m}m",     "ar": "بعد {h}س {m}د",      "de": "in {h}h {m}m",      "ru": "через {h}ч {m}м" },
+  "hn.show_label":    { "en": "Tonight:",          "ar": "الليلة:",             "de": "Heute Abend:",      "ru": "Сегодня вечером:" },
+
   "stay.sugg.spa":            { "en": "Treat yourself at the Spa",                            "ar": "دلّل نفسك في السبا",                                                  "de": "Gönnen Sie sich einen Spa-Besuch",                                "ru": "Побалуйте себя в спа" }
 }
