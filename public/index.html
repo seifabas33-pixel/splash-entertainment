@@ -478,6 +478,56 @@
       <div id="tab-admin" class="tab-panel hidden"></div>
 
     </main>
+
+    <!-- ── Quick Contact ── -->
+    <button class="quick-contact-fab" id="qc-fab" aria-label="Contact Reception" title="Contact Reception">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.58a1 1 0 0 1-.25 1.01l-2.2 2.2Z"/>
+      </svg>
+    </button>
+
+    <div class="quick-contact-sheet hidden" id="qc-sheet" role="dialog" aria-modal="true" aria-labelledby="qc-title">
+      <div class="qc-backdrop" id="qc-backdrop"></div>
+      <div class="qc-sheet-inner">
+        <div class="qc-head">
+          <span id="qc-title">Contact Reception</span>
+          <button class="qc-close" id="qc-close" aria-label="Close">&times;</button>
+        </div>
+
+        <a class="qc-action qc-whatsapp" href="https://wa.me/201283110400?text=Hello%20from%20Old%20Palace%20Resort" target="_blank" rel="noopener">
+          <span class="qc-action-icon">💬</span>
+          <span class="qc-action-body">
+            <span class="qc-action-title">WhatsApp</span>
+            <span class="qc-action-sub">Message reception instantly</span>
+          </span>
+        </a>
+
+        <a class="qc-action" href="tel:+201283110400">
+          <span class="qc-action-icon">📞</span>
+          <span class="qc-action-body">
+            <span class="qc-action-title">Call Reception</span>
+            <span class="qc-action-sub">+20 128 311 0400</span>
+          </span>
+        </a>
+
+        <a class="qc-action" href="mailto:info@oldpalaceresort.com">
+          <span class="qc-action-icon">✉</span>
+          <span class="qc-action-body">
+            <span class="qc-action-title">Email Reception</span>
+            <span class="qc-action-sub">info@oldpalaceresort.com</span>
+          </span>
+        </a>
+
+        <div class="qc-divider"></div>
+        <div class="qc-ext-title">From your room phone</div>
+        <div class="qc-ext-grid">
+          <div class="qc-ext"><span>Front Desk</span><strong>0</strong></div>
+          <div class="qc-ext"><span>Room Service</span><strong>7</strong></div>
+          <div class="qc-ext"><span>Spa Bookings</span><strong>8</strong></div>
+          <div class="qc-ext qc-ext-urgent"><span>Emergency</span><strong>9</strong></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>

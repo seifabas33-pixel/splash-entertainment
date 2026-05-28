@@ -242,6 +242,8 @@ function initTabs() {
       const panel = document.getElementById('tab-' + target);
       panel.classList.remove('hidden');
       panel.classList.add('active');
+      const fab = document.getElementById('qc-fab');
+      if (fab) fab.classList.remove('hidden');
       if (target === 'myday') renderMyDay();
     });
   });
@@ -468,6 +470,7 @@ function buildApp() {
   renderDay(todayDow, true);
   updateMydayBadge();
   initReminders();
+  initQuickContact();
 
   if (location.hash === '#myday') {
     const tab = document.querySelector('.tab-btn[data-tab="myday"]');
@@ -754,6 +757,8 @@ function openAdmin() {
   document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
   panel.classList.remove('hidden');
   panel.classList.add('active');
+  const fab = document.getElementById('qc-fab');
+  if (fab) fab.classList.add('hidden');
   adminDraft = snapshotProgramme();
   renderAdmin();
 }
@@ -947,3 +952,22 @@ function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 }
 function escapeAttr(s) { return escapeHtml(s); }
+
+// ── Quick Contact (FAB + sheet) ────────────────────────────────────────────────
+function initQuickContact() {
+  const fab      = document.getElementById('qc-fab');
+  const sheet    = document.getElementById('qc-sheet');
+  const closeBtn = document.getElementById('qc-close');
+  const backdrop = document.getElementById('qc-backdrop');
+  if (!fab || !sheet || !closeBtn || !backdrop) return;
+
+  const open  = () => { sheet.classList.remove('hidden'); sheet.setAttribute('aria-hidden', 'false'); };
+  const close = () => { sheet.classList.add('hidden');    sheet.setAttribute('aria-hidden', 'true');  };
+
+  fab.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !sheet.classList.contains('hidden')) close();
+  });
+}
