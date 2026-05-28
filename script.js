@@ -182,30 +182,74 @@ function goHome() {
 document.getElementById('back-home-btn').addEventListener('click', goHome);
 
 let activeFilter = 'All';
+let selectedDow  = new Date().getDay();
+let currentActs  = [];
 
 function buildApp() {
-  const now  = new Date();
-  const dow  = now.getDay();
-  const acts = getSchedule(dow);
-  const show = EVENING_SHOWS[dow];
+  const now      = new Date();
+  const todayDow = now.getDay();
+  selectedDow = todayDow;
+  activeFilter = 'All';
 
   initTabs();
   document.getElementById('app-date-line').textContent = fmtDate(now).toUpperCase();
 
-  // Happening Now
-  const current = acts.find(a => isNow(a, now));
-  const banner  = document.getElementById('now-banner');
+  buildDaySelector(now);
+  renderDay(todayDow, true);
+}
+
+function buildDaySelector(now) {
+  const todayDow = now.getDay();
+  const sel = document.getElementById('day-selector');
+  sel.innerHTML = '';
+
+  for (let offset = 0; offset < 7; offset++) {
+    const d   = new Date(now);
+    d.setDate(now.getDate() + offset);
+    const dow     = d.getDay();
+    const isToday = offset === 0;
+
+    const pill = document.createElement('button');
+    pill.className = 'day-pill' + (isToday ? ' active' : '');
+    pill.innerHTML = `
+      ${isToday ? '<span class="day-today-badge">Today</span>' : ''}
+      <span class="day-name">${DAYS[dow].slice(0, 3).toUpperCase()}</span>
+      <span class="day-num">${d.getDate()}</span>
+    `;
+    pill.addEventListener('click', () => {
+      selectedDow  = dow;
+      activeFilter = 'All';
+      sel.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      renderDay(dow, dow === todayDow && offset === 0);
+    });
+    sel.appendChild(pill);
+  }
+}
+
+function renderDay(dow, isToday) {
+  const now  = new Date();
+  const acts = getSchedule(dow);
+  const show = EVENING_SHOWS[dow];
+  currentActs = acts;
+
+  // Happening Now — only meaningful for today
+  const banner = document.getElementById('now-banner');
+  const current = isToday ? acts.find(a => isNow(a, now)) : null;
   if (current) {
     banner.classList.remove('hidden');
     banner.innerHTML = `<div class="now-dot"></div><span><strong>Happening Now</strong> &nbsp;—&nbsp; ${current.icon} ${current.title}, ${current.location}</span>`;
+  } else {
+    banner.classList.add('hidden');
+    banner.innerHTML = '';
   }
 
-  // Tonight's Show card
+  // Evening Show card
   document.getElementById('show-section').innerHTML = `
     <div class="show-card">
       <div class="show-icon">🎭</div>
       <div>
-        <div class="show-badge">Tonight's Show</div>
+        <div class="show-badge">${isToday ? "Tonight's Show" : 'Evening Show'}</div>
         <div class="show-title">${show.title}</div>
         <div class="show-meta">📍 ${show.venue} &nbsp;&nbsp;·&nbsp;&nbsp; 🕐 ${show.time}</div>
         <div class="show-desc">${show.desc}</div>
@@ -225,27 +269,27 @@ function buildApp() {
       activeFilter = cat;
       filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderGrid(acts, now);
+      renderGrid(currentActs, now, isToday);
     });
     filterBar.appendChild(btn);
   });
 
-  renderGrid(acts, now);
+  renderGrid(acts, now, isToday);
 }
 
-function renderGrid(acts, now) {
+function renderGrid(acts, now, isToday) {
   const grid     = document.getElementById('activity-grid');
   const filtered = activeFilter === 'All' ? acts : acts.filter(a => a.cat === activeFilter);
   grid.innerHTML  = '';
 
   if (!filtered.length) {
-    grid.innerHTML = '<p style="color:var(--faint);padding:0.5rem 0;font-size:0.85rem;letter-spacing:0.06em">No activities in this category today.</p>';
+    grid.innerHTML = '<p style="color:var(--faint);padding:0.5rem 0;font-size:0.85rem;letter-spacing:0.06em">No activities in this category on this day.</p>';
     return;
   }
 
   filtered.forEach((act, i) => {
     const style  = CAT_STYLE[act.cat] || { color: '#aaa' };
-    const isNowAct = isNow(act, now);
+    const isNowAct = isToday && isNow(act, now);
     const card   = document.createElement('article');
     card.className = 'a-card' + (isNowAct ? ' now-card' : '');
     card.style.animationDelay = `${i * 0.045}s`;
