@@ -1229,7 +1229,7 @@ function initQuickContact() {
 }
 
 // ── Concierge (one-tap service requests) ──────────────────────────────────────
-const WA_NUMBER = '201283110400';
+const WA_NUMBER = '201001570273';
 const ROOM_KEY  = 'oldpalace_room';
 
 const SPA_TREATMENTS = ['massage', 'facial', 'bodywrap', 'couples', 'hammam'];
@@ -1448,7 +1448,7 @@ function sendRequest(req, values) {
 // ── Feedback & Ratings ───────────────────────────────────────────────────────
 
 // Same as WA_NUMBER for now — swap with management-only WhatsApp number when available.
-const WA_MANAGEMENT = '201283110400';
+const WA_MANAGEMENT = '201001570273';
 const FB_SENT_PREFIX = 'fb_react_';
 
 const FEEDBACK_CATEGORIES = [
