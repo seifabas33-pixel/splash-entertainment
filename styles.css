@@ -872,3 +872,18 @@ body {
 @media (max-width: 640px) {
   .admin-form { grid-template-columns: 1fr; }
 }
+
+/* Staff sign-in link on entrance */
+.e-staff-link {
+  position: absolute; bottom: 1.2rem; right: 1.4rem; z-index: 4;
+  background: transparent; border: 1px solid rgba(201,168,76,0.28);
+  color: rgba(232,213,163,0.65);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.58rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  padding: 0.45rem 0.85rem; border-radius: 2px; cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: color 0.25s, border-color 0.25s, opacity 0.25s;
+}
+.e-staff-link:hover {
+  color: var(--gold); border-color: rgba(201,168,76,0.6);
+}

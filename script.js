@@ -189,6 +189,26 @@ function fmtDate(now) {
     return;
   }
 
+  // Staff sign-in: passcode prompt on entrance, then jump straight to admin.
+  document.getElementById('staff-link').addEventListener('click', () => {
+    const code = prompt('Staff passcode:');
+    if (code !== ADMIN_PASSCODE) {
+      if (code !== null) alert('Wrong passcode.');
+      return;
+    }
+    sessionStorage.setItem(ADMIN_SESSION, 'true');
+    const el = document.getElementById('entrance');
+    el.style.transition = 'opacity 0.5s ease';
+    el.style.opacity = '0';
+    setTimeout(() => {
+      el.style.display = 'none';
+      const app = document.getElementById('app');
+      app.classList.remove('hidden');
+      buildApp();
+      openAdmin();
+    }, 520);
+  });
+
   // ── Exit: use JS transitions (more reliable than CSS class animations) ──
   document.getElementById('enter-btn').addEventListener('click', () => {
     const el = document.getElementById('entrance');
