@@ -120,6 +120,8 @@ function setLang(lang) {
   document.querySelectorAll('#lang-picker .lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
+  if (typeof paintCountdownRibbon === 'function') paintCountdownRibbon();
+  if (typeof paintWelcomeCard === 'function') paintWelcomeCard();
 }
 
 async function loadI18n() {
@@ -558,11 +560,14 @@ function buildApp() {
   initTabs();
   document.getElementById('app-date-line').textContent = fmtDate(now).toUpperCase();
 
+  sweepIfPastCheckout();
   buildDaySelector(now);
   renderDay(todayDow, true);
   updateMydayBadge();
   initReminders();
   initQuickContact();
+  initStay();
+  paintCountdownRibbon();
 
   if (location.hash === '#myday') {
     const tab = document.querySelector('.tab-btn[data-tab="myday"]');
@@ -707,6 +712,8 @@ function renderMyDay() {
   const favs = getFavorites();
   container.innerHTML = '';
   repaintReminderHint();
+
+  renderBeforeYouLeave();
 
   if (favs.size === 0) {
     container.innerHTML = `
@@ -1334,6 +1341,9 @@ function sendRequest(req, values) {
   const msg = buildMessage(req, values);
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank', 'noopener');
+  // Auto-mark matching "Before You Leave" suggestion as tried
+  const triedMap = { gazebo: 'dining_gazebo', cucina: 'dining_cucina', spa: 'spa_visit' };
+  if (triedMap[req.id]) markTried(triedMap[req.id]);
 }
 
 // ── Feedback & Ratings ───────────────────────────────────────────────────────
@@ -1476,4 +1486,346 @@ function sendActivityReaction(dow, act, react) {
     '', `— ${t('concierge.tmpl.footer')}`,
   ];
   window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+}
+
+// ── Holiday Countdown & "Before You Leave" Suggestions ───────────────────────
+
+const CHECKOUT_KEY = 'oldpalace_checkout';
+const TRIED_KEY = 'oldpalace_tried';
+const DISMISS_KEY = 'oldpalace_countdown_dismissed';
+const SKIPPED_KEY = 'oldpalace_welcome_skipped';
+
+function todayYmd() {
+  const d = new Date();
+  return ymd(d);
+}
+
+function getCheckout() { return localStorage.getItem(CHECKOUT_KEY) || ''; }
+function setCheckout(v) {
+  if (v) localStorage.setItem(CHECKOUT_KEY, v);
+  else   localStorage.removeItem(CHECKOUT_KEY);
+}
+
+function getTried() {
+  try { return new Set(JSON.parse(localStorage.getItem(TRIED_KEY)) || []); }
+  catch { return new Set(); }
+}
+function saveTried(set) {
+  try { localStorage.setItem(TRIED_KEY, JSON.stringify([...set])); } catch {}
+}
+function markTried(id) {
+  const s = getTried(); s.add(id); saveTried(s);
+  renderBeforeYouLeave();
+}
+
+// Nights left = whole days from today's midnight to checkout midnight.
+function nightsLeft() {
+  const c = getCheckout();
+  if (!c) return null;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const out = new Date(c + 'T00:00:00');
+  const ms = out.getTime() - today.getTime();
+  return Math.round(ms / 86400000);
+}
+
+// Wipe guest state the morning after checkout so the next guest opens fresh.
+function sweepIfPastCheckout() {
+  const n = nightsLeft();
+  if (n === null) return;
+  if (n < 0) {
+    localStorage.removeItem(CHECKOUT_KEY);
+    localStorage.removeItem(TRIED_KEY);
+    localStorage.removeItem(DISMISS_KEY);
+    localStorage.removeItem(SKIPPED_KEY);
+    localStorage.removeItem(ROOM_KEY);
+    localStorage.removeItem(FAV_KEY);
+    // Clear smile-meter "already sent" flags
+    Object.keys(localStorage).filter(k => k.startsWith(FB_SENT_PREFIX)).forEach(k => localStorage.removeItem(k));
+  }
+}
+
+// ── Countdown ribbon ────────────────────────────────────────────────────────
+
+function paintCountdownRibbon() {
+  const el = document.getElementById('countdown-ribbon');
+  if (!el) return;
+  const n = nightsLeft();
+  if (n === null || n < 0) { el.classList.add('hidden'); el.innerHTML = ''; return; }
+
+  const dismissed = localStorage.getItem(DISMISS_KEY) === todayYmd();
+  if (dismissed) { el.classList.add('hidden'); el.innerHTML = ''; return; }
+
+  el.classList.remove('hidden');
+  el.classList.toggle('countdown-farewell', n === 0);
+
+  if (n === 0) {
+    el.innerHTML = `
+      <span class="countdown-text">${t('stay.ribbon.last_day')}</span>
+      <button type="button" class="countdown-review-btn" id="countdown-review-btn">${t('stay.ribbon.leave_review')}</button>
+      <button type="button" class="countdown-dismiss" id="countdown-dismiss" aria-label="${t('stay.ribbon.dismiss')}">×</button>
+    `;
+    document.getElementById('countdown-review-btn').addEventListener('click', () => {
+      const tab = document.querySelector('.tab-btn[data-tab="feedback"]');
+      if (tab) tab.click();
+    });
+  } else {
+    const key = n >= 5 ? 'stay.ribbon.welcome' : 'stay.ribbon.days_left';
+    el.innerHTML = `
+      <span class="countdown-text">${t(key).replace('{n}', n)}</span>
+      <button type="button" class="countdown-dismiss" id="countdown-dismiss" aria-label="${t('stay.ribbon.dismiss')}">×</button>
+    `;
+  }
+  const dismissBtn = document.getElementById('countdown-dismiss');
+  if (dismissBtn) dismissBtn.addEventListener('click', () => {
+    localStorage.setItem(DISMISS_KEY, todayYmd());
+    paintCountdownRibbon();
+  });
+}
+
+// ── Welcome card (one-time checkout date prompt) ────────────────────────────
+
+function paintWelcomeCard() {
+  const card = document.getElementById('welcome-card');
+  if (!card) return;
+  const skipped = localStorage.getItem(SKIPPED_KEY) === '1';
+  const hasCheckout = !!getCheckout();
+  if (hasCheckout || skipped) { card.classList.add('hidden'); return; }
+  card.classList.remove('hidden');
+  applyI18n(card);
+  const input = document.getElementById('welcome-checkout-input');
+  if (input && !input.value) {
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 5);
+    input.min = todayYmd();
+    input.value = ymd(tomorrow);
+  }
+}
+
+function initStay() {
+  paintWelcomeCard();
+  const saveBtn = document.getElementById('welcome-checkout-save');
+  const skipBtn = document.getElementById('welcome-checkout-skip');
+  const input = document.getElementById('welcome-checkout-input');
+  if (saveBtn && !saveBtn.dataset.bound) {
+    saveBtn.dataset.bound = '1';
+    saveBtn.addEventListener('click', () => {
+      const v = (input && input.value || '').trim();
+      if (!v) return;
+      setCheckout(v);
+      paintWelcomeCard();
+      paintCountdownRibbon();
+      renderBeforeYouLeave();
+    });
+  }
+  if (skipBtn && !skipBtn.dataset.bound) {
+    skipBtn.dataset.bound = '1';
+    skipBtn.addEventListener('click', () => {
+      localStorage.setItem(SKIPPED_KEY, '1');
+      paintWelcomeCard();
+    });
+  }
+}
+
+// ── Suggestion engine ───────────────────────────────────────────────────────
+
+const DINING_VENUES = [
+  { id: 'dining_gazebo', icon: '🕯', nameKey: 'stay.sugg.gazebo',  reqId: 'gazebo' },
+  { id: 'dining_cucina', icon: '🍝', nameKey: 'stay.sugg.cucina',  reqId: 'cucina' },
+];
+const SPA_SUGG = { id: 'spa_visit', icon: '💆', nameKey: 'stay.sugg.spa', reqId: 'spa' };
+
+function uniqueAfternoonClassesAhead(daysAhead) {
+  // Returns list of { dow, act, chancesLeft } for distinct titles in the next N days.
+  const seen = new Map();
+  for (let i = 0; i <= daysAhead; i++) {
+    const d = new Date(); d.setDate(d.getDate() + i);
+    const dow = d.getDay();
+    const act = AFTERNOON_CLASS[dow];
+    if (!act) continue;
+    const k = titleKey(act);
+    if (!seen.has(k)) seen.set(k, { dow, act, dates: [] });
+    seen.get(k).dates.push(new Date(d));
+  }
+  return [...seen.values()].map(v => ({ dow: v.dow, act: v.act, chancesLeft: v.dates.length }));
+}
+
+function uniqueEveningShowsAhead(daysAhead) {
+  const seen = new Map();
+  for (let i = 0; i <= daysAhead; i++) {
+    const d = new Date(); d.setDate(d.getDate() + i);
+    const dow = d.getDay();
+    const show = EVENING_SHOWS[dow];
+    if (!show) continue;
+    const k = typeof show.title === 'object' ? (show.title.en || '') : show.title;
+    if (!seen.has(k)) seen.set(k, { dow, show, count: 0 });
+    seen.get(k).count++;
+  }
+  return [...seen.values()].map(v => ({ dow: v.dow, show: v.show, chancesLeft: v.count }));
+}
+
+function computeSuggestions() {
+  const n = nightsLeft();
+  if (n === null || n < 0) return [];
+  const daysAhead = Math.min(n, 6);
+  const tried = getTried();
+  const favs = getFavorites();
+  const out = [];
+
+  // 1. Evening shows not favorited
+  uniqueEveningShowsAhead(daysAhead).forEach(({ dow, show, chancesLeft }) => {
+    const id = `show_${dow}`;
+    if (tried.has(id)) return;
+    // Check if favorited any of the upcoming instances
+    const showActKey = (() => {
+      const t = typeof show.title === 'object' ? (show.title.en || '') : show.title;
+      return t;
+    })();
+    let favored = false;
+    for (let i = 0; i <= daysAhead; i++) {
+      const d = new Date(); d.setDate(d.getDate() + i);
+      const ddow = d.getDay();
+      if (ddow !== dow) continue;
+      const sched = getSchedule(ddow);
+      const showAct = sched.find(a => a.cat === 'Evening' && titleKey(a) === showActKey);
+      if (showAct && favs.has(favKey(ddow, showAct))) { favored = true; break; }
+    }
+    if (favored) return;
+    out.push({
+      id, type: 'show', icon: '🎭', chancesLeft,
+      title: pickLang(show.title),
+      reason: chancesLeft === 1 ? t('stay.reason.one_chance') : t('stay.reason.n_chances').replace('{n}', chancesLeft),
+      actionKey: 'stay.action.show_in_programme',
+      onAction: () => {
+        const tab = document.querySelector('.tab-btn[data-tab="programme"]');
+        if (tab) tab.click();
+        selectedDow = dow;
+        renderDay(dow, dow === new Date().getDay());
+      },
+    });
+  });
+
+  // 2. Unique afternoon classes not favorited
+  uniqueAfternoonClassesAhead(daysAhead).forEach(({ dow, act, chancesLeft }) => {
+    const id = `class_${titleKey(act)}`;
+    if (tried.has(id)) return;
+    if (favs.has(favKey(dow, act))) return;
+    out.push({
+      id, type: 'class', icon: act.icon || '✨', chancesLeft,
+      title: pickLang(act.title),
+      reason: chancesLeft === 1 ? t('stay.reason.one_chance') : t('stay.reason.n_chances').replace('{n}', chancesLeft),
+      actionKey: 'stay.action.show_in_programme',
+      onAction: () => {
+        const tab = document.querySelector('.tab-btn[data-tab="programme"]');
+        if (tab) tab.click();
+        selectedDow = dow;
+        renderDay(dow, dow === new Date().getDay());
+      },
+    });
+  });
+
+  // 3. Dining venues not yet booked
+  DINING_VENUES.forEach(v => {
+    if (tried.has(v.id)) return;
+    out.push({
+      id: v.id, type: 'dining', icon: v.icon, chancesLeft: 99,
+      title: t(v.nameKey),
+      reason: t('stay.reason.not_tried'),
+      actionKey: 'stay.action.book_concierge',
+      onAction: () => {
+        const tab = document.querySelector('.tab-btn[data-tab="concierge"]');
+        if (tab) tab.click();
+        const req = REQUESTS.find(r => r.id === v.reqId);
+        if (req) setTimeout(() => openRequestForm(req), 80);
+      },
+    });
+  });
+
+  // 4. Spa
+  if (!tried.has(SPA_SUGG.id)) {
+    out.push({
+      id: SPA_SUGG.id, type: 'spa', icon: SPA_SUGG.icon, chancesLeft: 99,
+      title: t(SPA_SUGG.nameKey),
+      reason: t('stay.reason.not_tried'),
+      actionKey: 'stay.action.book_concierge',
+      onAction: () => {
+        const tab = document.querySelector('.tab-btn[data-tab="concierge"]');
+        if (tab) tab.click();
+        const req = REQUESTS.find(r => r.id === SPA_SUGG.reqId);
+        if (req) setTimeout(() => openRequestForm(req), 80);
+      },
+    });
+  }
+
+  // Rank: scarcity first (1 chance left → top), then category order (already arranged).
+  out.sort((a, b) => a.chancesLeft - b.chancesLeft);
+  return out.slice(0, 6);
+}
+
+// ── "Before You Leave" section ──────────────────────────────────────────────
+
+function renderBeforeYouLeave() {
+  const wrap = document.getElementById('before-you-leave');
+  if (!wrap) return;
+  const n = nightsLeft();
+  if (n === null || n < 0) { wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
+
+  // Last day → farewell variant
+  if (n === 0) {
+    wrap.classList.remove('hidden');
+    wrap.innerHTML = `
+      <div class="byl-head">
+        <h3 class="byl-title">${t('stay.farewell_title')}</h3>
+      </div>
+      <button type="button" class="suggestion-card byl-farewell-card" id="byl-farewell">
+        <span class="suggestion-icon">💌</span>
+        <span class="suggestion-body">
+          <span class="suggestion-title">${t('stay.farewell_card_title')}</span>
+          <span class="suggestion-reason">${t('stay.farewell_card_sub')}</span>
+        </span>
+        <span class="suggestion-arrow">›</span>
+      </button>
+    `;
+    const btn = document.getElementById('byl-farewell');
+    if (btn) btn.addEventListener('click', () => {
+      const tab = document.querySelector('.tab-btn[data-tab="feedback"]');
+      if (tab) tab.click();
+    });
+    return;
+  }
+
+  if (n > 5) { wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
+
+  const suggestions = computeSuggestions();
+  if (!suggestions.length) { wrap.classList.add('hidden'); wrap.innerHTML = ''; return; }
+
+  wrap.classList.remove('hidden');
+  const subText = n === 1 ? t('stay.byl_sub_one') : t('stay.byl_sub_n').replace('{n}', n);
+  wrap.innerHTML = `
+    <div class="byl-head">
+      <h3 class="byl-title">🧳 ${t('stay.byl_title')}</h3>
+      <p class="byl-sub">${subText}</p>
+    </div>
+    <div class="byl-list"></div>
+  `;
+  const list = wrap.querySelector('.byl-list');
+  suggestions.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'suggestion-card';
+    const scarcity = s.chancesLeft === 1
+      ? `<span class="suggestion-scarcity">${t('stay.scarcity.one')}</span>`
+      : '';
+    card.innerHTML = `
+      <span class="suggestion-icon">${s.icon}</span>
+      <span class="suggestion-body">
+        <span class="suggestion-title">${s.title} ${scarcity}</span>
+        <span class="suggestion-reason">${s.reason}</span>
+      </span>
+      <span class="suggestion-actions">
+        <button type="button" class="suggestion-action-primary">${t(s.actionKey)}</button>
+        <button type="button" class="suggestion-done" aria-label="${t('stay.mark_done')}" title="${t('stay.mark_done')}">✓</button>
+      </span>
+    `;
+    card.querySelector('.suggestion-action-primary').addEventListener('click', s.onAction);
+    card.querySelector('.suggestion-done').addEventListener('click', () => markTried(s.id));
+    list.appendChild(card);
+  });
 }

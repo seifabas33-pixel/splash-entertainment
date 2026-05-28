@@ -68,6 +68,9 @@
       </button>
     </header>
 
+    <!-- Countdown ribbon (hidden until checkout date is set) -->
+    <div id="countdown-ribbon" class="countdown-ribbon hidden" role="status" aria-live="polite"></div>
+
     <!-- Tab Navigation -->
     <nav class="tab-nav">
       <button class="tab-btn active" data-tab="programme">
@@ -98,6 +101,18 @@
       <!-- ── PROGRAMME TAB ── -->
       <div id="tab-programme" class="tab-panel active">
         <div class="content-wrap">
+          <div id="welcome-card" class="welcome-card hidden">
+            <div class="welcome-card-head">
+              <span class="welcome-card-emoji">👋</span>
+              <span class="welcome-card-title" data-i18n="stay.welcome_title">Welcome to Old Palace</span>
+            </div>
+            <p class="welcome-card-sub" data-i18n="stay.welcome_sub">When are you checking out? (optional — lets us suggest things to try before you go)</p>
+            <div class="welcome-card-row">
+              <input type="date" id="welcome-checkout-input" class="welcome-card-input" />
+              <button type="button" id="welcome-checkout-save" class="welcome-card-save" data-i18n="stay.welcome_save">Save</button>
+              <button type="button" id="welcome-checkout-skip" class="welcome-card-skip" data-i18n="stay.welcome_skip">Skip</button>
+            </div>
+          </div>
           <div id="day-selector" class="day-selector"></div>
         </div>
         <div id="now-banner" class="now-banner hidden"></div>
@@ -124,6 +139,7 @@
             </button>
             <span class="reminder-hint" id="reminder-hint"></span>
           </div>
+          <div id="before-you-leave" class="before-you-leave hidden"></div>
           <div id="myday-content"></div>
         </div>
       </div>
