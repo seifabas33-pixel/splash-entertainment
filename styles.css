@@ -119,7 +119,8 @@ body {
 }
 .e-splash-logo-img {
   height: clamp(80px, 12vw, 130px); width: auto;
-  filter: drop-shadow(0 2px 16px rgba(0,0,0,0.55));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 2px 16px rgba(0,0,0,0.3));
 }
 .e-logo-divider {
   width: 1px; height: 90px;
@@ -248,7 +249,8 @@ body {
 }
 .h-splash-img {
   height: 38px; width: auto;
-  filter: drop-shadow(0 1px 8px rgba(0,0,0,0.4));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,0.3));
 }
 .h-sep { width: 1px; height: 24px; background: var(--gold-dim); }
 
