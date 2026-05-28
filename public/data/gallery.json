@@ -6,37 +6,135 @@
       "id": "beach",
       "icon": "🏖",
       "titleKey": "gallery.cat.beach",
-      "photos": []
+      "photos": [
+        {
+          "src": "https://picsum.photos/seed/beach-sunrise/1200/800",
+          "caption": { "en": "Sunrise on the private beach", "ar": "شروق الشمس على الشاطئ الخاص", "de": "Sonnenaufgang am Privatstrand", "ru": "Рассвет на частном пляже" }
+        },
+        {
+          "src": "https://picsum.photos/seed/beach-loungers/1200/800",
+          "caption": { "en": "Beach loungers with Red Sea views", "ar": "كراسي استرخاء مع إطلالات على البحر الأحمر", "de": "Strandliegen mit Blick aufs Rote Meer", "ru": "Шезлонги с видом на Красное море" }
+        },
+        {
+          "src": "https://picsum.photos/seed/beach-sunset/1200/800",
+          "caption": { "en": "Golden hour at the shore", "ar": "الساعة الذهبية على الشاطئ", "de": "Goldene Stunde am Ufer", "ru": "Золотой час на берегу" }
+        },
+        {
+          "src": "https://picsum.photos/seed/beach-water/1200/800",
+          "caption": { "en": "Crystal clear waters of Sahl Hasheesh", "ar": "المياه الصافية لسهل حشيش", "de": "Kristallklares Wasser von Sahl Hasheesh", "ru": "Прозрачные воды Сахл-Хашиш" }
+        }
+      ]
     },
     {
       "id": "pools",
       "icon": "🏊",
       "titleKey": "gallery.cat.pools",
-      "photos": []
+      "photos": [
+        {
+          "src": "https://picsum.photos/seed/pool-main/1200/800",
+          "caption": { "en": "Main swimming pool", "ar": "حمام السباحة الرئيسي", "de": "Hauptschwimmbad", "ru": "Главный бассейн" }
+        },
+        {
+          "src": "https://picsum.photos/seed/pool-beach/1200/800",
+          "caption": { "en": "Beach pool at the water's edge", "ar": "حمام السباحة على حافة الماء", "de": "Strandpool am Wasserrand", "ru": "Пляжный бассейн у кромки воды" }
+        },
+        {
+          "src": "https://picsum.photos/seed/pool-kids/1200/800",
+          "caption": { "en": "Kids' splash zone", "ar": "منطقة رش الأطفال", "de": "Kinderbadezone", "ru": "Детский бассейн" }
+        },
+        {
+          "src": "https://picsum.photos/seed/pool-jacuzzi/1200/800",
+          "caption": { "en": "Outdoor jacuzzi", "ar": "الجاكوزي الخارجي", "de": "Außen-Jacuzzi", "ru": "Открытое джакузи" }
+        }
+      ]
     },
     {
       "id": "dining",
       "icon": "🍽",
       "titleKey": "gallery.cat.dining",
-      "photos": []
+      "photos": [
+        {
+          "src": "https://picsum.photos/seed/dining-alkasr/1200/800",
+          "caption": { "en": "Al Kasr — main restaurant buffet", "ar": "القصر — بوفيه المطعم الرئيسي", "de": "Al Kasr — Hauptrestaurant Buffet", "ru": "Аль-Каср — главный ресторан, шведский стол" }
+        },
+        {
+          "src": "https://picsum.photos/seed/dining-gazebo/1200/800",
+          "caption": { "en": "The Gazebo — beachside dining", "ar": "الغازيبو — مطعم على الشاطئ", "de": "The Gazebo — Essen am Strand", "ru": "Газебо — ресторан у пляжа" }
+        },
+        {
+          "src": "https://picsum.photos/seed/dining-cucina/1200/800",
+          "caption": { "en": "La Cucina — Italian à la carte", "ar": "لا كوتشينا — مطعم إيطالي", "de": "La Cucina — Italienische À-la-carte", "ru": "Ла Кучина — итальянский ресторан" }
+        },
+        {
+          "src": "https://picsum.photos/seed/dining-bar/1200/800",
+          "caption": { "en": "Pool bar — refreshments all day", "ar": "بار حمام السباحة — مرطبات طوال اليوم", "de": "Pool-Bar — ganztägige Erfrischungen", "ru": "Барная стойка у бассейна" }
+        }
+      ]
     },
     {
       "id": "rooms",
       "icon": "🛏",
       "titleKey": "gallery.cat.rooms",
-      "photos": []
+      "photos": [
+        {
+          "src": "https://picsum.photos/seed/room-deluxe/1200/800",
+          "caption": { "en": "Deluxe sea-view room", "ar": "غرفة ديلوكس مع إطلالة على البحر", "de": "Deluxe-Zimmer mit Meerblick", "ru": "Номер Делюкс с видом на море" }
+        },
+        {
+          "src": "https://picsum.photos/seed/room-suite/1200/800",
+          "caption": { "en": "Junior suite balcony", "ar": "شرفة الجناح الصغير", "de": "Junior-Suite-Balkon", "ru": "Балкон младшего люкса" }
+        },
+        {
+          "src": "https://picsum.photos/seed/room-bathroom/1200/800",
+          "caption": { "en": "Marble en-suite bathroom", "ar": "حمام رخامي خاص", "de": "Marmor-Badezimmer", "ru": "Мраморная ванная комната" }
+        },
+        {
+          "src": "https://picsum.photos/seed/room-standard/1200/800",
+          "caption": { "en": "Comfortable standard room", "ar": "غرفة قياسية مريحة", "de": "Komfortables Standardzimmer", "ru": "Уютный стандартный номер" }
+        }
+      ]
     },
     {
       "id": "spa",
       "icon": "💆",
       "titleKey": "gallery.cat.spa",
-      "photos": []
+      "photos": [
+        {
+          "src": "https://picsum.photos/seed/spa-treatment/1200/800",
+          "caption": { "en": "Signature massage treatment", "ar": "علاج التدليك المميز", "de": "Signature-Massage-Behandlung", "ru": "Фирменный массаж" }
+        },
+        {
+          "src": "https://picsum.photos/seed/spa-room/1200/800",
+          "caption": { "en": "Private treatment room", "ar": "غرفة علاج خاصة", "de": "Privates Behandlungszimmer", "ru": "Приватный кабинет для процедур" }
+        },
+        {
+          "src": "https://picsum.photos/seed/spa-sauna/1200/800",
+          "caption": { "en": "Sauna & steam room", "ar": "الساونا وغرفة البخار", "de": "Sauna & Dampfbad", "ru": "Сауна и паровая комната" }
+        }
+      ]
     },
     {
       "id": "grounds",
       "icon": "🌴",
       "titleKey": "gallery.cat.grounds",
-      "photos": []
+      "photos": [
+        {
+          "src": "https://picsum.photos/seed/grounds-lobby/1200/800",
+          "caption": { "en": "Grand lobby entrance", "ar": "مدخل الردهة الكبرى", "de": "Große Lobby-Eingang", "ru": "Парадный вход в лобби" }
+        },
+        {
+          "src": "https://picsum.photos/seed/grounds-gardens/1200/800",
+          "caption": { "en": "Tropical gardens", "ar": "الحدائق الاستوائية", "de": "Tropische Gärten", "ru": "Тропические сады" }
+        },
+        {
+          "src": "https://picsum.photos/seed/grounds-palms/1200/800",
+          "caption": { "en": "Palm-lined pathways", "ar": "ممرات مبطنة بأشجار النخيل", "de": "Von Palmen gesäumte Wege", "ru": "Аллеи с пальмами" }
+        },
+        {
+          "src": "https://picsum.photos/seed/grounds-fountain/1200/800",
+          "caption": { "en": "Courtyard fountain at dusk", "ar": "نافورة الفناء عند الغسق", "de": "Brunnen im Innenhof in der Dämmerung", "ru": "Фонтан во дворе в сумерках" }
+        }
+      ]
     }
   ]
 }
