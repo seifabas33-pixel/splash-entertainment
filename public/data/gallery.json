@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "_note": "Drop JPGs into public/assets/gallery/<category>/ and list filenames below. Captions support {en, ar, de, ru} objects or plain strings.",
   "categories": [
     {
@@ -8,20 +8,8 @@
       "titleKey": "gallery.cat.beach",
       "photos": [
         {
-          "src": "https://picsum.photos/seed/beach-sunrise/1200/800",
-          "caption": { "en": "Sunrise on the private beach", "ar": "شروق الشمس على الشاطئ الخاص", "de": "Sonnenaufgang am Privatstrand", "ru": "Рассвет на частном пляже" }
-        },
-        {
-          "src": "https://picsum.photos/seed/beach-loungers/1200/800",
-          "caption": { "en": "Beach loungers with Red Sea views", "ar": "كراسي استرخاء مع إطلالات على البحر الأحمر", "de": "Strandliegen mit Blick aufs Rote Meer", "ru": "Шезлонги с видом на Красное море" }
-        },
-        {
-          "src": "https://picsum.photos/seed/beach-sunset/1200/800",
-          "caption": { "en": "Golden hour at the shore", "ar": "الساعة الذهبية على الشاطئ", "de": "Goldene Stunde am Ufer", "ru": "Золотой час на берегу" }
-        },
-        {
-          "src": "https://picsum.photos/seed/beach-water/1200/800",
-          "caption": { "en": "Crystal clear waters of Sahl Hasheesh", "ar": "المياه الصافية لسهل حشيش", "de": "Kristallklares Wasser von Sahl Hasheesh", "ru": "Прозрачные воды Сахл-Хашиш" }
+          "src": "assets/gallery/beach/aerial-loungers.jpg",
+          "caption": { "en": "Crystal-clear waters, pure bliss", "ar": "مياه صافية كالكريستال، نقاء خالص", "de": "Kristallklares Wasser, pures Glück", "ru": "Кристально чистые воды, чистое блаженство" }
         }
       ]
     },
@@ -31,20 +19,12 @@
       "titleKey": "gallery.cat.pools",
       "photos": [
         {
-          "src": "https://picsum.photos/seed/pool-main/1200/800",
-          "caption": { "en": "Main swimming pool", "ar": "حمام السباحة الرئيسي", "de": "Hauptschwimmbad", "ru": "Главный бассейн" }
+          "src": "assets/gallery/pools/main-pool-sea-view.jpg",
+          "caption": { "en": "Main pool with Red Sea views", "ar": "حمام السباحة الرئيسي مع إطلالة على البحر الأحمر", "de": "Hauptpool mit Blick aufs Rote Meer", "ru": "Главный бассейн с видом на Красное море" }
         },
         {
-          "src": "https://picsum.photos/seed/pool-beach/1200/800",
-          "caption": { "en": "Beach pool at the water's edge", "ar": "حمام السباحة على حافة الماء", "de": "Strandpool am Wasserrand", "ru": "Пляжный бассейн у кромки воды" }
-        },
-        {
-          "src": "https://picsum.photos/seed/pool-kids/1200/800",
-          "caption": { "en": "Kids' splash zone", "ar": "منطقة رش الأطفال", "de": "Kinderbadezone", "ru": "Детский бассейн" }
-        },
-        {
-          "src": "https://picsum.photos/seed/pool-jacuzzi/1200/800",
-          "caption": { "en": "Outdoor jacuzzi", "ar": "الجاكوزي الخارجي", "de": "Außen-Jacuzzi", "ru": "Открытое джакузи" }
+          "src": "assets/gallery/pools/sunset-pool.jpg",
+          "caption": { "en": "Sunset over the poolside", "ar": "غروب الشمس على حافة حمام السباحة", "de": "Sonnenuntergang am Pool", "ru": "Закат у бассейна" }
         }
       ]
     },
@@ -54,20 +34,16 @@
       "titleKey": "gallery.cat.dining",
       "photos": [
         {
-          "src": "https://picsum.photos/seed/dining-alkasr/1200/800",
-          "caption": { "en": "Al Kasr — main restaurant buffet", "ar": "القصر — بوفيه المطعم الرئيسي", "de": "Al Kasr — Hauptrestaurant Buffet", "ru": "Аль-Каср — главный ресторан, шведский стол" }
+          "src": "assets/gallery/dining/moroccan-restaurant.jpg",
+          "caption": { "en": "Moroccan-themed restaurant", "ar": "مطعم بطابع مغربي", "de": "Restaurant im marokkanischen Stil", "ru": "Ресторан в марокканском стиле" }
         },
         {
-          "src": "https://picsum.photos/seed/dining-gazebo/1200/800",
-          "caption": { "en": "The Gazebo — beachside dining", "ar": "الغازيبو — مطعم على الشاطئ", "de": "The Gazebo — Essen am Strand", "ru": "Газебо — ресторан у пляжа" }
+          "src": "assets/gallery/dining/rustic-restaurant.jpg",
+          "caption": { "en": "Cozy rustic dining room", "ar": "غرفة طعام ريفية دافئة", "de": "Gemütlicher rustikaler Speisesaal", "ru": "Уютный ресторан в деревенском стиле" }
         },
         {
-          "src": "https://picsum.photos/seed/dining-cucina/1200/800",
-          "caption": { "en": "La Cucina — Italian à la carte", "ar": "لا كوتشينا — مطعم إيطالي", "de": "La Cucina — Italienische À-la-carte", "ru": "Ла Кучина — итальянский ресторан" }
-        },
-        {
-          "src": "https://picsum.photos/seed/dining-bar/1200/800",
-          "caption": { "en": "Pool bar — refreshments all day", "ar": "بار حمام السباحة — مرطبات طوال اليوم", "de": "Pool-Bar — ganztägige Erfrischungen", "ru": "Барная стойка у бассейна" }
+          "src": "assets/gallery/dining/fine-dining.jpg",
+          "caption": { "en": "Fine dining ambience", "ar": "أجواء المطعم الفاخر", "de": "Feines Restaurant-Ambiente", "ru": "Атмосфера изысканного ужина" }
         }
       ]
     },
@@ -75,24 +51,7 @@
       "id": "rooms",
       "icon": "🛏",
       "titleKey": "gallery.cat.rooms",
-      "photos": [
-        {
-          "src": "https://picsum.photos/seed/room-deluxe/1200/800",
-          "caption": { "en": "Deluxe sea-view room", "ar": "غرفة ديلوكس مع إطلالة على البحر", "de": "Deluxe-Zimmer mit Meerblick", "ru": "Номер Делюкс с видом на море" }
-        },
-        {
-          "src": "https://picsum.photos/seed/room-suite/1200/800",
-          "caption": { "en": "Junior suite balcony", "ar": "شرفة الجناح الصغير", "de": "Junior-Suite-Balkon", "ru": "Балкон младшего люкса" }
-        },
-        {
-          "src": "https://picsum.photos/seed/room-bathroom/1200/800",
-          "caption": { "en": "Marble en-suite bathroom", "ar": "حمام رخامي خاص", "de": "Marmor-Badezimmer", "ru": "Мраморная ванная комната" }
-        },
-        {
-          "src": "https://picsum.photos/seed/room-standard/1200/800",
-          "caption": { "en": "Comfortable standard room", "ar": "غرفة قياسية مريحة", "de": "Komfortables Standardzimmer", "ru": "Уютный стандартный номер" }
-        }
-      ]
+      "photos": []
     },
     {
       "id": "spa",
@@ -100,16 +59,8 @@
       "titleKey": "gallery.cat.spa",
       "photos": [
         {
-          "src": "https://picsum.photos/seed/spa-treatment/1200/800",
-          "caption": { "en": "Signature massage treatment", "ar": "علاج التدليك المميز", "de": "Signature-Massage-Behandlung", "ru": "Фирменный массаж" }
-        },
-        {
-          "src": "https://picsum.photos/seed/spa-room/1200/800",
-          "caption": { "en": "Private treatment room", "ar": "غرفة علاج خاصة", "de": "Privates Behandlungszimmer", "ru": "Приватный кабинет для процедур" }
-        },
-        {
-          "src": "https://picsum.photos/seed/spa-sauna/1200/800",
-          "caption": { "en": "Sauna & steam room", "ar": "الساونا وغرفة البخار", "de": "Sauna & Dampfbad", "ru": "Сауна и паровая комната" }
+          "src": "assets/gallery/spa/gym.jpg",
+          "caption": { "en": "Fully-equipped fitness centre", "ar": "مركز لياقة بدنية متكامل", "de": "Voll ausgestattetes Fitnesscenter", "ru": "Полностью оборудованный фитнес-центр" }
         }
       ]
     },
@@ -119,20 +70,28 @@
       "titleKey": "gallery.cat.grounds",
       "photos": [
         {
-          "src": "https://picsum.photos/seed/grounds-lobby/1200/800",
-          "caption": { "en": "Grand lobby entrance", "ar": "مدخل الردهة الكبرى", "de": "Große Lobby-Eingang", "ru": "Парадный вход в лобби" }
+          "src": "assets/gallery/grounds/main-entrance-dusk.jpg",
+          "caption": { "en": "Grand entrance at dusk", "ar": "المدخل الكبير عند الغسق", "de": "Haupteingang in der Dämmerung", "ru": "Парадный вход в сумерках" }
         },
         {
-          "src": "https://picsum.photos/seed/grounds-gardens/1200/800",
-          "caption": { "en": "Tropical gardens", "ar": "الحدائق الاستوائية", "de": "Tropische Gärten", "ru": "Тропические сады" }
+          "src": "assets/gallery/grounds/grand-lobby.jpg",
+          "caption": { "en": "Grand domed lobby", "ar": "ردهة الفندق ذات القبة الكبرى", "de": "Große Kuppellobby", "ru": "Парадное лобби с куполом" }
         },
         {
-          "src": "https://picsum.photos/seed/grounds-palms/1200/800",
-          "caption": { "en": "Palm-lined pathways", "ar": "ممرات مبطنة بأشجار النخيل", "de": "Von Palmen gesäumte Wege", "ru": "Аллеи с пальмами" }
+          "src": "assets/gallery/grounds/entrance-archway.jpg",
+          "caption": { "en": "Moroccan-style archway", "ar": "بوابة على الطراز المغربي", "de": "Torbogen im marokkanischen Stil", "ru": "Арка в марокканском стиле" }
         },
         {
-          "src": "https://picsum.photos/seed/grounds-fountain/1200/800",
-          "caption": { "en": "Courtyard fountain at dusk", "ar": "نافورة الفناء عند الغسق", "de": "Brunnen im Innenhof in der Dämmerung", "ru": "Фонтан во дворе в сумерках" }
+          "src": "assets/gallery/grounds/library-lounge.jpg",
+          "caption": { "en": "Library lounge", "ar": "صالة المكتبة", "de": "Bibliothek-Lounge", "ru": "Лаунж-библиотека" }
+        },
+        {
+          "src": "assets/gallery/grounds/library-guests.jpg",
+          "caption": { "en": "Relaxing with a drink in the library", "ar": "الاسترخاء مع مشروب في المكتبة", "de": "Entspannen mit einem Drink in der Bibliothek", "ru": "Отдых с напитком в библиотеке" }
+        },
+        {
+          "src": "assets/gallery/grounds/playground.jpg",
+          "caption": { "en": "Children's playground", "ar": "ملعب الأطفال", "de": "Kinderspielplatz", "ru": "Детская площадка" }
         }
       ]
     }
