@@ -335,6 +335,7 @@ function initTabs() {
       const fab = document.getElementById('qc-fab');
       if (fab) fab.classList.remove('hidden');
       if (target === 'myday') renderMyDay();
+      if (target === 'concierge') renderConcierge();
     });
   });
 }
@@ -1108,4 +1109,227 @@ function initQuickContact() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !sheet.classList.contains('hidden')) close();
   });
+
+  const openConcierge = document.getElementById('qc-open-concierge');
+  if (openConcierge) {
+    openConcierge.addEventListener('click', () => {
+      close();
+      const tab = document.querySelector('.tab-btn[data-tab="concierge"]');
+      if (tab) tab.click();
+    });
+  }
+}
+
+// ── Concierge (one-tap service requests) ──────────────────────────────────────
+const WA_NUMBER = '201283110400';
+const ROOM_KEY  = 'oldpalace_room';
+
+const SPA_TREATMENTS = ['massage', 'facial', 'bodywrap', 'couples', 'hammam'];
+
+// Request catalogue. `fields` describes the optional form schema.
+// Each field: { id, labelKey, type, options?, required? }
+const REQUESTS = [
+  // Housekeeping — direct send
+  { id: 'towels',          group: 'housekeeping', icon: '🧖' },
+  { id: 'linens',          group: 'housekeeping', icon: '🛏' },
+  { id: 'pillows',         group: 'housekeeping', icon: '☁' },
+  // In-room — direct send
+  { id: 'minibar',         group: 'inroom', icon: '🍹' },
+  { id: 'menu',            group: 'inroom', icon: '📜' },
+  // Reservations — form
+  { id: 'gazebo',          group: 'reservations', icon: '🕯', fields: [
+      { id: 'date',  labelKey: 'concierge.form.date',  type: 'date',   required: true },
+      { id: 'time',  labelKey: 'concierge.form.time',  type: 'time',   required: true },
+      { id: 'party', labelKey: 'concierge.form.party', type: 'number', min: 1, max: 20, value: 2, required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  { id: 'cucina',          group: 'reservations', icon: '🍝', fields: [
+      { id: 'date',  labelKey: 'concierge.form.date',  type: 'date',   required: true },
+      { id: 'time',  labelKey: 'concierge.form.time',  type: 'time',   required: true },
+      { id: 'party', labelKey: 'concierge.form.party', type: 'number', min: 1, max: 20, value: 2, required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  { id: 'spa',             group: 'reservations', icon: '💆', fields: [
+      { id: 'treatment', labelKey: 'concierge.form.treatment', type: 'select',
+        options: SPA_TREATMENTS.map(s => ({ value: s, labelKey: `concierge.spa.${s}` })), required: true },
+      { id: 'date',  labelKey: 'concierge.form.date',  type: 'date',   required: true },
+      { id: 'time',  labelKey: 'concierge.form.time',  type: 'time',   required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  // Transport — form
+  { id: 'taxi_airport',    group: 'transport', icon: '✈', fields: [
+      { id: 'date', labelKey: 'concierge.form.date', type: 'date', required: true },
+      { id: 'time', labelKey: 'concierge.form.time', type: 'time', required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  { id: 'taxi_hurghada',   group: 'transport', icon: '🚖', fields: [
+      { id: 'date', labelKey: 'concierge.form.date', type: 'date', required: true },
+      { id: 'time', labelKey: 'concierge.form.time', type: 'time', required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  // Stay — form
+  { id: 'late_checkout',   group: 'stay', icon: '🕒', fields: [
+      { id: 'time', labelKey: 'concierge.form.checkout_time', type: 'time', value: '14:00', required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  { id: 'early_checkin',   group: 'stay', icon: '🛬', fields: [
+      { id: 'date', labelKey: 'concierge.form.date', type: 'date', required: true },
+      { id: 'time', labelKey: 'concierge.form.checkin_time', type: 'time', value: '11:00', required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  { id: 'wakeup',          group: 'stay', icon: '⏰', fields: [
+      { id: 'time', labelKey: 'concierge.form.time', type: 'time', value: '07:00', required: true },
+      { id: 'notes', labelKey: 'concierge.form.notes', type: 'textarea' },
+  ]},
+  // General — free-form
+  { id: 'custom',          group: 'general', icon: '✉', fields: [
+      { id: 'message', labelKey: 'concierge.form.message', type: 'textarea', required: true, rows: 4 },
+  ]},
+];
+
+const REQUEST_GROUPS = ['housekeeping', 'inroom', 'reservations', 'transport', 'stay', 'general'];
+
+function getRoomNumber() { return localStorage.getItem(ROOM_KEY) || ''; }
+function setRoomNumber(v) {
+  v = (v || '').trim();
+  if (v) localStorage.setItem(ROOM_KEY, v); else localStorage.removeItem(ROOM_KEY);
+}
+
+function paintRoomPill() {
+  const txt = document.getElementById('concierge-room-text');
+  if (!txt) return;
+  const r = getRoomNumber();
+  txt.textContent = r ? `${t('concierge.room_label')}: ${r}` : t('concierge.set_room');
+}
+
+function renderConcierge() {
+  paintRoomPill();
+  const pill = document.getElementById('concierge-room-pill');
+  if (pill && !pill.dataset.bound) {
+    pill.dataset.bound = '1';
+    pill.addEventListener('click', () => {
+      const v = prompt(t('concierge.ask_room'), getRoomNumber());
+      if (v !== null) { setRoomNumber(v); paintRoomPill(); }
+    });
+  }
+
+  const grid = document.getElementById('concierge-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  REQUEST_GROUPS.forEach(group => {
+    const groupReqs = REQUESTS.filter(r => r.group === group);
+    if (!groupReqs.length) return;
+
+    const head = document.createElement('h3');
+    head.className = 'concierge-group-head';
+    head.textContent = t(`concierge.group.${group}`);
+    grid.appendChild(head);
+
+    const row = document.createElement('div');
+    row.className = 'concierge-cards';
+    groupReqs.forEach(req => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'concierge-card';
+      const isForm = Array.isArray(req.fields) && req.fields.length > 0;
+      card.innerHTML = `
+        <span class="concierge-card-icon">${req.icon}</span>
+        <span class="concierge-card-body">
+          <span class="concierge-card-title">${t(`concierge.req.${req.id}.title`)}</span>
+          <span class="concierge-card-sub">${t(`concierge.req.${req.id}.sub`)}</span>
+        </span>
+        <span class="concierge-card-arrow">${isForm ? '✎' : '⌁'}</span>
+      `;
+      card.addEventListener('click', () => {
+        if (isForm) openRequestForm(req); else sendRequest(req, {});
+      });
+      row.appendChild(card);
+    });
+    grid.appendChild(row);
+  });
+}
+
+function openRequestForm(req) {
+  const modal = document.getElementById('req-modal');
+  const titleEl = document.getElementById('req-modal-title');
+  const fields = document.getElementById('req-form-fields');
+  const form = document.getElementById('req-form');
+  if (!modal || !titleEl || !fields || !form) return;
+
+  titleEl.textContent = t(`concierge.req.${req.id}.title`);
+  fields.innerHTML = req.fields.map(f => {
+    const label = t(f.labelKey);
+    if (f.type === 'textarea') {
+      return `<label class="req-field">${label}<textarea name="${f.id}" rows="${f.rows || 2}" ${f.required ? 'required' : ''}></textarea></label>`;
+    }
+    if (f.type === 'select') {
+      const opts = f.options.map(o => `<option value="${o.value}">${t(o.labelKey)}</option>`).join('');
+      return `<label class="req-field">${label}<select name="${f.id}" ${f.required ? 'required' : ''}>${opts}</select></label>`;
+    }
+    const min = f.min != null ? `min="${f.min}"` : '';
+    const max = f.max != null ? `max="${f.max}"` : '';
+    const val = f.value != null ? `value="${f.value}"` : '';
+    return `<label class="req-field">${label}<input type="${f.type}" name="${f.id}" ${min} ${max} ${val} ${f.required ? 'required' : ''} /></label>`;
+  }).join('');
+
+  // Default date inputs to today
+  fields.querySelectorAll('input[type="date"]').forEach(inp => {
+    if (!inp.value) {
+      const d = new Date();
+      inp.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+  });
+
+  applyI18n(modal);
+  modal.classList.remove('hidden');
+
+  const close = () => modal.classList.add('hidden');
+  document.getElementById('req-modal-close').onclick = close;
+  document.getElementById('req-backdrop').onclick = close;
+  document.getElementById('req-cancel').onclick = close;
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const values = {};
+    new FormData(form).forEach((v, k) => { values[k] = v; });
+    sendRequest(req, values);
+    close();
+  };
+}
+
+function buildMessage(req, values) {
+  const lines = [];
+  lines.push(`*${t('concierge.tmpl.header')}*`);
+  const room = getRoomNumber();
+  lines.push(`${t('concierge.tmpl.room')}: ${room || t('concierge.tmpl.no_room')}`);
+  lines.push(`${t('concierge.tmpl.request')}: ${t(`concierge.req.${req.id}.title`)}`);
+  (req.fields || []).forEach(f => {
+    const v = values[f.id];
+    if (!v) return;
+    const label = t(f.labelKey);
+    let display = v;
+    if (f.type === 'select') {
+      const opt = f.options.find(o => o.value === v);
+      if (opt) display = t(opt.labelKey);
+    } else if (f.type === 'number' && f.id === 'party') {
+      display = `${v} ${t('concierge.form.party_unit')}`;
+    }
+    lines.push(`${label}: ${display}`);
+  });
+  lines.push('');
+  lines.push(`— ${t('concierge.tmpl.footer')}`);
+  return lines.join('\n');
+}
+
+function sendRequest(req, values) {
+  // If room not set and request is direct-send, ask once.
+  if (!getRoomNumber()) {
+    const v = prompt(t('concierge.ask_room'));
+    if (v !== null) setRoomNumber(v);
+    paintRoomPill();
+  }
+  const msg = buildMessage(req, values);
+  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank', 'noopener');
 }

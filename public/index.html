@@ -76,6 +76,9 @@
       <button class="tab-btn" data-tab="myday">
         <span class="tab-icon">★</span><span class="tab-label" data-i18n="tabs.myday">My Day</span><span class="tab-count hidden" id="myday-count"></span>
       </button>
+      <button class="tab-btn" data-tab="concierge">
+        <span class="tab-icon">🛎</span><span class="tab-label" data-i18n="tabs.concierge">Concierge</span>
+      </button>
       <button class="tab-btn" data-tab="dining">
         <span class="tab-icon">🍽</span><span class="tab-label" data-i18n="tabs.dining">Dining</span>
       </button>
@@ -119,6 +122,24 @@
             <span class="reminder-hint" id="reminder-hint"></span>
           </div>
           <div id="myday-content"></div>
+        </div>
+      </div>
+
+      <!-- ── CONCIERGE TAB ── -->
+      <div id="tab-concierge" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="concierge.title">Concierge</h2>
+            <p class="section-sub" data-i18n="concierge.sub">One-tap requests sent to reception via WhatsApp</p>
+          </div>
+          <div class="concierge-room-bar">
+            <button class="concierge-room-pill" id="concierge-room-pill" type="button">
+              <span class="concierge-room-icon">🗝</span>
+              <span class="concierge-room-text" id="concierge-room-text"></span>
+              <span class="concierge-room-edit">✎</span>
+            </button>
+          </div>
+          <div id="concierge-grid" class="concierge-grid"></div>
         </div>
       </div>
 
@@ -492,6 +513,24 @@
       </svg>
     </button>
 
+    <!-- ── Request form modal ── -->
+    <div class="request-modal hidden" id="req-modal" role="dialog" aria-modal="true" aria-labelledby="req-modal-title">
+      <div class="req-backdrop" id="req-backdrop"></div>
+      <div class="req-sheet-inner">
+        <div class="qc-head">
+          <span id="req-modal-title"></span>
+          <button class="qc-close" id="req-modal-close" aria-label="Close">&times;</button>
+        </div>
+        <form class="req-form" id="req-form">
+          <div id="req-form-fields"></div>
+          <div class="req-form-actions">
+            <button type="button" class="admin-btn" id="req-cancel" data-i18n="concierge.cancel">Cancel</button>
+            <button type="submit" class="admin-btn admin-btn-primary" data-i18n="concierge.send_button">Send via WhatsApp</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="quick-contact-sheet hidden" id="qc-sheet" role="dialog" aria-modal="true" aria-labelledby="qc-title">
       <div class="qc-backdrop" id="qc-backdrop"></div>
       <div class="qc-sheet-inner">
@@ -499,6 +538,14 @@
           <span id="qc-title" data-i18n="qc.title">Contact Reception</span>
           <button class="qc-close" id="qc-close" aria-label="Close">&times;</button>
         </div>
+
+        <button class="qc-action qc-concierge-link" id="qc-open-concierge" type="button">
+          <span class="qc-action-icon">🛎</span>
+          <span class="qc-action-body">
+            <span class="qc-action-title" data-i18n="qc.concierge">Open Concierge</span>
+            <span class="qc-action-sub" data-i18n="qc.concierge_sub">Request a service from your room</span>
+          </span>
+        </button>
 
         <a class="qc-action qc-whatsapp" href="https://wa.me/201283110400?text=Hello%20from%20Old%20Palace%20Resort" target="_blank" rel="noopener">
           <span class="qc-action-icon">💬</span>
