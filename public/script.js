@@ -145,6 +145,21 @@ function fmtDate(now) {
 
 // ── App ───────────────────────────────────────────────────────────────────────
 
+// Tab switching
+function initTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
+      btn.classList.add('active');
+      const panel = document.getElementById('tab-' + target);
+      panel.classList.remove('hidden');
+      panel.classList.add('active');
+    });
+  });
+}
+
 let activeFilter = 'All';
 
 function buildApp() {
@@ -153,6 +168,7 @@ function buildApp() {
   const acts = getSchedule(dow);
   const show = EVENING_SHOWS[dow];
 
+  initTabs();
   document.getElementById('app-date-line').textContent = fmtDate(now).toUpperCase();
 
   // Happening Now
