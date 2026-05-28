@@ -412,7 +412,19 @@
   "cats.Evening": { "en": "Evening", "ar": "مسائي",      "de": "Abend",       "ru": "Вечер" },
 
   "tabs.excursions": { "en": "Excursions", "ar": "الرحلات", "de": "Ausflüge", "ru": "Экскурсии" },
+  "tabs.gallery":    { "en": "Gallery",    "ar": "الصور",   "de": "Galerie", "ru": "Галерея" },
   "tabs.concierge":  { "en": "Concierge", "ar": "كونسيرج", "de": "Concierge", "ru": "Консьерж" },
+
+  "gallery.title":       { "en": "Photo Gallery",                              "ar": "معرض الصور",                       "de": "Fotogalerie",                              "ru": "Фотогалерея" },
+  "gallery.sub":         { "en": "A glimpse of life at Old Palace Resort",     "ar": "لمحة من الحياة في منتجع أولد بالاس", "de": "Ein Blick auf das Leben im Old Palace Resort", "ru": "Взгляд на жизнь в Old Palace Resort" },
+  "gallery.cat.beach":   { "en": "Beach",       "ar": "الشاطئ",      "de": "Strand",       "ru": "Пляж" },
+  "gallery.cat.pools":   { "en": "Pools",       "ar": "المسابح",     "de": "Pools",        "ru": "Бассейны" },
+  "gallery.cat.dining":  { "en": "Dining",      "ar": "المطاعم",     "de": "Restaurants",  "ru": "Рестораны" },
+  "gallery.cat.rooms":   { "en": "Rooms",       "ar": "الغرف",       "de": "Zimmer",       "ru": "Номера" },
+  "gallery.cat.spa":     { "en": "Spa",          "ar": "السبا",       "de": "Spa",          "ru": "Спа" },
+  "gallery.cat.grounds": { "en": "Resort Grounds", "ar": "أرجاء المنتجع", "de": "Resort-Anlage", "ru": "Территория" },
+  "gallery.empty_title": { "en": "Photos coming soon",                                                    "ar": "صور قريبًا",                                              "de": "Fotos folgen in Kürze",                                          "ru": "Фото скоро появятся" },
+  "gallery.empty_sub":   { "en": "We're curating the best shots from this corner of the resort.",          "ar": "نحن نختار أفضل اللقطات من هذا الركن من المنتجع.",        "de": "Wir kuratieren die besten Aufnahmen aus diesem Bereich des Resorts.", "ru": "Мы отбираем лучшие снимки этого уголка курорта." },
 
   "excursions.title": { "en": "Excursions", "ar": "الرحلات والمغامرات", "de": "Ausflüge", "ru": "Экскурсии" },
   "excursions.sub":   { "en": "Unforgettable adventures from your doorstep — book via WhatsApp", "ar": "مغامرات لا تُنسى من باب المنتجع — احجز عبر واتساب", "de": "Unvergessliche Abenteuer direkt vor Ihrer Tür — buchen Sie via WhatsApp", "ru": "Незабываемые приключения прямо у порога — бронируйте через WhatsApp" },

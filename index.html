@@ -95,6 +95,9 @@
       <button class="tab-btn" data-tab="yourstay">
         <span class="tab-icon">🗝</span><span class="tab-label" data-i18n="tabs.yourstay">Your Stay</span>
       </button>
+      <button class="tab-btn" data-tab="gallery">
+        <span class="tab-icon">📷</span><span class="tab-label" data-i18n="tabs.gallery">Gallery</span>
+      </button>
       <button class="tab-btn" data-tab="feedback">
         <span class="tab-icon">💬</span><span class="tab-label" data-i18n="tabs.feedback">Feedback</span>
       </button>
@@ -618,6 +621,30 @@
 
           </div>
         </div>
+      </div>
+
+      <!-- ── GALLERY TAB ── -->
+      <div id="tab-gallery" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title" data-i18n="gallery.title">Photo Gallery</h2>
+            <p class="section-sub" data-i18n="gallery.sub">A glimpse of life at Old Palace Resort</p>
+          </div>
+          <div class="gallery-cats" id="gallery-cats"></div>
+          <div class="gallery-grid" id="gallery-grid"></div>
+        </div>
+      </div>
+
+      <!-- Lightbox overlay -->
+      <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true">
+        <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">×</button>
+        <button type="button" class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous">‹</button>
+        <div class="lightbox-stage">
+          <img id="lightbox-img" alt="" />
+          <div class="lightbox-caption" id="lightbox-caption"></div>
+          <div class="lightbox-counter" id="lightbox-counter"></div>
+        </div>
+        <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next">›</button>
       </div>
 
       <!-- ── FEEDBACK TAB ── -->
