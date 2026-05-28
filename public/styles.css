@@ -764,3 +764,111 @@ body {
 @media (min-width: 1280px) {
   .info-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* ═══════════════════════════════════════════════════
+   ADMIN EDITOR (#admin)
+═══════════════════════════════════════════════════ */
+.admin-tabs {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  justify-content: center; margin-bottom: 1.2rem;
+}
+.admin-tab {
+  padding: 0.55rem 1rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); background: rgba(12,15,30,0.6);
+  border: 1px solid var(--card-border); border-radius: 4px;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.admin-tab:hover { color: var(--gold-light); border-color: rgba(201,168,76,0.4); }
+.admin-tab.active {
+  color: var(--gold); border-color: rgba(201,168,76,0.6);
+  background: linear-gradient(150deg, rgba(30,22,7,0.85), rgba(12,10,20,0.85));
+}
+.admin-days {
+  display: flex; flex-wrap: wrap; gap: 0.35rem;
+  justify-content: center; margin-bottom: 1.3rem;
+}
+.admin-day {
+  padding: 0.4rem 0.75rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); background: transparent;
+  border: 1px solid var(--card-border); border-radius: 3px;
+  cursor: pointer;
+}
+.admin-day.active {
+  color: var(--ink); background: var(--gold); border-color: var(--gold);
+}
+.admin-list { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem; }
+.admin-empty {
+  text-align: center; color: var(--muted); font-size: 0.85rem;
+  padding: 2rem 1rem; border: 1px dashed var(--card-border); border-radius: 6px;
+}
+.admin-row {
+  background: linear-gradient(150deg, rgba(12,15,30,0.65), rgba(6,8,18,0.6));
+  border: 1px solid var(--card-border); border-radius: 6px;
+  padding: 0.95rem 1.1rem;
+}
+.admin-row-head {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 0.7rem; padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.admin-row-time {
+  font-family: 'Cormorant Garant', serif;
+  font-size: 1.15rem; font-weight: 600; color: var(--gold);
+}
+.admin-row-title {
+  flex: 1; font-family: 'Raleway', sans-serif;
+  font-size: 0.85rem; font-weight: 500; color: var(--ivory);
+}
+.admin-row-del {
+  background: transparent; border: 1px solid rgba(220,80,80,0.4);
+  color: rgba(220,80,80,0.85); border-radius: 3px;
+  width: 26px; height: 26px; cursor: pointer; font-size: 0.85rem;
+}
+.admin-row-del:hover { color: #fff; background: rgba(220,80,80,0.7); }
+.admin-form {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem 1rem;
+}
+.admin-form label {
+  display: flex; flex-direction: column; gap: 0.3rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted);
+}
+.admin-form .admin-wide { grid-column: 1 / -1; }
+.admin-form input, .admin-form select, .admin-form textarea {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.85rem; color: var(--ivory); letter-spacing: 0;
+  background: rgba(6,8,18,0.7); border: 1px solid var(--card-border);
+  border-radius: 4px; padding: 0.55rem 0.7rem; text-transform: none;
+}
+.admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus {
+  outline: none; border-color: rgba(201,168,76,0.55);
+}
+.admin-footer {
+  display: flex; flex-wrap: wrap; gap: 0.55rem;
+  justify-content: center; padding: 1.2rem 0 2rem;
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+.admin-btn {
+  padding: 0.65rem 1.1rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ivory); background: rgba(12,15,30,0.7);
+  border: 1px solid var(--card-border); border-radius: 4px; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.admin-btn:hover { color: var(--gold); border-color: rgba(201,168,76,0.5); }
+.admin-btn-primary {
+  color: var(--ink); background: var(--gold); border-color: var(--gold);
+}
+.admin-btn-primary:hover { color: var(--ink); background: var(--gold-light); border-color: var(--gold-light); }
+.admin-btn-add { color: var(--gold); border-color: rgba(201,168,76,0.45); }
+.admin-btn-exit { color: var(--muted); }
+@media (max-width: 640px) {
+  .admin-form { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "updated": "2026-05-28",
+  "base": [
+    { "time": "10:30", "title": "Darts Game",                "location": "Games Area",            "cat": "Games",   "dur": 60, "desc": "Darts competition for all levels — sign up with the animation team.", "icon": "🎯" },
+    { "time": "10:30", "title": "Morning Stretching",        "location": "Main Pool",             "cat": "Sport",   "dur": 30, "desc": "Gentle guided morning stretch session suitable for all ages.",       "icon": "🧘" },
+    { "time": "11:00", "title": "Arabic Lesson",             "location": "Beach Bar",             "cat": "Games",   "dur": 30, "desc": "Learn fun Arabic phrases with the animation team.",                  "icon": "🗣️" },
+    { "time": "11:00", "title": "Boccia Game",               "location": "Beach",                 "cat": "Games",   "dur": 30, "desc": "Classic bocce ball game on the sand — all skill levels welcome.",    "icon": "🎳" },
+    { "time": "11:30", "title": "Water Gym & Cocktail Games","location": "Main Pool",             "cat": "Aqua",    "dur": 60, "desc": "Pool aerobics and fun water games with complimentary cocktails.",    "icon": "🍹" },
+    { "time": "15:30", "title": "Beach Volleyball",          "location": "Beach",                 "cat": "Sport",   "dur": 60, "desc": "Teams on the sand at Sahl Hasheesh Bay — all welcome!",              "icon": "🏖️" },
+    { "time": "16:00", "title": "Yoga Class",                "location": "Old Palace Beachfront", "cat": "Sport",   "dur": 45, "desc": "Relaxing yoga session as the afternoon sun begins to dip.",          "icon": "🧘‍♀️" },
+    { "time": "20:30", "title": "Kids Family Disco",         "location": "La Bonita",             "cat": "Kids",    "dur": 45, "desc": "Fun disco for the whole family — kids especially welcome!",          "icon": "🕺" },
+    { "time": "22:30", "title": "Disco Time",                "location": "La Bonita",             "cat": "Evening", "dur": 90, "desc": "La Bonita comes alive — dance the night away until midnight!",      "icon": "🎶" }
+  ],
+  "afternoonClass": {
+    "0": { "time": "15:30", "title": "Fitness Class", "location": "Main Pool", "cat": "Sport", "dur": 60, "desc": "High-energy fitness class at the pool deck.",        "icon": "💪" },
+    "1": { "time": "15:30", "title": "Dance Class",   "location": "Main Pool", "cat": "Dance", "dur": 60, "desc": "Fun dance class by the pool with the animation team.", "icon": "💃" },
+    "2": { "time": "15:30", "title": "Fitness Class", "location": "Main Pool", "cat": "Sport", "dur": 60, "desc": "High-energy fitness class at the pool deck.",        "icon": "💪" },
+    "3": { "time": "15:30", "title": "Dance Class",   "location": "Main Pool", "cat": "Dance", "dur": 60, "desc": "Fun dance class by the pool with the animation team.", "icon": "💃" },
+    "4": { "time": "15:30", "title": "Fitness Class", "location": "Main Pool", "cat": "Sport", "dur": 60, "desc": "High-energy fitness class at the pool deck.",        "icon": "💪" },
+    "5": { "time": "15:30", "title": "Dance Class",   "location": "Main Pool", "cat": "Dance", "dur": 60, "desc": "Fun dance class by the pool with the animation team.", "icon": "💃" }
+  },
+  "kidsMorning": {
+    "0": { "time": "10:00", "title": "Kids Club: Crafts Workshop",      "location": "Kids Zone",          "cat": "Kids", "dur": 120, "desc": "Creative crafts, painting and drawing for ages 4–10.",            "icon": "🎨" },
+    "1": { "time": "10:00", "title": "Kids Club: Mini-Disco & Dance",   "location": "Kids Zone",          "cat": "Kids", "dur": 120, "desc": "Mini disco and fun dance lessons for the little ones.",           "icon": "💃" },
+    "2": { "time": "10:00", "title": "Kids Club: Coloring Stones",      "location": "Beach",              "cat": "Kids", "dur": 120, "desc": "Creative stone painting and art on the beach for ages 4–10.",     "icon": "🪨" },
+    "3": { "time": "10:00", "title": "Kids Club: La Petite Chef",       "location": "Al Kasr Restaurant", "cat": "Kids", "dur": 120, "desc": "Junior cooking class with the resort chefs — ages 4–10.",         "icon": "👨‍🍳" },
+    "4": { "time": "10:00", "title": "Kids Club: Pirates & Indian Day", "location": "Kids Zone",          "cat": "Kids", "dur": 120, "desc": "A fun-filled themed day — pirates adventure meets Indian culture!", "icon": "🏴‍☠️" },
+    "5": { "time": "10:00", "title": "Kids Club: Mini Olympics",        "location": "Main Pool",          "cat": "Kids", "dur": 120, "desc": "Mini Olympics with fun sports challenges and medals for all.",    "icon": "🏅" },
+    "6": { "time": "10:00", "title": "Kids Club: Family Day",           "location": "Kids Zone & Pool",   "cat": "Kids", "dur": 120, "desc": "Special family day — a full day of activities for the whole family.", "icon": "👨‍👩‍👧‍👦" }
+  },
+  "kidsAfternoon": {
+    "0": { "time": "15:00", "title": "Kids Club: Face Painting",    "location": "Kids Zone",          "cat": "Kids", "dur": 90, "desc": "Afternoon face painting and drawing — creativity unleashed!",   "icon": "🎨" },
+    "1": { "time": "15:00", "title": "Kids Club: Foam Party",       "location": "Main Pool",          "cat": "Kids", "dur": 90, "desc": "Afternoon foam party at the main pool — get ready to get soaked!", "icon": "🫧" },
+    "2": { "time": "15:00", "title": "Kids Club: Beach Action",     "location": "Beach",              "cat": "Kids", "dur": 90, "desc": "Beach games, sand castles and fun activities for kids.",         "icon": "🏖️" },
+    "3": { "time": "15:00", "title": "Kids Club: Cookie Making",    "location": "Al Kasr Restaurant", "cat": "Kids", "dur": 90, "desc": "Cookie baking afternoon at the restaurant — all ages welcome.",  "icon": "🍪" },
+    "4": { "time": "15:00", "title": "Kids Club: Pirates & Indian", "location": "Kids Zone",          "cat": "Kids", "dur": 90, "desc": "Afternoon themed games, costumes and adventure!",                "icon": "🏴‍☠️" },
+    "5": { "time": "15:00", "title": "Kids Club: Foam Party",       "location": "Main Pool",          "cat": "Kids", "dur": 90, "desc": "Friday foam party for kids — biggest one of the week!",         "icon": "🫧" },
+    "6": { "time": "15:00", "title": "Kids Club: Family Day",       "location": "Kids Zone & Pool",   "cat": "Kids", "dur": 90, "desc": "Afternoon family activities — fun for every age together.",     "icon": "👨‍👩‍👧‍👦" }
+  },
+  "eveningShows": [
+    { "dow": 0, "title": "Tanoura & Fire Show",           "venue": "La Bonita",             "time": "8:45 PM", "desc": "Spectacular Tanoura spinning and fire performance — a dazzling display of traditional Egyptian folklore." },
+    { "dow": 1, "title": "Oriental Folklore Night",       "venue": "Lobby Bar",             "time": "9:00 PM", "desc": "Traditional Egyptian and Arabic folklore — music, belly dance, and authentic costumes." },
+    { "dow": 2, "title": "White Party",                   "venue": "La Bonita",             "time": "7:30 PM", "desc": "All-white dress code party with DJ, cocktails and dancing until midnight." },
+    { "dow": 3, "title": "Bedouin Night — Desert Magic",  "venue": "La Bonita",             "time": "8:30 PM", "desc": "Immersive Bedouin cultural experience with live Oud music, belly dance, and desert ambiance." },
+    { "dow": 4, "title": "Mr. & Ms. Old Palace",          "venue": "La Bonita",             "time": "9:00 PM", "desc": "Fun guest talent competition — nominate yourself or a friend to take the stage!" },
+    { "dow": 5, "title": "Crazy Raffle & Karaoke Night",  "venue": "Lobby Bar / La Bonita", "time": "9:00 PM", "desc": "Win amazing prizes in the Crazy Raffle, then take to the mic for Karaoke!" },
+    { "dow": 6, "title": "Live Music & Belly Dance Gala", "venue": "Lobby Bar",             "time": "7:00 PM", "desc": "Live lounge band performance followed by a spectacular belly dance gala show." }
+  ]
+}

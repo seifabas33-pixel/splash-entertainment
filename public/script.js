@@ -1,6 +1,6 @@
-// ── Activity Data ─────────────────────────────────────────────────────────────
+// ── Activity Data (fallback — runtime values are loaded from data/programme.json)
 
-const BASE_ACTIVITIES = [
+const FALLBACK_BASE = [
   { time: '10:30', hh: '10:30', ap: 'AM', title: 'Darts Game',                location: 'Games Area',            cat: 'Games',   dur: 60,  desc: 'Darts competition for all levels — sign up with the animation team.',                icon: '🎯' },
   { time: '10:30', hh: '10:30', ap: 'AM', title: 'Morning Stretching',         location: 'Main Pool',             cat: 'Sport',   dur: 30,  desc: 'Gentle guided morning stretch session suitable for all ages.',                      icon: '🧘' },
   { time: '11:00', hh: '11:00', ap: 'AM', title: 'Arabic Lesson',              location: 'Beach Bar',             cat: 'Games',   dur: 30,  desc: 'Learn fun Arabic phrases with the animation team.',                                 icon: '🗣️' },
@@ -12,7 +12,7 @@ const BASE_ACTIVITIES = [
   { time: '22:30', hh: '10:30', ap: 'PM', title: 'Disco Time',                 location: 'La Bonita',             cat: 'Evening', dur: 90,  desc: 'La Bonita comes alive — dance the night away until midnight!',                     icon: '🎶' },
 ];
 
-const AFTERNOON_CLASS = {
+const FALLBACK_AFTERNOON = {
   0: { time: '15:30', hh: '3:30', ap: 'PM', title: 'Fitness Class', location: 'Main Pool', cat: 'Sport', dur: 60, desc: 'High-energy fitness class at the pool deck.',               icon: '💪' },
   1: { time: '15:30', hh: '3:30', ap: 'PM', title: 'Dance Class',   location: 'Main Pool', cat: 'Dance', dur: 60, desc: 'Fun dance class by the pool with the animation team.',        icon: '💃' },
   2: { time: '15:30', hh: '3:30', ap: 'PM', title: 'Fitness Class', location: 'Main Pool', cat: 'Sport', dur: 60, desc: 'High-energy fitness class at the pool deck.',               icon: '💪' },
@@ -21,7 +21,7 @@ const AFTERNOON_CLASS = {
   5: { time: '15:30', hh: '3:30', ap: 'PM', title: 'Dance Class',   location: 'Main Pool', cat: 'Dance', dur: 60, desc: 'Fun dance class by the pool with the animation team.',        icon: '💃' },
 };
 
-const KIDS_MORNING = {
+const FALLBACK_KIDS_MORNING = {
   0: { time: '10:00', hh: '10:00', ap: 'AM', title: 'Kids Club: Crafts Workshop',      location: 'Kids Zone',          cat: 'Kids', dur: 120, desc: 'Creative crafts, painting and drawing for ages 4–10.',                          icon: '🎨' },
   1: { time: '10:00', hh: '10:00', ap: 'AM', title: 'Kids Club: Mini-Disco & Dance',   location: 'Kids Zone',          cat: 'Kids', dur: 120, desc: 'Mini disco and fun dance lessons for the little ones.',                          icon: '💃' },
   2: { time: '10:00', hh: '10:00', ap: 'AM', title: 'Kids Club: Coloring Stones',      location: 'Beach',              cat: 'Kids', dur: 120, desc: 'Creative stone painting and art on the beach for ages 4–10.',                    icon: '🪨' },
@@ -31,7 +31,7 @@ const KIDS_MORNING = {
   6: { time: '10:00', hh: '10:00', ap: 'AM', title: 'Kids Club: Family Day',           location: 'Kids Zone & Pool',   cat: 'Kids', dur: 120, desc: 'Special family day — a full day of activities for the whole family.',            icon: '👨‍👩‍👧‍👦' },
 };
 
-const KIDS_AFTERNOON = {
+const FALLBACK_KIDS_AFTERNOON = {
   0: { time: '15:00', hh: '3:00', ap: 'PM', title: 'Kids Club: Face Painting',       location: 'Kids Zone',          cat: 'Kids', dur: 90, desc: 'Afternoon face painting and drawing — creativity unleashed!',                         icon: '🎨' },
   1: { time: '15:00', hh: '3:00', ap: 'PM', title: 'Kids Club: Foam Party',          location: 'Main Pool',          cat: 'Kids', dur: 90, desc: 'Afternoon foam party at the main pool — get ready to get soaked!',                    icon: '🫧' },
   2: { time: '15:00', hh: '3:00', ap: 'PM', title: 'Kids Club: Beach Action',        location: 'Beach',              cat: 'Kids', dur: 90, desc: 'Beach games, sand castles and fun activities for kids.',                              icon: '🏖️' },
@@ -41,7 +41,7 @@ const KIDS_AFTERNOON = {
   6: { time: '15:00', hh: '3:00', ap: 'PM', title: 'Kids Club: Family Day',          location: 'Kids Zone & Pool',   cat: 'Kids', dur: 90, desc: 'Afternoon family activities — fun for every age together.',                          icon: '👨‍👩‍👧‍👦' },
 };
 
-const EVENING_SHOWS = [
+const FALLBACK_EVENING = [
   { dow: 0, title: 'Tanoura & Fire Show',           venue: 'La Bonita',             time: '8:45 PM', desc: 'Spectacular Tanoura spinning and fire performance — a dazzling display of traditional Egyptian folklore.' },
   { dow: 1, title: 'Oriental Folklore Night',       venue: 'Lobby Bar',             time: '9:00 PM', desc: 'Traditional Egyptian and Arabic folklore — music, belly dance, and authentic costumes.' },
   { dow: 2, title: 'White Party',                   venue: 'La Bonita',             time: '7:30 PM', desc: 'All-white dress code party with DJ, cocktails and dancing until midnight.' },
@@ -50,6 +50,60 @@ const EVENING_SHOWS = [
   { dow: 5, title: 'Crazy Raffle & Karaoke Night',  venue: 'Lobby Bar / La Bonita', time: '9:00 PM', desc: 'Win amazing prizes in the Crazy Raffle, then take to the mic for Karaoke!' },
   { dow: 6, title: 'Live Music & Belly Dance Gala', venue: 'Lobby Bar',             time: '7:00 PM', desc: 'Live lounge band performance followed by a spectacular belly dance gala show.' },
 ];
+
+// Runtime programme — populated from data/programme.json (with fallback above).
+let BASE_ACTIVITIES = FALLBACK_BASE;
+let AFTERNOON_CLASS = FALLBACK_AFTERNOON;
+let KIDS_MORNING    = FALLBACK_KIDS_MORNING;
+let KIDS_AFTERNOON  = FALLBACK_KIDS_AFTERNOON;
+let EVENING_SHOWS   = FALLBACK_EVENING;
+
+function deriveTime(t24) {
+  const [h, m] = t24.split(':').map(Number);
+  const ap = h >= 12 ? 'PM' : 'AM';
+  const h12 = ((h + 11) % 12) + 1;
+  return { hh: `${h12}:${String(m).padStart(2, '0')}`, ap };
+}
+
+// Normalise loaded activity — adds hh/ap if missing so renderers don't care.
+function normaliseAct(a) {
+  if (!a) return a;
+  if (a.hh && a.ap) return a;
+  const { hh, ap } = deriveTime(a.time);
+  return { ...a, hh, ap };
+}
+function normaliseDayMap(m) {
+  const out = {};
+  Object.keys(m || {}).forEach(k => { out[k] = normaliseAct(m[k]); });
+  return out;
+}
+
+function applyProgramme(p) {
+  if (!p) return;
+  if (Array.isArray(p.base))           BASE_ACTIVITIES = p.base.map(normaliseAct);
+  if (p.afternoonClass)                AFTERNOON_CLASS = normaliseDayMap(p.afternoonClass);
+  if (p.kidsMorning)                   KIDS_MORNING    = normaliseDayMap(p.kidsMorning);
+  if (p.kidsAfternoon)                 KIDS_AFTERNOON  = normaliseDayMap(p.kidsAfternoon);
+  if (Array.isArray(p.eveningShows))   EVENING_SHOWS   = p.eveningShows;
+}
+
+async function loadProgramme() {
+  try {
+    const res = await fetch('data/programme.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('fetch failed');
+    const p = await res.json();
+    if (!p.base || !p.eveningShows) throw new Error('bad shape');
+    applyProgramme(p);
+  } catch (e) {
+    console.warn('Programme load failed, using bundled defaults.', e);
+  }
+}
+
+// Pre-normalise fallbacks so they always have hh/ap.
+BASE_ACTIVITIES = FALLBACK_BASE.map(normaliseAct);
+AFTERNOON_CLASS = normaliseDayMap(FALLBACK_AFTERNOON);
+KIDS_MORNING    = normaliseDayMap(FALLBACK_KIDS_MORNING);
+KIDS_AFTERNOON  = normaliseDayMap(FALLBACK_KIDS_AFTERNOON);
 
 // elegant muted category colours for luxury feel
 const CAT_STYLE = {
@@ -109,11 +163,13 @@ function fmtDate(now) {
 
 // ── Entrance ──────────────────────────────────────────────────────────────────
 
-(function initEntrance() {
+(async function initEntrance() {
   const now = new Date();
   const dow = now.getDay();
 
   document.getElementById('e-date').textContent = fmtDate(now);
+
+  await loadProgramme();
 
   const show = EVENING_SHOWS[dow];
   document.getElementById('e-show-pill').innerHTML = `
@@ -123,8 +179,8 @@ function fmtDate(now) {
     </div>
   `;
 
-  // Skip entrance and go straight to My Day when launched via a reminder click.
-  if (location.hash === '#myday') {
+  // Skip entrance for deep-link hashes (reminder click or admin route).
+  if (location.hash === '#myday' || location.hash === '#admin') {
     const el = document.getElementById('entrance');
     el.style.display = 'none';
     const app = document.getElementById('app');
@@ -396,6 +452,8 @@ function buildApp() {
   if (location.hash === '#myday') {
     const tab = document.querySelector('.tab-btn[data-tab="myday"]');
     if (tab) tab.click();
+  } else if (location.hash === '#admin') {
+    openAdmin();
   }
 }
 
@@ -633,3 +691,239 @@ if ('serviceWorker' in navigator) {
     btn.classList.add('hidden');
   });
 })();
+
+// ── Admin editor (#admin route, passcode-gated) ─────────────────────────────────
+const ADMIN_PASSCODE = 'splash2026';
+const ADMIN_SESSION  = 'oldpalace_admin_ok';
+const CATS = ['Aqua', 'Sport', 'Kids', 'Dance', 'Games', 'Evening'];
+
+let adminDraft = null;
+let adminSection = 'base';
+let adminDayKey  = '0';
+
+function snapshotProgramme() {
+  return {
+    version: 1,
+    updated: new Date().toISOString().slice(0, 10),
+    base: BASE_ACTIVITIES.map(stripDerived),
+    afternoonClass: stripDayMap(AFTERNOON_CLASS),
+    kidsMorning:    stripDayMap(KIDS_MORNING),
+    kidsAfternoon:  stripDayMap(KIDS_AFTERNOON),
+    eveningShows:   EVENING_SHOWS.map(s => ({ ...s })),
+  };
+}
+function stripDerived(a) {
+  const { hh, ap, ...rest } = a;
+  return rest;
+}
+function stripDayMap(m) {
+  const out = {};
+  Object.keys(m).forEach(k => { out[k] = stripDerived(m[k]); });
+  return out;
+}
+
+function openAdmin() {
+  const panel = document.getElementById('tab-admin');
+  if (!panel) return;
+  if (sessionStorage.getItem(ADMIN_SESSION) !== 'true') {
+    const tries = prompt('Staff passcode:');
+    if (tries !== ADMIN_PASSCODE) { alert('Wrong passcode.'); return; }
+    sessionStorage.setItem(ADMIN_SESSION, 'true');
+  }
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
+  panel.classList.remove('hidden');
+  panel.classList.add('active');
+  adminDraft = snapshotProgramme();
+  renderAdmin();
+}
+
+function renderAdmin() {
+  const panel = document.getElementById('tab-admin');
+  if (!adminDraft) adminDraft = snapshotProgramme();
+
+  const tabs = [
+    { id: 'base',           label: 'Base' },
+    { id: 'afternoonClass', label: 'Afternoon' },
+    { id: 'kidsMorning',    label: 'Kids AM' },
+    { id: 'kidsAfternoon',  label: 'Kids PM' },
+    { id: 'eveningShows',   label: 'Evening Shows' },
+  ];
+  const needsDay = ['afternoonClass', 'kidsMorning', 'kidsAfternoon'].includes(adminSection);
+
+  panel.innerHTML = `
+    <div class="content-wrap">
+      <div class="section-header">
+        <h2 class="section-title">Programme Editor</h2>
+        <p class="section-sub">Edit, preview, then download the updated <code>programme.json</code>.</p>
+      </div>
+
+      <div class="admin-tabs">
+        ${tabs.map(t => `<button class="admin-tab${adminSection === t.id ? ' active' : ''}" data-id="${t.id}">${t.label}</button>`).join('')}
+      </div>
+
+      ${needsDay ? `
+        <div class="admin-days">
+          ${DAYS.map((d, i) => `<button class="admin-day${String(i) === adminDayKey ? ' active' : ''}" data-dow="${i}">${d.slice(0,3)}</button>`).join('')}
+        </div>` : ''}
+
+      <div id="admin-list" class="admin-list"></div>
+
+      <div class="admin-footer">
+        <button class="admin-btn admin-btn-add" id="admin-add">+ Add</button>
+        <button class="admin-btn" id="admin-preview">Preview in app</button>
+        <button class="admin-btn" id="admin-reset">Reset</button>
+        <button class="admin-btn admin-btn-primary" id="admin-download">Download programme.json</button>
+        <button class="admin-btn admin-btn-exit" id="admin-exit">Exit</button>
+      </div>
+    </div>
+  `;
+
+  panel.querySelectorAll('.admin-tab').forEach(b => {
+    b.addEventListener('click', () => { adminSection = b.dataset.id; renderAdmin(); });
+  });
+  panel.querySelectorAll('.admin-day').forEach(b => {
+    b.addEventListener('click', () => { adminDayKey = b.dataset.dow; renderAdminList(); });
+  });
+  document.getElementById('admin-add').addEventListener('click', adminAdd);
+  document.getElementById('admin-preview').addEventListener('click', adminPreview);
+  document.getElementById('admin-reset').addEventListener('click', adminReset);
+  document.getElementById('admin-download').addEventListener('click', adminDownload);
+  document.getElementById('admin-exit').addEventListener('click', () => {
+    location.hash = '';
+    location.reload();
+  });
+
+  renderAdminList();
+}
+
+function currentDraftRows() {
+  if (adminSection === 'base')         return adminDraft.base;
+  if (adminSection === 'eveningShows') return adminDraft.eveningShows;
+  return [adminDraft[adminSection][adminDayKey]].filter(Boolean);
+}
+function setCurrentDraftRows(rows) {
+  if (adminSection === 'base')         { adminDraft.base = rows; return; }
+  if (adminSection === 'eveningShows') { adminDraft.eveningShows = rows; return; }
+  adminDraft[adminSection][adminDayKey] = rows[0];
+}
+
+function renderAdminList() {
+  const list = document.getElementById('admin-list');
+  if (!list) return;
+  const rows = currentDraftRows();
+  const isEvening = adminSection === 'eveningShows';
+
+  if (!rows.length) {
+    list.innerHTML = '<p class="admin-empty">No entry for this slot. Click + Add to create one.</p>';
+    return;
+  }
+
+  list.innerHTML = rows.map((r, i) => isEvening ? `
+    <div class="admin-row" data-i="${i}">
+      <div class="admin-row-head">
+        <span class="admin-row-time">${DAYS[r.dow]}</span>
+        <span class="admin-row-title">${escapeHtml(r.title)}</span>
+        <button class="admin-row-del" data-i="${i}">✕</button>
+      </div>
+      <div class="admin-form">
+        <label>Day <select data-f="dow">${DAYS.map((d, j) => `<option value="${j}"${j === r.dow ? ' selected' : ''}>${d}</option>`).join('')}</select></label>
+        <label>Title <input data-f="title" value="${escapeAttr(r.title)}" /></label>
+        <label>Venue <input data-f="venue" value="${escapeAttr(r.venue)}" /></label>
+        <label>Time <input data-f="time" value="${escapeAttr(r.time)}" placeholder="8:45 PM" /></label>
+        <label class="admin-wide">Description <textarea data-f="desc" rows="2">${escapeHtml(r.desc)}</textarea></label>
+      </div>
+    </div>` : `
+    <div class="admin-row" data-i="${i}">
+      <div class="admin-row-head">
+        <span class="admin-row-time">${escapeHtml(r.time)}</span>
+        <span class="admin-row-title">${escapeHtml(r.title)}</span>
+        ${adminSection === 'base' ? `<button class="admin-row-del" data-i="${i}">✕</button>` : ''}
+      </div>
+      <div class="admin-form">
+        <label>Time (24-h) <input data-f="time" value="${escapeAttr(r.time)}" placeholder="HH:MM" /></label>
+        <label>Title <input data-f="title" value="${escapeAttr(r.title)}" /></label>
+        <label>Location <input data-f="location" value="${escapeAttr(r.location)}" /></label>
+        <label>Category <select data-f="cat">${CATS.map(c => `<option${c === r.cat ? ' selected' : ''}>${c}</option>`).join('')}</select></label>
+        <label>Duration (min) <input data-f="dur" type="number" min="5" max="300" value="${r.dur}" /></label>
+        <label>Icon <input data-f="icon" value="${escapeAttr(r.icon || '')}" maxlength="4" /></label>
+        <label class="admin-wide">Description <textarea data-f="desc" rows="2">${escapeHtml(r.desc)}</textarea></label>
+      </div>
+    </div>`).join('');
+
+  list.querySelectorAll('.admin-row').forEach(rowEl => {
+    const i = Number(rowEl.dataset.i);
+    rowEl.querySelectorAll('[data-f]').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const rows2 = currentDraftRows();
+        const v = inp.tagName === 'SELECT' && inp.dataset.f === 'dow' ? Number(inp.value)
+                : inp.dataset.f === 'dur' ? Number(inp.value)
+                : inp.value;
+        rows2[i] = { ...rows2[i], [inp.dataset.f]: v };
+        setCurrentDraftRows(rows2);
+      });
+    });
+    const del = rowEl.querySelector('.admin-row-del');
+    if (del) del.addEventListener('click', () => {
+      const rows2 = currentDraftRows();
+      rows2.splice(i, 1);
+      setCurrentDraftRows(rows2);
+      renderAdminList();
+    });
+  });
+}
+
+function adminAdd() {
+  const rows = currentDraftRows();
+  let blank;
+  if (adminSection === 'eveningShows') {
+    blank = { dow: 0, title: 'New Show', venue: '', time: '8:00 PM', desc: '' };
+  } else {
+    blank = { time: '12:00', title: 'New Activity', location: '', cat: 'Games', dur: 30, desc: '', icon: '✨' };
+  }
+  if (['afternoonClass','kidsMorning','kidsAfternoon'].includes(adminSection)) {
+    adminDraft[adminSection][adminDayKey] = blank;
+  } else {
+    rows.push(blank);
+    setCurrentDraftRows(rows);
+  }
+  renderAdminList();
+}
+
+function adminPreview() {
+  applyProgramme({
+    base: adminDraft.base.map(normaliseAct),
+    afternoonClass: normaliseDayMap(adminDraft.afternoonClass),
+    kidsMorning:    normaliseDayMap(adminDraft.kidsMorning),
+    kidsAfternoon:  normaliseDayMap(adminDraft.kidsAfternoon),
+    eveningShows:   adminDraft.eveningShows,
+  });
+  // Re-render programme tab with the new data and switch to it.
+  buildDaySelector(new Date());
+  renderDay(selectedDow, selectedDow === new Date().getDay());
+  document.querySelector('.tab-btn[data-tab="programme"]').click();
+}
+
+async function adminReset() {
+  await loadProgramme();
+  adminDraft = snapshotProgramme();
+  renderAdmin();
+}
+
+function adminDownload() {
+  const json = JSON.stringify(adminDraft, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = 'programme.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
