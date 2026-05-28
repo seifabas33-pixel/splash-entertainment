@@ -56,6 +56,9 @@
       <button class="tab-btn active" data-tab="programme">
         <span class="tab-icon">🎭</span><span class="tab-label">Programme</span>
       </button>
+      <button class="tab-btn" data-tab="myday">
+        <span class="tab-icon">★</span><span class="tab-label">My Day</span><span class="tab-count hidden" id="myday-count"></span>
+      </button>
       <button class="tab-btn" data-tab="dining">
         <span class="tab-icon">🍽</span><span class="tab-label">Dining</span>
       </button>
@@ -79,6 +82,17 @@
           <div id="show-section"></div>
           <div class="filter-bar" id="filter-bar"></div>
           <div class="activity-grid" id="activity-grid"></div>
+        </div>
+      </div>
+
+      <!-- ── MY DAY TAB ── -->
+      <div id="tab-myday" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title">My Day</h2>
+            <p class="section-sub">Your personal itinerary — tap the star on any activity to add it here</p>
+          </div>
+          <div id="myday-content"></div>
         </div>
       </div>
 

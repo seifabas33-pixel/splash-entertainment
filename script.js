@@ -156,6 +156,7 @@ function initTabs() {
       const panel = document.getElementById('tab-' + target);
       panel.classList.remove('hidden');
       panel.classList.add('active');
+      if (target === 'myday') renderMyDay();
     });
   });
 }
@@ -185,6 +186,42 @@ let activeFilter = 'All';
 let selectedDow  = new Date().getDay();
 let currentActs  = [];
 
+// ── Favorites ("My Day") ───────────────────────────────────────────────────────
+const FAV_KEY = 'oldpalace_favorites';
+
+function favKey(dow, act) { return `${dow}|${act.time}|${act.title}`; }
+
+function getFavorites() {
+  try { return new Set(JSON.parse(localStorage.getItem(FAV_KEY)) || []); }
+  catch { return new Set(); }
+}
+function saveFavorites(set) {
+  try { localStorage.setItem(FAV_KEY, JSON.stringify([...set])); } catch {}
+}
+function isFavorite(dow, act) { return getFavorites().has(favKey(dow, act)); }
+function toggleFavorite(dow, act) {
+  const favs = getFavorites();
+  const key = favKey(dow, act);
+  favs.has(key) ? favs.delete(key) : favs.add(key);
+  saveFavorites(favs);
+  return favs.has(key);
+}
+
+// Date for a given offset from today (0 = today)
+function dateForOffset(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return d;
+}
+
+function updateMydayBadge() {
+  const count = getFavorites().size;
+  const badge = document.getElementById('myday-count');
+  if (!badge) return;
+  if (count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
+  else { badge.classList.add('hidden'); }
+}
+
 function buildApp() {
   const now      = new Date();
   const todayDow = now.getDay();
@@ -196,6 +233,7 @@ function buildApp() {
 
   buildDaySelector(now);
   renderDay(todayDow, true);
+  updateMydayBadge();
 }
 
 function buildDaySelector(now) {
@@ -269,15 +307,15 @@ function renderDay(dow, isToday) {
       activeFilter = cat;
       filterBar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderGrid(currentActs, now, isToday);
+      renderGrid(currentActs, now, isToday, dow);
     });
     filterBar.appendChild(btn);
   });
 
-  renderGrid(acts, now, isToday);
+  renderGrid(acts, now, isToday, dow);
 }
 
-function renderGrid(acts, now, isToday) {
+function renderGrid(acts, now, isToday, dow) {
   const grid     = document.getElementById('activity-grid');
   const filtered = activeFilter === 'All' ? acts : acts.filter(a => a.cat === activeFilter);
   grid.innerHTML  = '';
@@ -290,6 +328,7 @@ function renderGrid(acts, now, isToday) {
   filtered.forEach((act, i) => {
     const style  = CAT_STYLE[act.cat] || { color: '#aaa' };
     const isNowAct = isToday && isNow(act, now);
+    const fav = isFavorite(dow, act);
     const card   = document.createElement('article');
     card.className = 'a-card' + (isNowAct ? ' now-card' : '');
     card.style.animationDelay = `${i * 0.045}s`;
@@ -305,10 +344,90 @@ function renderGrid(acts, now, isToday) {
         <div class="a-desc">${act.desc}</div>
       </div>
       <div class="a-meta">
+        <button class="a-fav${fav ? ' is-fav' : ''}" title="Add to My Day" aria-label="Add to My Day">${fav ? '★' : '☆'}</button>
         <span class="a-cat" style="color:${style.color};border-color:${style.color}">${act.cat}</span>
         <span class="a-dur">${act.dur} min</span>
       </div>
     `;
+    const favBtn = card.querySelector('.a-fav');
+    favBtn.addEventListener('click', () => {
+      const nowFav = toggleFavorite(dow, act);
+      favBtn.classList.toggle('is-fav', nowFav);
+      favBtn.textContent = nowFav ? '★' : '☆';
+      updateMydayBadge();
+    });
     grid.appendChild(card);
   });
+}
+
+// Re-render the Programme grid for the currently selected day (keeps stars in sync)
+function refreshProgrammeGrid() {
+  const now = new Date();
+  renderGrid(currentActs, now, selectedDow === now.getDay(), selectedDow);
+}
+
+function renderMyDay() {
+  const container = document.getElementById('myday-content');
+  const favs = getFavorites();
+  container.innerHTML = '';
+
+  if (favs.size === 0) {
+    container.innerHTML = `
+      <div class="myday-empty">
+        <div class="myday-empty-icon">★</div>
+        <p class="myday-empty-title">Your day is a blank canvas</p>
+        <p class="myday-empty-sub">Browse the Programme and tap the ☆ star on any activity to build your personal itinerary.</p>
+      </div>`;
+    return;
+  }
+
+  for (let offset = 0; offset < 7; offset++) {
+    const d    = dateForOffset(offset);
+    const dow  = d.getDay();
+    const acts = getSchedule(dow).filter(a => favs.has(favKey(dow, a)));
+    if (!acts.length) continue;
+
+    const group = document.createElement('div');
+    group.className = 'myday-group';
+    const label = offset === 0 ? 'Today' : DAYS[dow];
+    group.innerHTML = `
+      <div class="myday-group-head">
+        <span class="myday-group-day">${label}</span>
+        <span class="myday-group-date">${d.getDate()} ${MONTHS[d.getMonth()]}</span>
+      </div>`;
+
+    const list = document.createElement('div');
+    list.className = 'activity-grid';
+    acts.forEach((act, i) => {
+      const style = CAT_STYLE[act.cat] || { color: '#aaa' };
+      const card  = document.createElement('article');
+      card.className = 'a-card';
+      card.style.animationDelay = `${i * 0.045}s`;
+      card.innerHTML = `
+        <div class="a-time">
+          <div class="a-time-val">${act.hh}</div>
+          <div class="a-time-ampm">${act.ap}</div>
+        </div>
+        <div class="a-icon">${act.icon}</div>
+        <div class="a-body">
+          <div class="a-title">${act.title}</div>
+          <div class="a-loc">📍 ${act.location}</div>
+          <div class="a-desc">${act.desc}</div>
+        </div>
+        <div class="a-meta">
+          <button class="a-fav is-fav" title="Remove from My Day" aria-label="Remove from My Day">★</button>
+          <span class="a-cat" style="color:${style.color};border-color:${style.color}">${act.cat}</span>
+          <span class="a-dur">${act.dur} min</span>
+        </div>`;
+      card.querySelector('.a-fav').addEventListener('click', () => {
+        toggleFavorite(dow, act);
+        updateMydayBadge();
+        refreshProgrammeGrid();
+        renderMyDay();
+      });
+      list.appendChild(card);
+    });
+    group.appendChild(list);
+    container.appendChild(group);
+  }
 }
