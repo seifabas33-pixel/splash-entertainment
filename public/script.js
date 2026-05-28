@@ -78,6 +78,40 @@ function getLang() {
   return SUPPORTED_LANGS.includes(nav) ? nav : 'en';
 }
 
+// ── Theme (light / dark) ────────────────────────────────────────────────────
+const THEME_KEY = 'oldpalace_theme';
+
+function getTheme() {
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved === 'light' || saved === 'dark') return saved;
+  return (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+}
+
+function applyTheme(theme) {
+  const app = document.getElementById('app');
+  if (theme === 'light') app?.setAttribute('data-theme', 'light');
+  else                   app?.removeAttribute('data-theme');
+  const icon = document.getElementById('theme-icon');
+  if (icon) icon.textContent = theme === 'light' ? '☀' : '☾';
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+}
+
+function setTheme(theme) {
+  localStorage.setItem(THEME_KEY, theme);
+  applyTheme(theme);
+}
+
+function initTheme() {
+  applyTheme(getTheme());
+  const btn = document.getElementById('theme-toggle');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      setTheme(getTheme() === 'light' ? 'dark' : 'light');
+    });
+  }
+}
+
 function t(key, fallback) {
   const entry = I18N[key];
   if (!entry) return fallback ?? key;
@@ -572,6 +606,7 @@ function buildApp() {
   initStay();
   loadResortInfo();
   initWifi();
+  initTheme();
   initLightbox();
   paintCountdownRibbon();
   startHappeningNowTick();
