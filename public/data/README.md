@@ -52,3 +52,25 @@ Each activity needs: `time` (24-h `"HH:MM"`), `title`, `location`, `cat`
 
 If the JSON is malformed, the app falls back to bundled defaults — no broken
 guest screens. Always validate JSON (e.g. at jsonlint.com) before committing.
+
+---
+
+## Translations (i18n.json)
+
+UI strings (tab labels, buttons, info cards, etc.) live in **`i18n.json`**.
+Each key has four values: `en`, `ar`, `de`, `ru`. Edit it the same way you
+edit `programme.json` (via the GitHub web editor).
+
+Activity-content translations (titles, locations, descriptions) live inside
+`programme.json` as small objects:
+
+```json
+"title": { "en": "...", "ar": "...", "de": "...", "ru": "..." }
+```
+
+Use the in-app admin editor (Staff Sign-in → `#admin`) and tap the
+**EN / AR / DE / RU** sub-tabs inside any activity row to edit each
+language's text. The download button preserves all four language buckets.
+
+If a translation is missing, the app falls back to English automatically.
+

@@ -1048,3 +1048,84 @@ body {
 }
 .qc-ext-urgent { border-color: rgba(220,80,80,0.35); }
 .qc-ext-urgent strong { color: #e88; }
+
+/* ═══════════════════════════════════════════════════
+   LANGUAGE PICKER (entrance)
+═══════════════════════════════════════════════════ */
+.lang-picker {
+  display: inline-flex; gap: 0.35rem;
+  margin: 1rem auto 0;
+  padding: 0.35rem;
+  background: rgba(8,10,24,0.5);
+  border: 1px solid var(--card-border); border-radius: 4px;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.7s ease 1.85s both;
+}
+.lang-btn {
+  padding: 0.4rem 0.85rem;
+  background: transparent; border: none; border-radius: 3px;
+  color: rgba(232,213,163,0.6);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+.lang-btn:hover { color: var(--gold-light); }
+.lang-btn.active {
+  color: var(--ink); background: var(--gold);
+}
+
+/* ═══════════════════════════════════════════════════
+   RTL (Arabic)
+═══════════════════════════════════════════════════ */
+html[dir="rtl"] body {
+  font-family: 'Tajawal', 'Raleway', 'Segoe UI', Arial, sans-serif;
+}
+html[dir="rtl"] .e-heading,
+html[dir="rtl"] .e-sub,
+html[dir="rtl"] .myday-group-day,
+html[dir="rtl"] .myday-empty-title,
+html[dir="rtl"] .info-card-title,
+html[dir="rtl"] .show-title,
+html[dir="rtl"] .qc-head,
+html[dir="rtl"] .admin-row-time {
+  font-family: 'Tajawal', 'Cormorant Garant', serif;
+}
+html[dir="rtl"] .quick-contact-fab {
+  right: auto;
+  left: calc(1.2rem + env(safe-area-inset-left, 0px));
+}
+html[dir="rtl"] .e-staff-link {
+  right: auto;
+  left: 1.4rem;
+}
+html[dir="rtl"] .h-back-btn,
+html[dir="rtl"] .h-back-icon {
+  transform: scaleX(-1);
+}
+html[dir="rtl"] .h-back-label { transform: scaleX(-1); display: inline-block; }
+html[dir="rtl"] .qc-action-icon,
+html[dir="rtl"] .a-cat,
+html[dir="rtl"] .e-show-tag {
+  /* preserve readable orientation for icon-like elements */
+}
+
+/* ═══════════════════════════════════════════════════
+   ADMIN — language sub-tabs
+═══════════════════════════════════════════════════ */
+.admin-lang-tabs {
+  display: flex; gap: 0.3rem;
+  margin: 0.4rem 0 0.8rem;
+}
+.admin-lang-tab {
+  flex: 0 0 auto;
+  padding: 0.3rem 0.7rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+  color: var(--muted); background: rgba(6,8,18,0.5);
+  border: 1px solid var(--card-border); border-radius: 3px;
+  cursor: pointer;
+}
+.admin-lang-tab.active {
+  color: var(--ink); background: var(--gold); border-color: var(--gold);
+}

@@ -1,4 +1,4 @@
-const CACHE = 'oldpalace-v7';
+const CACHE = 'oldpalace-v8';
 
 const CORE = [
   '.',
@@ -7,6 +7,7 @@ const CORE = [
   'script.js',
   'manifest.webmanifest',
   'data/programme.json',
+  'data/i18n.json',
   'assets/old-palace-logo.png',
   'assets/splash-logo.png',
   'assets/entrance-bg.png',
@@ -92,8 +93,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Programme JSON: network-first so schedule edits propagate when online.
-  if (url.origin === self.location.origin && url.pathname.endsWith('data/programme.json')) {
+  // Programme + i18n JSON: network-first so edits propagate when online.
+  if (url.origin === self.location.origin && (url.pathname.endsWith('data/programme.json') || url.pathname.endsWith('data/i18n.json'))) {
     event.respondWith(
       fetch(request).then((res) => {
         if (res && res.ok) {
