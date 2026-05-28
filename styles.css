@@ -48,67 +48,145 @@
   color: #1f1a14;
 }
 
-/* Light-mode overrides for elements that hardcode dark rgba backgrounds */
-[data-theme="light"] #app .app-header,
-[data-theme="light"] #app .tab-nav {
-  background: var(--card-bg);
+/* ── Light-mode overrides ──────────────────────────────────────────────────
+   Many surfaces use hardcoded rgba() backgrounds and dark-mode text colors.
+   Override each one against the actual class names.
+─────────────────────────────────────────────────────────────────────────── */
+
+/* App shell — replace the dark gradient + entrance photo background */
+[data-theme="light"] #app {
+  background:
+    linear-gradient(180deg,
+      rgba(247,243,232,0.95) 0%,
+      rgba(237,229,210,0.92) 45%,
+      rgba(247,243,232,0.95) 100%
+    ),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,0.10) 0%, transparent 60%) !important;
+}
+
+/* Header + nav */
+[data-theme="light"] #app .app-header { background: rgba(255,252,244,0.96); border-bottom: 1px solid var(--card-border); }
+[data-theme="light"] #app .tab-nav    { background: rgba(255,252,244,0.92); border-bottom: 1px solid var(--card-border); }
+[data-theme="light"] #app .tab-btn { color: rgba(31,26,20,0.55); }
+[data-theme="light"] #app .tab-btn:hover { color: var(--gold); }
+[data-theme="light"] #app .tab-btn.active { color: var(--gold); }
+
+/* Programme activity cards — the .a-* family */
+[data-theme="light"] #app .a-card {
+  background: linear-gradient(150deg, rgba(255,252,244,0.96), rgba(248,242,228,0.94));
   border-color: var(--card-border);
 }
-[data-theme="light"] #app .admin-tab,
-[data-theme="light"] #app .admin-editor-btn,
-[data-theme="light"] #app .admin-resort-section,
-[data-theme="light"] #app .admin-day,
-[data-theme="light"] #app .filter-btn,
-[data-theme="light"] #app .info-card,
-[data-theme="light"] #app .act-card,
-[data-theme="light"] #app .suggestion-card,
+[data-theme="light"] #app .a-card:hover { border-color: rgba(166,131,41,0.55); }
+[data-theme="light"] #app .a-title    { color: #1f1a14; }
+[data-theme="light"] #app .a-loc      { color: rgba(31,26,20,0.7); }
+[data-theme="light"] #app .a-desc     { color: rgba(31,26,20,0.65); }
+[data-theme="light"] #app .a-time-val { color: var(--gold); }
+[data-theme="light"] #app .a-time-ampm{ color: rgba(31,26,20,0.55); }
+[data-theme="light"] #app .a-dur      { color: rgba(31,26,20,0.55); }
+
+/* Tonight's show hero card */
+[data-theme="light"] #app .show-card {
+  background: linear-gradient(135deg, rgba(245,235,210,0.95), rgba(255,252,244,0.92));
+  border-color: rgba(166,131,41,0.5);
+  box-shadow: 0 14px 44px rgba(166,131,41,0.18);
+}
+[data-theme="light"] #app .show-badge { color: var(--gold); }
+[data-theme="light"] #app .show-title { color: #1f1a14; }
+[data-theme="light"] #app .show-meta  { color: rgba(31,26,20,0.65); }
+[data-theme="light"] #app .show-desc  { color: rgba(31,26,20,0.7); }
+
+/* Filter pills (ALL / KIDS / GAMES / SPORT / AQUA / EVENING) */
+[data-theme="light"] #app .filter-btn {
+  background: rgba(255,252,244,0.92);
+  border-color: var(--card-border);
+  color: rgba(31,26,20,0.6);
+}
+[data-theme="light"] #app .filter-btn:hover { color: var(--gold); border-color: rgba(166,131,41,0.5); }
+[data-theme="light"] #app .filter-btn.active {
+  background: var(--gold);
+  color: #fff;
+  border-color: var(--gold);
+}
+
+/* Day-selector pills */
+[data-theme="light"] #app .day-pill {
+  background: rgba(255,252,244,0.92);
+  border-color: var(--card-border);
+  color: rgba(31,26,20,0.65);
+}
+[data-theme="light"] #app .day-pill.active {
+  background: var(--gold);
+  color: #fff;
+  border-color: var(--gold);
+}
+
+/* Info cards (Dining / Facilities / Your Stay) */
+[data-theme="light"] #app .info-card {
+  background: rgba(255,252,244,0.96);
+  border-color: var(--card-border);
+}
+[data-theme="light"] #app .info-card-title { color: #1f1a14; }
+[data-theme="light"] #app .info-card-meta  { color: rgba(31,26,20,0.65); }
+[data-theme="light"] #app .info-card-desc  { color: rgba(31,26,20,0.7); }
+[data-theme="light"] #app .info-card-badge { color: var(--gold); border-color: rgba(166,131,41,0.4); }
+
+/* Section headers */
+[data-theme="light"] #app .section-title { color: #1f1a14; }
+[data-theme="light"] #app .section-sub   { color: rgba(31,26,20,0.65); }
+
+/* Excursions, Gallery thumbs, suggestions, welcome card, wifi, happening now, weather, countdown */
 [data-theme="light"] #app .excursion-card,
 [data-theme="light"] #app .gallery-thumb,
-[data-theme="light"] #app .feedback-cat-card,
+[data-theme="light"] #app .suggestion-card,
 [data-theme="light"] #app .welcome-card,
 [data-theme="light"] #app .wifi-card,
 [data-theme="light"] #app .happening-now,
 [data-theme="light"] #app .prog-weather,
-[data-theme="light"] #app .countdown-ribbon {
-  background: var(--card-bg);
+[data-theme="light"] #app .countdown-ribbon,
+[data-theme="light"] #app .feedback-cat-card {
+  background: rgba(255,252,244,0.96);
   border-color: var(--card-border);
-  color: var(--text);
+  color: #1f1a14;
+}
+
+/* Admin panel */
+[data-theme="light"] #app .admin-tab,
+[data-theme="light"] #app .admin-editor-btn,
+[data-theme="light"] #app .admin-day {
+  background: rgba(255,252,244,0.92);
+  border-color: var(--card-border);
+  color: rgba(31,26,20,0.65);
 }
 [data-theme="light"] #app .admin-tab.active,
 [data-theme="light"] #app .admin-editor-btn.active,
-[data-theme="light"] #app .admin-day.active,
-[data-theme="light"] #app .filter-btn.active {
-  background: var(--surface-2);
+[data-theme="light"] #app .admin-day.active {
+  background: var(--gold);
+  color: #fff;
+  border-color: var(--gold);
+}
+[data-theme="light"] #app .admin-resort-section {
+  background: rgba(255,252,244,0.96);
+  border-color: var(--card-border);
 }
 [data-theme="light"] #app .admin-form input,
 [data-theme="light"] #app .admin-form select,
 [data-theme="light"] #app .admin-form textarea {
   background: #fffdf6;
-  color: var(--text);
+  color: #1f1a14;
   border-color: var(--card-border);
 }
+[data-theme="light"] #app .admin-form label { color: rgba(31,26,20,0.75); }
+
+/* Lightbox + quick-contact sheet */
 [data-theme="light"] #app .lightbox { background: rgba(247,243,232,0.98); }
-[data-theme="light"] #app .lightbox-caption { color: var(--text); background: var(--card-bg); }
+[data-theme="light"] #app .lightbox-caption { color: #1f1a14; background: rgba(255,252,244,0.96); }
 [data-theme="light"] #app .lightbox-close,
 [data-theme="light"] #app .lightbox-prev,
-[data-theme="light"] #app .lightbox-next { color: var(--text); }
-[data-theme="light"] #app .qc-sheet { background: var(--card-bg); }
-[data-theme="light"] #app .qc-backdrop { background: rgba(31,26,20,0.4); }
-[data-theme="light"] #app .tab-btn { color: var(--muted); }
-[data-theme="light"] #app .tab-btn:hover { color: var(--gold-light); }
-[data-theme="light"] #app .tab-btn.active { color: var(--gold); }
-[data-theme="light"] #app .section-title,
-[data-theme="light"] #app .section-sub,
-[data-theme="light"] #app .info-card-title,
-[data-theme="light"] #app .info-card-meta,
-[data-theme="light"] #app .info-card-detail,
-[data-theme="light"] #app .act-title,
-[data-theme="light"] #app .act-loc,
-[data-theme="light"] #app .act-desc,
-[data-theme="light"] #app .show-title,
-[data-theme="light"] #app .show-meta { color: var(--text); }
-[data-theme="light"] #app .act-time,
-[data-theme="light"] #app .show-time { color: var(--muted); }
+[data-theme="light"] #app .lightbox-next { color: #1f1a14; }
+[data-theme="light"] #app .qc-sheet { background: rgba(255,252,244,0.98); color: #1f1a14; }
+[data-theme="light"] #app .qc-action-title { color: #1f1a14; }
+[data-theme="light"] #app .qc-action-sub   { color: rgba(31,26,20,0.6); }
+[data-theme="light"] #app .qc-backdrop { background: rgba(31,26,20,0.35); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
