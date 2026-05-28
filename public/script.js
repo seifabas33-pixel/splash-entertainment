@@ -2387,6 +2387,7 @@ async function renderGallery() {
     const item = document.createElement('button');
     item.type = 'button';
     item.className = 'gallery-thumb';
+    item.style.animationDelay = `${Math.min(i * 60, 600)}ms`;
     const caption = p.caption ? (typeof p.caption === 'object' ? pickLang(p.caption) : p.caption) : '';
     item.innerHTML = `
       <img src="${p.src}" alt="${caption}" loading="lazy" />
@@ -2420,6 +2421,10 @@ function paintLightbox() {
   const cap = document.getElementById('lightbox-caption');
   const cnt = document.getElementById('lightbox-counter');
   const caption = p.caption ? (typeof p.caption === 'object' ? pickLang(p.caption) : p.caption) : '';
+  img.style.animation = 'none';
+  // force reflow so the animation restarts on each step
+  void img.offsetWidth;
+  img.style.animation = '';
   img.src = p.src;
   img.alt = caption;
   cap.textContent = caption;
