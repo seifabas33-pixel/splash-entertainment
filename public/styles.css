@@ -42,44 +42,14 @@ body {
   overflow: hidden;
 }
 
-/* Cinematic CSS gradient background */
+/* Real resort photo background */
 .entrance-bg {
   position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 90% 45% at 50% 60%, rgba(200,112,48,0.55) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 20% at 50% 57%, rgba(255,215,90,0.65) 0%, transparent 55%),
-    linear-gradient(
-      to bottom,
-      #08122e 0%,
-      #101e50 20%,
-      #1a3282 38%,
-      #284a9a 52%,
-      #784826 65%,
-      #c46e28 78%,
-      #d88838 88%,
-      #b87028 100%
-    );
+  background: url('assets/entrance-bg.png') center center / cover no-repeat;
   animation: bgReveal 2.4s cubic-bezier(.4,0,.2,1) both;
 }
 .entrance-bg::after {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(1.4px 1.4px at 8%   4%, #fff 100%, transparent),
-    radial-gradient(1.0px 1.0px at 22%  7%, #fff 100%, transparent),
-    radial-gradient(1.5px 1.5px at 38%  2%, #fff 100%, transparent),
-    radial-gradient(0.9px 0.9px at 54%  8%, #fff 100%, transparent),
-    radial-gradient(1.3px 1.3px at 68%  3%, #fff 100%, transparent),
-    radial-gradient(1.0px 1.0px at 82%  6%, #fff 100%, transparent),
-    radial-gradient(1.4px 1.4px at 92%  1%, #fff 100%, transparent),
-    radial-gradient(0.8px 0.8px at 14% 13%, #fff 100%, transparent),
-    radial-gradient(1.1px 1.1px at 46% 11%, #fff 100%, transparent),
-    radial-gradient(0.9px 0.9px at 76% 14%, #fff 100%, transparent),
-    radial-gradient(1.2px 1.2px at 30% 18%, #fff 100%, transparent),
-    radial-gradient(0.8px 0.8px at 60% 16%, #fff 100%, transparent);
-  background-size: 100% 52%;
-  background-repeat: no-repeat;
-  opacity: 0.65;
+  content: none;
 }
 @keyframes bgReveal {
   from { opacity: 0; transform: scale(1.05); }
@@ -89,9 +59,9 @@ body {
 .entrance-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(160deg,
-    rgba(4,6,16,0.35) 0%,
-    rgba(4,6,16,0.18) 50%,
-    rgba(4,6,16,0.42) 100%
+    rgba(4,6,16,0.55) 0%,
+    rgba(4,6,16,0.30) 50%,
+    rgba(4,6,16,0.60) 100%
   );
 }
 .entrance-vignette {
