@@ -1496,8 +1496,11 @@ const DISMISS_KEY = 'oldpalace_countdown_dismissed';
 const SKIPPED_KEY = 'oldpalace_welcome_skipped';
 
 function todayYmd() {
-  const d = new Date();
-  return ymd(d);
+  return new Date().toISOString().slice(0, 10);
+}
+
+function isoYmd(d) {
+  return d.toISOString().slice(0, 10);
 }
 
 function getCheckout() { return localStorage.getItem(CHECKOUT_KEY) || ''; }
@@ -1594,9 +1597,9 @@ function paintWelcomeCard() {
   applyI18n(card);
   const input = document.getElementById('welcome-checkout-input');
   if (input && !input.value) {
-    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 5);
+    const checkout = new Date(); checkout.setDate(checkout.getDate() + 5);
     input.min = todayYmd();
-    input.value = ymd(tomorrow);
+    input.value = isoYmd(checkout);
   }
 }
 
