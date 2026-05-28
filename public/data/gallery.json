@@ -51,7 +51,28 @@
       "id": "rooms",
       "icon": "🛏",
       "titleKey": "gallery.cat.rooms",
-      "photos": []
+      "photos": [
+        {
+          "src": "assets/gallery/rooms/sea-view-twin.jpg",
+          "caption": { "en": "Sea-view twin room", "ar": "غرفة مزدوجة بإطلالة على البحر", "de": "Zweibettzimmer mit Meerblick", "ru": "Двухместный номер с видом на море" }
+        },
+        {
+          "src": "assets/gallery/rooms/suite-living.jpg",
+          "caption": { "en": "Suite living area with balcony", "ar": "منطقة معيشة الجناح مع شرفة", "de": "Suite-Wohnbereich mit Balkon", "ru": "Гостиная зона люкса с балконом" }
+        },
+        {
+          "src": "assets/gallery/rooms/balcony.jpg",
+          "caption": { "en": "Private balcony with sea view", "ar": "شرفة خاصة مع إطلالة على البحر", "de": "Privater Balkon mit Meerblick", "ru": "Личный балкон с видом на море" }
+        },
+        {
+          "src": "assets/gallery/rooms/bathroom.jpg",
+          "caption": { "en": "Modern en-suite bathroom", "ar": "حمام داخلي حديث", "de": "Modernes En-Suite-Bad", "ru": "Современная ванная комната" }
+        },
+        {
+          "src": "assets/gallery/rooms/standard-twin.jpg",
+          "caption": { "en": "Comfortable standard twin", "ar": "غرفة مزدوجة قياسية مريحة", "de": "Komfortables Standard-Zweibettzimmer", "ru": "Уютный стандартный двухместный номер" }
+        }
+      ]
     },
     {
       "id": "spa",
