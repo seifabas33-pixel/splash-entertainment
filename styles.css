@@ -188,6 +188,20 @@
 [data-theme="light"] #app .qc-action-sub   { color: rgba(31,26,20,0.6); }
 [data-theme="light"] #app .qc-backdrop { background: rgba(31,26,20,0.35); }
 
+/* Happening Now strip — "NOW" / "Disco Time" / "La Bonita" etc */
+[data-theme="light"] #app .hn-live-title  { color: #1f1a14; }
+[data-theme="light"] #app .hn-live-loc    { color: rgba(31,26,20,0.65); }
+[data-theme="light"] #app .hn-live-label  { color: var(--gold); }
+[data-theme="light"] #app .hn-chip-title  { color: #1f1a14; }
+[data-theme="light"] #app .hn-chip-time   { color: rgba(31,26,20,0.6); }
+[data-theme="light"] #app .hn-show-label  { color: var(--gold); }
+[data-theme="light"] #app .hn-show-title  { color: #1f1a14; }
+[data-theme="light"] #app .hn-show-countdown { color: var(--gold); }
+
+/* Weather strip — "27°C · UV 0 · 18 km/h · Clear sky" */
+[data-theme="light"] #app .prog-weather,
+[data-theme="light"] #app .e-weather { color: #1f1a14; }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
