@@ -123,6 +123,16 @@ function fmtDate(now) {
     </div>
   `;
 
+  // Skip entrance and go straight to My Day when launched via a reminder click.
+  if (location.hash === '#myday') {
+    const el = document.getElementById('entrance');
+    el.style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    buildApp();
+    return;
+  }
+
   // ── Exit: use JS transitions (more reliable than CSS class animations) ──
   document.getElementById('enter-btn').addEventListener('click', () => {
     const el = document.getElementById('entrance');
@@ -204,7 +214,154 @@ function toggleFavorite(dow, act) {
   const key = favKey(dow, act);
   favs.has(key) ? favs.delete(key) : favs.add(key);
   saveFavorites(favs);
+  scheduleReminders();
   return favs.has(key);
+}
+
+// ── Reminders ──────────────────────────────────────────────────────────────────
+const REMINDERS_ENABLED_KEY = 'oldpalace_reminders_enabled';
+const NOTIFIED_KEY          = 'oldpalace_notified';
+const REMINDER_LEAD_MS      = 15 * 60 * 1000;
+const CATCHUP_WINDOW_MS     = 5 * 60 * 1000;
+let reminderTimers = [];
+
+function remindersEnabled() {
+  return localStorage.getItem(REMINDERS_ENABLED_KEY) === 'true';
+}
+function setRemindersEnabled(on) {
+  localStorage.setItem(REMINDERS_ENABLED_KEY, on ? 'true' : 'false');
+}
+
+function getNotifiedSet() {
+  try { return new Set(JSON.parse(localStorage.getItem(NOTIFIED_KEY)) || []); }
+  catch { return new Set(); }
+}
+function markNotified(key) {
+  const s = getNotifiedSet();
+  s.add(key);
+  try { localStorage.setItem(NOTIFIED_KEY, JSON.stringify([...s])); } catch {}
+}
+
+function ymd(d) {
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}${m}${day}`;
+}
+function notifyKey(date, act) { return `${ymd(date)}|${act.time}|${act.title}`; }
+
+function activityStartDate(offset, act) {
+  const d = dateForOffset(offset);
+  const [h, m] = act.time.split(':').map(Number);
+  d.setHours(h, m, 0, 0);
+  return d;
+}
+
+function showReminder(act, startDate) {
+  const title = `${act.icon || '⭐'} ${act.title}`;
+  const body  = `Starts at ${act.hh}${act.ap ? ' ' + act.ap : ''}${act.location ? ' · ' + act.location : ''}`;
+  const tag   = notifyKey(startDate, act);
+  if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({ type: 'SHOW_REMINDER', title, body, tag });
+  } else if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification(title, { body, tag, icon: 'assets/icons/icon-192.png' });
+  }
+  markNotified(tag);
+}
+
+function clearReminderTimers() {
+  reminderTimers.forEach(clearTimeout);
+  reminderTimers = [];
+}
+
+function scheduleReminders() {
+  clearReminderTimers();
+  if (!remindersEnabled()) return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  const favs     = getFavorites();
+  const notified = getNotifiedSet();
+  const now      = Date.now();
+  let scheduled  = 0;
+
+  for (let offset = 0; offset < 7 && scheduled < 50; offset++) {
+    const dow  = dateForOffset(offset).getDay();
+    const acts = getSchedule(dow).filter(a => favs.has(favKey(dow, a)));
+    for (const act of acts) {
+      if (scheduled >= 50) break;
+      const start   = activityStartDate(offset, act);
+      const trigger = start.getTime() - REMINDER_LEAD_MS;
+      const key     = notifyKey(start, act);
+      if (notified.has(key)) continue;
+
+      if (trigger <= now && start.getTime() > now - CATCHUP_WINDOW_MS) {
+        showReminder(act, start);
+      } else if (trigger > now) {
+        const delay = Math.min(trigger - now, 2 ** 31 - 1);
+        reminderTimers.push(setTimeout(() => showReminder(act, start), delay));
+        scheduled++;
+      }
+    }
+  }
+}
+
+let repaintReminderHint = () => {};
+
+function initReminders() {
+  const bar    = document.getElementById('reminders-bar');
+  const toggle = document.getElementById('reminder-toggle');
+  const hint   = document.getElementById('reminder-hint');
+  if (!bar || !toggle || !hint) return;
+
+  if (!('Notification' in window)) {
+    hint.textContent = 'Reminders not supported on this device.';
+    bar.classList.remove('hidden');
+    toggle.style.display = 'none';
+    return;
+  }
+
+  bar.classList.remove('hidden');
+
+  const paint = () => {
+    const enabled = remindersEnabled() && Notification.permission === 'granted';
+    toggle.classList.toggle('is-on', enabled);
+    toggle.querySelector('.reminder-toggle-label').textContent =
+      enabled ? 'Reminders on' : 'Enable reminders';
+    if (Notification.permission === 'denied') {
+      hint.textContent = 'Notifications blocked — enable them in your browser settings.';
+      hint.classList.remove('is-success');
+    } else if (enabled) {
+      hint.textContent = "We'll ping you 15 min before each starred show.";
+      hint.classList.add('is-success');
+    } else {
+      hint.textContent = getFavorites().size
+        ? 'Turn on reminders to get pinged 15 min before each show.'
+        : '';
+      hint.classList.remove('is-success');
+    }
+  };
+  repaintReminderHint = paint;
+  paint();
+
+  toggle.addEventListener('click', async () => {
+    if (Notification.permission === 'granted') {
+      const turnOn = !remindersEnabled();
+      setRemindersEnabled(turnOn);
+      if (turnOn) scheduleReminders(); else clearReminderTimers();
+      paint();
+      return;
+    }
+    if (Notification.permission === 'denied') { paint(); return; }
+    const res = await Notification.requestPermission();
+    setRemindersEnabled(res === 'granted');
+    if (res === 'granted') scheduleReminders();
+    paint();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') scheduleReminders();
+  });
+
+  scheduleReminders();
 }
 
 // Date for a given offset from today (0 = today)
@@ -234,6 +391,12 @@ function buildApp() {
   buildDaySelector(now);
   renderDay(todayDow, true);
   updateMydayBadge();
+  initReminders();
+
+  if (location.hash === '#myday') {
+    const tab = document.querySelector('.tab-btn[data-tab="myday"]');
+    if (tab) tab.click();
+  }
 }
 
 function buildDaySelector(now) {
@@ -370,6 +533,7 @@ function renderMyDay() {
   const container = document.getElementById('myday-content');
   const favs = getFavorites();
   container.innerHTML = '';
+  repaintReminderHint();
 
   if (favs.size === 0) {
     container.innerHTML = `
@@ -436,6 +600,12 @@ function renderMyDay() {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+  navigator.serviceWorker.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'REMINDER_CLICK') {
+      const tab = document.querySelector('.tab-btn[data-tab="myday"]');
+      if (tab) tab.click();
+    }
   });
 }
 

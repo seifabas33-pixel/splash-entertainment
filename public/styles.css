@@ -571,6 +571,40 @@ body {
   border-radius: 9px; letter-spacing: 0;
 }
 
+/* Reminders bar */
+.reminders-bar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.7rem 1rem;
+  justify-content: center; margin: -0.4rem 0 1.6rem;
+}
+.reminder-toggle {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  background: linear-gradient(150deg, rgba(12,15,30,0.7), rgba(6,8,18,0.65));
+  border: 1px solid var(--card-border); border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, background 0.25s, box-shadow 0.25s;
+}
+.reminder-toggle:hover {
+  color: var(--gold-light);
+  border-color: rgba(201,168,76,0.4);
+}
+.reminder-toggle.is-on {
+  color: var(--gold);
+  border-color: rgba(201,168,76,0.6);
+  background: linear-gradient(150deg, rgba(30,22,7,0.9), rgba(12,10,20,0.85));
+  box-shadow: 0 0 0 1px rgba(201,168,76,0.15), 0 6px 22px rgba(0,0,0,0.4);
+}
+.reminder-bell { flex: 0 0 auto; }
+.reminder-hint {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem; letter-spacing: 0.06em;
+  color: var(--muted); max-width: 360px; line-height: 1.55;
+}
+.reminder-hint.is-success { color: var(--gold-light); }
+
 /* My Day groups */
 .myday-group { margin-bottom: 2rem; }
 .myday-group-head {

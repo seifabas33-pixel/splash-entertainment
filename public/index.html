@@ -102,6 +102,15 @@
             <h2 class="section-title">My Day</h2>
             <p class="section-sub">Your personal itinerary — tap the star on any activity to add it here</p>
           </div>
+          <div class="reminders-bar hidden" id="reminders-bar">
+            <button class="reminder-toggle" id="reminder-toggle" type="button">
+              <svg class="reminder-bell" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                <path fill="currentColor" d="M12 22a2.4 2.4 0 0 0 2.4-2.4H9.6A2.4 2.4 0 0 0 12 22Zm7-6v-5a7 7 0 0 0-5.6-6.86V3.2a1.4 1.4 0 0 0-2.8 0v.94A7 7 0 0 0 5 11v5l-2 2v1h18v-1Z"/>
+              </svg>
+              <span class="reminder-toggle-label">Enable reminders</span>
+            </button>
+            <span class="reminder-hint" id="reminder-hint"></span>
+          </div>
           <div id="myday-content"></div>
         </div>
       </div>
