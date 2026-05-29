@@ -1744,29 +1744,55 @@ function renderFeedback() {
     });
   });
 
-  // Category chips — multi-select toggle
-  document.querySelectorAll('#feedback-chips .feedback-chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('active'));
+  // Per-category star ratings
+  const FB_CATS = [
+    { id: 'room', icon: '🛏' }, { id: 'food', icon: '🍽' }, { id: 'pool', icon: '🏖' },
+    { id: 'spa', icon: '💆' }, { id: 'activities', icon: '🎭' }, { id: 'staff', icon: '✨' },
+  ];
+  const catRatings = {};
+  const catWrap = document.getElementById('feedback-cat-ratings');
+  catWrap.innerHTML = FB_CATS.map(c => `
+    <div class="feedback-cat-row">
+      <span class="feedback-cat-row-label">
+        <span class="feedback-chip-icon">${c.icon}</span>
+        <span data-i18n="feedback.cat.${c.id}.title"></span>
+      </span>
+      <div class="fb-star-row fb-cat-stars" data-cat="${c.id}">
+        ${[1,2,3,4,5].map(n => `<button type="button" class="fb-star fb-star-sm" data-val="${n}" aria-label="${n}">★</button>`).join('')}
+      </div>
+    </div>`).join('');
+  applyI18n(catWrap);
+  catWrap.querySelectorAll('.fb-cat-stars').forEach(row => {
+    row.querySelectorAll('.fb-star').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.val);
+        catRatings[row.dataset.cat] = val;
+        row.querySelectorAll('.fb-star').forEach(s =>
+          s.classList.toggle('active', parseInt(s.dataset.val) <= val)
+        );
+      });
+    });
   });
 
   document.getElementById('fb-overall-send').addEventListener('click', () => {
     if (!rating) { alert(t('feedback.no_rating')); return; }
     const comment = (document.getElementById('fb-overall-comment').value || '').trim();
-    const cats = Array.from(document.querySelectorAll('#feedback-chips .feedback-chip.active'))
-      .map(c => t(`feedback.cat.${c.dataset.cat}.title`));
-    sendOverallFeedback(rating, comment, cats);
+    sendOverallFeedback(rating, comment, catRatings);
     wrap.innerHTML = `<p class="feedback-thanks">💌 ${t('feedback.thanks')}</p>`;
   });
 }
 
-function sendOverallFeedback(rating, comment, cats) {
-  const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+function sendOverallFeedback(rating, comment, catRatings) {
+  const starsFor = (n) => '★'.repeat(n) + '☆'.repeat(5 - n);
   const lines = [
     `*${t('feedback.tmpl.header')}*`,
     `${t('concierge.tmpl.room')}: ${getRoomNumber() || t('concierge.tmpl.no_room')}`,
-    `${t('feedback.tmpl.rating')}: ${stars} (${rating}/5)`,
+    `${t('feedback.tmpl.rating')}: ${starsFor(rating)} (${rating}/5)`,
   ];
-  if (cats && cats.length) lines.push(`${t('feedback.tmpl.category')}: ${cats.join(', ')}`);
+  const rated = Object.entries(catRatings || {}).filter(([, v]) => v > 0);
+  rated.forEach(([id, v]) => {
+    lines.push(`${t(`feedback.cat.${id}.title`)}: ${starsFor(v)} (${v}/5)`);
+  });
   if (comment) lines.push(`${t('feedback.tmpl.notes')}: ${comment}`);
   lines.push('', `— ${t('concierge.tmpl.footer')}`);
   window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
