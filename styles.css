@@ -1861,6 +1861,44 @@ html[dir="rtl"] .fb-smile-bar { flex-direction: row-reverse; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.morning-name-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+.morning-name-input {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 8px;
+  padding: 0.45rem 0.8rem;
+  color: #f4e4b8;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.88rem;
+}
+.morning-name-input::placeholder { color: rgba(244,228,184,0.4); }
+.morning-name-input:focus { outline: none; border-color: var(--gold); }
+.morning-name-save {
+  background: var(--gold);
+  color: #06060f;
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.morning-name-save:hover { background: #d4af37; }
+[data-theme="light"] #app .morning-name-input {
+  background: #fffdf6;
+  border-color: var(--card-border);
+  color: #1f1a14;
+}
+[data-theme="light"] #app .morning-name-input::placeholder { color: rgba(31,26,20,0.35); }
+
 .morning-dismiss {
   position: absolute;
   top: 0.7rem;
