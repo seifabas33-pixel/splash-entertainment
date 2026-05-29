@@ -1646,6 +1646,55 @@ html[dir="rtl"] .qc-concierge-link {
   color: #f4e4b8;
   margin: 0 0 0.4rem;
 }
+.feedback-chips-label {
+  margin: 1.2rem 0 0.6rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.feedback-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.feedback-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.feedback-chip:hover { border-color: rgba(201,168,76,0.5); }
+.feedback-chip.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #06060f;
+}
+.feedback-chip-icon { font-size: 0.95rem; line-height: 1; }
+
+[data-theme="light"] #app .feedback-chip {
+  background: rgba(255,252,244,0.96);
+  border-color: var(--card-border);
+  color: var(--gold);
+}
+[data-theme="light"] #app .feedback-chip.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+
 .feedback-overall-comment {
   width: 100%;
   margin-top: 1rem;
