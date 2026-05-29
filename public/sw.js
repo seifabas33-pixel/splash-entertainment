@@ -1,4 +1,4 @@
-const CACHE = 'oldpalace-v28';
+const CACHE = 'oldpalace-v29';
 
 const CORE = [
   '.',
