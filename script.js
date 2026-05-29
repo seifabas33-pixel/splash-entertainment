@@ -864,11 +864,13 @@ function refreshProgrammeGrid() {
 // ── Good Morning Card ──────────────────────────────────────────────────────────
 function renderMorningCard(container) {
   const hour = new Date().getHours();
-  if (hour < 6 || hour >= 12) return;
+  // Show 06:00–20:00 so staff/guests can preview; greets as "Good morning" before noon, "Good evening" after
+  if (hour < 6 || hour >= 20) return;
   if (localStorage.getItem(MORNING_KEY) === todayYmd()) return;
 
-  const name    = (localStorage.getItem(GUEST_NAME_KEY) || '').trim();
-  const greeting = name ? `Good morning, ${name} ☀️` : `Good morning ☀️`;
+  const name     = (localStorage.getItem(GUEST_NAME_KEY) || '').trim();
+  const timeWord = hour < 12 ? 'morning' : 'evening';
+  const greeting = name ? `Good ${timeWord}, ${name} ☀️` : `Good ${timeWord} ☀️`;
 
   // Weather pill — reuse cached weather object
   let weatherHtml = '';
