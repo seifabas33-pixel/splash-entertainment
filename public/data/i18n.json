@@ -549,6 +549,7 @@
   "feedback.form.notes":     { "en": "Tell us more (optional)",  "ar": "أخبرونا أكثر (اختياري)",    "de": "Erzählen Sie uns mehr (optional)", "ru": "Расскажите подробнее (по желанию)" },
 
   "feedback.overall_q":       { "en": "How would you rate your stay?", "ar": "كيف تقيّم إقامتك؟",          "de": "Wie bewerten Sie Ihren Aufenthalt?", "ru": "Как вы оцениваете ваш отдых?" },
+  "feedback.about_label":     { "en": "What is your feedback about? (optional)", "ar": "عن ماذا تتحدث ملاحظتك؟ (اختياري)", "de": "Worum geht es bei Ihrem Feedback? (optional)", "ru": "О чём ваш отзыв? (по желанию)" },
   "feedback.overall_comment": { "en": "Tell us about your stay (optional)", "ar": "أخبرنا عن إقامتك (اختياري)", "de": "Erzählen Sie uns von Ihrem Aufenthalt (optional)", "ru": "Расскажите о вашем отдыхе (по желанию)" },
   "feedback.thanks":          { "en": "Thank you! Your feedback has been shared with our management.", "ar": "شكرًا لك! تمت مشاركة ملاحظاتك مع إدارتنا.", "de": "Vielen Dank! Ihr Feedback wurde an unser Management weitergeleitet.", "ru": "Спасибо! Ваш отзыв передан нашему руководству." },
 

@@ -1744,21 +1744,29 @@ function renderFeedback() {
     });
   });
 
+  // Category chips — multi-select toggle
+  document.querySelectorAll('#feedback-chips .feedback-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('active'));
+  });
+
   document.getElementById('fb-overall-send').addEventListener('click', () => {
     if (!rating) { alert(t('feedback.no_rating')); return; }
     const comment = (document.getElementById('fb-overall-comment').value || '').trim();
-    sendOverallFeedback(rating, comment);
+    const cats = Array.from(document.querySelectorAll('#feedback-chips .feedback-chip.active'))
+      .map(c => t(`feedback.cat.${c.dataset.cat}.title`));
+    sendOverallFeedback(rating, comment, cats);
     wrap.innerHTML = `<p class="feedback-thanks">💌 ${t('feedback.thanks')}</p>`;
   });
 }
 
-function sendOverallFeedback(rating, comment) {
+function sendOverallFeedback(rating, comment, cats) {
   const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
   const lines = [
     `*${t('feedback.tmpl.header')}*`,
     `${t('concierge.tmpl.room')}: ${getRoomNumber() || t('concierge.tmpl.no_room')}`,
     `${t('feedback.tmpl.rating')}: ${stars} (${rating}/5)`,
   ];
+  if (cats && cats.length) lines.push(`${t('feedback.tmpl.category')}: ${cats.join(', ')}`);
   if (comment) lines.push(`${t('feedback.tmpl.notes')}: ${comment}`);
   lines.push('', `— ${t('concierge.tmpl.footer')}`);
   window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
