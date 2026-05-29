@@ -546,6 +546,7 @@ body {
 .h-back-icon { font-size: 1.1rem; line-height: 1; }
 .h-back-label { display: inline; }
 
+.h-share-btn,
 .h-theme-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 36px; height: 36px;
@@ -558,12 +559,19 @@ body {
   margin-right: 0.5rem;
   flex-shrink: 0;
 }
+.h-share-btn:hover {
+  background: rgba(201,168,76,0.18);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
 .h-theme-btn:hover {
   background: rgba(201,168,76,0.18);
   border-color: var(--gold);
   transform: rotate(15deg);
 }
+.h-share-icon { font-size: 1rem; line-height: 1; }
 .h-theme-icon { font-size: 1.05rem; line-height: 1; }
+html[dir="rtl"] .h-share-btn,
 html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
 .h-sep { width: 1px; height: 24px; background: var(--gold-dim); }
 
@@ -1779,6 +1787,108 @@ html[dir="rtl"] .fb-smile-bar { flex-direction: row-reverse; }
 .countdown-dismiss:hover { color: #f4e4b8; }
 
 /* Welcome card */
+/* ── Good Morning Card ────────────────────────────────────────────────────── */
+.morning-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(212,175,55,0.14) 0%, rgba(255,180,50,0.06) 60%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(212,175,55,0.35);
+  border-left: 3px solid var(--gold);
+  border-radius: 16px;
+  padding: 1.1rem 1.2rem 1rem;
+  margin-bottom: 1.2rem;
+  animation: morningSlideIn 0.55s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes morningSlideIn {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.morning-greeting {
+  font-family: 'Cormorant Garant', serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #f4e4b8;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+}
+.morning-weather {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 0.85rem;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+.morning-weather-icon { font-size: 1.1rem; }
+.morning-weather-temp { color: var(--gold); font-weight: 700; }
+.morning-acts-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+.morning-acts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.morning-act-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 0.38rem 0.7rem;
+  font-size: 0.82rem;
+}
+.morning-act-time {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  min-width: 42px;
+}
+.morning-act-title {
+  color: #f4e4b8;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.morning-dismiss {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.morning-dismiss:hover { color: #f4e4b8; }
+
+/* Light mode */
+[data-theme="light"] #app .morning-card {
+  background: linear-gradient(135deg, rgba(166,131,41,0.1) 0%, rgba(255,200,80,0.05) 100%);
+  border-color: rgba(166,131,41,0.4);
+  border-left-color: var(--gold);
+}
+[data-theme="light"] #app .morning-greeting { color: #1f1a14; }
+[data-theme="light"] #app .morning-act-title { color: #1f1a14; }
+[data-theme="light"] #app .morning-act-pill  { background: rgba(255,252,244,0.96); border-color: var(--card-border); }
+[data-theme="light"] #app .morning-dismiss   { color: rgba(31,26,20,0.4); }
+[data-theme="light"] #app .morning-dismiss:hover { color: #1f1a14; }
+
 .welcome-card {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(255, 255, 255, 0.04));
   border: 1px solid rgba(212, 175, 55, 0.3);

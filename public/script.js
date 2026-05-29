@@ -102,6 +102,20 @@ function setTheme(theme) {
   applyTheme(theme);
 }
 
+function initShareButton() {
+  const btn = document.getElementById('share-btn');
+  if (!btn) return;
+  if (!navigator.share) { btn.classList.add('hidden'); return; }
+  btn.addEventListener('click', () => {
+    const url = window.location.href.split('#')[0];
+    navigator.share({
+      title: 'Old Palace Resort',
+      text: 'Your resort companion — activities, concierge & more',
+      url,
+    }).catch(() => {});
+  });
+}
+
 function initTheme() {
   applyTheme(getTheme());
   const btn = document.getElementById('theme-toggle');
@@ -607,6 +621,7 @@ function buildApp() {
   loadResortInfo();
   initWifi();
   initTheme();
+  initShareButton();
   initLightbox();
   paintCountdownRibbon();
   startHappeningNowTick();
@@ -846,12 +861,75 @@ function refreshProgrammeGrid() {
   renderGrid(currentActs, now, selectedDow === now.getDay(), selectedDow);
 }
 
+// ── Good Morning Card ──────────────────────────────────────────────────────────
+function renderMorningCard(container) {
+  const hour = new Date().getHours();
+  if (hour < 6 || hour >= 12) return;
+  if (localStorage.getItem(MORNING_KEY) === todayYmd()) return;
+
+  const name    = (localStorage.getItem(GUEST_NAME_KEY) || '').trim();
+  const greeting = name ? `Good morning, ${name} ☀️` : `Good morning ☀️`;
+
+  // Weather pill — reuse cached weather object
+  let weatherHtml = '';
+  try {
+    const w = JSON.parse(localStorage.getItem(WEATHER_KEY) || 'null');
+    if (w) {
+      const { icon } = wmoLookup(w.code);
+      weatherHtml = `
+        <div class="morning-weather">
+          <span class="morning-weather-icon">${icon}</span>
+          <span class="morning-weather-temp">${Math.round(w.temp)}°C</span>
+          <span>${t('weather.feels')|| 'Today in Sahl Hasheesh'}</span>
+        </div>`;
+    }
+  } catch (_) {}
+
+  // Next 3 upcoming activities today
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+  const todayActs = getSchedule(now.getDay())
+    .filter(a => {
+      const [h, m] = (a.start || '00:00').split(':').map(Number);
+      return h * 60 + m > nowMins;
+    })
+    .slice(0, 3);
+
+  const actsHtml = todayActs.length ? `
+    <p class="morning-acts-label">Up next today</p>
+    <div class="morning-acts">
+      ${todayActs.map(a => `
+        <div class="morning-act-pill">
+          <span class="morning-act-time">${a.start}</span>
+          <span class="morning-act-title">${titleKey(a)}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  const card = document.createElement('div');
+  card.className = 'morning-card';
+  card.innerHTML = `
+    <button class="morning-dismiss" aria-label="Dismiss" title="Dismiss">✕</button>
+    <div class="morning-greeting">${greeting}</div>
+    ${weatherHtml}
+    ${actsHtml}
+  `;
+  card.querySelector('.morning-dismiss').addEventListener('click', () => {
+    localStorage.setItem(MORNING_KEY, todayYmd());
+    card.style.transition = 'opacity 0.3s, transform 0.3s';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(-8px)';
+    setTimeout(() => card.remove(), 310);
+  });
+  container.prepend(card);
+}
+
 function renderMyDay() {
   const container = document.getElementById('myday-content');
   const favs = getFavorites();
   container.innerHTML = '';
   repaintReminderHint();
 
+  renderMorningCard(container);
   renderBeforeYouLeave();
 
   if (favs.size === 0) {
@@ -1761,7 +1839,9 @@ function sendActivityReaction(dow, act, react) {
 
 // ── Holiday Countdown & "Before You Leave" Suggestions ───────────────────────
 
-const CHECKOUT_KEY = 'oldpalace_checkout';
+const CHECKOUT_KEY   = 'oldpalace_checkout';
+const GUEST_NAME_KEY = 'oldpalace_guest_name';
+const MORNING_KEY    = 'oldpalace_morning_dismissed';
 const TRIED_KEY = 'oldpalace_tried';
 const DISMISS_KEY = 'oldpalace_countdown_dismissed';
 const SKIPPED_KEY = 'oldpalace_welcome_skipped';
@@ -1808,6 +1888,8 @@ function sweepIfPastCheckout() {
   if (n === null) return;
   if (n < 0) {
     localStorage.removeItem(CHECKOUT_KEY);
+    localStorage.removeItem(GUEST_NAME_KEY);
+    localStorage.removeItem(MORNING_KEY);
     localStorage.removeItem(TRIED_KEY);
     localStorage.removeItem(DISMISS_KEY);
     localStorage.removeItem(SKIPPED_KEY);
@@ -1866,6 +1948,11 @@ function paintWelcomeCard() {
   if (hasCheckout || skipped) { card.classList.add('hidden'); return; }
   card.classList.remove('hidden');
   applyI18n(card);
+  const nameInput = document.getElementById('welcome-name-input');
+  if (nameInput && !nameInput.value) {
+    const saved = localStorage.getItem(GUEST_NAME_KEY) || '';
+    if (saved) nameInput.value = saved;
+  }
   const input = document.getElementById('welcome-checkout-input');
   if (input && !input.value) {
     const checkout = new Date(); checkout.setDate(checkout.getDate() + 5);
@@ -1876,14 +1963,17 @@ function paintWelcomeCard() {
 
 function initStay() {
   paintWelcomeCard();
-  const saveBtn = document.getElementById('welcome-checkout-save');
-  const skipBtn = document.getElementById('welcome-checkout-skip');
-  const input = document.getElementById('welcome-checkout-input');
+  const saveBtn  = document.getElementById('welcome-checkout-save');
+  const skipBtn  = document.getElementById('welcome-checkout-skip');
+  const input    = document.getElementById('welcome-checkout-input');
+  const nameInp  = document.getElementById('welcome-name-input');
   if (saveBtn && !saveBtn.dataset.bound) {
     saveBtn.dataset.bound = '1';
     saveBtn.addEventListener('click', () => {
       const v = (input && input.value || '').trim();
       if (!v) return;
+      const name = (nameInp && nameInp.value || '').trim();
+      if (name) localStorage.setItem(GUEST_NAME_KEY, name);
       setCheckout(v);
       paintWelcomeCard();
       paintCountdownRibbon();

@@ -63,6 +63,9 @@
         <img src="assets/splash-logo.png" alt="Splash Entertainment" class="h-logo-img h-splash-img" />
       </div>
       <div class="app-date-line" id="app-date-line"></div>
+      <button class="h-share-btn" id="share-btn" type="button" aria-label="Share this app" title="Share this app">
+        <span class="h-share-icon">⬆</span>
+      </button>
       <button class="h-theme-btn" id="theme-toggle" type="button" aria-label="Toggle light / dark theme" title="Toggle light / dark theme">
         <span class="h-theme-icon" id="theme-icon">☾</span>
       </button>
@@ -116,7 +119,10 @@
               <span class="welcome-card-emoji">👋</span>
               <span class="welcome-card-title" data-i18n="stay.welcome_title">Welcome to Old Palace</span>
             </div>
-            <p class="welcome-card-sub" data-i18n="stay.welcome_sub">When are you checking out? (optional — lets us suggest things to try before you go)</p>
+            <p class="welcome-card-sub" data-i18n="stay.welcome_sub">Tell us your name and checkout date for a personalised experience.</p>
+            <div class="welcome-card-row">
+              <input type="text" id="welcome-name-input" class="welcome-card-input" placeholder="Your first name (optional)" maxlength="32" autocomplete="given-name" />
+            </div>
             <div class="welcome-card-row">
               <input type="date" id="welcome-checkout-input" class="welcome-card-input" />
               <button type="button" id="welcome-checkout-save" class="welcome-card-save" data-i18n="stay.welcome_save">Save</button>
