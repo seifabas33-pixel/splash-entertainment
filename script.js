@@ -898,7 +898,7 @@ function renderMorningCard(container) {
   const nowMins = now.getHours() * 60 + now.getMinutes();
   const todayActs = getSchedule(now.getDay())
     .filter(a => {
-      const [h, m] = (a.start || '00:00').split(':').map(Number);
+      const [h, m] = (a.time || '00:00').split(':').map(Number);
       return h * 60 + m > nowMins;
     })
     .slice(0, 3);
@@ -908,7 +908,7 @@ function renderMorningCard(container) {
     <div class="morning-acts">
       ${todayActs.map(a => `
         <div class="morning-act-pill">
-          <span class="morning-act-time">${a.start}</span>
+          <span class="morning-act-time">${a.time}</span>
           <span class="morning-act-title">${titleKey(a)}</span>
         </div>`).join('')}
     </div>` : '';
@@ -2291,6 +2291,30 @@ function paintWeather(data) {
       `<span class="pw-sep">·</span>` +
       `<span class="pw-cond">${condition}</span>`;
   }
+
+  if (data.forecast) paintForecast(data.forecast);
+}
+
+function paintForecast(forecast) {
+  const el = document.getElementById('prog-forecast');
+  if (!el || !forecast || !forecast.length) return;
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  el.classList.remove('hidden');
+  el.innerHTML = forecast.map((day, i) => {
+    const { icon } = wmoLookup(day.code);
+    const label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : dayNames[new Date(day.date).getDay()];
+    const rainHtml = day.rain > 20 ? `<span class="forecast-rain">💧 ${day.rain}%</span>` : '';
+    return `
+      <div class="forecast-day">
+        <span class="forecast-day-label">${label}</span>
+        <span class="forecast-day-icon">${icon}</span>
+        <span class="forecast-day-temps">
+          <span class="forecast-high">${Math.round(day.max)}°</span>
+          <span class="forecast-low">${Math.round(day.min)}°</span>
+        </span>
+        ${rainHtml}
+      </div>`;
+  }).join('');
 }
 
 async function loadWeather() {
@@ -2310,14 +2334,22 @@ async function loadWeather() {
       `?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}` +
       `&current_weather=true` +
       `&hourly=uv_index` +
-      `&forecast_days=1` +
+      `&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max` +
+      `&forecast_days=3` +
       `&timezone=Africa%2FCairo`;
     const res  = await fetch(url);
     if (!res.ok) return;
     const json = await res.json();
     const cw   = json.current_weather;
     const uv   = json.hourly?.uv_index?.[hour] ?? null;
-    const data = { temp: cw.temperature, windspeed: cw.windspeed, code: cw.weathercode, uv };
+    const forecast = (json.daily?.time || []).map((date, i) => ({
+      date,
+      max:  json.daily.temperature_2m_max[i],
+      min:  json.daily.temperature_2m_min[i],
+      code: json.daily.weathercode[i],
+      rain: json.daily.precipitation_probability_max[i] ?? 0,
+    }));
+    const data = { temp: cw.temperature, windspeed: cw.windspeed, code: cw.weathercode, uv, forecast };
     localStorage.setItem(WEATHER_KEY, JSON.stringify(data));
     localStorage.setItem(WEATHER_TS_KEY, String(Date.now()));
     paintWeather(data);
