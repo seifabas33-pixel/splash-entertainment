@@ -871,6 +871,12 @@ function renderMorningCard(container) {
   const name     = (localStorage.getItem(GUEST_NAME_KEY) || '').trim();
   const timeWord = hour < 12 ? 'morning' : 'evening';
   const greeting = name ? `Good ${timeWord}, ${name} ☀️` : `Good ${timeWord} ☀️`;
+  const namePromptHtml = !name ? `
+    <div class="morning-name-row" id="morning-name-row">
+      <input type="text" id="morning-name-input" class="morning-name-input"
+        placeholder="What's your name?" maxlength="32" autocomplete="given-name" />
+      <button type="button" class="morning-name-save" id="morning-name-save">Save</button>
+    </div>` : '';
 
   // Weather pill — reuse cached weather object
   let weatherHtml = '';
@@ -912,9 +918,24 @@ function renderMorningCard(container) {
   card.innerHTML = `
     <button class="morning-dismiss" aria-label="Dismiss" title="Dismiss">✕</button>
     <div class="morning-greeting">${greeting}</div>
+    ${namePromptHtml}
     ${weatherHtml}
     ${actsHtml}
   `;
+  const nameSaveBtn = card.querySelector('#morning-name-save');
+  if (nameSaveBtn) {
+    nameSaveBtn.addEventListener('click', () => {
+      const val = (card.querySelector('#morning-name-input').value || '').trim();
+      if (!val) return;
+      localStorage.setItem(GUEST_NAME_KEY, val);
+      // Re-render the card with the name
+      card.remove();
+      renderMorningCard(container);
+    });
+    card.querySelector('#morning-name-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') nameSaveBtn.click();
+    });
+  }
   card.querySelector('.morning-dismiss').addEventListener('click', () => {
     localStorage.setItem(MORNING_KEY, todayYmd());
     card.style.transition = 'opacity 0.3s, transform 0.3s';
