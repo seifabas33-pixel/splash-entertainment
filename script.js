@@ -1724,49 +1724,18 @@ function sendRequest(req, values) {
 let WA_MANAGEMENT = '201001570273';
 const FB_SENT_PREFIX = 'fb_react_';
 
-const FEEDBACK_CATEGORIES = [
-  { id: 'room' }, { id: 'food' }, { id: 'pool' },
-  { id: 'spa'  }, { id: 'activities' }, { id: 'staff' },
-];
-
 function renderFeedback() {
-  const grid = document.getElementById('feedback-grid');
-  if (!grid || grid.dataset.bound) return;
-  grid.dataset.bound = '1';
-  FEEDBACK_CATEGORIES.forEach(cat => {
-    const card = grid.querySelector(`.feedback-cat-card[data-cat="${cat.id}"]`);
-    if (card) card.addEventListener('click', () => openFeedbackForm(cat));
-  });
-}
-
-function openFeedbackForm(cat) {
-  const modal     = document.getElementById('req-modal');
-  const titleEl   = document.getElementById('req-modal-title');
-  const fieldsEl  = document.getElementById('req-form-fields');
-  const form      = document.getElementById('req-form');
-  const submitBtn = form ? form.querySelector('[type="submit"]') : null;
-  if (!modal || !titleEl || !fieldsEl || !form) return;
-
-  titleEl.textContent = t(`feedback.cat.${cat.id}.title`);
-  if (submitBtn) submitBtn.dataset.i18n = 'feedback.send_button';
+  const wrap = document.getElementById('feedback-overall');
+  if (!wrap || wrap.dataset.bound) return;
+  wrap.dataset.bound = '1';
 
   let rating = 0;
-  fieldsEl.innerHTML = `
-    <div class="fb-star-row" id="fb-stars">
-      ${[1,2,3,4,5].map(n => `<button type="button" class="fb-star" data-val="${n}" aria-label="${n}">★</button>`).join('')}
-    </div>
-    <p class="fb-star-hint" id="fb-star-hint">${t('feedback.tap_stars')}</p>
-    <label class="req-field">${t('feedback.form.stood_out')}<input type="text" name="stood" /></label>
-    <label class="req-field">${t('feedback.form.notes')}<textarea name="notes" rows="2"></textarea></label>
-  `;
-
-  const starsEl = fieldsEl.querySelector('#fb-stars');
-  const hintEl  = fieldsEl.querySelector('#fb-star-hint');
-  fieldsEl.querySelectorAll('.fb-star').forEach(btn => {
+  const starsEl = document.getElementById('fb-overall-stars');
+  const hintEl  = document.getElementById('fb-overall-hint');
+  starsEl.querySelectorAll('.fb-star').forEach(btn => {
     btn.addEventListener('click', () => {
       rating = parseInt(btn.dataset.val);
-      starsEl.dataset.rating = rating;
-      fieldsEl.querySelectorAll('.fb-star').forEach(s =>
+      starsEl.querySelectorAll('.fb-star').forEach(s =>
         s.classList.toggle('active', parseInt(s.dataset.val) <= rating)
       );
       hintEl.textContent = rating > 0 && rating <= 3
@@ -1775,44 +1744,24 @@ function openFeedbackForm(cat) {
     });
   });
 
-  applyI18n(modal);
-  modal.classList.remove('hidden');
-
-  const close = () => {
-    modal.classList.add('hidden');
-    if (submitBtn) { submitBtn.dataset.i18n = 'concierge.send_button'; applyI18n(submitBtn); }
-  };
-  document.getElementById('req-modal-close').onclick = close;
-  document.getElementById('req-backdrop').onclick   = close;
-  document.getElementById('req-cancel').onclick     = close;
-
-  form.onsubmit = (e) => {
-    e.preventDefault();
+  document.getElementById('fb-overall-send').addEventListener('click', () => {
     if (!rating) { alert(t('feedback.no_rating')); return; }
-    const stood = form.querySelector('[name="stood"]').value;
-    const notes = form.querySelector('[name="notes"]').value;
-    sendFeedback(cat, rating, stood, notes);
-    close();
-  };
+    const comment = (document.getElementById('fb-overall-comment').value || '').trim();
+    sendOverallFeedback(rating, comment);
+    wrap.innerHTML = `<p class="feedback-thanks">💌 ${t('feedback.thanks')}</p>`;
+  });
 }
 
-function buildFeedbackMessage(cat, rating, stood, notes) {
+function sendOverallFeedback(rating, comment) {
   const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
   const lines = [
     `*${t('feedback.tmpl.header')}*`,
     `${t('concierge.tmpl.room')}: ${getRoomNumber() || t('concierge.tmpl.no_room')}`,
-    `${t('feedback.tmpl.category')}: ${t(`feedback.cat.${cat.id}.title`)}`,
     `${t('feedback.tmpl.rating')}: ${stars} (${rating}/5)`,
   ];
-  if (stood) lines.push(`${t('feedback.tmpl.stood_out')}: ${stood}`);
-  if (notes) lines.push(`${t('feedback.tmpl.notes')}: ${notes}`);
+  if (comment) lines.push(`${t('feedback.tmpl.notes')}: ${comment}`);
   lines.push('', `— ${t('concierge.tmpl.footer')}`);
-  return lines.join('\n');
-}
-
-function sendFeedback(cat, rating, stood, notes) {
-  const msg = buildFeedbackMessage(cat, rating, stood, notes);
-  window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  window.open(`https://wa.me/${WA_MANAGEMENT}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
 }
 
 // Smile-meter (inline after completed today's activities in My Day)

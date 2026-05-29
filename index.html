@@ -668,55 +668,18 @@
             <div class="feedback-trust-icon">💌</div>
             <p class="feedback-trust-text" data-i18n="feedback.trust">We read every message. The General Manager personally reviews all feedback daily.</p>
           </div>
-          <div class="feedback-grid" id="feedback-grid">
-            <button class="feedback-cat-card feedback-cat-featured" data-cat="room" type="button">
-              <div class="feedback-cat-icon">🛏</div>
-              <div class="feedback-cat-body">
-                <div class="feedback-cat-title" data-i18n="feedback.cat.room.title">Room</div>
-                <div class="feedback-cat-sub" data-i18n="feedback.cat.room.sub">Cleanliness, comfort &amp; amenities</div>
-              </div>
-              <span class="feedback-cat-arrow">›</span>
-            </button>
-            <button class="feedback-cat-card" data-cat="food" type="button">
-              <div class="feedback-cat-icon">🍽</div>
-              <div class="feedback-cat-body">
-                <div class="feedback-cat-title" data-i18n="feedback.cat.food.title">Food &amp; Beverage</div>
-                <div class="feedback-cat-sub" data-i18n="feedback.cat.food.sub">Buffet, à la carte &amp; bars</div>
-              </div>
-              <span class="feedback-cat-arrow">›</span>
-            </button>
-            <button class="feedback-cat-card" data-cat="pool" type="button">
-              <div class="feedback-cat-icon">🏖</div>
-              <div class="feedback-cat-body">
-                <div class="feedback-cat-title" data-i18n="feedback.cat.pool.title">Pool &amp; Beach</div>
-                <div class="feedback-cat-sub" data-i18n="feedback.cat.pool.sub">Sunbeds, towels &amp; water quality</div>
-              </div>
-              <span class="feedback-cat-arrow">›</span>
-            </button>
-            <button class="feedback-cat-card" data-cat="spa" type="button">
-              <div class="feedback-cat-icon">💆</div>
-              <div class="feedback-cat-body">
-                <div class="feedback-cat-title" data-i18n="feedback.cat.spa.title">Spa &amp; Wellness</div>
-                <div class="feedback-cat-sub" data-i18n="feedback.cat.spa.sub">Treatments &amp; staff</div>
-              </div>
-              <span class="feedback-cat-arrow">›</span>
-            </button>
-            <button class="feedback-cat-card" data-cat="activities" type="button">
-              <div class="feedback-cat-icon">🎭</div>
-              <div class="feedback-cat-body">
-                <div class="feedback-cat-title" data-i18n="feedback.cat.activities.title">Activities &amp; Shows</div>
-                <div class="feedback-cat-sub" data-i18n="feedback.cat.activities.sub">Animation team &amp; evening shows</div>
-              </div>
-              <span class="feedback-cat-arrow">›</span>
-            </button>
-            <button class="feedback-cat-card" data-cat="staff" type="button">
-              <div class="feedback-cat-icon">✨</div>
-              <div class="feedback-cat-body">
-                <div class="feedback-cat-title" data-i18n="feedback.cat.staff.title">Staff &amp; Service</div>
-                <div class="feedback-cat-sub" data-i18n="feedback.cat.staff.sub">Reception, housekeeping &amp; butlers</div>
-              </div>
-              <span class="feedback-cat-arrow">›</span>
-            </button>
+          <div class="feedback-overall" id="feedback-overall">
+            <p class="feedback-overall-q" data-i18n="feedback.overall_q">How would you rate your stay?</p>
+            <div class="fb-star-row" id="fb-overall-stars">
+              <button type="button" class="fb-star" data-val="1" aria-label="1">★</button>
+              <button type="button" class="fb-star" data-val="2" aria-label="2">★</button>
+              <button type="button" class="fb-star" data-val="3" aria-label="3">★</button>
+              <button type="button" class="fb-star" data-val="4" aria-label="4">★</button>
+              <button type="button" class="fb-star" data-val="5" aria-label="5">★</button>
+            </div>
+            <p class="fb-star-hint" id="fb-overall-hint" data-i18n="feedback.tap_stars">Tap to rate</p>
+            <textarea id="fb-overall-comment" class="feedback-overall-comment" rows="3" data-i18n-attr="placeholder:feedback.overall_comment" placeholder="Tell us about your stay (optional)"></textarea>
+            <button type="button" id="fb-overall-send" class="feedback-overall-send" data-i18n="feedback.send_button">Send to Management</button>
           </div>
         </div>
       </div>

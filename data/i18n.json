@@ -548,6 +548,10 @@
   "feedback.form.stood_out": { "en": "What stood out? (optional)", "ar": "ما الذي تميّز؟ (اختياري)", "de": "Was ist aufgefallen? (optional)", "ru": "Что запомнилось? (по желанию)" },
   "feedback.form.notes":     { "en": "Tell us more (optional)",  "ar": "أخبرونا أكثر (اختياري)",    "de": "Erzählen Sie uns mehr (optional)", "ru": "Расскажите подробнее (по желанию)" },
 
+  "feedback.overall_q":       { "en": "How would you rate your stay?", "ar": "كيف تقيّم إقامتك؟",          "de": "Wie bewerten Sie Ihren Aufenthalt?", "ru": "Как вы оцениваете ваш отдых?" },
+  "feedback.overall_comment": { "en": "Tell us about your stay (optional)", "ar": "أخبرنا عن إقامتك (اختياري)", "de": "Erzählen Sie uns von Ihrem Aufenthalt (optional)", "ru": "Расскажите о вашем отдыхе (по желанию)" },
+  "feedback.thanks":          { "en": "Thank you! Your feedback has been shared with our management.", "ar": "شكرًا لك! تمت مشاركة ملاحظاتك مع إدارتنا.", "de": "Vielen Dank! Ihr Feedback wurde an unser Management weitergeleitet.", "ru": "Спасибо! Ваш отзыв передан нашему руководству." },
+
   "feedback.smile_prompt":   { "en": "How was this?",          "ar": "كيف كانت التجربة؟",           "de": "Wie war das?",               "ru": "Как вам?" },
   "feedback.smile_neg":      { "en": "Not great",              "ar": "ليس جيدًا",                   "de": "Nicht so gut",               "ru": "Не понравилось" },
   "feedback.smile_neu":      { "en": "OK",                     "ar": "مقبول",                       "de": "OK",                         "ru": "Нормально" },
