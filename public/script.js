@@ -2245,8 +2245,15 @@ const WMO_CODES = {
   99: { icon: '⛈',  labelKey: 'weather.storm' },
 };
 
-function wmoLookup(code) {
-  return WMO_CODES[code] || WMO_CODES[Math.floor(code / 10) * 10] || { icon: '🌡', labelKey: 'weather.clear' };
+// Night-time icon swaps for clear / lightly-clouded codes (sun → moon).
+const WMO_NIGHT_ICONS = { 0: '🌙', 1: '🌙', 2: '☁️', 3: '☁️' };
+
+function wmoLookup(code, isDay = 1) {
+  const base = WMO_CODES[code] || WMO_CODES[Math.floor(code / 10) * 10] || { icon: '🌡', labelKey: 'weather.clear' };
+  if (!isDay && WMO_NIGHT_ICONS[code] !== undefined) {
+    return { ...base, icon: WMO_NIGHT_ICONS[code] };
+  }
+  return base;
 }
 
 function uvChip(uv) {
@@ -2260,7 +2267,8 @@ function uvChip(uv) {
 function paintWeather(data) {
   if (!data) return;
   const { temp, windspeed, code, uv } = data;
-  const { icon, labelKey } = wmoLookup(code);
+  const isDay = data.isDay ?? 1;
+  const { icon, labelKey } = wmoLookup(code, isDay);
   const condition = t(labelKey);
   const uvStr = uvChip(uv);
   const windStr = `💨 ${Math.round(windspeed)} km/h`;
@@ -2349,7 +2357,7 @@ async function loadWeather() {
       code: json.daily.weathercode[i],
       rain: json.daily.precipitation_probability_max[i] ?? 0,
     }));
-    const data = { temp: cw.temperature, windspeed: cw.windspeed, code: cw.weathercode, uv, forecast };
+    const data = { temp: cw.temperature, windspeed: cw.windspeed, code: cw.weathercode, uv, isDay: cw.is_day ?? 1, forecast };
     localStorage.setItem(WEATHER_KEY, JSON.stringify(data));
     localStorage.setItem(WEATHER_TS_KEY, String(Date.now()));
     paintWeather(data);
