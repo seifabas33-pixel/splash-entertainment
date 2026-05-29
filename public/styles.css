@@ -1673,20 +1673,25 @@ html[dir="rtl"] .qc-concierge-link {
 .feedback-cat-row-label {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
   font-family: 'Raleway', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--gold-light);
   text-align: left;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.feedback-chip-icon { font-size: 1rem; line-height: 1; flex-shrink: 0; }
+.feedback-chip-icon { font-size: 0.95rem; line-height: 1; flex-shrink: 0; }
 .fb-cat-stars {
   margin: 0;
-  gap: 0.1rem;
+  gap: 0.08rem;
   flex-shrink: 0;
 }
-.fb-star-sm { font-size: 1.35rem; padding: 0.1rem; }
+.fb-star-sm { font-size: 1.25rem; padding: 0.08rem; }
 
 [data-theme="light"] #app .feedback-cat-row {
   background: rgba(255,252,244,0.96);
