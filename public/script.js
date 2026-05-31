@@ -1163,8 +1163,8 @@ function renderStaffDashboard() {
       ${dayName(i, true)}${i === todayDow ? ' ·' : ''}
     </button>`).join('');
 
-  const actRows = activities.filter(a => a.category !== 'Evening').map(a => {
-    const catColor = (CAT_STYLE[a.category] || {}).color || '#c9a24b';
+  const actRows = activities.filter(a => a.cat !== 'Evening').map(a => {
+    const catColor = (CAT_STYLE[a.cat] || {}).color || '#c9a24b';
     const title = pickLang(a.title);
     const loc   = pickLang(a.location) || '';
     const dur   = a.dur ? `${a.dur} min` : '';
@@ -2576,9 +2576,7 @@ async function renderExcursions() {
   await loadExcursions();
   if (!EXCURSIONS || !EXCURSIONS.length) return;
 
-  list.dataset.rendered = '1';
-  const lang = pickLang();
-  const pick = (o) => (o && (o[lang] || o.en)) || '';
+  const pick = (o) => pickLang(o);
 
   list.innerHTML = EXCURSIONS.map(ex => `
     <div class="info-card${ex.featured ? ' featured-card' : ''} excursion-card" data-tour="${ex.id}">
