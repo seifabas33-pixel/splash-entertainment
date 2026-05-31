@@ -2570,6 +2570,26 @@ html[dir="rtl"] .wifi-block  { text-align: right; }
 
 html[dir="rtl"] .excursion-footer { flex-direction: row-reverse; }
 
+.excursion-price {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  white-space: nowrap;
+}
+
+.admin-label-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-label-check input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--gold);
+  flex-shrink: 0;
+}
+
 /* ── Gallery Tab ──────────────────────────────────────────────────────────── */
 
 .gallery-cats {

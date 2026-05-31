@@ -388,7 +388,7 @@ function initTabs() {
       if (target === 'myday') renderMyDay();
       if (target === 'concierge') renderConcierge();
       if (target === 'feedback') renderFeedback();
-      if (target === 'excursions') initExcursions();
+      if (target === 'excursions') renderExcursions();
       if (target === 'gallery') renderGallery();
     });
   });
@@ -1063,8 +1063,9 @@ const CATS = ['Aqua', 'Sport', 'Kids', 'Dance', 'Games', 'Evening'];
 let adminDraft = null;
 let adminSection = 'base';
 let adminDayKey  = '0';
-let adminEditor  = 'programme'; // 'programme' | 'resort'
+let adminEditor  = 'programme'; // 'programme' | 'resort' | 'excursions'
 let adminResortDraft = null;
+let adminExcursionsDraft = null;
 
 function snapshotProgramme() {
   return {
@@ -1113,8 +1114,16 @@ function renderAdmin() {
     <div class="admin-editor-switcher">
       <button class="admin-editor-btn${adminEditor === 'programme' ? ' active' : ''}" data-editor="programme">📅 Programme</button>
       <button class="admin-editor-btn${adminEditor === 'resort' ? ' active' : ''}" data-editor="resort">🛎 Resort Info</button>
+      <button class="admin-editor-btn${adminEditor === 'excursions' ? ' active' : ''}" data-editor="excursions">🤿 Excursions</button>
     </div>`;
 
+  if (adminEditor === 'excursions') {
+    renderAdminExcursions(panel, editorSwitcher);
+    panel.querySelectorAll('.admin-editor-btn').forEach(b => {
+      b.addEventListener('click', () => { adminEditor = b.dataset.editor; renderAdmin(); });
+    });
+    return;
+  }
   if (adminEditor === 'resort') {
     renderAdminResort(panel, editorSwitcher);
     panel.querySelectorAll('.admin-editor-btn').forEach(b => {
@@ -2435,21 +2444,53 @@ function showCopied(btn, labelEl, iconEl) {
 
 // ── Excursions ────────────────────────────────────────────────────────────────
 
-const TOUR_MESSAGE_KEYS = {
-  disco:  'excursions.msg.disco',
-  safari: 'excursions.msg.safari',
-  diving: 'excursions.msg.diving',
-};
+let EXCURSIONS = null;
 
-function initExcursions() {
-  document.querySelectorAll('.excursion-book-btn').forEach(btn => {
-    if (btn.dataset.bound) return;
-    btn.dataset.bound = '1';
+async function loadExcursions() {
+  if (EXCURSIONS) return EXCURSIONS;
+  try {
+    const res = await fetch('data/excursions.json', { cache: 'no-cache' });
+    if (res.ok) EXCURSIONS = await res.json();
+  } catch {}
+  return EXCURSIONS;
+}
+
+async function renderExcursions() {
+  const list = document.getElementById('excursions-list');
+  if (!list) return;
+  if (list.dataset.rendered) return;
+
+  await loadExcursions();
+  if (!EXCURSIONS || !EXCURSIONS.length) return;
+
+  list.dataset.rendered = '1';
+  const lang = pickLang();
+  const pick = (o) => (o && (o[lang] || o.en)) || '';
+
+  list.innerHTML = EXCURSIONS.map(ex => `
+    <div class="info-card${ex.featured ? ' featured-card' : ''} excursion-card" data-tour="${ex.id}">
+      <div class="info-card-icon">${ex.icon || '🗺'}</div>
+      <div class="info-card-body">
+        <div class="info-card-badge">${escapeHtml(pick(ex.badge))}</div>
+        <div class="info-card-title">${escapeHtml(pick(ex.title))}</div>
+        <div class="info-card-meta">${escapeHtml(pick(ex.meta))}</div>
+        <p class="info-card-desc">${escapeHtml(pick(ex.desc))}</p>
+        <div class="excursion-footer">
+          <span class="excursion-detail">⏱ ${escapeHtml(pick(ex.duration))}</span>
+          ${ex.price ? `<span class="excursion-price">${escapeHtml(ex.price)}</span>` : ''}
+          <button type="button" class="excursion-book-btn" data-tour="${ex.id}">${t('excursions.book_btn')}</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  list.querySelectorAll('.excursion-book-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const tour = btn.dataset.tour;
+      const id = btn.dataset.tour;
+      const ex = EXCURSIONS.find(e => e.id === id);
+      if (!ex) return;
       const room = getRoomNumber();
       const roomStr = room ? room : t('concierge.tmpl.no_room');
-      const tourName = t(`excursions.${tour}.title`);
+      const tourName = pick(ex.title);
       const lines = [
         `*${t('excursions.msg.header')}*`,
         `${t('concierge.tmpl.room')}: ${roomStr}`,
@@ -2458,9 +2499,114 @@ function initExcursions() {
         '',
         `— ${t('concierge.tmpl.footer')}`,
       ];
-      const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
-      window.open(url, '_blank', 'noopener');
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
     });
+  });
+}
+
+function renderAdminExcursions(panel, switcherHtml) {
+  if (!adminExcursionsDraft) {
+    adminExcursionsDraft = EXCURSIONS
+      ? JSON.parse(JSON.stringify(EXCURSIONS))
+      : [];
+  }
+
+  const renderTourSection = (tour, idx) => `
+    <div class="admin-resort-section">
+      <h3 class="admin-resort-h3">${tour.icon || '🗺'} ${escapeHtml((tour.title && tour.title.en) || 'New Tour')}</h3>
+      <div class="admin-form">
+        <label class="admin-wide">Icon (emoji) <input data-ti="${idx}|icon" value="${escapeAttr(tour.icon || '')}" maxlength="4" placeholder="🗺" /></label>
+        <label class="admin-wide">Badge <input data-ti="${idx}|badge.en" value="${escapeAttr((tour.badge && tour.badge.en) || '')}" placeholder="e.g. Adventure · Desert" /></label>
+        <label class="admin-wide">Title (EN) <input data-ti="${idx}|title.en" value="${escapeAttr((tour.title && tour.title.en) || '')}" /></label>
+        <label class="admin-wide">Title (AR) <input data-ti="${idx}|title.ar" value="${escapeAttr((tour.title && tour.title.ar) || '')}" dir="rtl" /></label>
+        <label class="admin-wide">Title (DE) <input data-ti="${idx}|title.de" value="${escapeAttr((tour.title && tour.title.de) || '')}" /></label>
+        <label class="admin-wide">Title (RU) <input data-ti="${idx}|title.ru" value="${escapeAttr((tour.title && tour.title.ru) || '')}" /></label>
+        <label class="admin-wide">Short description (EN) <input data-ti="${idx}|meta.en" value="${escapeAttr((tour.meta && tour.meta.en) || '')}" /></label>
+        <label class="admin-wide">Full description (EN) <textarea data-ti="${idx}|desc.en" rows="3">${escapeHtml((tour.desc && tour.desc.en) || '')}</textarea></label>
+        <label class="admin-wide">Duration <input data-ti="${idx}|duration.en" value="${escapeAttr((tour.duration && tour.duration.en) || '')}" placeholder="~4 hours" /></label>
+        <label class="admin-wide">Price (optional) <input data-ti="${idx}|price" value="${escapeAttr(tour.price || '')}" placeholder="From €45/pp — or leave blank" /></label>
+        <label class="admin-wide admin-label-check"><span>Featured (highlighted first card)</span>
+          <input type="checkbox" data-ti="${idx}|featured" data-ti-bool="1" ${tour.featured ? 'checked' : ''} /></label>
+        <button class="admin-btn admin-btn-danger" style="margin-top:.4rem" data-exc-remove="${idx}">Remove this tour</button>
+      </div>
+    </div>`;
+
+  panel.innerHTML = `
+    <div class="content-wrap">
+      <div class="section-header">
+        <h2 class="section-title">Excursions Editor</h2>
+        <p class="section-sub">Edit tours, prices and descriptions — then download <code>excursions.json</code> and replace the file on GitHub.</p>
+      </div>
+      ${switcherHtml}
+      ${adminExcursionsDraft.map((t, i) => renderTourSection(t, i)).join('')}
+      <div class="admin-resort-section" style="padding:.6rem 0">
+        <button class="admin-btn admin-btn-add" id="exc-add">+ Add Tour</button>
+      </div>
+      <div class="admin-footer">
+        <button class="admin-btn" id="exc-preview">Preview in app</button>
+        <button class="admin-btn" id="exc-reset">Reset</button>
+        <button class="admin-btn admin-btn-primary" id="exc-download">Download excursions.json</button>
+        <button class="admin-btn admin-btn-exit" id="exc-exit">Exit</button>
+      </div>
+    </div>`;
+
+  panel.querySelectorAll('[data-ti]').forEach(inp => {
+    const sep = inp.dataset.ti.indexOf('|');
+    const idx = parseInt(inp.dataset.ti.substring(0, sep));
+    const path = inp.dataset.ti.substring(sep + 1);
+    const isBool = inp.dataset.tiBool === '1';
+    inp.addEventListener(isBool ? 'change' : 'input', () => {
+      setDeep(adminExcursionsDraft[idx], path, isBool ? inp.checked : inp.value);
+    });
+  });
+
+  panel.querySelectorAll('[data-exc-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      adminExcursionsDraft.splice(parseInt(btn.dataset.excRemove), 1);
+      renderAdmin();
+    });
+  });
+
+  panel.querySelectorAll('.admin-editor-btn').forEach(b => {
+    b.addEventListener('click', () => { adminEditor = b.dataset.editor; renderAdmin(); });
+  });
+
+  document.getElementById('exc-add').addEventListener('click', () => {
+    adminExcursionsDraft.push({
+      id: `tour_${Date.now()}`,
+      icon: '🗺',
+      featured: false,
+      badge:    { en: '', ar: '', de: '', ru: '' },
+      title:    { en: 'New Tour', ar: '', de: '', ru: '' },
+      meta:     { en: '', ar: '', de: '', ru: '' },
+      desc:     { en: '', ar: '', de: '', ru: '' },
+      duration: { en: '', ar: '', de: '', ru: '' },
+      price: '',
+    });
+    renderAdmin();
+  });
+
+  document.getElementById('exc-preview').addEventListener('click', () => {
+    EXCURSIONS = JSON.parse(JSON.stringify(adminExcursionsDraft));
+    const list = document.getElementById('excursions-list');
+    if (list) delete list.dataset.rendered;
+    document.querySelector('.tab-btn[data-tab="excursions"]')?.click();
+  });
+
+  document.getElementById('exc-reset').addEventListener('click', async () => {
+    EXCURSIONS = null;
+    adminExcursionsDraft = null;
+    await loadExcursions();
+    renderAdmin();
+  });
+
+  document.getElementById('exc-download').addEventListener('click', () => {
+    downloadJson('excursions.json', adminExcursionsDraft);
+  });
+
+  document.getElementById('exc-exit').addEventListener('click', () => {
+    location.hash = '';
+    location.reload();
   });
 }
 
