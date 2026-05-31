@@ -221,6 +221,73 @@
 [data-theme="light"] #app .welcome-card-title { color: #1f1a14; }
 [data-theme="light"] #app .welcome-card-sub   { color: rgba(31,26,20,0.7); }
 [data-theme="light"] #app .welcome-card-skip  { color: rgba(31,26,20,0.55); }
+[data-theme="light"] #app .welcome-card-skip:hover { color: rgba(31,26,20,0.85); }
+
+/* Welcome card inputs — base uses rgba(0,0,0,0.35) background = charcoal on cream */
+[data-theme="light"] #app .welcome-card-input {
+  background: #fffdf6;
+  color: #1f1a14;
+  border-color: rgba(166,131,41,0.4);
+}
+[data-theme="light"] #app .welcome-card-input::placeholder { color: rgba(31,26,20,0.38); }
+
+/* Reminder toggle — base uses hardcoded near-black gradient background */
+[data-theme="light"] #app .reminder-toggle {
+  background: rgba(255,252,244,0.92);
+  border-color: var(--card-border);
+  color: rgba(31,26,20,0.65);
+}
+[data-theme="light"] #app .reminder-toggle:hover { color: var(--gold); border-color: rgba(166,131,41,0.5); }
+[data-theme="light"] #app .reminder-toggle.is-on {
+  background: rgba(255,252,244,0.96);
+  color: var(--gold);
+  border-color: rgba(166,131,41,0.6);
+  box-shadow: 0 0 0 1px rgba(166,131,41,0.15);
+}
+[data-theme="light"] #app .reminder-hint { color: rgba(31,26,20,0.6); }
+
+/* My Day group headings */
+[data-theme="light"] #app .myday-group-head { border-bottom-color: rgba(166,131,41,0.25); }
+[data-theme="light"] #app .myday-group-day  { color: #1f1a14; }
+[data-theme="light"] #app .myday-empty-title { color: #1f1a14; }
+[data-theme="light"] #app .myday-empty-sub  { color: rgba(31,26,20,0.6); }
+
+/* Key fact boxes — base uses rgba(255,255,255,0.04) = invisible on cream */
+[data-theme="light"] #app .key-fact {
+  background: rgba(255,252,244,0.9);
+  border-color: var(--card-border);
+}
+[data-theme="light"] #app .key-fact-value { color: #1f1a14; }
+
+/* Amenity pills */
+[data-theme="light"] #app .amenity { color: rgba(31,26,20,0.75); border-color: rgba(166,131,41,0.35); }
+
+/* Info hours line */
+[data-theme="light"] #app .info-hours { color: var(--gold); opacity: 1; }
+
+/* WiFi blocks */
+[data-theme="light"] #app .wifi-value { color: #1f1a14; }
+[data-theme="light"] #app .wifi-password { color: var(--gold); }
+[data-theme="light"] #app .wifi-zone-label { color: rgba(31,26,20,0.7); }
+[data-theme="light"] #app .wifi-field-label { color: rgba(31,26,20,0.55); }
+[data-theme="light"] #app .wifi-copy-btn {
+  background: rgba(255,252,244,0.92);
+  border-color: var(--card-border);
+  color: rgba(31,26,20,0.7);
+}
+
+/* Quick contact extension grid */
+[data-theme="light"] #app .qc-ext span { color: rgba(31,26,20,0.6); }
+[data-theme="light"] #app .qc-ext strong { color: #1f1a14; }
+[data-theme="light"] #app .qc-ext-title { color: rgba(31,26,20,0.55); }
+[data-theme="light"] #app .qc-divider { background: rgba(31,26,20,0.12); }
+
+/* Excursion card internals */
+[data-theme="light"] #app .excursion-price { color: var(--gold); }
+[data-theme="light"] #app .excursion-detail { color: rgba(31,26,20,0.65); }
+
+/* My Day reminder bar */
+[data-theme="light"] #app .reminders-bar { background: transparent; }
 [data-theme="light"] #app .countdown-ribbon   { color: #1f1a14; }
 [data-theme="light"] #app .countdown-text     { color: #1f1a14; }
 [data-theme="light"] #app .countdown-dismiss  { color: rgba(31,26,20,0.55); }
