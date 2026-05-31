@@ -1373,6 +1373,34 @@ html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
   font-size: 0.78rem; color: rgba(250,246,236,0.6);
 }
 
+/* Light-mode overrides — staff dashboard uses hardcoded dark-theme colours
+   that wash out on the cream background; remap them to readable dark tones. */
+[data-theme="light"] #app .staff-header-date { color: rgba(74,63,48,0.7); }
+[data-theme="light"] #app .staff-day-tabs { border-bottom-color: var(--card-border); }
+[data-theme="light"] #app .staff-day-btn {
+  color: rgba(74,63,48,0.75);
+  border-color: rgba(166,131,41,0.35);
+}
+[data-theme="light"] #app .staff-day-btn.today { border-color: rgba(166,131,41,0.6); color: var(--gold-light); }
+[data-theme="light"] #app .staff-day-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #fff;
+}
+[data-theme="light"] #app .staff-activity-row {
+  background: var(--surface-1);
+  border-color: var(--card-border);
+}
+[data-theme="light"] #app .staff-title { color: var(--text); }
+[data-theme="light"] #app .staff-meta  { color: var(--muted); }
+[data-theme="light"] #app .staff-empty  { color: var(--muted); }
+[data-theme="light"] #app .staff-show-title { color: var(--text); }
+[data-theme="light"] #app .staff-show-meta  { color: var(--muted); }
+[data-theme="light"] #app .staff-show-strip {
+  background: linear-gradient(135deg, rgba(176,152,224,0.18), rgba(201,168,76,0.12));
+  border-color: rgba(176,152,224,0.45);
+}
+
 /* Print styles */
 @media print {
   .staff-no-print { display: none !important; }
