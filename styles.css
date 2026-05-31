@@ -1373,6 +1373,32 @@ html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
   font-size: 0.78rem; color: rgba(250,246,236,0.6);
 }
 
+/* Staff header buttons — Print = gold filled (primary), Exit = gold outline */
+.staff-header-right .admin-btn {
+  background: var(--gold);
+  color: #1a1206;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.staff-header-right .admin-btn:hover {
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  color: #1a1206;
+}
+.staff-header-right .admin-btn-exit {
+  background: transparent;
+  color: var(--gold);
+  border-color: rgba(201,168,76,0.5);
+}
+.staff-header-right .admin-btn-exit:hover {
+  background: rgba(201,168,76,0.1);
+  color: var(--gold-light);
+  border-color: var(--gold);
+}
+[data-theme="light"] #app .staff-header-right .admin-btn { color: #fff; }
+[data-theme="light"] #app .staff-header-right .admin-btn:hover { color: #fff; }
+[data-theme="light"] #app .staff-header-right .admin-btn-exit { color: var(--gold-light); background: transparent; }
+
 /* Light-mode overrides — staff dashboard uses hardcoded dark-theme colours
    that wash out on the cream background; remap them to readable dark tones. */
 [data-theme="light"] #app .staff-header-date { color: rgba(74,63,48,0.7); }
