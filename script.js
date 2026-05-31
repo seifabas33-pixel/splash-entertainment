@@ -320,8 +320,8 @@ function fmtDate(now) {
     });
   });
 
-  // Skip entrance for deep-link hashes (reminder click or admin route).
-  if (location.hash === '#myday' || location.hash === '#admin') {
+  // Skip entrance for deep-link hashes (reminder click, admin or staff route).
+  if (location.hash === '#myday' || location.hash === '#admin' || location.hash === '#staff') {
     const el = document.getElementById('entrance');
     el.style.display = 'none';
     const app = document.getElementById('app');
@@ -342,11 +342,15 @@ function fmtDate(now) {
   // Staff sign-in: passcode prompt on entrance, then jump straight to admin.
   document.getElementById('staff-link').addEventListener('click', () => {
     const code = prompt(t('entrance.staff') + ':');
-    if (code !== ADMIN_PASSCODE) {
+    if (code === ADMIN_PASSCODE) {
+      sessionStorage.setItem(ADMIN_SESSION, 'true');
+    } else if (code === STAFF_PASSCODE) {
+      sessionStorage.setItem(STAFF_SESSION, 'true');
+    } else {
       if (code !== null) alert('Wrong passcode.');
       return;
     }
-    sessionStorage.setItem(ADMIN_SESSION, 'true');
+    const isAdmin = code === ADMIN_PASSCODE;
     const el = document.getElementById('entrance');
     el.style.transition = 'opacity 0.5s ease';
     el.style.opacity = '0';
@@ -355,7 +359,7 @@ function fmtDate(now) {
       const app = document.getElementById('app');
       app.classList.remove('hidden');
       buildApp();
-      openAdmin();
+      if (isAdmin) openAdmin(); else openStaff();
     }, 520);
   });
 
@@ -640,6 +644,8 @@ function buildApp() {
     if (tab) tab.click();
   } else if (location.hash === '#admin') {
     openAdmin();
+  } else if (location.hash === '#staff') {
+    openStaff();
   }
 }
 
@@ -1067,6 +1073,8 @@ if ('serviceWorker' in navigator) {
 // ── Admin editor (#admin route, passcode-gated) ─────────────────────────────────
 const ADMIN_PASSCODE = 'splash2026';
 const ADMIN_SESSION  = 'oldpalace_admin_ok';
+const STAFF_PASSCODE = 'palace123';
+const STAFF_SESSION  = 'oldpalace_staff_ok';
 const CATS = ['Aqua', 'Sport', 'Kids', 'Dance', 'Games', 'Evening'];
 
 let adminDraft = null;
@@ -1113,6 +1121,102 @@ function openAdmin() {
   if (fab) fab.classList.add('hidden');
   adminDraft = snapshotProgramme();
   renderAdmin();
+}
+
+// ── Staff Dashboard (read-only programme view) ────────────────────────────────
+
+let staffDow = new Date().getDay();
+
+function openStaff() {
+  const panel = document.getElementById('tab-staff');
+  if (!panel) return;
+  if (sessionStorage.getItem(STAFF_SESSION) !== 'true') {
+    const tries = prompt(t('entrance.staff') + ':');
+    if (tries !== STAFF_PASSCODE) { alert('Wrong passcode.'); return; }
+    sessionStorage.setItem(STAFF_SESSION, 'true');
+  }
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
+  panel.classList.remove('hidden');
+  panel.classList.add('active');
+  const fab = document.getElementById('qc-fab');
+  if (fab) fab.classList.add('hidden');
+  staffDow = new Date().getDay();
+  renderStaffDashboard();
+}
+
+function renderStaffDashboard() {
+  const panel = document.getElementById('tab-staff');
+  if (!panel) return;
+
+  const todayDow = new Date().getDay();
+  const dow = staffDow;
+  const activities = getSchedule(dow).sort((a, b) => {
+    const [ah, am] = a.time.split(':').map(Number);
+    const [bh, bm] = b.time.split(':').map(Number);
+    return (ah * 60 + am) - (bh * 60 + bm);
+  });
+  const show = EVENING_SHOWS[dow];
+
+  const dayTabs = [0,1,2,3,4,5,6].map(i => `
+    <button class="staff-day-btn${i === dow ? ' active' : ''}${i === todayDow ? ' today' : ''}" data-sdow="${i}">
+      ${dayName(i, true)}${i === todayDow ? ' ·' : ''}
+    </button>`).join('');
+
+  const actRows = activities.filter(a => a.category !== 'Evening').map(a => {
+    const catColor = (CAT_STYLE[a.category] || {}).color || '#c9a24b';
+    const title = pickLang(a.title);
+    const loc   = pickLang(a.location) || '';
+    const dur   = a.dur ? `${a.dur} min` : '';
+    return `
+      <div class="staff-activity-row">
+        <span class="staff-time">${a.hh || a.time}${a.ap ? ' ' + a.ap : ''}</span>
+        <span class="staff-cat-dot" style="background:${catColor}"></span>
+        <span class="staff-icon">${a.icon || ''}</span>
+        <span class="staff-info">
+          <span class="staff-title">${title}</span>
+          ${loc || dur ? `<span class="staff-meta">${[loc, dur].filter(Boolean).join(' · ')}</span>` : ''}
+        </span>
+      </div>`;
+  }).join('') || '<p class="staff-empty">No activities scheduled.</p>';
+
+  const showStrip = show ? `
+    <div class="staff-show-strip">
+      <span class="staff-show-icon">🎭</span>
+      <span class="staff-show-info">
+        <span class="staff-show-title">${pickLang(show.title)}</span>
+        <span class="staff-show-meta">${pickLang(show.venue)} · ${show.time}</span>
+      </span>
+    </div>` : '';
+
+  panel.innerHTML = `
+    <div class="staff-panel">
+      <div class="staff-header staff-no-print">
+        <div class="staff-header-left">
+          <span class="staff-header-title">📋 Staff Programme</span>
+          <span class="staff-header-date">${fmtDate(new Date())}</span>
+        </div>
+        <div class="staff-header-right">
+          <button class="admin-btn staff-no-print" onclick="window.print()">🖨 Print</button>
+          <button class="admin-btn admin-btn-exit staff-no-print" id="staff-exit">Exit</button>
+        </div>
+      </div>
+      <div class="staff-day-tabs staff-no-print">${dayTabs}</div>
+      <div class="staff-print-day">${dayName(dow)} — ${fmtDate(new Date())}</div>
+      <div class="staff-activities">${actRows}</div>
+      ${showStrip}
+    </div>`;
+
+  panel.querySelectorAll('.staff-day-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      staffDow = parseInt(btn.dataset.sdow);
+      renderStaffDashboard();
+    });
+  });
+  document.getElementById('staff-exit').addEventListener('click', () => {
+    location.hash = '';
+    location.reload();
+  });
 }
 
 function renderAdmin() {
