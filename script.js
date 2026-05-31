@@ -330,6 +330,15 @@ function fmtDate(now) {
     return;
   }
 
+  // Returning guests skip the entrance splash and land on Programme.
+  if (getCheckout() || localStorage.getItem(SKIPPED_KEY) === '1') {
+    document.getElementById('entrance').style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    buildApp();
+    return;
+  }
+
   // Staff sign-in: passcode prompt on entrance, then jump straight to admin.
   document.getElementById('staff-link').addEventListener('click', () => {
     const code = prompt(t('entrance.staff') + ':');
