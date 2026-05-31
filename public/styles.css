@@ -1218,7 +1218,8 @@ html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
 
 /* Staff sign-in link on entrance */
 .e-staff-link {
-  position: absolute; bottom: 1.2rem; right: 1.4rem; z-index: 4;
+  position: relative; z-index: 4;
+  margin-top: 1rem; align-self: center;
   background: transparent; border: 1px solid rgba(201,168,76,0.28);
   color: rgba(232,213,163,0.65);
   font-family: 'Raleway', sans-serif;
@@ -1418,10 +1419,6 @@ html[dir="rtl"] .admin-row-time {
 html[dir="rtl"] .quick-contact-fab {
   right: auto;
   left: calc(1.2rem + env(safe-area-inset-left, 0px));
-}
-html[dir="rtl"] .e-staff-link {
-  right: auto;
-  left: 1.4rem;
 }
 html[dir="rtl"] .h-back-btn,
 html[dir="rtl"] .h-back-icon {
