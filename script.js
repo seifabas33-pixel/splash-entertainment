@@ -320,24 +320,8 @@ function fmtDate(now) {
     });
   });
 
-  // Skip entrance for deep-link hashes (reminder click, admin or staff route).
-  if (location.hash === '#myday' || location.hash === '#admin' || location.hash === '#staff') {
-    const el = document.getElementById('entrance');
-    el.style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.remove('hidden');
-    buildApp();
-    return;
-  }
-
-  // Returning guests skip the entrance splash and land on Programme.
-  if (getCheckout() || localStorage.getItem(SKIPPED_KEY) === '1') {
-    document.getElementById('entrance').style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.remove('hidden');
-    buildApp();
-    return;
-  }
+  // Wire up the entrance buttons FIRST — before any early-return skip below —
+  // so they always work when the guest returns to this screen via "Home".
 
   // Staff sign-in: passcode prompt on entrance, then jump straight to admin.
   document.getElementById('staff-link').addEventListener('click', () => {
@@ -381,6 +365,25 @@ function fmtDate(now) {
       buildApp();
     }, 860);
   });
+
+  // Skip entrance for deep-link hashes (reminder click, admin or staff route).
+  if (location.hash === '#myday' || location.hash === '#admin' || location.hash === '#staff') {
+    const el = document.getElementById('entrance');
+    el.style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    buildApp();
+    return;
+  }
+
+  // Returning guests skip the entrance splash and land on Programme.
+  if (getCheckout() || localStorage.getItem(SKIPPED_KEY) === '1') {
+    document.getElementById('entrance').style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    buildApp();
+    return;
+  }
 })();
 
 // ── App ───────────────────────────────────────────────────────────────────────
@@ -1163,8 +1166,8 @@ function renderStaffDashboard() {
       ${dayName(i, true)}${i === todayDow ? ' ·' : ''}
     </button>`).join('');
 
-  const actRows = activities.filter(a => a.category !== 'Evening').map(a => {
-    const catColor = (CAT_STYLE[a.category] || {}).color || '#c9a24b';
+  const actRows = activities.filter(a => a.cat !== 'Evening').map(a => {
+    const catColor = (CAT_STYLE[a.cat] || {}).color || '#c9a24b';
     const title = pickLang(a.title);
     const loc   = pickLang(a.location) || '';
     const dur   = a.dur ? `${a.dur} min` : '';
@@ -2576,9 +2579,7 @@ async function renderExcursions() {
   await loadExcursions();
   if (!EXCURSIONS || !EXCURSIONS.length) return;
 
-  list.dataset.rendered = '1';
-  const lang = pickLang();
-  const pick = (o) => (o && (o[lang] || o.en)) || '';
+  const pick = (o) => pickLang(o);
 
   list.innerHTML = EXCURSIONS.map(ex => `
     <div class="info-card${ex.featured ? ' featured-card' : ''} excursion-card" data-tour="${ex.id}">
