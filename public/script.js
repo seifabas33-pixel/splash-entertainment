@@ -375,15 +375,6 @@ function fmtDate(now) {
     buildApp();
     return;
   }
-
-  // Returning guests skip the entrance splash and land on Programme.
-  if (getCheckout() || localStorage.getItem(SKIPPED_KEY) === '1') {
-    document.getElementById('entrance').style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.remove('hidden');
-    buildApp();
-    return;
-  }
 })();
 
 // ── App ───────────────────────────────────────────────────────────────────────
