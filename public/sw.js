@@ -1,4 +1,4 @@
-const CACHE = 'oldpalace-v41';
+const CACHE = 'oldpalace-v42';
 
 const CORE = [
   '.',
@@ -110,7 +110,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Same-origin static assets: cache-first, populate at runtime.
+  // App code (script.js / styles.css): network-first so code updates take
+  // effect on the next load without needing to force-close the app.
+  if (url.origin === self.location.origin && (url.pathname.endsWith('script.js') || url.pathname.endsWith('styles.css'))) {
+    event.respondWith(
+      fetch(request).then((res) => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then((cache) => cache.put(request, copy));
+        }
+        return res;
+      }).catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Same-origin static assets (images, fonts, manifest): cache-first.
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(request).then((cached) =>
