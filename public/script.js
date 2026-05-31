@@ -320,24 +320,8 @@ function fmtDate(now) {
     });
   });
 
-  // Skip entrance for deep-link hashes (reminder click, admin or staff route).
-  if (location.hash === '#myday' || location.hash === '#admin' || location.hash === '#staff') {
-    const el = document.getElementById('entrance');
-    el.style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.remove('hidden');
-    buildApp();
-    return;
-  }
-
-  // Returning guests skip the entrance splash and land on Programme.
-  if (getCheckout() || localStorage.getItem(SKIPPED_KEY) === '1') {
-    document.getElementById('entrance').style.display = 'none';
-    const app = document.getElementById('app');
-    app.classList.remove('hidden');
-    buildApp();
-    return;
-  }
+  // Wire up the entrance buttons FIRST — before any early-return skip below —
+  // so they always work when the guest returns to this screen via "Home".
 
   // Staff sign-in: passcode prompt on entrance, then jump straight to admin.
   document.getElementById('staff-link').addEventListener('click', () => {
@@ -381,6 +365,25 @@ function fmtDate(now) {
       buildApp();
     }, 860);
   });
+
+  // Skip entrance for deep-link hashes (reminder click, admin or staff route).
+  if (location.hash === '#myday' || location.hash === '#admin' || location.hash === '#staff') {
+    const el = document.getElementById('entrance');
+    el.style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    buildApp();
+    return;
+  }
+
+  // Returning guests skip the entrance splash and land on Programme.
+  if (getCheckout() || localStorage.getItem(SKIPPED_KEY) === '1') {
+    document.getElementById('entrance').style.display = 'none';
+    const app = document.getElementById('app');
+    app.classList.remove('hidden');
+    buildApp();
+    return;
+  }
 })();
 
 // ── App ───────────────────────────────────────────────────────────────────────
