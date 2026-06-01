@@ -170,6 +170,7 @@ function setLang(lang) {
   });
   if (typeof paintCountdownRibbon === 'function') paintCountdownRibbon();
   if (typeof paintWelcomeCard === 'function') paintWelcomeCard();
+  if (typeof renderLocalGuide === 'function' && document.getElementById('tab-yourstay')?.classList.contains('active')) renderLocalGuide();
 }
 
 async function loadI18n() {
@@ -397,6 +398,7 @@ function initTabs() {
       if (target === 'feedback') renderFeedback();
       if (target === 'excursions') renderExcursions();
       if (target === 'gallery') renderGallery();
+      if (target === 'yourstay') renderLocalGuide();
     });
   });
 }
@@ -2783,6 +2785,73 @@ async function renderGallery() {
     item.addEventListener('click', () => openLightbox(photos, i));
     grid.appendChild(item);
   });
+}
+
+// ── Local Area Guide (Your Stay tab) ─────────────────────────────────────────
+let LOCAL_GUIDE = null;
+let activeGuideCat = 'all';
+
+const GUIDE_CATS = [
+  { id: 'all',       icon: '✨', key: 'localguide.cat.all',       fallback: 'All' },
+  { id: 'marina',    icon: '⛵', key: 'localguide.cat.marina',    fallback: 'Marina' },
+  { id: 'shopping',  icon: '🛍', key: 'localguide.cat.shopping',  fallback: 'Shopping' },
+  { id: 'dining',    icon: '🍽', key: 'localguide.cat.dining',    fallback: 'Dining Out' },
+  { id: 'practical', icon: '💡', key: 'localguide.cat.practical', fallback: 'Practical' },
+];
+
+async function loadLocalGuide() {
+  if (LOCAL_GUIDE) return LOCAL_GUIDE;
+  try {
+    const res = await fetch('data/local-guide.json', { cache: 'no-cache' });
+    LOCAL_GUIDE = res.ok ? await res.json() : [];
+  } catch {
+    LOCAL_GUIDE = [];
+  }
+  return LOCAL_GUIDE;
+}
+
+async function renderLocalGuide() {
+  const pills = document.getElementById('local-guide-pills');
+  const list  = document.getElementById('local-guide-list');
+  if (!pills || !list) return;
+
+  await loadLocalGuide();
+  if (!LOCAL_GUIDE || !LOCAL_GUIDE.length) {
+    pills.innerHTML = '';
+    list.innerHTML = '';
+    return;
+  }
+
+  // Only show category pills that actually have entries.
+  const present = new Set(LOCAL_GUIDE.map(e => e.cat));
+  const cats = GUIDE_CATS.filter(c => c.id === 'all' || present.has(c.id));
+  if (!cats.some(c => c.id === activeGuideCat)) activeGuideCat = 'all';
+
+  pills.innerHTML = '';
+  cats.forEach(c => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'lg-pill' + (c.id === activeGuideCat ? ' active' : '');
+    btn.innerHTML = `<span class="lg-pill-icon">${c.icon}</span> ${escapeHtml(t(c.key, c.fallback))}`;
+    btn.addEventListener('click', () => { activeGuideCat = c.id; renderLocalGuide(); });
+    pills.appendChild(btn);
+  });
+
+  const pick = (o) => pickLang(o);
+  const entries = activeGuideCat === 'all'
+    ? LOCAL_GUIDE
+    : LOCAL_GUIDE.filter(e => e.cat === activeGuideCat);
+
+  list.innerHTML = entries.map(e => `
+    <div class="info-card local-guide-card">
+      <div class="info-card-icon">${e.icon || '📍'}</div>
+      <div class="info-card-body">
+        <div class="info-card-title">${escapeHtml(pick(e.name))}</div>
+        <p class="info-card-desc">${escapeHtml(pick(e.desc))}</p>
+        ${e.tip ? `<p class="local-guide-tip">💡 ${escapeHtml(pick(e.tip))}</p>` : ''}
+        ${e.query ? `<a class="local-guide-dir" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.query)}" target="_blank" rel="noopener">📍 ${escapeHtml(t('localguide.directions', 'Get directions'))}</a>` : ''}
+      </div>
+    </div>`).join('');
 }
 
 function openLightbox(photos, idx) {
