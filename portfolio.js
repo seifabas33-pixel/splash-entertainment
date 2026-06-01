@@ -136,7 +136,7 @@ function highlightNavLink() {
 
 /* ── TYPEWRITER ── */
 (function () {
-  const words  = ['luxury experiences.', 'hospitality tech.', 'mobile apps.', 'beautiful UIs.', 'things that last.'];
+  const words  = ['unforgettable experiences.', 'entertainment programs.', 'digital platforms.', 'happy guests.', 'memories that last.'];
   const el     = document.getElementById('typeText');
   let wi = 0, ci = 0, deleting = false, wait = 0;
 
