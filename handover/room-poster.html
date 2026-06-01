@@ -71,14 +71,33 @@
     z-index: 2;
     width: 100%;
     height: 100%;
-    padding: 30mm 20mm 18mm;
+    padding: 18mm 20mm 18mm;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  /* ── Header logos ── */
-  .logos { display: none; }
+  /* ── Header logos — white lockup card so dark artwork reads on navy ── */
+  .logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8mm;
+    background: #fff;
+    padding: 5mm 9mm;
+    border-radius: 6px;
+    box-shadow: 0 6px 26px rgba(0,0,0,0.28);
+    margin-bottom: 9mm;
+  }
+  .logos img { display: block; width: auto; }
+  .logos .h-hotel  { height: 17mm; }
+  .logos .h-splash { height: 21mm; }   /* Splash PNG has internal whitespace — size up to balance */
+  .logos .h-divide {
+    width: 1px;
+    align-self: stretch;
+    margin: 2mm 0;
+    background: rgba(201,162,75,0.55);
+  }
 
   .eyebrow {
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -210,11 +229,12 @@
     <div class="inner">
 
       <div class="logos">
-        <img src="assets/old-palace-logo.png" alt="Old Palace Resort">
-        <img src="assets/splash-logo.png" alt="Splash Entertainment">
+        <img class="h-hotel" src="assets/old-palace-logo.png" alt="Old Palace Resort">
+        <span class="h-divide"></span>
+        <img class="h-splash" src="assets/splash-logo.png" alt="Splash Entertainment">
       </div>
 
-      <div class="eyebrow">Old Palace Resort · Sahl Hasheesh</div>
+      <div class="eyebrow">Your Digital Guest Companion</div>
       <h1>Your stay, <span class="accent">in your pocket</span></h1>
       <p class="subtitle">Activities, entertainment programme, concierge, dining, Wi-Fi, excursions &amp; more — all in one place. No app store, no download.</p>
 
