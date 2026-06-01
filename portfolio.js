@@ -7,7 +7,7 @@
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('loader').classList.add('done');
-  }, 1800);
+  }, 1350);
 });
 
 /* ── CUSTOM CURSOR ── */
@@ -68,7 +68,7 @@ function highlightNavLink() {
   const ctx    = canvas.getContext('2d');
   let W, H, particles = [];
 
-  const GOLD = [160, 120, 28];
+  const GOLD = [105, 73, 8];
   const N    = 90;
 
   class Particle {
@@ -78,14 +78,14 @@ function highlightNavLink() {
       this.r   = Math.random() * 1.8 + 0.3;
       this.vx  = (Math.random() - 0.5) * 0.35;
       this.vy  = (Math.random() - 0.5) * 0.35;
-      this.a   = Math.random() * 0.6 + 0.1;
-      this.da  = (Math.random() - 0.5) * 0.004;
+      this.a   = Math.random() * 0.55 + 0.3;
+      this.da  = (Math.random() - 0.5) * 0.005;
     }
     constructor() { this.reset(); }
     update() {
       this.x += this.vx; this.y += this.vy;
       this.a += this.da;
-      if (this.a < 0.05 || this.a > 0.75) this.da *= -1;
+      if (this.a < 0.2 || this.a > 0.9) this.da *= -1;
       if (this.x < 0 || this.x > W) this.vx *= -1;
       if (this.y < 0 || this.y > H) this.vy *= -1;
     }
@@ -103,7 +103,7 @@ function highlightNavLink() {
   }
 
   function drawConnections() {
-    const D = 130;
+    const D = 145;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -111,8 +111,8 @@ function highlightNavLink() {
         const d  = Math.sqrt(dx * dx + dy * dy);
         if (d < D) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(${GOLD},${0.22 * (1 - d / D)})`;
-          ctx.lineWidth   = 0.5;
+          ctx.strokeStyle = `rgba(${GOLD},${0.48 * (1 - d / D)})`;
+          ctx.lineWidth   = 0.7;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();
