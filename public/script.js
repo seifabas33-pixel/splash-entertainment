@@ -634,6 +634,7 @@ function buildApp() {
   initLightbox();
   paintCountdownRibbon();
   startHappeningNowTick();
+  initAnimations();
 
   if (location.hash === '#myday') {
     const tab = document.querySelector('.tab-btn[data-tab="myday"]');
@@ -2920,4 +2921,131 @@ function initLightbox() {
     const dx = touchEndX - touchStartX;
     if (Math.abs(dx) > 50) lightboxStep(dx > 0 ? -1 : +1);
   }, { passive: true });
+}
+
+// ── Animation System ──────────────────────────────────────────────────────────
+
+function initAnimations() {
+
+  // 1. Scroll-triggered reveal via IntersectionObserver
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('revealed');
+      revealObs.unobserve(e.target);
+      // Clean up after animation so hover transitions work normally
+      e.target.addEventListener('animationend', () => {
+        e.target.classList.remove('will-reveal', 'revealed');
+      }, { once: true });
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+  const REVEAL_SEL = '.section-header, .info-card:not(.local-guide-card), .welcome-card, .wifi-card, .countdown-ribbon, .feedback-cat-card';
+
+  function setupReveal(root) {
+    const els = (root || document).querySelectorAll(REVEAL_SEL);
+    els.forEach((el, i) => {
+      if (el.dataset.revealBound) return;
+      el.dataset.revealBound = '1';
+      el.classList.add('will-reveal');
+      el.style.setProperty('--reveal-delay', `${Math.min(i, 7) * 65}ms`);
+      revealObs.observe(el);
+    });
+  }
+
+  setupReveal();
+
+  // Re-run reveal on tab switch (capture phase so content is already rendered)
+  document.querySelector('.tab-nav').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    requestAnimationFrame(() => {
+      const panel = document.getElementById('tab-' + btn.dataset.tab);
+      if (panel) setupReveal(panel);
+    });
+  }, true);
+
+  // 2. Stagger --nth for dynamic list children
+  function stampNth(containerId, childSel) {
+    const el = typeof containerId === 'string' ? document.getElementById(containerId) : containerId;
+    if (!el) return;
+    new MutationObserver(() => {
+      el.querySelectorAll(childSel).forEach((c, i) => c.style.setProperty('--nth', i));
+    }).observe(el, { childList: true, subtree: true });
+  }
+  stampNth('prog-forecast', '.forecast-day');
+  stampNth('before-you-leave', '.suggestion-card');
+  stampNth('happening-now', '.hn-chip');
+
+  // 3. Gold ripple on interactive card click
+  function addRipple(el) {
+    if (el.dataset.rippled) return;
+    el.dataset.rippled = '1';
+    el.addEventListener('pointerdown', (e) => {
+      const rect = el.getBoundingClientRect();
+      const dot  = document.createElement('span');
+      dot.className = 'ripple-dot';
+      dot.style.left = `${e.clientX - rect.left}px`;
+      dot.style.top  = `${e.clientY - rect.top}px`;
+      el.appendChild(dot);
+      dot.addEventListener('animationend', () => dot.remove(), { once: true });
+    });
+  }
+  document.querySelectorAll('.a-card, .info-card, .excursion-card').forEach(addRipple);
+
+  // Attach ripple to dynamically-rendered cards
+  new MutationObserver((mutations) => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(node => {
+        if (node.nodeType !== 1) return;
+        const targets = node.matches?.('.a-card,.info-card,.excursion-card')
+          ? [node]
+          : [...node.querySelectorAll('.a-card,.info-card,.excursion-card')];
+        targets.forEach(addRipple);
+        // Re-run reveal setup when new reveal-eligible nodes appear
+        if (node.querySelector?.(REVEAL_SEL)) {
+          requestAnimationFrame(() => setupReveal(node));
+        }
+      });
+    });
+  }).observe(document.getElementById('app'), { childList: true, subtree: true });
+
+  // 4. Tab icon bounce on switch
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.add('just-active');
+      setTimeout(() => btn.classList.remove('just-active'), 500);
+    });
+  });
+
+  // 5. Day pill bounce
+  document.getElementById('day-selector').addEventListener('click', (e) => {
+    const pill = e.target.closest('.day-pill');
+    if (!pill) return;
+    pill.classList.add('just-selected');
+    pill.addEventListener('animationend', () => pill.classList.remove('just-selected'), { once: true });
+  });
+
+  // 6. Filter + local-guide pill pop (delegated — works for dynamic pills too)
+  document.addEventListener('click', (e) => {
+    const pill = e.target.closest('.filter-btn, .lg-pill');
+    if (!pill) return;
+    pill.classList.remove('pill-pop');
+    void pill.offsetWidth;
+    pill.classList.add('pill-pop');
+    pill.addEventListener('animationend', () => pill.classList.remove('pill-pop'), { once: true });
+  });
+
+  // 7. Theme icon spin on toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const icon = document.getElementById('theme-icon');
+      if (!icon) return;
+      icon.classList.remove('theme-icon-anim');
+      void icon.offsetWidth;
+      icon.classList.add('theme-icon-anim');
+      icon.addEventListener('animationend', () => icon.classList.remove('theme-icon-anim'), { once: true });
+    });
+  }
 }

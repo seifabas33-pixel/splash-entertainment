@@ -3208,3 +3208,296 @@ html[dir="rtl"] .gallery-thumb-caption { text-align: right; }
   from { opacity: 0; transform: scale(0.98); }
   to   { opacity: 1; transform: scale(1); }
 }
+
+/* ═══════════════════════════════════════════════════
+   COMPREHENSIVE ANIMATION SYSTEM
+═══════════════════════════════════════════════════ */
+
+/* ── Reduced-motion safety net ───────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  #qc-fab     { animation: none !important; }
+  .now-banner { animation: none !important; }
+  .show-card::after, .featured-card::after { animation: none !important; }
+  .will-reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* ── 1. Tab panel crossfade + rise ───────────────── */
+@keyframes tabReveal {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-panel.active {
+  animation: tabReveal 0.36s cubic-bezier(.25,.46,.45,.94) both;
+}
+
+/* ── 2. Scroll-triggered reveal (animation-based, no transition conflict) ── */
+@keyframes revealFadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.will-reveal {
+  animation: revealFadeUp 0.55s cubic-bezier(.25,.46,.45,.94) var(--reveal-delay, 0ms) both;
+  animation-play-state: paused;
+}
+.will-reveal.revealed {
+  animation-play-state: running;
+}
+
+/* Section header gold line expands when revealed */
+.section-header.will-reveal::after {
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.65s ease calc(var(--reveal-delay, 0ms) + 250ms);
+}
+.section-header.revealed::after { transform: scaleX(1); }
+
+/* ── 3. Gold shimmer on show + featured cards ─────── */
+@keyframes goldShimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+.show-card::after,
+.featured-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(201,168,76,0.07) 50%,
+    transparent 62%
+  );
+  background-size: 200% 100%;
+  animation: goldShimmer 4s linear 1.5s infinite;
+  pointer-events: none;
+}
+
+/* ── 4. QC FAB float + pulse ring ────────────────── */
+@keyframes fabFloat {
+  0%, 100% { transform: translateY(0)    scale(1); }
+  50%       { transform: translateY(-7px) scale(1.04); }
+}
+@keyframes fabRing {
+  0%   { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 0    rgba(201,168,76,0.5); }
+  65%  { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 14px rgba(201,168,76,0); }
+  100% { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 0    rgba(201,168,76,0); }
+}
+#qc-fab {
+  animation: fabFloat 4s ease-in-out infinite,
+             fabRing  3s ease-out 1.2s infinite;
+}
+
+/* ── 5. QC sheet slide-up + backdrop fade ────────── */
+@keyframes sheetUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+#qc-sheet:not(.hidden)    { animation: sheetUp    0.38s cubic-bezier(.34,1.20,.64,1) both; }
+#qc-backdrop:not(.hidden) { animation: backdropIn 0.28s ease both; }
+
+/* ── 6. Lightbox open (backdrop + stage scale) ───── */
+@keyframes lbStageIn {
+  from { opacity: 0; transform: scale(0.88) translateY(12px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+.lightbox:not(.hidden)                 { animation: backdropIn 0.3s ease both; }
+.lightbox:not(.hidden) .lightbox-stage { animation: lbStageIn  0.4s cubic-bezier(.34,1.12,.64,1) both; }
+
+/* ── 7. Button press states ──────────────────────── */
+.filter-btn:active  { transform: scale(0.90); transition: transform 0.08s; }
+.day-pill:active    { transform: scale(0.92) translateY(2px); transition: transform 0.08s; }
+.lg-pill:active     { transform: scale(0.90); transition: transform 0.08s; }
+.h-theme-btn:active,
+.h-share-btn:active { transform: scale(0.86) !important; transition: transform 0.08s !important; }
+.a-fav:active       { transform: scale(1.45) !important; transition: transform 0.08s !important; }
+
+/* ── 8. Gold ripple on card click ────────────────── */
+@keyframes ripple {
+  from { transform: translate(-50%,-50%) scale(0); opacity: 0.5; }
+  to   { transform: translate(-50%,-50%) scale(4); opacity: 0; }
+}
+.ripple-dot {
+  position: absolute;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.22);
+  pointer-events: none;
+  animation: ripple 0.6s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+
+/* ── 9. Theme icon spin on toggle ────────────────── */
+@keyframes iconSpinIn {
+  from { transform: rotate(-120deg) scale(0.3); opacity: 0; }
+  to   { transform: rotate(0deg)    scale(1);   opacity: 1; }
+}
+.theme-icon-anim { display: inline-block; animation: iconSpinIn 0.4s cubic-bezier(.34,1.28,.64,1) both; }
+
+/* ── 10. Filter/guide pill pop on select ─────────── */
+@keyframes pillPop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.84); }
+  68%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.pill-pop { animation: pillPop 0.36s cubic-bezier(.34,1.28,.64,1) both; }
+
+/* ── 11. Day pill select bounce ──────────────────── */
+@keyframes dayPop {
+  0%   { transform: scale(1)    translateY(0); }
+  42%  { transform: scale(0.88) translateY(4px); }
+  100% { transform: scale(1)    translateY(-3px); }
+}
+.day-pill.just-selected { animation: dayPop 0.30s ease both; }
+
+/* ── 12. Now-banner border glow pulse ────────────── */
+@keyframes bannerGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.12); }
+  50%       { box-shadow: 0 0 20px 2px rgba(201,168,76,0.07); }
+}
+.now-banner { animation: bannerGlow 3.2s ease-in-out infinite; }
+
+/* ── 13. Forecast day stagger ────────────────────── */
+.forecast-day {
+  animation: cardReveal 0.4s ease both;
+  animation-delay: calc(var(--nth, 0) * 90ms);
+}
+
+/* ── 14. Suggestion card stagger ─────────────────── */
+.suggestion-card {
+  animation: cardReveal 0.45s ease both;
+  animation-delay: calc(var(--nth, 0) * 65ms);
+}
+
+/* ── 15. Info-card icon tilt on hover ────────────── */
+.info-card-icon {
+  transition: transform 0.4s cubic-bezier(.34,1.28,.64,1);
+}
+.info-card:hover .info-card-icon {
+  transform: rotate(10deg) scale(1.14);
+}
+
+/* ── 16. Happening-now chip slide in ─────────────── */
+@keyframes hnSlide {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.hn-chip {
+  animation: hnSlide 0.42s cubic-bezier(.25,.46,.45,.94) both;
+  animation-delay: calc(var(--nth, 0) * 80ms);
+}
+html[dir="rtl"] .hn-chip { animation-name: hnSlideRtl; }
+@keyframes hnSlideRtl {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── 17. Excursion card shimmer on hover ─────────── */
+.excursion-card { overflow: hidden; }
+.excursion-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(201,168,76,0.07) 50%,
+    transparent 62%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.excursion-card:hover::after {
+  opacity: 1;
+  animation: goldShimmer 1.4s linear;
+}
+
+/* ── 18. Tab icon bounce on switch ───────────────── */
+@keyframes tabIconBounce {
+  0%   { transform: scale(1)    translateY(0); }
+  35%  { transform: scale(0.70) translateY(5px); }
+  70%  { transform: scale(1.22) translateY(-3px); }
+  100% { transform: scale(1)    translateY(0); }
+}
+.tab-btn.just-active .tab-icon {
+  animation: tabIconBounce 0.42s cubic-bezier(.34,1.28,.64,1) both;
+}
+
+/* ── 19. Feedback category card lift ─────────────── */
+.feedback-cat-card {
+  transition: transform 0.32s cubic-bezier(.34,1.12,.64,1),
+              box-shadow 0.32s ease,
+              border-color 0.3s;
+}
+.feedback-cat-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(201,168,76,0.15);
+}
+
+/* ── 20. Welcome + countdown hover lift ──────────── */
+.welcome-card,
+.countdown-ribbon {
+  transition: transform 0.32s cubic-bezier(.34,1.12,.64,1),
+              box-shadow 0.32s ease;
+}
+.welcome-card:hover     { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.4); }
+.countdown-ribbon:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.4); }
+
+/* ── 21. Show-card icon gentle spin ─────────────── */
+@keyframes showIconSpin {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(-8deg); }
+  75%       { transform: rotate(8deg); }
+}
+.show-icon {
+  animation: showIconSpin 5s ease-in-out 2s infinite;
+}
+
+/* ── 22. Entrance button continuous glow pulse ───── */
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  50%       { box-shadow: 0 0 0 6px rgba(201,168,76,0.12); }
+}
+.e-btn { animation: btnGlow 2.8s ease-in-out 2.5s infinite; }
+
+/* ── 23. a-card shimmer on hover ─────────────────── */
+.a-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(201,168,76,0.05) 50%,
+    transparent 62%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.a-card:hover::after {
+  opacity: 1;
+  animation: goldShimmer 1.2s linear;
+}
+
+/* ── 24. Countdown number throb ──────────────────── */
+@keyframes numThrob {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+.countdown-value { animation: numThrob 2s ease-in-out infinite; }
+
+/* ── 25. Staff / admin panel entrance ────────────── */
+#tab-admin.active,
+#tab-staff.active {
+  animation: tabReveal 0.4s cubic-bezier(.25,.46,.45,.94) both;
+}
+
