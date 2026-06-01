@@ -68,7 +68,7 @@ function highlightNavLink() {
   const ctx    = canvas.getContext('2d');
   let W, H, particles = [];
 
-  const GOLD = [212, 175, 55];
+  const GOLD = [160, 120, 28];
   const N    = 90;
 
   class Particle {
@@ -111,7 +111,7 @@ function highlightNavLink() {
         const d  = Math.sqrt(dx * dx + dy * dy);
         if (d < D) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(${GOLD},${0.18 * (1 - d / D)})`;
+          ctx.strokeStyle = `rgba(${GOLD},${0.22 * (1 - d / D)})`;
           ctx.lineWidth   = 0.5;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
@@ -284,7 +284,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     spark.style.cssText = `
       position:fixed; left:${e.clientX}px; top:${e.clientY}px;
       width:6px; height:6px; border-radius:50%;
-      background:rgba(212,175,55,0.7);
+      background:rgba(160,120,28,0.6);
       pointer-events:none; z-index:9998;
       transform:translate(-50%,-50%);
       transition:all 0.8s ease;
