@@ -5,76 +5,161 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Seif Abas | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="portfolio.css" />
 </head>
 <body>
 
+  <!-- CURSOR -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-logo">SA</div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
   <!-- NAV -->
-  <nav class="nav">
-    <span class="nav-logo">SA</span>
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="#hero">SA</a>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
     </ul>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#projects" class="mobile-link">Projects</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <div class="glow glow-a"></div>
-    <div class="glow glow-b"></div>
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-shapes" aria-hidden="true">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
     <div class="hero-inner">
-      <p class="hero-eyebrow">Hello, I'm</p>
-      <h1 class="hero-name">Seif Abas</h1>
-      <p class="hero-title">Entertainment &amp; Hospitality Tech Builder</p>
-      <p class="hero-sub">
-        Crafting digital experiences for hospitality brands —
-        from web apps to mobile platforms.
+      <p class="hero-eyebrow" data-aos="fade-down">
+        <span class="eyebrow-line"></span>
+        Welcome to my world
+        <span class="eyebrow-line"></span>
       </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn-primary">See My Work</a>
-        <a href="#contact" class="btn-outline">Get in Touch</a>
+      <h1 class="hero-name" data-aos="fade-up">
+        <span class="name-line" data-text="Seif">Seif</span>
+        <span class="name-line gold" data-text="Abas">Abas</span>
+      </h1>
+      <div class="hero-typewriter" data-aos="fade-up" data-aos-delay="300">
+        <span class="type-prefix">I build&nbsp;</span>
+        <span class="type-text" id="typeText"></span>
+        <span class="type-cursor">|</span>
+      </div>
+      <p class="hero-sub" data-aos="fade-up" data-aos-delay="500">
+        Crafting luxurious digital experiences for the hospitality world —
+        from immersive web platforms to elegant mobile apps.
+      </p>
+      <div class="hero-cta" data-aos="fade-up" data-aos-delay="700">
+        <a href="#projects" class="btn-gold magnetic">
+          <span>Explore Work</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn-ghost magnetic">
+          <span>Get in Touch</span>
+        </a>
+      </div>
+      <div class="hero-stats" data-aos="fade-up" data-aos-delay="900">
+        <div class="stat">
+          <span class="stat-num" data-target="2">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num" data-target="5">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Projects Delivered</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num" data-target="1">0</span><span class="stat-plus"></span>
+          <span class="stat-label">Resort Platform Built</span>
+        </div>
       </div>
     </div>
-    <div class="scroll-hint" aria-hidden="true">
-      <span></span>
+    <div class="scroll-hint" data-aos="fade-up" data-aos-delay="1100">
+      <span class="scroll-text">Scroll to explore</span>
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section class="section" id="about">
-    <div class="section-inner">
-      <p class="label">Who I Am</p>
-      <h2 class="section-title">About Me</h2>
+    <div class="section-bg-text" aria-hidden="true">About</div>
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">Who I Am</p>
+        <h2 class="section-title">The <span class="gold-text">Story</span> Behind the Code</h2>
+      </div>
       <div class="about-grid">
-        <div class="about-avatar" aria-hidden="true">
-          <div class="avatar-ring">
-            <span class="avatar-initials">SA</span>
+        <div class="about-visual" data-aos="fade-right">
+          <div class="about-card-wrap">
+            <div class="about-card">
+              <div class="about-avatar">
+                <div class="avatar-glow"></div>
+                <div class="avatar-ring">
+                  <span>SA</span>
+                </div>
+              </div>
+              <div class="about-badge">
+                <span class="badge-dot"></span>
+                Available for Projects
+              </div>
+            </div>
+            <div class="about-floating-tag tag-1">React Native</div>
+            <div class="about-floating-tag tag-2">Node.js</div>
+            <div class="about-floating-tag tag-3">Hospitality Tech</div>
           </div>
         </div>
-        <div class="about-text">
-          <p>
-            I'm a developer passionate about building products at the intersection of
-            <strong>technology and hospitality</strong>. Currently leading the digital
-            entertainment experience at <strong>Hilton Marsa Alam Nubian Resort</strong>
-            through the Splash Entertainment platform.
+        <div class="about-content" data-aos="fade-left" data-aos-delay="200">
+          <p class="about-intro">
+            I'm a <strong>full-stack developer</strong> with a passion for crafting
+            beautiful, high-performance digital products for the hospitality industry.
           </p>
-          <p>
-            I build full-stack web applications and cross-platform mobile apps that
-            make it easy for guests to discover activities and for teams to stay coordinated.
+          <p class="about-body">
+            Currently powering the digital entertainment experience at
+            <strong>Hilton Marsa Alam Nubian Resort</strong> — where I built
+            Splash Entertainment, a complete guest &amp; team platform from the ground up.
           </p>
-          <p>
-            When I'm not coding, I'm at the beach — which happens to be the backdrop
-            for most of my work.
+          <p class="about-body">
+            I believe great software should feel effortless: fast, beautiful, and
+            intuitive. Every project I take on gets the same obsessive attention
+            to detail — because luxury is in the details.
           </p>
-          <div class="about-chips">
+          <div class="about-chips" data-aos="fade-up" data-aos-delay="400">
             <span class="chip">Web Development</span>
             <span class="chip">Mobile Apps</span>
             <span class="chip">Hospitality Tech</span>
-            <span class="chip">UI/UX</span>
+            <span class="chip">UI / UX Design</span>
+            <span class="chip">API Integration</span>
           </div>
+          <a href="#projects" class="btn-gold-outline magnetic" data-aos="fade-up" data-aos-delay="500">
+            <span>View My Work</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </div>
@@ -82,109 +167,141 @@
 
   <!-- SKILLS -->
   <section class="section section-alt" id="skills">
-    <div class="section-inner">
-      <p class="label">What I Use</p>
-      <h2 class="section-title">Skills &amp; Tools</h2>
-      <div class="skills-grid">
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    <div class="section-bg-text" aria-hidden="true">Skills</div>
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">What I Master</p>
+        <h2 class="section-title">Skills &amp; <span class="gold-text">Expertise</span></h2>
+      </div>
+      <div class="skills-layout">
+        <div class="skill-bars" data-aos="fade-right">
+          <div class="skill-bar-item" data-percent="90">
+            <div class="skill-bar-header">
+              <span>HTML &amp; CSS</span><span class="skill-pct">90%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
           </div>
-          <h3>Frontend</h3>
-          <ul>
-            <li>HTML &amp; CSS</li>
-            <li>JavaScript (ES6+)</li>
-            <li>React &amp; React Native</li>
-            <li>Responsive Design</li>
-          </ul>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <div class="skill-bar-item" data-percent="85">
+            <div class="skill-bar-header">
+              <span>JavaScript (ES6+)</span><span class="skill-pct">85%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
           </div>
-          <h3>Backend &amp; APIs</h3>
-          <ul>
-            <li>Node.js</li>
-            <li>REST APIs</li>
-            <li>Express</li>
-            <li>Server-side JS</li>
-          </ul>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <div class="skill-bar-item" data-percent="80">
+            <div class="skill-bar-header">
+              <span>React &amp; React Native</span><span class="skill-pct">80%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
           </div>
-          <h3>Mobile</h3>
-          <ul>
-            <li>React Native (Expo)</li>
-            <li>iOS &amp; Android</li>
-            <li>EAS Build</li>
-            <li>App Store deployment</li>
-          </ul>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <div class="skill-bar-item" data-percent="75">
+            <div class="skill-bar-header">
+              <span>Node.js &amp; Express</span><span class="skill-pct">75%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
           </div>
-          <h3>Deployment</h3>
-          <ul>
-            <li>Netlify</li>
-            <li>Git &amp; GitHub</li>
-            <li>CI/CD basics</li>
-            <li>Domain &amp; hosting</li>
-          </ul>
+          <div class="skill-bar-item" data-percent="70">
+            <div class="skill-bar-header">
+              <span>Mobile (Expo / EAS)</span><span class="skill-pct">70%</span>
+            </div>
+            <div class="skill-track"><div class="skill-fill"></div></div>
+          </div>
         </div>
-
+        <div class="skill-cards-col" data-aos="fade-left" data-aos-delay="200">
+          <div class="skill-tech-card">
+            <div class="skill-tech-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <h4>Frontend</h4>
+              <p>HTML, CSS, JavaScript, React, Responsive Design, Animations</p>
+            </div>
+          </div>
+          <div class="skill-tech-card">
+            <div class="skill-tech-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            </div>
+            <div>
+              <h4>Backend</h4>
+              <p>Node.js, Express, REST APIs, Server-side JavaScript</p>
+            </div>
+          </div>
+          <div class="skill-tech-card">
+            <div class="skill-tech-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </div>
+            <div>
+              <h4>Mobile</h4>
+              <p>React Native, Expo, EAS Build, iOS &amp; Android</p>
+            </div>
+          </div>
+          <div class="skill-tech-card">
+            <div class="skill-tech-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div>
+              <h4>Deployment</h4>
+              <p>Netlify, Git &amp; GitHub, CI/CD, Domain &amp; Hosting</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- PROJECTS -->
   <section class="section" id="projects">
-    <div class="section-inner">
-      <p class="label">What I've Built</p>
-      <h2 class="section-title">Projects</h2>
+    <div class="section-bg-text" aria-hidden="true">Work</div>
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">What I've Built</p>
+        <h2 class="section-title">Featured <span class="gold-text">Projects</span></h2>
+      </div>
       <div class="projects-grid">
 
-        <article class="project-card featured">
-          <div class="project-badge">Featured</div>
+        <article class="project-card project-featured" data-aos="fade-up">
+          <div class="project-shimmer"></div>
+          <div class="project-glow"></div>
           <div class="project-top">
-            <div class="project-icon splash-icon">
-              <img src="assets/splash-logo.svg" alt="Splash Logo" />
+            <div class="project-icon-wrap">
+              <img src="assets/splash-logo.svg" alt="Splash Entertainment" class="project-logo" />
             </div>
-            <div class="project-links">
-              <a href="index.html" class="icon-link" title="Live App" target="_blank">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
+            <span class="project-badge">Featured</span>
           </div>
-          <h3>Splash Entertainment</h3>
-          <p>Full-stack web &amp; mobile entertainment platform for Hilton Marsa Alam Nubian Resort. Guests browse &amp; join daily activities; workers onboard digitally.</p>
+          <h3 class="project-title">Splash Entertainment</h3>
+          <p class="project-desc">Full-stack entertainment platform for Hilton Marsa Alam Nubian Resort. Guests browse &amp; sign up for daily activities; staff onboard digitally.</p>
           <div class="project-tags">
-            <span>HTML/CSS</span><span>JavaScript</span><span>Node.js</span><span>React Native</span><span>Netlify</span>
+            <span>HTML/CSS</span><span>JavaScript</span><span>Node.js</span><span>Netlify</span>
+          </div>
+          <div class="project-footer">
+            <a href="index.html" class="project-link" target="_blank">
+              View Live
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
           </div>
         </article>
 
-        <article class="project-card">
+        <article class="project-card" data-aos="fade-up" data-aos-delay="150">
+          <div class="project-shimmer"></div>
           <div class="project-top">
-            <div class="project-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <div class="project-icon-wrap icon-dark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="icon-svg"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
             </div>
           </div>
-          <h3>Splash App (Expo)</h3>
-          <p>Cross-platform React Native mobile app (iOS &amp; Android) for the Splash Entertainment platform, built with Expo and EAS.</p>
+          <h3 class="project-title">Splash App (Expo)</h3>
+          <p class="project-desc">Cross-platform React Native mobile app for iOS &amp; Android. Built with Expo managed workflow and distributed via EAS Build.</p>
           <div class="project-tags">
             <span>React Native</span><span>Expo</span><span>EAS</span><span>iOS</span><span>Android</span>
           </div>
+          <div class="project-footer">
+            <span class="project-wip">In Development</span>
+          </div>
         </article>
 
-        <article class="project-card add-card">
-          <div class="add-icon" aria-hidden="true">+</div>
-          <p>More projects coming soon</p>
+        <article class="project-card project-empty" data-aos="fade-up" data-aos-delay="300">
+          <div class="empty-inner">
+            <div class="empty-plus">+</div>
+            <p>More Coming Soon</p>
+          </div>
         </article>
 
       </div>
@@ -192,47 +309,60 @@
   </section>
 
   <!-- CONTACT -->
-  <section class="section section-alt" id="contact">
-    <div class="section-inner contact-inner">
-      <p class="label">Reach Out</p>
-      <h2 class="section-title">Contact</h2>
-      <p class="contact-sub">
-        Have a project in mind or just want to say hi?
-        Feel free to reach out through any of the channels below.
-      </p>
-      <div class="contact-cards">
-
-        <a href="mailto:seif.abas33@icloud.com" class="contact-card">
+  <section class="section section-contact" id="contact">
+    <div class="section-bg-text" aria-hidden="true">Contact</div>
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">Let's Connect</p>
+        <h2 class="section-title">Get In <span class="gold-text">Touch</span></h2>
+        <p class="contact-intro">
+          Have a project, an idea, or just want to say hello?
+          I'm always open to the right opportunities.
+        </p>
+      </div>
+      <div class="contact-grid">
+        <a href="mailto:seif.abas33@icloud.com" class="contact-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="contact-shimmer"></div>
           <div class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </div>
           <span class="contact-label">Email</span>
           <span class="contact-value">seif.abas33@icloud.com</span>
+          <div class="contact-arrow">→</div>
         </a>
-
-        <a href="#" class="contact-card" aria-label="GitHub placeholder">
+        <a href="https://github.com/seifabas33-pixel" class="contact-card" data-aos="fade-up" data-aos-delay="200" target="_blank">
+          <div class="contact-shimmer"></div>
           <div class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
           </div>
           <span class="contact-label">GitHub</span>
           <span class="contact-value">seifabas33-pixel</span>
+          <div class="contact-arrow">→</div>
         </a>
-
-        <a href="#" class="contact-card" aria-label="LinkedIn placeholder">
+        <a href="#" class="contact-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="contact-shimmer"></div>
           <div class="contact-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           </div>
           <span class="contact-label">LinkedIn</span>
           <span class="contact-value">Add your profile</span>
+          <div class="contact-arrow">→</div>
         </a>
-
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>Built by <strong>Seif Abas</strong> &mdash; 2025</p>
+    <div class="footer-inner">
+      <span class="footer-logo">SA</span>
+      <p>&copy; 2025 <strong>Seif Abas</strong>. Crafted with passion.</p>
+      <div class="footer-links">
+        <a href="#hero">Top</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
   </footer>
 
   <script src="portfolio.js"></script>
