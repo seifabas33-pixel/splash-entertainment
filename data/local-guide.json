@@ -1,0 +1,146 @@
+[
+  {
+    "id": "sahl-promenade",
+    "cat": "marina",
+    "icon": "⛵",
+    "query": "Sahl Hasheesh Old Town Promenade",
+    "name": {
+      "en": "Sahl Hasheesh Promenade & Old Town",
+      "ar": "كورنيش ومدينة سهل حشيش القديمة",
+      "de": "Sahl-Hasheesh-Promenade & Altstadt",
+      "ru": "Набережная и Старый город Сахль-Хашиш"
+    },
+    "desc": {
+      "en": "A 5.5 km seafront walkway lined with cafés, shisha lounges and a replica old-town square. Lovely at sunset and an easy walk or buggy ride from the resort.",
+      "ar": "ممشى بحري بطول ٥٫٥ كم تصطف على جانبيه المقاهي وصالات الشيشة وميدان يحاكي المدينة القديمة. رائع عند الغروب وعلى مسافة قريبة من المنتجع سيرًا أو بعربة.",
+      "de": "Eine 5,5 km lange Strandpromenade mit Cafés, Shisha-Lounges und einem nachgebauten Altstadtplatz. Wunderschön bei Sonnenuntergang, bequem zu Fuß oder per Buggy vom Resort erreichbar.",
+      "ru": "Набережная длиной 5,5 км с кафе, кальянными и площадью в стиле старого города. Прекрасна на закате, легко дойти пешком или доехать на электрокаре от отеля."
+    },
+    "tip": {
+      "en": "Go after 17:00 when it cools down — bring small cash for cafés.",
+      "ar": "اذهب بعد الساعة ٥ مساءً عندما يعتدل الجو — واصطحب نقودًا صغيرة للمقاهي.",
+      "de": "Am besten nach 17:00 Uhr, wenn es kühler ist — etwas Bargeld für Cafés mitnehmen.",
+      "ru": "Лучше после 17:00, когда прохладнее — возьмите немного наличных для кафе."
+    }
+  },
+  {
+    "id": "hurghada-marina",
+    "cat": "marina",
+    "icon": "🛥",
+    "query": "Hurghada Marina Boulevard",
+    "name": {
+      "en": "Hurghada Marina Boulevard",
+      "ar": "بوليفارد مارينا الغردقة",
+      "de": "Hurghada Marina Boulevard",
+      "ru": "Бульвар Марины Хургады"
+    },
+    "desc": {
+      "en": "Hurghada's smart yacht marina, ringed with restaurants, bars and shops. The liveliest spot in the evening — about a 25-minute taxi from the resort.",
+      "ar": "مارينا اليخوت الأنيقة في الغردقة، وتحيط بها المطاعم والحانات والمتاجر. أكثر الأماكن حيوية في المساء — على بُعد نحو ٢٥ دقيقة بالتاكسي من المنتجع.",
+      "de": "Hurghadas eleganter Yachthafen mit Restaurants, Bars und Geschäften. Abends der lebhafteste Ort — etwa 25 Minuten mit dem Taxi vom Resort.",
+      "ru": "Элегантная яхтенная марина Хургады с ресторанами, барами и магазинами. Самое оживлённое место по вечерам — около 25 минут на такси от отеля."
+    },
+    "tip": {
+      "en": "Agree the taxi fare before you set off — reception can call a trusted driver.",
+      "ar": "اتفق على أجرة التاكسي قبل الانطلاق — يمكن للاستقبال طلب سائق موثوق.",
+      "de": "Den Taxipreis vor der Fahrt vereinbaren — die Rezeption ruft gern einen vertrauenswürdigen Fahrer.",
+      "ru": "Договоритесь о цене такси заранее — на ресепшене вызовут проверенного водителя."
+    }
+  },
+  {
+    "id": "senzo-mall",
+    "cat": "shopping",
+    "icon": "🛍",
+    "query": "Senzo Mall Hurghada",
+    "name": {
+      "en": "Senzo Mall",
+      "ar": "سينزو مول",
+      "de": "Senzo Mall",
+      "ru": "Сензо Молл"
+    },
+    "desc": {
+      "en": "Hurghada's main modern mall: international brands, a supermarket, pharmacy, ATMs, a cinema and a food court. Fully air-conditioned — great on a hot afternoon.",
+      "ar": "أكبر مول حديث في الغردقة: ماركات عالمية وسوبر ماركت وصيدلية وأجهزة صراف آلي وسينما ومنطقة مطاعم. مكيّف بالكامل — مثالي في فترات الظهيرة الحارة.",
+      "de": "Hurghadas wichtigstes modernes Einkaufszentrum: internationale Marken, Supermarkt, Apotheke, Geldautomaten, Kino und Food-Court. Voll klimatisiert — ideal an heißen Nachmittagen.",
+      "ru": "Главный современный молл Хургады: международные бренды, супермаркет, аптека, банкоматы, кинотеатр и фуд-корт. Полностью кондиционирован — отлично в жаркий день."
+    },
+    "tip": {
+      "en": "The ATMs here are reliable for cash withdrawals in EGP.",
+      "ar": "أجهزة الصراف الآلي هنا موثوقة لسحب النقود بالجنيه المصري.",
+      "de": "Die Geldautomaten hier sind zuverlässig für Bargeldabhebungen in EGP.",
+      "ru": "Банкоматы здесь надёжны для снятия наличных в египетских фунтах."
+    }
+  },
+  {
+    "id": "el-dahar-souk",
+    "cat": "shopping",
+    "icon": "🧺",
+    "query": "El Dahar Market Hurghada",
+    "name": {
+      "en": "El Dahar Old Market (Souk)",
+      "ar": "سوق الدهار القديم",
+      "de": "El Dahar Altmarkt (Souk)",
+      "ru": "Старый рынок Эль-Дахар (Сук)"
+    },
+    "desc": {
+      "en": "The traditional bazaar in old Hurghada — spices, perfumes, lanterns, papyrus and souvenirs. A more local, authentic experience than the resort shops.",
+      "ar": "البازار التقليدي في الغردقة القديمة — توابل وعطور وفوانيس وورق بردي وهدايا تذكارية. تجربة محلية أصيلة أكثر من متاجر المنتجع.",
+      "de": "Der traditionelle Basar in der Altstadt von Hurghada — Gewürze, Parfums, Laternen, Papyrus und Souvenirs. Authentischer und lokaler als die Resort-Shops.",
+      "ru": "Традиционный базар в старой Хургаде — специи, парфюмерия, фонари, папирус и сувениры. Более местный и аутентичный опыт, чем магазины в отеле."
+    },
+    "tip": {
+      "en": "Haggling is expected — start at about half the first price and stay friendly.",
+      "ar": "المساومة متوقعة — ابدأ بنحو نصف السعر الأول وحافظ على ودّك.",
+      "de": "Feilschen gehört dazu — bei etwa der Hälfte des ersten Preises beginnen und freundlich bleiben.",
+      "ru": "Торг уместен — начинайте примерно с половины первой цены и будьте дружелюбны."
+    }
+  },
+  {
+    "id": "abu-tig-dining",
+    "cat": "dining",
+    "icon": "🍽",
+    "query": "Abu Tig Marina El Gouna",
+    "name": {
+      "en": "El Gouna & Abu Tig Marina",
+      "ar": "الجونة ومارينا أبو تيج",
+      "de": "El Gouna & Abu Tig Marina",
+      "ru": "Эль-Гуна и Марина Абу-Тиг"
+    },
+    "desc": {
+      "en": "An upscale lagoon town about 45 minutes north, famous for waterfront dining, seafood and a relaxed European feel. A lovely half-day or dinner trip.",
+      "ar": "بلدة راقية على البحيرات على بُعد نحو ٤٥ دقيقة شمالًا، تشتهر بمطاعمها على الواجهة المائية والمأكولات البحرية وأجوائها الأوروبية الهادئة. رحلة نصف يوم أو عشاء رائعة.",
+      "de": "Eine gehobene Lagunenstadt etwa 45 Minuten nördlich, bekannt für Restaurants am Wasser, Meeresfrüchte und entspanntes europäisches Flair. Ideal für einen halben Tag oder ein Abendessen.",
+      "ru": "Изысканный городок на лагунах примерно в 45 минутах к северу, известный ресторанами у воды, морепродуктами и спокойной европейской атмосферой. Отличная поездка на полдня или на ужин."
+    },
+    "tip": {
+      "en": "Ask the concierge to arrange a return taxi or a place on a shared trip.",
+      "ar": "اطلب من الكونسيرج ترتيب تاكسي للعودة أو مكان ضمن رحلة جماعية.",
+      "de": "Bitten Sie den Concierge, ein Rücktaxi oder einen Platz auf einer Sammelfahrt zu organisieren.",
+      "ru": "Попросите консьержа организовать обратное такси или место в групповой поездке."
+    }
+  },
+  {
+    "id": "practical-health",
+    "cat": "practical",
+    "icon": "💊",
+    "query": "pharmacy Sahl Hasheesh",
+    "name": {
+      "en": "Pharmacies, ATMs & SIM Cards",
+      "ar": "الصيدليات وأجهزة الصراف وشرائح الاتصال",
+      "de": "Apotheken, Geldautomaten & SIM-Karten",
+      "ru": "Аптеки, банкоматы и SIM-карты"
+    },
+    "desc": {
+      "en": "Pharmacies in Egypt are well-stocked and most basics are available without prescription. For cash, use ATMs inside malls or banks. Tourist SIMs (Vodafone, Orange, Etisalat) are cheap and easy — bring your passport.",
+      "ar": "الصيدليات في مصر مجهزة جيدًا ومعظم الأساسيات متاحة دون وصفة طبية. للحصول على النقود، استخدم أجهزة الصراف داخل المولات أو البنوك. شرائح السياحة (فودافون، أورنج، اتصالات) رخيصة وسهلة — أحضر جواز سفرك.",
+      "de": "Apotheken in Ägypten sind gut sortiert; das meiste Grundlegende gibt es ohne Rezept. Für Bargeld nutzen Sie Geldautomaten in Malls oder Banken. Touristen-SIMs (Vodafone, Orange, Etisalat) sind günstig und unkompliziert — Reisepass mitbringen.",
+      "ru": "Аптеки в Египте хорошо укомплектованы, большинство базовых средств доступно без рецепта. За наличными — банкоматы в моллах или банках. Туристические SIM (Vodafone, Orange, Etisalat) дёшевы и просты — возьмите паспорт."
+    },
+    "tip": {
+      "en": "For anything urgent, dial 9 from your room or ask reception first — they can call a doctor to the resort.",
+      "ar": "لأي أمر طارئ، اطلب الرقم ٩ من غرفتك أو اسأل الاستقبال أولًا — يمكنهم استدعاء طبيب إلى المنتجع.",
+      "de": "Im Notfall von Ihrem Zimmer die 9 wählen oder zuerst die Rezeption fragen — sie kann einen Arzt ins Resort rufen.",
+      "ru": "В срочном случае наберите 9 из номера или сначала спросите на ресепшене — они могут вызвать врача в отель."
+    }
+  }
+]
