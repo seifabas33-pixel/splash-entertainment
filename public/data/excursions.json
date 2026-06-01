@@ -1,0 +1,35 @@
+[
+  {
+    "id": "disco",
+    "icon": "🎉",
+    "featured": true,
+    "badge":    { "en": "Daily · Evening",                    "ar": "يومي · مسائي",                  "de": "Täglich · Abend",                  "ru": "Ежедневно · Вечер" },
+    "title":    { "en": "Disco Cruise",                       "ar": "رحلة الديسكو",                  "de": "Disco Cruise",                     "ru": "Диско-круиз" },
+    "meta":     { "en": "Nightly boat party on the Red Sea",  "ar": "حفلة مسائية على متن قارب في البحر الأحمر", "de": "Nächtliche Bootsparty auf dem Roten Meer", "ru": "Ночная вечеринка на яхте в Красном море" },
+    "desc":     { "en": "Dance the night away on a cruise boat sailing the Red Sea. Music, lights, drinks, and unforgettable views — the perfect evening out. Runs every night.", "ar": "ارقص طوال الليل على متن قارب سياحي يبحر في البحر الأحمر. موسيقى وأضواء ومشروبات وإطلالات لا تُنسى — الأمسية المثالية. تنطلق كل ليلة.", "de": "Tanzen Sie die ganze Nacht auf einem Kreuzfahrtboot durch das Rote Meer. Musik, Lichter, Drinks und unvergessliche Ausblicke — der perfekte Abend. Findet jede Nacht statt.", "ru": "Танцуйте всю ночь на круизном катере по Красному морю. Музыка, огни, напитки и незабываемые виды — идеальный вечер. Отплывает каждую ночь." },
+    "duration": { "en": "~4 hours",  "ar": "~٤ ساعات",  "de": "~4 Stunden",  "ru": "~4 часа" },
+    "price": ""
+  },
+  {
+    "id": "safari",
+    "icon": "🏜",
+    "featured": false,
+    "badge":    { "en": "Adventure · Desert",                             "ar": "مغامرة · صحراء",                "de": "Abenteuer · Wüste",                       "ru": "Приключение · Пустыня" },
+    "title":    { "en": "Desert Safari",                                  "ar": "سفاري الصحراء",                 "de": "Wüstensafari",                            "ru": "Сафари в пустыне" },
+    "meta":     { "en": "Jeeps, quad bikes & Bedouin dinner under the stars", "ar": "جيبات وسيارات رباعية وعشاء بدوي تحت النجوم", "de": "Jeeps, Quads & Beduinen-Dinner unter den Sternen", "ru": "Джипы, квадроциклы и бедуинский ужин под звёздами" },
+    "desc":     { "en": "Race through the Eastern Desert in 4×4 jeeps, ride quad bikes over the dunes, visit a Bedouin village, and enjoy a traditional dinner with stargazing. An experience of a lifetime.", "ar": "انطلق عبر الصحراء الشرقية على متن جيبات رباعية الدفع، وتجول بالدراجات الرباعية فوق الكثبان، وزر قرية بدوية، واستمتع بعشاء تقليدي مع مراقبة النجوم.", "de": "Rasen Sie in 4×4-Jeeps durch die Ostwüste, fahren Sie Quad über die Dünen, besuchen Sie ein Beduinendorf und genießen Sie ein traditionelles Abendessen mit Sternbeobachtung.", "ru": "Мчитесь по Восточной пустыне на внедорожниках, катайтесь на квадроциклах по дюнам, посетите бедуинскую деревню и отужинайте под открытым небом в окружении звёзд." },
+    "duration": { "en": "~5 hours",  "ar": "~٥ ساعات",  "de": "~5 Stunden",  "ru": "~5 часов" },
+    "price": ""
+  },
+  {
+    "id": "diving",
+    "icon": "🤿",
+    "featured": false,
+    "badge":    { "en": "Water · Reef",                                        "ar": "مائي · شعاب مرجانية",           "de": "Wasser · Riff",                           "ru": "Вода · Риф" },
+    "title":    { "en": "Scuba Diving",                                        "ar": "الغوص",                         "de": "Tauchen",                                 "ru": "Дайвинг" },
+    "meta":     { "en": "Explore Sahl Hasheesh's world-class coral reefs",     "ar": "اكتشف الشعاب المرجانية العالمية في سهل حشيش", "de": "Entdecken Sie die weltbekannten Korallenriffe von Sahl Hasheesh", "ru": "Исследуйте коралловые рифы Сахль-Хашиша мирового класса" },
+    "desc":     { "en": "Discover the incredible marine life of the Red Sea with our certified dive guides. Suitable for complete beginners (discover dive) and certified divers alike. Equipment fully provided.", "ar": "اكتشف الحياة البحرية الرائعة في البحر الأحمر مع مرشدينا المعتمدين. مناسب للمبتدئين تمامًا والغواصين المعتمدين على حدٍّ سواء. التجهيزات كاملة متوفرة.", "de": "Entdecken Sie das unglaubliche Meeresleben des Roten Meeres mit unseren zertifizierten Tauchführern. Geeignet für absolute Anfänger und zertifizierte Taucher. Ausrüstung vollständig vorhanden.", "ru": "Откройте для себя удивительный подводный мир Красного моря с нашими сертифицированными инструкторами. Подходит для новичков и опытных дайверов. Всё снаряжение предоставляется." },
+    "duration": { "en": "~3 hours",  "ar": "~٣ ساعات",  "de": "~3 Stunden",  "ru": "~3 часа" },
+    "price": ""
+  }
+]

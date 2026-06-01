@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 190" width="340" height="190">
+  <defs>
+    <linearGradient id="g-amber" x1="0.5" y1="0" x2="0.2" y2="1">
+      <stop offset="0%"   stop-color="#f5b800"/>
+      <stop offset="100%" stop-color="#f07820"/>
+    </linearGradient>
+    <linearGradient id="g-teal" x1="1" y1="0" x2="0.2" y2="1">
+      <stop offset="0%"   stop-color="#18d0c0"/>
+      <stop offset="45%"  stop-color="#f06090"/>
+      <stop offset="100%" stop-color="#d81840"/>
+    </linearGradient>
+    <linearGradient id="g-red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#e83020"/>
+      <stop offset="100%" stop-color="#b01015"/>
+    </linearGradient>
+    <linearGradient id="g-purple" x1="0" y1="0.3" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#9820c0"/>
+      <stop offset="100%" stop-color="#4a0890"/>
+    </linearGradient>
+  </defs>
+
+  <!-- LEFT amber blade: sweeps from head down-left then back to bottom-centre -->
+  <path d="
+    M 80 22
+    C 68 30, 42 56, 36 86
+    C 30 114, 38 142, 54 164
+    C 62 150, 70 124, 74 96
+    C 78 68, 80 44, 80 22 Z"
+    fill="url(#g-amber)"/>
+
+  <!-- RIGHT teal→pink blade: sweeps from head up-right then curves down to bottom-centre -->
+  <path d="
+    M 80 22
+    C 88 14, 106 18, 114 34
+    C 122 52, 118 82, 108 112
+    C 98 140, 86 160, 80 172
+    C 74 158, 70 132, 76 106
+    C 80 80, 80 50, 80 22 Z"
+    fill="url(#g-teal)"/>
+
+  <!-- RED centre overlap -->
+  <path d="
+    M 80 22
+    C 76 36, 70 62, 68 90
+    C 66 116, 70 142, 78 164
+    C 82 150, 84 124, 82 96
+    C 80 70, 80 44, 80 22 Z"
+    fill="url(#g-red)" opacity="0.9"/>
+
+  <!-- PURPLE far-left of left blade -->
+  <path d="
+    M 54 164
+    C 40 148, 32 120, 32 92
+    C 32 66, 40 44, 52 32
+    C 44 48, 38 72, 38 96
+    C 38 122, 44 148, 56 166 Z"
+    fill="url(#g-purple)" opacity="0.82"/>
+
+  <!-- Black outline strokes (left & right outer edges) -->
+  <path d="M 52 34 C 44 62, 42 100, 52 164"
+        stroke="#111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M 80 22 C 92 12, 112 20, 116 38 C 122 64, 116 100, 98 154"
+        stroke="#111" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+  <!-- HEAD -->
+  <circle cx="80" cy="10" r="10" fill="#111"/>
+
+  <!-- "Splash" red italic script -->
+  <text x="132" y="105"
+        font-family="Georgia,'Times New Roman',serif"
+        font-size="64" font-style="italic" font-weight="bold"
+        fill="#cc0010">Splash</text>
+
+  <!-- "Entertainment" white bold -->
+  <text x="136" y="143"
+        font-family="'Arial Black',Arial,sans-serif"
+        font-size="28" font-weight="900"
+        fill="#ffffff" letter-spacing="0.3">Entertainment</text>
+</svg>

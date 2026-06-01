@@ -3,100 +3,434 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Splash Entertainment | Hilton Marsa Alam Nubian Resort</title>
+  <title>Old Palace Resort — Guest Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <section id="intro-screen" class="intro-screen" aria-label="Join application">
-    <div class="intro-glow glow-a"></div>
-    <div class="intro-glow glow-b"></div>
-    <div class="intro-card">
-      <img class="logo" src="assets/splash-logo.svg" alt="Splash Entertainment logo" />
-      <h1>Welcome to Splash Entertainment</h1>
-      <p>Choose how you want to join the application.</p>
 
-      <div class="intro-actions">
-        <button class="primary-button join-button" data-role="guests">Join as Guest</button>
-        <button class="secondary-button join-button" data-role="workers">Join as Worker</button>
+  <!-- ═══ ENTRANCE ═══ -->
+  <div id="entrance" class="entrance">
+    <div class="entrance-bg"></div>
+    <div class="entrance-overlay"></div>
+    <div class="entrance-vignette"></div>
+    <div class="entrance-content">
+      <div class="e-logos">
+        <img src="assets/old-palace-logo.svg" alt="Old Palace Resort" class="e-logo-img e-hotel-logo-img" />
+        <div class="e-logo-divider"></div>
+        <img src="assets/splash-logo.svg" alt="Splash Entertainment" class="e-logo-img e-splash-logo-img" />
       </div>
+      <div class="e-divider"></div>
+      <h1 class="e-heading">Welcome to Old Palace Resort</h1>
+      <p class="e-sub">Your luxury Red Sea experience begins here</p>
+      <p class="e-loc">Sahl Hasheesh &nbsp;·&nbsp; Hurghada, Egypt</p>
+      <p class="e-date" id="e-date"></p>
+      <div class="e-show-pill" id="e-show-pill"></div>
+      <button class="e-btn" id="enter-btn">
+        <span class="e-btn-inner">Enter Guest Experience</span>
+      </button>
     </div>
-  </section>
+  </div>
 
-  <div id="app-shell" class="app-shell hidden">
-    <header class="hero">
-      <div class="overlay"></div>
-      <div class="hero-content">
-        <img class="logo" src="assets/splash-logo.svg" alt="Splash Entertainment logo" />
-        <h1>Hilton Marsa Alam Nubian Resort</h1>
-        <p class="subtitle">Entertainment Hub for Guests & Team Members</p>
-        <button id="change-mode" class="secondary-button mini">Change Join Type</button>
+  <!-- ═══ APP ═══ -->
+  <div id="app" class="app hidden">
+
+    <header class="app-header">
+      <div class="app-header-logos">
+        <img src="assets/old-palace-logo.svg" alt="Old Palace Resort" class="h-logo-img h-hotel-img" />
+        <div class="h-sep"></div>
+        <img src="assets/splash-logo.svg" alt="Splash Entertainment" class="h-logo-img h-splash-img" />
       </div>
+      <div class="app-date-line" id="app-date-line"></div>
     </header>
 
-    <main class="container">
-      <section class="tabs" aria-label="Platform sections">
-        <button class="tab-button active" data-tab="guests">Guest Program</button>
-        <button class="tab-button" data-tab="workers">Worker Onboarding</button>
-      </section>
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="programme">
+        <span class="tab-icon">🎭</span><span class="tab-label">Programme</span>
+      </button>
+      <button class="tab-btn" data-tab="dining">
+        <span class="tab-icon">🍽</span><span class="tab-label">Dining</span>
+      </button>
+      <button class="tab-btn" data-tab="facilities">
+        <span class="tab-icon">🏊</span><span class="tab-label">Facilities</span>
+      </button>
+      <button class="tab-btn" data-tab="yourstay">
+        <span class="tab-icon">🗝</span><span class="tab-label">Your Stay</span>
+      </button>
+    </nav>
 
-      <section id="guests" class="tab-panel active" aria-labelledby="Guest Program">
-        <h2>Entertainment Program</h2>
-        <p>Guests can browse daily activities and choose what they would like to join.</p>
-        <form id="activity-form" class="card-grid"></form>
-        <button id="submit-activities" class="primary-button">Save My Activities</button>
-        <div id="guest-result" class="result" aria-live="polite"></div>
-      </section>
+    <main class="app-main">
 
-      <section id="workers" class="tab-panel" aria-labelledby="Worker Onboarding">
-        <h2>Worker Onboarding</h2>
-        <p>Workers can start by signing in with any email provider and filling in required details.</p>
+      <!-- ── PROGRAMME TAB ── -->
+      <div id="tab-programme" class="tab-panel active">
+        <div id="now-banner" class="now-banner hidden"></div>
+        <div class="content-wrap">
+          <div id="show-section"></div>
+          <div class="filter-bar" id="filter-bar"></div>
+          <div class="activity-grid" id="activity-grid"></div>
+        </div>
+      </div>
 
-        <form id="worker-form" class="worker-form">
-          <label>
-            Work Email (Gmail or any provider)
-            <input type="email" name="email" placeholder="name@example.com" required />
-          </label>
+      <!-- ── DINING TAB ── -->
+      <div id="tab-dining" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title">Dining & Bars</h2>
+            <p class="section-sub">Seven exceptional dining experiences await you</p>
+          </div>
 
-          <label>
-            Full Name
-            <input type="text" name="fullName" placeholder="Enter full name" required />
-          </label>
+          <div class="info-grid">
 
-          <label>
-            ID Number
-            <input type="text" name="idNumber" placeholder="National ID" required />
-          </label>
+            <div class="info-card featured-card">
+              <div class="info-card-icon">🍽</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">All-Day Dining</div>
+                <div class="info-card-title">Al Kasr Restaurant</div>
+                <div class="info-card-meta">Open-air terrace &nbsp;·&nbsp; Breakfast, Lunch & Dinner</div>
+                <p class="info-card-desc">Our main dining venue offering sumptuous international buffets and à la carte selections. Start your mornings with an abundant breakfast spread and enjoy themed evenings with live cooking stations.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Breakfast 7:00–10:00 &nbsp;|&nbsp; Lunch 13:00–15:00 &nbsp;|&nbsp; Dinner 19:00–22:00</div>
+              </div>
+            </div>
 
-          <label>
-            Passport Number
-            <input type="text" name="passport" placeholder="Passport number" required />
-          </label>
+            <div class="info-card">
+              <div class="info-card-icon">🕯</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Fine Dining</div>
+                <div class="info-card-title">The Gazebo</div>
+                <div class="info-card-meta">Red Sea views &nbsp;·&nbsp; Candlelight setting</div>
+                <p class="info-card-desc">Romantic fine dining with panoramic Red Sea views. Featuring an exclusive menu, live music, and an atmosphere of pure elegance. Reservations recommended.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Dinner from 19:00</div>
+              </div>
+            </div>
 
-          <label>
-            Mobile Number
-            <input type="tel" name="mobile" placeholder="+20 ..." required />
-          </label>
+            <div class="info-card">
+              <div class="info-card-icon">🍝</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Italian Restaurant</div>
+                <div class="info-card-title">La Cucina</div>
+                <div class="info-card-meta">Authentic Italian cuisine</div>
+                <p class="info-card-desc">Savour the finest Italian flavours — from handmade pastas and wood-fired pizzas to indulgent desserts. A true taste of Italy on the shores of the Red Sea.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Dinner 19:00–22:30</div>
+              </div>
+            </div>
 
-          <label>
-            Instagram
-            <input type="text" name="instagram" placeholder="@username" required />
-          </label>
+            <div class="info-card">
+              <div class="info-card-icon">🌿</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Local Flavours</div>
+                <div class="info-card-title">Shisha Corner</div>
+                <div class="info-card-meta">Casual dining &nbsp;·&nbsp; Egyptian specialities</div>
+                <p class="info-card-desc">Relax in a laid-back atmosphere and enjoy authentic Egyptian and Middle Eastern cuisine. Traditional shisha and fresh juices available.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 12:00–23:00</div>
+              </div>
+            </div>
 
-          <label>
-            Facebook Profile
-            <input type="text" name="facebook" placeholder="facebook.com/username" required />
-          </label>
+            <div class="info-card">
+              <div class="info-card-icon">🍹</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Pool Bar</div>
+                <div class="info-card-title">La Bonita Pool Bar</div>
+                <div class="info-card-meta">Swim-up bar &nbsp;·&nbsp; Live entertainment venue</div>
+                <p class="info-card-desc">Your daytime oasis by the pool. Refreshing cocktails, cold beverages and light bites. By night, La Bonita transforms into our premier entertainment venue hosting live shows and disco nights.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 10:00 – late</div>
+              </div>
+            </div>
 
-          <label>
-            WhatsApp Number
-            <input type="tel" name="whatsapp" placeholder="+20 ..." required />
-          </label>
+            <div class="info-card">
+              <div class="info-card-icon">🌊</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Beach Bar</div>
+                <div class="info-card-title">Beach Bar</div>
+                <div class="info-card-meta">Private beach &nbsp;·&nbsp; Red Sea views</div>
+                <p class="info-card-desc">Toes in the sand, drink in hand. Ice-cold beverages, tropical cocktails and fresh snacks served directly on our 200-metre private beach.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 9:00–18:00</div>
+              </div>
+            </div>
 
-          <button type="submit" class="primary-button">Create Worker Profile</button>
-        </form>
+            <div class="info-card">
+              <div class="info-card-icon">☕</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Lobby Lounge</div>
+                <div class="info-card-title">Lobby Bar & Café</div>
+                <div class="info-card-meta">Coffees, teas &amp; light snacks</div>
+                <p class="info-card-desc">A sophisticated space to unwind, meet fellow guests or enjoy a quiet coffee. Premium teas, specialty coffees, cakes and light bites available throughout the day.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 8:00–23:00</div>
+              </div>
+            </div>
 
-        <div id="worker-result" class="result" aria-live="polite"></div>
-      </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FACILITIES TAB ── -->
+      <div id="tab-facilities" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title">Resort Facilities</h2>
+            <p class="section-sub">Everything you need for the perfect Red Sea escape</p>
+          </div>
+
+          <div class="info-grid">
+
+            <div class="info-card featured-card">
+              <div class="info-card-icon">🏖</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Private Beach</div>
+                <div class="info-card-title">200m Red Sea Beach</div>
+                <div class="info-card-meta">Crystal-clear turquoise water &nbsp;·&nbsp; Free sun loungers</div>
+                <p class="info-card-desc">Step onto our stunning 200-metre private sandy beach and immerse yourself in the warm, crystal-clear waters of the Red Sea. Sun loungers, parasols and beach towels are provided complimentary.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Beach open daily 8:00–18:00</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🏊</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Swimming Pools</div>
+                <div class="info-card-title">Outdoor Pool Complex</div>
+                <div class="info-card-meta">2 heated pools &nbsp;·&nbsp; Jacuzzi &nbsp;·&nbsp; Children's pool</div>
+                <p class="info-card-desc">Dive into one of our two heated outdoor pools or relax in the Jacuzzi. A dedicated children's pool ensures the little ones can splash safely. Lifeguards on duty at all times.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Pools open daily 8:00–20:00</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">💆</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Spa & Wellness</div>
+                <div class="info-card-title">Horus Spa</div>
+                <div class="info-card-meta">Treatments · Sauna · Steam Room</div>
+                <p class="info-card-desc">Surrender to pure relaxation at Horus Spa. Choose from a full menu of massages, facials, body wraps and beauty treatments. Includes sauna, Turkish steam bath and spa tub. Advance booking recommended.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 9:00–21:00 &nbsp;·&nbsp; Bookings: Front Desk</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">💪</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Fitness</div>
+                <div class="info-card-title">Health Club & Gym</div>
+                <div class="info-card-meta">Fully equipped &nbsp;·&nbsp; Complimentary access</div>
+                <p class="info-card-desc">Maintain your wellness routine in our modern fitness centre. Equipped with cardio machines, free weights and resistance equipment. Personal training sessions available on request.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Open 24 hours</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🤿</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Water Sports</div>
+                <div class="info-card-title">Water Sports Centre</div>
+                <div class="info-card-meta">Snorkelling · Diving · Kayaking</div>
+                <p class="info-card-desc">Explore the vibrant coral reefs of Sahl Hasheesh Bay. The Red Sea offers some of the world's finest snorkelling and diving. Equipment rental, guided dives and excursions available at the Water Sports Centre on the beach.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 9:00–17:00</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">👧</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Children</div>
+                <div class="info-card-title">Kids Club</div>
+                <div class="info-card-meta">Ages 4–12 &nbsp;·&nbsp; Complimentary</div>
+                <p class="info-card-desc">Our dedicated Kids Club keeps children entertained with daily themed activities — arts & crafts, mini-discos, cooking classes, beach games and much more. Professional, multilingual childcare staff on site.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 10:00–12:00 &amp; 15:00–18:00</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🎾</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Sports</div>
+                <div class="info-card-title">Tennis & Sport Courts</div>
+                <div class="info-card-meta">Rackets &amp; equipment available</div>
+                <p class="info-card-desc">Challenge a friend or family member on our tennis court. Rackets and balls provided complimentary. Additional sports and games available — ask our animation team for the daily schedule.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Daily 8:00–20:00</div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🎭</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Entertainment</div>
+                <div class="info-card-title">Splash Entertainment</div>
+                <div class="info-card-meta">Daily activities &nbsp;·&nbsp; Nightly shows</div>
+                <p class="info-card-desc">Our multilingual Splash Entertainment team delivers a full programme of activities from sunrise to midnight — pool games, sports, dance classes, themed shows, cultural nights and spectacular live performances.</p>
+                <div class="info-hours"><span class="hours-dot"></span>Activities daily from 10:00 &nbsp;·&nbsp; Shows from 20:30</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── YOUR STAY TAB ── -->
+      <div id="tab-yourstay" class="tab-panel hidden">
+        <div class="content-wrap">
+          <div class="section-header">
+            <h2 class="section-title">Your Stay</h2>
+            <p class="section-sub">Everything you need to know during your visit</p>
+          </div>
+
+          <div class="info-grid">
+
+            <div class="info-card featured-card">
+              <div class="info-card-icon">🗝</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Essential Info</div>
+                <div class="info-card-title">Check-In &amp; Check-Out</div>
+                <div class="info-card-meta">Old Palace Resort &nbsp;·&nbsp; Sahl Hasheesh</div>
+                <div class="key-facts">
+                  <div class="key-fact">
+                    <span class="key-fact-label">Check-In</span>
+                    <span class="key-fact-value">From 14:00</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Check-Out</span>
+                    <span class="key-fact-value">By 12:00</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">24h Room Service</span>
+                    <span class="key-fact-value">Available</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Currency</span>
+                    <span class="key-fact-value">EGP / USD / EUR</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">📶</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Connectivity</div>
+                <div class="info-card-title">Wi-Fi &amp; Internet</div>
+                <div class="info-card-meta">Complimentary throughout the resort</div>
+                <p class="info-card-desc">High-speed Wi-Fi is available in all rooms, public areas, pools and the beach free of charge. Connect to the <strong>OldPalace_Guest</strong> network. Password available at Reception.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">📞</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Contact</div>
+                <div class="info-card-title">Important Numbers</div>
+                <div class="info-card-meta">We are here to help 24 hours a day</div>
+                <div class="key-facts">
+                  <div class="key-fact">
+                    <span class="key-fact-label">Front Desk</span>
+                    <span class="key-fact-value">Dial 0</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Room Service</span>
+                    <span class="key-fact-value">Dial 7</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Spa Bookings</span>
+                    <span class="key-fact-value">Dial 8</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Emergency</span>
+                    <span class="key-fact-value">Dial 9</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🚗</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Location &amp; Transport</div>
+                <div class="info-card-title">Getting Around</div>
+                <div class="info-card-meta">Sahl Hasheesh Bay, Hurghada</div>
+                <div class="key-facts">
+                  <div class="key-fact">
+                    <span class="key-fact-label">Airport</span>
+                    <span class="key-fact-value">18 km · ~20 min</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Hurghada City</span>
+                    <span class="key-fact-value">~20 min drive</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Taxi Service</span>
+                    <span class="key-fact-value">Via Reception</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Airport Transfer</span>
+                    <span class="key-fact-value">Ask Reception</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🛏</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Room Amenities</div>
+                <div class="info-card-title">In Your Room</div>
+                <div class="info-card-meta">All rooms include</div>
+                <div class="amenity-list">
+                  <span class="amenity">Private balcony</span>
+                  <span class="amenity">Sea / pool view</span>
+                  <span class="amenity">Free Wi-Fi</span>
+                  <span class="amenity">Mini-bar</span>
+                  <span class="amenity">Satellite TV</span>
+                  <span class="amenity">Air conditioning</span>
+                  <span class="amenity">Safety deposit box</span>
+                  <span class="amenity">Coffee maker</span>
+                  <span class="amenity">24h room service</span>
+                  <span class="amenity">Hairdryer</span>
+                  <span class="amenity">Bathtub &amp; shower</span>
+                  <span class="amenity">Luxury toiletries</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">🌡</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Sahl Hasheesh</div>
+                <div class="info-card-title">About The Destination</div>
+                <div class="info-card-meta">Red Sea Riviera, Egypt</div>
+                <p class="info-card-desc">Sahl Hasheesh is one of Egypt's most exclusive coastal resorts, 18 km south of Hurghada. Its sheltered bay offers world-class snorkelling and diving in the Red Sea's warm, crystal-clear waters. The area is known for its pristine white sand beaches, vibrant coral reefs and year-round sunshine.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card-icon">✉</div>
+              <div class="info-card-body">
+                <div class="info-card-badge">Resort Contact</div>
+                <div class="info-card-title">Get In Touch</div>
+                <div class="info-card-meta">Old Palace Resort</div>
+                <div class="key-facts">
+                  <div class="key-fact">
+                    <span class="key-fact-label">Phone</span>
+                    <span class="key-fact-value">+20 128 311 0400</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Email</span>
+                    <span class="key-fact-value">info@oldpalaceresort.com</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Web</span>
+                    <span class="key-fact-value">oldpalaceresort.com</span>
+                  </div>
+                  <div class="key-fact">
+                    <span class="key-fact-label">Instagram</span>
+                    <span class="key-fact-value">@resortoldpalace</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 

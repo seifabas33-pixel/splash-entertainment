@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 200" width="340" height="200">
+
+  <!-- ── Ornate arch emblem ── -->
+  <g transform="translate(170, 16)">
+
+    <!-- Outer pointed arch (heart-arch shape) -->
+    <path d="
+      M 0 -52
+      C -6 -62, -24 -60, -36 -46
+      C -50 -30, -50 -10, -40  8
+      C -30  26, -16  40,   0  50
+      C  16  40,  30  26,  40   8
+      C  50 -10,  50 -30,  36 -46
+      C  24 -60,   6 -62,   0 -52 Z
+    " fill="none" stroke="#6b2022" stroke-width="3.5" stroke-linejoin="round"/>
+
+    <!-- Centre vertical spine -->
+    <line x1="0" y1="-42" x2="0" y2="6" stroke="#6b2022" stroke-width="2.5"/>
+
+    <!-- Left teardrop finial -->
+    <path d="
+      M -15  4
+      C -22 12, -23 26, -17 34
+      C -12 41,  -5 41,  -2 35
+      C   1 29,  -1 17,  -8  8
+      C -11  4, -13  2, -15  4 Z
+    " fill="#6b2022"/>
+    <!-- Left curl detail -->
+    <path d="M -13 30 C -14 36, -9 38, -7 34"
+          stroke="#4a1416" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+    <!-- Right teardrop finial -->
+    <path d="
+      M  15  4
+      C  22 12,  23 26,  17 34
+      C  12 41,   5 41,   2 35
+      C  -1 29,   1 17,   8  8
+      C  11  4,  13  2,  15  4 Z
+    " fill="#6b2022"/>
+    <!-- Right curl detail -->
+    <path d="M 13 30 C 14 36, 9 38, 7 34"
+          stroke="#4a1416" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+    <!-- Top pointed tip -->
+    <circle cx="0" cy="-53" r="3" fill="#6b2022"/>
+
+  </g>
+
+  <!-- ── "Old Palace Resort" — elegant mixed-case serif ── -->
+  <text x="170" y="148"
+    text-anchor="middle"
+    font-family="'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif"
+    font-size="24"
+    font-weight="400"
+    fill="#c8d0d8"
+    letter-spacing="1.5">Old Palace Resort</text>
+
+  <!-- ── Curved crimson arc ── -->
+  <path d="M 72 162 Q 170 180 268 162"
+        stroke="#6b2022" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- ── "SAHL HASHEESH" — spaced small caps ── -->
+  <text x="170" y="188"
+    text-anchor="middle"
+    font-family="'Palatino Linotype', Palatino, Georgia, serif"
+    font-size="11.5"
+    font-weight="400"
+    fill="#8a9aa8"
+    letter-spacing="6">SAHL HASHEESH</text>
+
+</svg>
