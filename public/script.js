@@ -292,6 +292,19 @@ function fmtDate(now) {
 // ── Entrance ──────────────────────────────────────────────────────────────────
 
 (async function initEntrance() {
+  // Safety net: if CSS animations fail (e.g. Safari animation bug or
+  // prefers-reduced-motion), force all entrance elements to full opacity.
+  setTimeout(() => {
+    const bg = document.querySelector('.entrance-bg');
+    if (bg && parseFloat(getComputedStyle(bg).opacity) < 0.5) {
+      document.querySelectorAll('.entrance-bg, .entrance-overlay, .entrance-vignette, .entrance-content, .e-logos, .e-hotel-logo-img, .e-heading, .e-sub, .e-loc, .e-date, .e-show-pill, .e-btn, .e-divider, .e-install-btn').forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.animation = 'none';
+      });
+    }
+  }, 400);
+
   const now = new Date();
   const dow = now.getDay();
 
@@ -351,11 +364,10 @@ function fmtDate(now) {
   // ── Exit: dramatic exit + cinematic app reveal ──
   document.getElementById('enter-btn').addEventListener('click', () => {
     const el = document.getElementById('entrance');
-    // Entrance sweeps up & blurs out
-    el.style.transition = 'opacity 0.75s ease, transform 0.75s cubic-bezier(.55,0,.8,.45), filter 0.75s ease';
+    // Entrance sweeps up & fades out
+    el.style.transition = 'opacity 0.75s ease, transform 0.75s cubic-bezier(.55,0,.8,.45)';
     el.style.opacity    = '0';
     el.style.transform  = 'translateY(-60px) scale(0.96)';
-    el.style.filter     = 'blur(10px)';
     el.style.pointerEvents = 'none';
 
     setTimeout(() => {
