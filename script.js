@@ -399,15 +399,56 @@ function fmtDate(now) {
 
 // Tab switching
 function initTabs() {
-  document.querySelectorAll('.tab-btn').forEach(btn => {
+  const btns = [...document.querySelectorAll('.tab-btn')];
+  btns.forEach((btn, i) => { btn.dataset.tabIndex = i; });
+
+  // Inject sliding gold ink indicator
+  const nav = document.querySelector('.tab-nav');
+  const ink = document.createElement('span');
+  ink.className = 'nav-ink';
+  nav.appendChild(ink);
+
+  function moveInk(btn) {
+    const navRect = nav.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const x = btnRect.left - navRect.left + (btnRect.width - 20) / 2;
+    ink.style.transform = `translateX(${x}px)`;
+    ink.style.width = `${Math.min(btnRect.width * 0.55, 32)}px`;
+  }
+  const firstActive = nav.querySelector('.tab-btn.active');
+  if (firstActive) requestAnimationFrame(() => moveInk(firstActive));
+
+  let currentIndex = firstActive ? parseInt(firstActive.dataset.tabIndex) : 0;
+
+  btns.forEach((btn, i) => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.tab;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => { p.classList.remove('active'); p.classList.add('hidden'); });
+      const newIndex = i;
+
+      btns.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.remove('active', 'tab-anim-up', 'tab-anim-right', 'tab-anim-left');
+        p.classList.add('hidden');
+      });
+
       btn.classList.add('active');
+      moveInk(btn);
+
       const panel = document.getElementById('tab-' + target);
       panel.classList.remove('hidden');
+      void panel.offsetWidth; // force reflow so animation restarts
       panel.classList.add('active');
+      if (newIndex === currentIndex) {
+        panel.classList.add('tab-anim-up');
+      } else {
+        panel.classList.add(newIndex > currentIndex ? 'tab-anim-right' : 'tab-anim-left');
+      }
+      panel.addEventListener('animationend', () => {
+        panel.classList.remove('tab-anim-up', 'tab-anim-right', 'tab-anim-left');
+      }, { once: true });
+
+      currentIndex = newIndex;
+
       const fab = document.getElementById('qc-fab');
       if (fab) fab.classList.remove('hidden');
       if (target === 'myday') renderMyDay();
@@ -1778,6 +1819,14 @@ function renderConcierge() {
     });
     grid.appendChild(row);
   });
+
+  // Stagger-animate cards after DOM is updated
+  let nth = 0;
+  grid.querySelectorAll('.concierge-card').forEach(card => {
+    card.style.setProperty('--nth', nth++);
+    card.style.setProperty('--reveal-delay', `${Math.min(nth - 1, 8) * 60}ms`);
+    card.classList.add('will-reveal', 'revealed');
+  });
 }
 
 function openRequestForm(req) {
@@ -1852,6 +1901,19 @@ function buildMessage(req, values) {
   return lines.join('\n');
 }
 
+function showToast(msg, icon = '✓') {
+  const existing = document.querySelector('.app-toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'app-toast';
+  el.innerHTML = `<span style="color:var(--gold);font-size:1rem">${icon}</span> ${msg}`;
+  document.body.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('toast-exit');
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+  }, 2600);
+}
+
 function sendRequest(req, values) {
   // If room not set and request is direct-send, ask once.
   if (!getRoomNumber()) {
@@ -1862,6 +1924,7 @@ function sendRequest(req, values) {
   const msg = buildMessage(req, values);
   const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank', 'noopener');
+  showToast(t('concierge.sent', 'Request sent via WhatsApp'), '✓');
   // Auto-mark matching "Before You Leave" suggestion as tried
   const triedMap = { gazebo: 'dining_gazebo', cucina: 'dining_cucina', spa: 'spa_visit' };
   if (triedMap[req.id]) markTried(triedMap[req.id]);
@@ -2420,7 +2483,9 @@ function paintWeather(data) {
   // Programme tab row — slightly more spacious
   const pEl = document.getElementById('prog-weather');
   if (pEl) {
-    pEl.classList.remove('hidden');
+    pEl.classList.remove('hidden', 'weather-ready');
+    void pEl.offsetWidth;
+    pEl.classList.add('weather-ready');
     pEl.innerHTML =
       `<span class="pw-icon">${icon}</span>` +
       `<span class="pw-temp">${tempStr}</span>` +
@@ -2638,6 +2703,7 @@ async function renderExcursions() {
         `— ${t('concierge.tmpl.footer')}`,
       ];
       window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+      showToast(t('excursions.sent', 'Booking request sent via WhatsApp'), '🤿');
     });
   });
 }
@@ -2883,6 +2949,11 @@ async function renderLocalGuide() {
         ${e.query ? `<a class="local-guide-dir" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.query)}" target="_blank" rel="noopener">📍 ${escapeHtml(t('localguide.directions', 'Get directions'))}</a>` : ''}
       </div>
     </div>`).join('');
+
+  // Stamp --nth for staggered cardReveal animation
+  list.querySelectorAll('.local-guide-card').forEach((card, i) => {
+    card.style.setProperty('--nth', i);
+  });
 }
 
 function openLightbox(photos, idx) {
@@ -2970,7 +3041,7 @@ function initAnimations() {
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
-  const REVEAL_SEL = '.section-header, .info-card:not(.local-guide-card), .welcome-card, .wifi-card, .countdown-ribbon, .feedback-cat-card';
+  const REVEAL_SEL = '.section-header, .info-card:not(.local-guide-card), .welcome-card, .wifi-card, .countdown-ribbon, .feedback-cat-card, .concierge-card';
 
   function setupReveal(root) {
     const els = (root || document).querySelectorAll(REVEAL_SEL);
@@ -3021,16 +3092,16 @@ function initAnimations() {
       dot.addEventListener('animationend', () => dot.remove(), { once: true });
     });
   }
-  document.querySelectorAll('.a-card, .info-card, .excursion-card').forEach(addRipple);
+  document.querySelectorAll('.a-card, .info-card, .excursion-card, .concierge-card').forEach(addRipple);
 
   // Attach ripple to dynamically-rendered cards
   new MutationObserver((mutations) => {
     mutations.forEach(m => {
       m.addedNodes.forEach(node => {
         if (node.nodeType !== 1) return;
-        const targets = node.matches?.('.a-card,.info-card,.excursion-card')
+        const targets = node.matches?.('.a-card,.info-card,.excursion-card,.concierge-card')
           ? [node]
-          : [...node.querySelectorAll('.a-card,.info-card,.excursion-card')];
+          : [...node.querySelectorAll('.a-card,.info-card,.excursion-card,.concierge-card')];
         targets.forEach(addRipple);
         // Re-run reveal setup when new reveal-eligible nodes appear
         if (node.querySelector?.(REVEAL_SEL)) {

@@ -3284,13 +3284,35 @@ html[dir="rtl"] .gallery-thumb-caption { text-align: right; }
   *, *::before, *::after { transition-duration: 0.2s !important; }
 }
 
-/* ── 1. Tab panel crossfade + rise ───────────────── */
+/* ── 1. Tab panel entrance — direction-aware ────────── */
 @keyframes tabReveal {
   from { opacity: 0; transform: translateY(48px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0)   scale(1); }
 }
-.tab-panel.active {
-  animation: tabReveal 0.48s cubic-bezier(.22,.68,0,1.2) both;
+@keyframes tabSlideFromRight {
+  from { opacity: 0; transform: translateX(55px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0)   scale(1); }
+}
+@keyframes tabSlideFromLeft {
+  from { opacity: 0; transform: translateX(-55px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(0)    scale(1); }
+}
+/* base: no animation — JS adds one of the three classes below */
+.tab-panel.tab-anim-up    { animation: tabReveal          0.48s cubic-bezier(.22,.68,0,1.2) both; }
+.tab-panel.tab-anim-right { animation: tabSlideFromRight  0.42s cubic-bezier(.22,.68,0,1.2) both; }
+.tab-panel.tab-anim-left  { animation: tabSlideFromLeft   0.42s cubic-bezier(.22,.68,0,1.2) both; }
+
+/* ── 1b. Sliding gold nav-ink indicator ─────────────── */
+.tab-nav { position: relative; }
+.nav-ink {
+  position: absolute; bottom: 5px; left: 0;
+  width: 20px; height: 3px;
+  background: var(--gold);
+  border-radius: 99px;
+  pointer-events: none;
+  transition: transform 0.38s cubic-bezier(.22,.68,0,1.2),
+              width    0.38s cubic-bezier(.22,.68,0,1.2);
+  will-change: transform;
 }
 
 /* ── 2. Scroll-triggered reveal (animation-based, no transition conflict) ── */
@@ -3594,3 +3616,56 @@ html[dir="rtl"] .hn-chip { animation-name: hnSlideRtl; }
   animation: tabReveal 0.4s cubic-bezier(.25,.46,.45,.94) both;
 }
 
+
+/* ── 26. Weather strip slide-down entrance ───────── */
+@keyframes weatherDrop {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.prog-weather.weather-ready {
+  animation: weatherDrop 0.5s cubic-bezier(.22,.68,0,1.15) both;
+}
+
+/* ── 27. Local-guide card stagger (Your Stay) ────── */
+.local-guide-card {
+  -webkit-animation: cardReveal 0.45s cubic-bezier(.22,.68,0,1.2) calc(var(--nth,0) * 70ms) both;
+          animation: cardReveal 0.45s cubic-bezier(.22,.68,0,1.2) calc(var(--nth,0) * 70ms) both;
+}
+
+/* ── 28. Concierge card stagger ──────────────────── */
+.concierge-card.will-reveal.revealed {
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+
+/* ── 29. Success toast ───────────────────────────── */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px) scale(0.92); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1); }
+}
+@keyframes toastOut {
+  to   { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(0.94); }
+}
+.app-toast {
+  position: fixed;
+  bottom: calc(72px + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: linear-gradient(135deg, rgba(14,18,42,0.97), rgba(8,10,24,0.97));
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 10px;
+  padding: 0.7rem 1.3rem;
+  color: var(--ivory);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.84rem; font-weight: 500;
+  letter-spacing: 0.03em;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  z-index: 9999;
+  display: flex; align-items: center; gap: 0.55rem;
+  animation: toastIn 0.38s cubic-bezier(.34,1.28,.64,1) both;
+  pointer-events: none;
+}
+.app-toast.toast-exit {
+  animation: toastOut 0.28s ease forwards;
+}
