@@ -406,25 +406,27 @@ body {
   position: fixed; inset: 0; z-index: 300;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
-  /* whole screen starts pitch-black, then the scene blooms in */
-  animation: entranceCurtainOpen 0.6s ease both;
-}
-@keyframes entranceCurtainOpen {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  /* starts black via the bg being opacity:0; no animation on fixed element (iOS bug) */
+  background: #000;
 }
 
 /* Real resort photo background */
 .entrance-bg {
   position: absolute; inset: 0;
   background: url('assets/entrance-bg.png') center center / cover no-repeat;
-  animation: bgReveal 3.2s cubic-bezier(.16,1,.3,1) both;
+  will-change: opacity, transform;
+  -webkit-animation: bgReveal 2.8s cubic-bezier(.16,1,.3,1) both;
+          animation: bgReveal 2.8s cubic-bezier(.16,1,.3,1) both;
 }
 .entrance-bg::after {
   content: none;
 }
+@-webkit-keyframes bgReveal {
+  from { opacity: 0; -webkit-transform: scale(1.12); transform: scale(1.12); }
+  to   { opacity: 1; -webkit-transform: scale(1);    transform: scale(1); }
+}
 @keyframes bgReveal {
-  from { opacity: 0; transform: scale(1.18); }
+  from { opacity: 0; transform: scale(1.12); }
   to   { opacity: 1; transform: scale(1); }
 }
 
@@ -454,7 +456,8 @@ body {
 
 .e-logos {
   display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
-  animation: fadeSlideUp 1s ease 0.4s both;
+  -webkit-animation: fadeSlideUp 1s ease 0.4s both;
+          animation: fadeSlideUp 1s ease 0.4s both;
 }
 .e-logo-img { display: block; object-fit: contain; }
 .e-hotel-logo-img {
@@ -463,7 +466,8 @@ body {
     drop-shadow(0 0 16px rgba(201,168,76,0.75))
     drop-shadow(0 0 44px rgba(201,168,76,0.38))
     drop-shadow(0 4px 24px rgba(0,0,0,0.80));
-  animation: fadeSlideUp 1s ease 0.4s both, logoPulse 4s ease-in-out 2s infinite;
+  -webkit-animation: fadeSlideUp 1s ease 0.4s both, logoPulse 4s ease-in-out 2s infinite;
+          animation: fadeSlideUp 1s ease 0.4s both, logoPulse 4s ease-in-out 2s infinite;
 }
 @keyframes logoPulse {
   0%, 100% { filter:
@@ -495,7 +499,8 @@ body {
   width: 70px; height: 1px;
   background: linear-gradient(to right, transparent, var(--gold), transparent);
   margin: 0.9rem auto;
-  animation: fadeIn 0.8s ease 1.0s both;
+  -webkit-animation: fadeIn 0.8s ease 1.0s both;
+          animation: fadeIn 0.8s ease 1.0s both;
 }
 
 .e-heading {
@@ -504,7 +509,8 @@ body {
   font-weight: 600; letter-spacing: 0.02em; line-height: 1.08;
   color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 8px 40px rgba(0,0,0,0.7);
-  animation: fadeSlideUp 0.9s ease 1.1s both;
+  -webkit-animation: fadeSlideUp 0.9s ease 1.1s both;
+          animation: fadeSlideUp 0.9s ease 1.1s both;
 }
 .e-sub {
   font-family: 'Cormorant Garant', serif;
@@ -513,24 +519,27 @@ body {
   color: #f5e8c8;
   text-shadow: 0 1px 6px rgba(0,0,0,0.85);
   margin-top: 0.4rem; letter-spacing: 0.03em;
-  animation: fadeIn 0.8s ease 1.25s both;
+  -webkit-animation: fadeIn 0.8s ease 1.25s both;
+          animation: fadeIn 0.8s ease 1.25s both;
 }
 .e-loc {
   font-size: 0.75rem; font-weight: 700;
   letter-spacing: 0.28em; text-transform: uppercase;
   color: var(--gold); margin-top: 0.7rem;
   text-shadow: 0 1px 8px rgba(0,0,0,0.8);
-  animation: fadeIn 0.7s ease 1.4s both;
+  -webkit-animation: fadeIn 0.7s ease 1.4s both;
+          animation: fadeIn 0.7s ease 1.4s both;
 }
 .e-date {
   font-size: 0.82rem; font-weight: 400;
   color: rgba(255,255,255,0.82); letter-spacing: 0.08em;
   text-shadow: 0 1px 6px rgba(0,0,0,0.8);
   margin-top: 0.25rem;
-  animation: fadeIn 0.7s ease 1.55s both;
+  -webkit-animation: fadeIn 0.7s ease 1.55s both;
+          animation: fadeIn 0.7s ease 1.55s both;
 }
 
-.e-show-pill { margin-top: 0.9rem; animation: fadeSlideUp 0.7s ease 1.7s both; }
+.e-show-pill { margin-top: 0.9rem; -webkit-animation: fadeSlideUp 0.7s ease 1.7s both; animation: fadeSlideUp 0.7s ease 1.7s both; }
 .e-show-inner {
   display: inline-flex; align-items: center; gap: 0.7rem;
   padding: 0.5rem 1.3rem;
@@ -551,7 +560,8 @@ body {
   background: transparent; border: 1px solid rgba(201,168,76,0.4);
   border-radius: 2px; cursor: pointer;
   position: relative; overflow: hidden;
-  animation: fadeSlideUp 0.7s ease 1.95s both;
+  -webkit-animation: fadeSlideUp 0.7s ease 1.95s both;
+          animation: fadeSlideUp 0.7s ease 1.95s both;
   transition: border-color 0.3s;
 }
 .e-btn::before {
@@ -581,7 +591,8 @@ body {
   letter-spacing: 0.26em; text-transform: uppercase;
   padding: 0.5rem 0.8rem;
   transition: opacity 0.25s, color 0.25s;
-  animation: fadeIn 0.6s ease both;
+  -webkit-animation: fadeIn 0.6s ease both;
+          animation: fadeIn 0.6s ease both;
 }
 .e-install-btn:hover { opacity: 1; color: var(--ivory); }
 .e-install-icon {
@@ -591,16 +602,26 @@ body {
   font-size: 0.7rem; letter-spacing: 0;
 }
 
+@-webkit-keyframes fadeSlideUp {
+  from { opacity: 0; -webkit-transform: translateY(52px) scale(0.95); transform: translateY(52px) scale(0.95); }
+  to   { opacity: 1; -webkit-transform: translateY(0) scale(1);       transform: translateY(0) scale(1); }
+}
 @keyframes fadeSlideUp {
   from { opacity: 0; transform: translateY(52px) scale(0.95); }
   to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
+@-webkit-keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity: 0; } to { opacity: 1; }
 }
 
 /* App entry after tapping "Enter Experience" */
+@-webkit-keyframes appReveal {
+  from { opacity: 0; -webkit-transform: translateY(70px) scale(0.94); transform: translateY(70px) scale(0.94); }
+  to   { opacity: 1; -webkit-transform: translateY(0) scale(1);       transform: translateY(0) scale(1); }
+}
 @keyframes appReveal {
   from { opacity: 0; transform: translateY(70px) scale(0.94); }
   to   { opacity: 1; transform: translateY(0)    scale(1); }
@@ -1716,7 +1737,8 @@ html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
   background: rgba(8,10,24,0.5);
   border: 1px solid var(--card-border); border-radius: 4px;
   backdrop-filter: blur(10px);
-  animation: fadeIn 0.7s ease 1.85s both;
+  -webkit-animation: fadeIn 0.7s ease 1.85s both;
+          animation: fadeIn 0.7s ease 1.85s both;
 }
 .lang-btn {
   padding: 0.4rem 0.85rem;
