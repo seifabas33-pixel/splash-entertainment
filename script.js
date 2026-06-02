@@ -292,18 +292,20 @@ function fmtDate(now) {
 // ── Entrance ──────────────────────────────────────────────────────────────────
 
 (async function initEntrance() {
-  // Safety net: if CSS animations fail (e.g. Safari animation bug or
-  // prefers-reduced-motion), force all entrance elements to full opacity.
+  // Safety net: only force-show if the animation never started at all
+  // (not mid-animation — checking animationName avoids killing a running animation)
   setTimeout(() => {
     const bg = document.querySelector('.entrance-bg');
-    if (bg && parseFloat(getComputedStyle(bg).opacity) < 0.5) {
+    if (!bg) return;
+    const an = getComputedStyle(bg).animationName;
+    if (!an || an === 'none') {
       document.querySelectorAll('.entrance-bg, .entrance-overlay, .entrance-vignette, .entrance-content, .e-logos, .e-hotel-logo-img, .e-heading, .e-sub, .e-loc, .e-date, .e-show-pill, .e-btn, .e-divider, .e-install-btn').forEach(el => {
         el.style.opacity = '1';
         el.style.transform = 'none';
         el.style.animation = 'none';
       });
     }
-  }, 400);
+  }, 600);
 
   const now = new Date();
   const dow = now.getDay();
