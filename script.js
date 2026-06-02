@@ -348,23 +348,26 @@ function fmtDate(now) {
     }, 520);
   });
 
-  // ── Exit: use JS transitions (more reliable than CSS class animations) ──
+  // ── Exit: dramatic exit + cinematic app reveal ──
   document.getElementById('enter-btn').addEventListener('click', () => {
     const el = document.getElementById('entrance');
-    el.style.transition = 'opacity 0.85s ease, transform 0.85s cubic-bezier(.55,0,.8,.45)';
+    // Entrance sweeps up & blurs out
+    el.style.transition = 'opacity 0.75s ease, transform 0.75s cubic-bezier(.55,0,.8,.45), filter 0.75s ease';
     el.style.opacity    = '0';
-    el.style.transform  = 'translateY(-48px) scale(0.98)';
+    el.style.transform  = 'translateY(-60px) scale(0.96)';
+    el.style.filter     = 'blur(10px)';
     el.style.pointerEvents = 'none';
 
     setTimeout(() => {
       el.style.display = 'none';
       const app = document.getElementById('app');
       app.classList.remove('hidden');
-      app.style.opacity = '0';
-      app.style.transition = 'opacity 0.6s ease';
-      requestAnimationFrame(() => { app.style.opacity = '1'; });
+      // Use the CSS keyframe animation for a rich scale+blur reveal
+      app.style.animation = 'appReveal 0.75s cubic-bezier(.22,.68,0,1.15) both';
       buildApp();
-    }, 860);
+      // Clean up inline animation after it's done so later transitions work
+      app.addEventListener('animationend', () => { app.style.animation = ''; }, { once: true });
+    }, 780);
   });
 
   // Skip entrance for deep-link hashes (reminder click, admin or staff route).

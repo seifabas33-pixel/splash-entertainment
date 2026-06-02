@@ -406,20 +406,27 @@ body {
   position: fixed; inset: 0; z-index: 300;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
+  /* whole screen starts pitch-black, then the scene blooms in */
+  animation: entranceCurtainOpen 0.6s ease both;
+}
+@keyframes entranceCurtainOpen {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* Real resort photo background */
 .entrance-bg {
   position: absolute; inset: 0;
   background: url('assets/entrance-bg.png') center center / cover no-repeat;
-  animation: bgReveal 2.4s cubic-bezier(.4,0,.2,1) both;
+  animation: bgReveal 3.2s cubic-bezier(.16,1,.3,1) both;
 }
 .entrance-bg::after {
   content: none;
 }
 @keyframes bgReveal {
-  from { opacity: 0; transform: scale(1.05); }
-  to   { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(1.18); filter: brightness(0.2) blur(12px); }
+  40%  { filter: brightness(0.6) blur(4px); }
+  to   { opacity: 1; transform: scale(1);    filter: brightness(1) blur(0px); }
 }
 
 .entrance-overlay {
@@ -586,11 +593,20 @@ body {
 }
 
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(52px); filter: blur(6px); }
+  70%  { filter: blur(1px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
 }
 @keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
+  from { opacity: 0; filter: blur(4px); }
+  to   { opacity: 1; filter: blur(0px); }
+}
+
+/* App entry after tapping "Enter Experience" */
+@keyframes appReveal {
+  from { opacity: 0; transform: translateY(70px) scale(0.94); filter: blur(10px); }
+  60%  { filter: blur(2px); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0px);  }
 }
 
 /* ═══════════════════════════════════════════════════
