@@ -3251,15 +3251,37 @@ html[dir="rtl"] .gallery-thumb-caption { text-align: right; }
 
 /* ── Reduced-motion safety net ───────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  /* Reduce Motion is common on phones. Instead of killing all animation
+     (which makes the app look dead), keep gentle opacity-only fades —
+     these are motion-sickness-safe — and drop only large movement +
+     decorative looping animations. */
+  @keyframes rmFade { from { opacity: 0; } to { opacity: 1; } }
+  @-webkit-keyframes rmFade { from { opacity: 0; } to { opacity: 1; } }
+
+  .entrance-bg {
+    -webkit-animation: rmFade 1.1s ease both !important;
+            animation: rmFade 1.1s ease both !important;
   }
-  #qc-fab     { animation: none !important; }
-  .now-banner { animation: none !important; }
-  .show-card::after, .featured-card::after { animation: none !important; }
-  .will-reveal { opacity: 1 !important; transform: none !important; }
+  .e-logos, .e-hotel-logo-img, .e-heading, .e-sub, .e-loc, .e-date,
+  .e-show-pill, .e-btn, .e-divider, .e-install-btn, #lang-picker,
+  .tab-panel.active, .will-reveal, .card-reveal, .gallery-item {
+    -webkit-animation: rmFade 0.6s ease both !important;
+            animation: rmFade 0.6s ease both !important;
+    opacity: 1;
+    -webkit-transform: none !important;
+            transform: none !important;
+    -webkit-animation-play-state: running !important;
+            animation-play-state: running !important;
+  }
+  .will-reveal { opacity: 1 !important; }
+
+  /* Purely decorative looping motion — switch off entirely */
+  #qc-fab     { animation: none !important; -webkit-animation: none !important; }
+  .now-banner { animation: none !important; -webkit-animation: none !important; }
+  .show-card::after, .featured-card::after { animation: none !important; -webkit-animation: none !important; }
+
+  /* Tighten only long transitions, leave short UI feedback intact */
+  *, *::before, *::after { transition-duration: 0.2s !important; }
 }
 
 /* ── 1. Tab panel crossfade + rise ───────────────── */
