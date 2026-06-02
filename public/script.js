@@ -1032,7 +1032,20 @@ function renderMyDay() {
 // ── PWA: service worker + install prompt ────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      // When a new SW takes control, reload so users always get fresh CSS/JS
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'activated') window.location.reload();
+        });
+      });
+    }).catch(() => {});
+  });
+  // Also reload when controller changes (covers the skipWaiting path)
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
   });
   navigator.serviceWorker.addEventListener('message', (e) => {
     if (e.data && e.data.type === 'REMINDER_CLICK') {
