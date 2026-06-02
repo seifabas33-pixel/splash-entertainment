@@ -914,8 +914,9 @@ html[dir="rtl"] .h-theme-btn { margin-right: 0; margin-left: 0.5rem; }
   box-shadow: 0 0 12px rgba(201,168,76,0.6);
 }
 @keyframes cardReveal {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(40px) scale(0.93); }
+  70%  { transform: translateY(-4px) scale(1.01); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .a-time {
@@ -3228,17 +3229,17 @@ html[dir="rtl"] .gallery-thumb-caption { text-align: right; }
 
 /* ── 1. Tab panel crossfade + rise ───────────────── */
 @keyframes tabReveal {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(48px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
 }
 .tab-panel.active {
-  animation: tabReveal 0.36s cubic-bezier(.25,.46,.45,.94) both;
+  animation: tabReveal 0.48s cubic-bezier(.22,.68,0,1.2) both;
 }
 
 /* ── 2. Scroll-triggered reveal (animation-based, no transition conflict) ── */
 @keyframes revealFadeUp {
-  from { opacity: 0; transform: translateY(26px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(50px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
 .will-reveal {
   animation: revealFadeUp 0.55s cubic-bezier(.25,.46,.45,.94) var(--reveal-delay, 0ms) both;
@@ -3278,30 +3279,32 @@ html[dir="rtl"] .gallery-thumb-caption { text-align: right; }
 
 /* ── 4. QC FAB float + pulse ring ────────────────── */
 @keyframes fabFloat {
-  0%, 100% { transform: translateY(0)    scale(1); }
-  50%       { transform: translateY(-7px) scale(1.04); }
+  0%, 100% { transform: translateY(0)     scale(1)    rotate(0deg); }
+  30%       { transform: translateY(-12px) scale(1.08) rotate(-4deg); }
+  60%       { transform: translateY(-8px)  scale(1.05) rotate(4deg); }
 }
 @keyframes fabRing {
-  0%   { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 0    rgba(201,168,76,0.5); }
-  65%  { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 14px rgba(201,168,76,0); }
+  0%   { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 0    rgba(201,168,76,0.7); }
+  65%  { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 20px rgba(201,168,76,0); }
   100% { box-shadow: 0 8px 28px rgba(0,0,0,0.4), 0 0 0 0    rgba(201,168,76,0); }
 }
 #qc-fab {
-  animation: fabFloat 4s ease-in-out infinite,
-             fabRing  3s ease-out 1.2s infinite;
+  animation: fabFloat 3s ease-in-out infinite,
+             fabRing  2.2s ease-out 0.5s infinite;
 }
 
 /* ── 5. QC sheet slide-up + backdrop fade ────────── */
 @keyframes sheetUp {
-  from { opacity: 0; transform: translateY(100%); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(100%) scale(0.95); }
+  60%  { transform: translateY(-12px) scale(1.02); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes backdropIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-#qc-sheet:not(.hidden)    { animation: sheetUp    0.38s cubic-bezier(.34,1.20,.64,1) both; }
-#qc-backdrop:not(.hidden) { animation: backdropIn 0.28s ease both; }
+#qc-sheet:not(.hidden)    { animation: sheetUp    0.52s cubic-bezier(.22,.68,0,1.2) both; }
+#qc-backdrop:not(.hidden) { animation: backdropIn 0.32s ease both; }
 
 /* ── 6. Lightbox open (backdrop + stage scale) ───── */
 @keyframes lbStageIn {
@@ -3359,10 +3362,17 @@ html[dir="rtl"] .gallery-thumb-caption { text-align: right; }
 
 /* ── 12. Now-banner border glow pulse ────────────── */
 @keyframes bannerGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.12); }
-  50%       { box-shadow: 0 0 20px 2px rgba(201,168,76,0.07); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.25), 0 4px 20px rgba(0,0,0,0.3); }
+  50%       { box-shadow: 0 0 28px 6px rgba(201,168,76,0.18), 0 4px 20px rgba(0,0,0,0.3); }
 }
-.now-banner { animation: bannerGlow 3.2s ease-in-out infinite; }
+.now-banner { animation: bannerGlow 2.2s ease-in-out infinite; }
+
+/* ── 12b. Show card border pulse ─────────────────── */
+@keyframes showCardPulse {
+  0%, 100% { box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 0 0 rgba(201,168,76,0.35); }
+  50%       { box-shadow: 0 14px 44px rgba(0,0,0,0.45), 0 0 0 8px rgba(201,168,76,0); }
+}
+.show-card { animation: showCardPulse 2.8s ease-in-out 1s infinite; }
 
 /* ── 13. Forecast day stagger ────────────────────── */
 .forecast-day {
@@ -3451,22 +3461,48 @@ html[dir="rtl"] .hn-chip { animation-name: hnSlideRtl; }
 .welcome-card:hover     { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.4); }
 .countdown-ribbon:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.4); }
 
-/* ── 21. Show-card icon gentle spin ─────────────── */
+/* ── 21. Show-card icon spin + bounce ────────────── */
 @keyframes showIconSpin {
-  0%, 100% { transform: rotate(0deg); }
-  25%       { transform: rotate(-8deg); }
-  75%       { transform: rotate(8deg); }
+  0%, 100% { transform: rotate(0deg)  scale(1); }
+  20%       { transform: rotate(-12deg) scale(1.1); }
+  50%       { transform: rotate(12deg)  scale(0.92); }
+  80%       { transform: rotate(-6deg)  scale(1.05); }
 }
 .show-icon {
-  animation: showIconSpin 5s ease-in-out 2s infinite;
+  animation: showIconSpin 4s ease-in-out 1s infinite;
+}
+
+/* ── 21b. App header slide-down on load ──────────── */
+@keyframes headerSlideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.app-header {
+  animation: headerSlideDown 0.55s cubic-bezier(.22,.68,0,1.15) both;
+}
+
+/* ── 21c. Tab nav slide-down (slightly delayed) ───── */
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-nav {
+  animation: navFadeIn 0.5s cubic-bezier(.25,.46,.45,.94) 0.15s both;
 }
 
 /* ── 22. Entrance button continuous glow pulse ───── */
 @keyframes btnGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
-  50%       { box-shadow: 0 0 0 6px rgba(201,168,76,0.12); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0), inset 0 0 0 1px rgba(201,168,76,0.4); }
+  50%       { box-shadow: 0 0 32px 8px rgba(201,168,76,0.25), inset 0 0 0 1px rgba(201,168,76,0.8); }
 }
-.e-btn { animation: btnGlow 2.8s ease-in-out 2.5s infinite; }
+.e-btn { animation: btnGlow 2.4s ease-in-out 2s infinite; }
+
+/* ── 22b. Entrance divider breathe ───────────────── */
+@keyframes dividerBreathe {
+  0%, 100% { transform: scaleX(1);    opacity: 0.7; }
+  50%       { transform: scaleX(1.4); opacity: 1; }
+}
+.e-divider { animation: fadeIn 0.8s ease 1.0s both, dividerBreathe 2.5s ease-in-out 2s infinite; }
 
 /* ── 23. a-card shimmer on hover ─────────────────── */
 .a-card::after {
