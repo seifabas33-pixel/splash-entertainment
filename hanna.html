@@ -114,7 +114,7 @@
     @keyframes dotBlink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
     .hero h1 { font-size:clamp(38px,6.5vw,64px); font-weight:800; color:#fff; line-height:1.1; margin-bottom:14px; }
     .hero h1 em { font-style:normal; font-weight:300; color:rgba(255,255,255,.7); }
-    .hero-sub { font-size:16px; color:rgba(255,255,255,.80); max-width:480px; margin-bottom:40px; line-height:1.75; min-height:3.5em; }
+    .hero-sub { font-size:16px; color:rgba(255,255,255,.80); max-width:480px; margin-bottom:40px; line-height:1.75; }
     .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
 
     /* floating particles */
@@ -367,9 +367,9 @@
       <div class="hero-overlay"></div>
       <canvas id="heroCanvas" style="position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%;"></canvas>
       <div class="container">
-        <div class="hero-badge reveal">Homes Bay Hurghada · Real Estate Agent</div>
+        <div class="hero-badge reveal">Homes Bay · Real Estate Agent</div>
         <h1 class="reveal d1" style="color:#fff">Your Perfect Home<br /><em>On The Red Sea</em></h1>
-        <p class="hero-sub reveal d2">I help international buyers find <span id="tw-text"></span><span class="tw-cursor"></span></p>
+        <p class="hero-sub reveal d2">I help international buyers find<br><span id="tw-text"></span><span class="tw-cursor"></span></p>
         <div class="hero-btns reveal d3">
           <a href="#listings" class="btn btn-primary magnetic">Browse Properties</a>
           <a href="#contact"  class="btn btn-white magnetic">Book a Free Call</a>
@@ -877,10 +877,10 @@
     /* ─── TYPEWRITER ─── */
     (function() {
       const phrases = [
-        'verified, legally clear Red Sea properties.',
-        'investment flats with honest market analysis.',
-        'your perfect holiday home on the Red Sea.',
-        'trusted guidance from enquiry to key handover.'
+        'verified Red Sea properties.',
+        'investment flats with real returns.',
+        'your perfect holiday home.',
+        'trusted guidance, start to finish.'
       ];
       const el = document.getElementById('tw-text');
       let pi=0, ci=0, deleting=false, pause=0;
