@@ -105,7 +105,7 @@
     @keyframes dotBlink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
     .hero h1 { font-size:clamp(38px,6.5vw,64px); font-weight:800; color:#fff; line-height:1.1; margin-bottom:14px; }
     .hero h1 em { font-style:normal; font-weight:300; color:rgba(255,255,255,.7); }
-    .hero-sub { font-size:16px; color:rgba(255,255,255,.80); max-width:480px; margin-bottom:40px; line-height:1.75; }
+    .hero-sub { font-size:16px; color:rgba(255,255,255,.80); max-width:480px; margin-bottom:40px; line-height:1.75; min-height:3.5em; }
     .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
 
     /* floating particles */
@@ -868,10 +868,10 @@
     /* ─── TYPEWRITER ─── */
     (function() {
       const phrases = [
-        'verified, legally clear properties across Hurghada\'s Red Sea Riviera.',
-        'investment-ready flats with honest market analysis.',
-        'your perfect holiday retreat or permanent home.',
-        'transparent guidance from first enquiry to key handover.'
+        'verified, legally clear Red Sea properties.',
+        'investment flats with honest market analysis.',
+        'your perfect holiday home on the Red Sea.',
+        'trusted guidance from enquiry to key handover.'
       ];
       const el = document.getElementById('tw-text');
       let pi=0, ci=0, deleting=false, pause=0;
