@@ -227,6 +227,59 @@
     /* ── RIPPLE ── */
     @keyframes rippleAnim { to{transform:scale(1);opacity:0} }
 
+    /* ── LOADER ── */
+    #loader { position:fixed; inset:0; z-index:9999; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; transition:opacity .5s ease, visibility .5s ease; }
+    #loader.done { opacity:0; visibility:hidden; pointer-events:none; }
+    .loader-rings { position:relative; width:80px; height:80px; }
+    .loader-ring { position:absolute; border-radius:50%; border:3px solid transparent; }
+    .loader-ring-outer { inset:0; border-top-color:var(--primary); border-right-color:rgba(97,20,28,.2); animation:loaderSpinOuter 1.6s linear infinite; }
+    .loader-ring-inner { inset:12px; border-bottom-color:var(--primary); border-left-color:rgba(97,20,28,.15); animation:loaderSpinInner 1.1s linear infinite; }
+    .loader-logo { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:800; color:var(--primary); animation:loaderLogoPulse 2s ease-in-out infinite; }
+    .loader-dots { display:flex; gap:8px; }
+    .loader-dot { width:7px; height:7px; border-radius:50%; background:var(--primary); opacity:.3; animation:loaderDot 1.2s ease-in-out infinite; }
+    .loader-dot:nth-child(2){animation-delay:.2s} .loader-dot:nth-child(3){animation-delay:.4s}
+    @keyframes loaderSpinOuter { to{transform:rotate(360deg)} }
+    @keyframes loaderSpinInner { to{transform:rotate(-360deg)} }
+    @keyframes loaderLogoPulse { 0%,100%{opacity:.55;transform:scale(.94)} 50%{opacity:1;transform:scale(1)} }
+    @keyframes loaderDot { 0%,80%,100%{opacity:.3;transform:scale(.8)} 40%{opacity:1;transform:scale(1.2)} }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor-dot,.cursor-ring { position:fixed; border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); }
+    .cursor-dot { width:6px; height:6px; background:var(--primary); top:0; left:0; transition:opacity .3s; }
+    .cursor-ring { width:32px; height:32px; border:1.5px solid rgba(97,20,28,.5); top:0; left:0; transition:width .22s,height .22s,border-color .22s,opacity .3s; }
+    .cursor-ring.expand { width:50px; height:50px; border-color:rgba(97,20,28,.25); }
+    @media (hover:none) { .cursor-dot,.cursor-ring { display:none; } }
+
+    /* ── WHATSAPP FAB ── */
+    .wa-fab { position:fixed; bottom:32px; right:32px; z-index:500; width:58px; height:58px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(37,211,102,.45); animation:waEntrance .6s cubic-bezier(.16,1,.3,1) 2.5s both; transition:transform .25s,box-shadow .25s; }
+    .wa-fab::before { content:''; position:absolute; inset:-6px; border-radius:50%; border:2px solid rgba(37,211,102,.4); animation:waPulse 2.4s ease-out infinite; }
+    .wa-fab svg { width:28px; height:28px; fill:#fff; }
+    .wa-fab:hover { transform:scale(1.1); box-shadow:0 10px 32px rgba(37,211,102,.55); }
+    @keyframes waEntrance { from{transform:translateY(80px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes waPulse { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(1.9);opacity:0} }
+
+    /* ── AVATAR RING ── */
+    .avatar-ring-wrap { position:relative; display:block; }
+    .avatar-ring-wrap::before { content:''; position:absolute; inset:-6px; border-radius:calc(var(--radius-lg) + 6px); background:conic-gradient(var(--primary) 0deg, rgba(97,20,28,.1) 90deg, transparent 180deg, rgba(97,20,28,.1) 270deg, var(--primary) 360deg); animation:ringSpin 8s linear infinite; z-index:0; }
+    .avatar-ring-wrap .about-img { position:relative; z-index:1; }
+    @keyframes ringSpin { to{transform:rotate(360deg)} }
+
+    /* ── FLOATING TAGS ── */
+    @keyframes tagFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .tag { animation:tagFloat 4s ease-in-out infinite; }
+    .tag:nth-child(2){animation-delay:.55s} .tag:nth-child(3){animation-delay:1.1s}
+    .tag:nth-child(4){animation-delay:.28s} .tag:nth-child(5){animation-delay:.83s}
+    .tag:nth-child(6){animation-delay:1.4s} .tag:nth-child(7){animation-delay:.42s}
+
+    /* ── TYPEWRITER CURSOR ── */
+    .tw-cursor { display:inline-block; width:2px; height:.9em; background:rgba(255,255,255,.75); margin-left:2px; vertical-align:text-bottom; animation:twBlink .9s step-end infinite; }
+    @keyframes twBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── CONTACT ACTION BUTTONS ── */
+    .contact-form-btns { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .btn-whatsapp { background:#25D366; border-color:#25D366; color:#fff; box-shadow:0 4px 18px rgba(37,211,102,.32); }
+    .btn-whatsapp:hover { background:#1ebe5d; transform:translateY(-2px); box-shadow:0 8px 28px rgba(37,211,102,.42); }
+
     /* ── RESPONSIVE ── */
     @media (max-width:900px) {
       .about-grid,.contact-grid { grid-template-columns:1fr; }
@@ -249,6 +302,24 @@
   </style>
 </head>
 <body>
+
+  <!-- CURSOR -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-rings">
+      <div class="loader-ring loader-ring-outer"></div>
+      <div class="loader-ring loader-ring-inner"></div>
+      <div class="loader-logo">HR</div>
+    </div>
+    <div class="loader-dots">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+  </div>
 
   <!-- LIQUID BG (light warm blobs) -->
   <div class="liquid-bg">
@@ -280,21 +351,21 @@
     <section class="hero" id="home">
       <div class="hero-bg" id="heroBg"></div>
       <div class="hero-overlay"></div>
-      <div class="hero-particles" id="particles"></div>
+      <canvas id="heroCanvas" style="position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%;"></canvas>
       <div class="container">
         <div class="hero-badge reveal">Homes Bay Hurghada · Real Estate Agent</div>
         <h1 class="reveal d1" style="color:#fff">Your Perfect Home<br /><em>On The Red Sea</em></h1>
-        <p class="hero-sub reveal d2">I help international buyers find verified, legally clear properties across Hurghada, Sahl Hasheesh, Soma Bay, and Makadi Bay — with full honesty and care at every step.</p>
+        <p class="hero-sub reveal d2">I help international buyers find <span id="tw-text"></span><span class="tw-cursor"></span></p>
         <div class="hero-btns reveal d3">
-          <a href="#listings" class="btn btn-primary">Browse Properties</a>
-          <a href="#contact"  class="btn btn-white">Book a Free Call</a>
+          <a href="#listings" class="btn btn-primary magnetic">Browse Properties</a>
+          <a href="#contact"  class="btn btn-white magnetic">Book a Free Call</a>
         </div>
       </div>
       <div class="hero-stats">
         <div class="stats-bar">
-          <div class="stat"><div class="stat-num">4</div><div class="stat-label">Locations Covered</div></div>
-          <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Client Rating</div></div>
-          <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Verified Listings</div></div>
+          <div class="stat"><div class="stat-num" data-target="4">4</div><div class="stat-label">Locations Covered</div></div>
+          <div class="stat"><div class="stat-num" data-target="5" data-suffix="★">5★</div><div class="stat-label">Client Rating</div></div>
+          <div class="stat"><div class="stat-num" data-target="100" data-suffix="%">100%</div><div class="stat-label">Verified Listings</div></div>
           <div class="stat"><div class="stat-num">🇵🇱</div><div class="stat-label">Polish Speaking</div></div>
         </div>
       </div>
@@ -305,7 +376,9 @@
       <div class="container">
         <div class="about-grid">
           <div class="about-img-wrap reveal-l">
-            <img class="about-img" src="assets/hanna-profile.jpg" alt="Hanna Różczka — Real Estate Agent" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80'" />
+            <div class="avatar-ring-wrap">
+              <img class="about-img" src="assets/hanna-profile.jpg" alt="Hanna Różczka — Real Estate Agent" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80'" />
+            </div>
             <div class="about-img-accent"></div>
             <div class="about-badge"><strong>HB</strong><span>Homes Bay<br/>Certified</span></div>
           </div>
@@ -324,7 +397,7 @@
               <span class="tag">🌍 International Clients</span>
               <span class="tag">🇵🇱 Polish Speaking</span>
             </div>
-            <a href="#contact" class="btn btn-primary">Get in Touch</a>
+            <a href="#contact" class="btn btn-primary magnetic">Get in Touch</a>
           </div>
         </div>
       </div>
@@ -361,7 +434,7 @@
           <!-- 1 -->
           <div class="listing-card reveal d1">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-4.jpg" alt="Hayat Beach Resort 2-Bed Sea View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-4.jpg" alt="Hayat Beach Resort 2-Bed Sea View" onerror="this.src='https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -378,7 +451,7 @@
           <!-- 2 -->
           <div class="listing-card reveal d2">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-5.jpg" alt="Hayat Beach Resort 1-Bed Sea View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-5.jpg" alt="Hayat Beach Resort 1-Bed Sea View" onerror="this.src='https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -395,7 +468,7 @@
           <!-- 3 -->
           <div class="listing-card reveal d3">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-11.jpg" alt="Hayat Beach Resort Studio" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-11.jpg" alt="Hayat Beach Resort Studio" onerror="this.src='https://images.unsplash.com/photo-1540541338287-41700207dee6?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -412,7 +485,7 @@
           <!-- 4 -->
           <div class="listing-card reveal d4">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-2-2.jpg" alt="Marvento 2-Bed Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-2-2.jpg" alt="Marvento 2-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -429,7 +502,7 @@
           <!-- 5 -->
           <div class="listing-card reveal d5">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-01-04-at-1-elementor-io-optimized-6.webp" alt="Marvento Studio Garden View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-01-04-at-1-elementor-io-optimized-6.webp" alt="Marvento Studio Garden View" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -446,7 +519,7 @@
           <!-- 6 -->
           <div class="listing-card reveal d6">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-2-3.jpg" alt="Aurora Palace 3-Bed Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-2-3.jpg" alt="Aurora Palace 3-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -463,7 +536,7 @@
           <!-- 7 -->
           <div class="listing-card reveal d1">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-9-3.jpg" alt="Aurora Palace 2-Bed Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-9-3.jpg" alt="Aurora Palace 2-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -480,7 +553,7 @@
           <!-- 8 -->
           <div class="listing-card reveal d2">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-7-3.jpg" alt="Aurora Palace 1-Bed Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-7-3.jpg" alt="Aurora Palace 1-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -497,7 +570,7 @@
           <!-- 9 -->
           <div class="listing-card reveal d3">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-6-3.jpg" alt="Aurora Palace Studio Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-6-3.jpg" alt="Aurora Palace Studio Pool View" onerror="this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -514,7 +587,7 @@
           <!-- 10 -->
           <div class="listing-card reveal d4">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-4-2.jpg" alt="Marvento 1-Bed Sky Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-4-2.jpg" alt="Marvento 1-Bed Sky Pool View" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -531,7 +604,7 @@
           <!-- 11 -->
           <div class="listing-card reveal d5">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-3-2.jpg" alt="Marvento 2-Bed Sky Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-3-2.jpg" alt="Marvento 2-Bed Sky Pool View" onerror="this.src='https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -548,7 +621,7 @@
           <!-- 12 -->
           <div class="listing-card reveal d6">
             <div class="listing-img-wrap">
-              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Blue_27-Photo-1536x864.webp" alt="Blue 27 2-Bed Pool View" />
+              <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Blue_27-Photo-1536x864.webp" alt="Blue 27 2-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=600&q=80'" />
               <div class="listing-badge">Verified</div>
             </div>
             <div class="listing-body">
@@ -641,20 +714,27 @@
             <h2>Let's Start the Conversation</h2>
             <p>Whether you have a specific property in mind or you're just starting to explore, I'm here to help. I'll get back to you within 24 hours.</p>
             <div class="contact-item"><div class="contact-item-icon">📍</div><div><div class="contact-item-label">Location</div><div class="contact-item-value">Hurghada, Red Sea, Egypt</div></div></div>
-            <div class="contact-item"><div class="contact-item-icon">🌐</div><div><div class="contact-item-label">Agency</div><div class="contact-item-value">Homes Bay Hurghada</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">📱</div><div><div class="contact-item-label">WhatsApp</div><div class="contact-item-value"><a href="https://wa.me/48606638400" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">+48 606 638 400</a></div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">📧</div><div><div class="contact-item-label">Email</div><div class="contact-item-value"><a href="mailto:hrozczka@gmail.com" style="color:inherit;text-decoration:none;">hrozczka@gmail.com</a></div></div></div>
             <div class="contact-item"><div class="contact-item-icon">💬</div><div><div class="contact-item-label">Languages</div><div class="contact-item-value">Polish · English · Arabic</div></div></div>
             <div class="contact-item"><div class="contact-item-icon">🕐</div><div><div class="contact-item-label">Response Time</div><div class="contact-item-value">Within 24 hours</div></div></div>
           </div>
           <div class="contact-form reveal-r">
             <form>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="Your first name" /></div>
-                <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Your last name" /></div>
+                <div class="form-group"><label class="form-label">First Name</label><input id="cf-first" type="text" class="form-input" placeholder="Your first name" /></div>
+                <div class="form-group"><label class="form-label">Last Name</label><input id="cf-last" type="text" class="form-input" placeholder="Your last name" /></div>
               </div>
-              <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="your@email.com" /></div>
-              <div class="form-group"><label class="form-label">Phone / WhatsApp</label><input type="tel" class="form-input" placeholder="+48 or +44 …" /></div>
-              <div class="form-group"><label class="form-label">What are you looking for?</label><textarea class="form-input" placeholder="Tell me about your ideal property — location, budget, timeline…"></textarea></div>
-              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message →</button>
+              <div class="form-group"><label class="form-label">Email</label><input id="cf-email" type="email" class="form-input" placeholder="your@email.com" /></div>
+              <div class="form-group"><label class="form-label">Phone / WhatsApp</label><input id="cf-phone" type="tel" class="form-input" placeholder="+48 or +44 …" /></div>
+              <div class="form-group"><label class="form-label">What are you looking for?</label><textarea id="cf-msg" class="form-input" placeholder="Tell me about your ideal property — location, budget, timeline…"></textarea></div>
+              <div class="contact-form-btns">
+                <button type="button" onclick="submitWA()" class="btn btn-whatsapp" style="justify-content:center;">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  WhatsApp Hanna
+                </button>
+                <button type="button" onclick="submitEmail()" class="btn btn-outline" style="justify-content:center;">Send Email</button>
+              </div>
               <p class="form-note">🔒 Your details are kept private and never shared.</p>
             </form>
           </div>
@@ -670,9 +750,8 @@
             <div class="footer-brand">Hanna Różczka</div>
             <p class="footer-desc">Real Estate Agent at Homes Bay Hurghada. Helping international buyers find verified, legally clear properties across Egypt's Red Sea Riviera — with full transparency from day one.</p>
             <div class="footer-social">
-              <a href="#" class="social-link">in</a>
-              <a href="#" class="social-link">fb</a>
-              <a href="#" class="social-link">wa</a>
+              <a href="mailto:hrozczka@gmail.com" class="social-link" title="Email">✉</a>
+              <a href="https://wa.me/48606638400" target="_blank" rel="noopener" class="social-link" title="WhatsApp">wa</a>
             </div>
           </div>
           <div>
@@ -706,43 +785,182 @@
 
   </div><!-- #app -->
 
+  <!-- WHATSAPP FAB -->
+  <a class="wa-fab" href="https://wa.me/48606638400" target="_blank" rel="noopener" aria-label="Chat with Hanna on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
   <script>
     // Navbar scroll glass
+    /* ─── LOADER ─── */
+    setTimeout(() => document.getElementById('loader').classList.add('done'), 1350);
+
+    /* ─── NAVBAR ─── */
     const nav = document.getElementById('navbar');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), {passive:true});
 
-    // Scroll reveal
+    /* ─── SCROLL REVEAL ─── */
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, {threshold: 0.11});
     document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => io.observe(el));
 
-    // Hero floating particles
-    const pc = document.getElementById('particles');
-    for (let i = 0; i < 18; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const s = Math.random() * 60 + 16;
-      p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*13+9}s;animation-delay:${Math.random()*-22}s;`;
-      pc.appendChild(p);
-    }
+    /* ─── CANVAS PARTICLES ─── */
+    (function() {
+      const canvas = document.getElementById('heroCanvas');
+      const heroEl = document.querySelector('.hero');
+      const ctx = canvas.getContext('2d');
+      let pts = [];
+      function resize() {
+        canvas.width  = heroEl.offsetWidth;
+        canvas.height = heroEl.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, {passive:true});
+      for (let i = 0; i < 70; i++) {
+        pts.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+          vx: (Math.random()-.5)*.55, vy: (Math.random()-.5)*.45,
+          r: Math.random()*2.2+.7, a: Math.random()*.55+.2 });
+      }
+      function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for (let i=0; i<pts.length; i++) {
+          const p = pts[i];
+          p.x += p.vx; p.y += p.vy;
+          if (p.x<0) p.x=canvas.width; if (p.x>canvas.width) p.x=0;
+          if (p.y<0) p.y=canvas.height; if (p.y>canvas.height) p.y=0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(255,255,255,${p.a})`;
+          ctx.fill();
+          for (let j=i+1; j<pts.length; j++) {
+            const q = pts[j];
+            const dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
+            if (d<130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+              ctx.strokeStyle = `rgba(255,255,255,${.18*(1-d/130)})`;
+              ctx.lineWidth=.6;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
 
-    // Hero mouse parallax
-    const heroBg = document.getElementById('heroBg');
-    const heroEl = document.querySelector('.hero');
-    heroEl.addEventListener('mousemove', e => {
-      const r = heroEl.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      heroBg.style.transform = `scale(1.06) translate(${x*20}px,${y*14}px)`;
-    }, {passive:true});
-    heroEl.addEventListener('mouseleave', () => { heroBg.style.transform = ''; });
+      /* Hero parallax on canvas bg */
+      const heroBg = document.getElementById('heroBg');
+      heroEl.addEventListener('mousemove', e => {
+        const r = heroEl.getBoundingClientRect();
+        const x = (e.clientX-r.left)/r.width-.5;
+        const y = (e.clientY-r.top)/r.height-.5;
+        heroBg.style.transform = `scale(1.06) translate(${x*20}px,${y*14}px)`;
+      }, {passive:true});
+      heroEl.addEventListener('mouseleave', () => { heroBg.style.transform=''; });
+    })();
 
-    // Button ripple
+    /* ─── TYPEWRITER ─── */
+    (function() {
+      const phrases = [
+        'verified, legally clear properties across Hurghada\'s Red Sea Riviera.',
+        'investment-ready flats with honest market analysis.',
+        'your perfect holiday retreat or permanent home.',
+        'transparent guidance from first enquiry to key handover.'
+      ];
+      const el = document.getElementById('tw-text');
+      let pi=0, ci=0, deleting=false, pause=0;
+      function tick() {
+        if (pause>0) { pause--; setTimeout(tick, 80); return; }
+        const word = phrases[pi];
+        if (!deleting) {
+          el.textContent = word.slice(0, ci+1);
+          ci++;
+          if (ci === word.length) { deleting=true; pause=22; setTimeout(tick,80); return; }
+        } else {
+          el.textContent = word.slice(0, ci-1);
+          ci--;
+          if (ci===0) { deleting=false; pi=(pi+1)%phrases.length; pause=4; }
+        }
+        setTimeout(tick, deleting ? 38 : 80);
+      }
+      setTimeout(tick, 1800);
+    })();
+
+    /* ─── CUSTOM CURSOR ─── */
+    (function() {
+      const dot  = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      if (!dot || !ring) return;
+      let rx=0, ry=0, mx=0, my=0;
+      document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; }, {passive:true});
+      (function lerp() {
+        rx += (mx-rx)*.12; ry += (my-ry)*.12;
+        ring.style.left=rx+'px'; ring.style.top=ry+'px';
+        requestAnimationFrame(lerp);
+      })();
+      document.querySelectorAll('a,button,.btn,.card,.listing-card').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+      });
+    })();
+
+    /* ─── COUNTER ANIMATION ─── */
+    (function() {
+      const counters = document.querySelectorAll('.stat-num[data-target]');
+      const seen = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          seen.unobserve(e.target);
+          const el = e.target;
+          const target = +el.dataset.target;
+          const suffix = el.dataset.suffix || '';
+          let frame = 0, total = 42;
+          const timer = setInterval(() => {
+            frame++;
+            el.textContent = Math.round(target*(frame/total)) + suffix;
+            if (frame===total) { el.textContent = target+suffix; clearInterval(timer); }
+          }, 38);
+        });
+      }, {threshold:.5});
+      counters.forEach(c => seen.observe(c));
+    })();
+
+    /* ─── 3D CARD TILT ─── */
+    document.querySelectorAll('.listing-card,.card').forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const r = this.getBoundingClientRect();
+        const x = (e.clientX-r.left)/r.width-.5;
+        const y = (e.clientY-r.top)/r.height-.5;
+        this.style.transform = `translateY(-6px) perspective(900px) rotateY(${x*9}deg) rotateX(${-y*7}deg)`;
+      }, {passive:true});
+      card.addEventListener('mouseleave', function() {
+        this.style.transition='transform .45s ease';
+        this.style.transform='';
+        setTimeout(() => this.style.transition='', 460);
+      });
+    });
+
+    /* ─── MAGNETIC BUTTONS ─── */
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', function(e) {
+        const r = this.getBoundingClientRect();
+        const x = (e.clientX-r.left-r.width/2)*.3;
+        const y = (e.clientY-r.top-r.height/2)*.3;
+        this.style.transform = `translate(${x}px,${y}px)`;
+      }, {passive:true});
+      btn.addEventListener('mouseleave', function() {
+        this.style.transition='transform .5s cubic-bezier(.16,1,.3,1)';
+        this.style.transform='';
+        setTimeout(() => this.style.transition='', 520);
+      });
+    });
+
+    /* ─── BUTTON RIPPLE ─── */
     document.querySelectorAll('.btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         const r = this.getBoundingClientRect();
-        const sz = Math.max(r.width, r.height) * 2.2;
+        const sz = Math.max(r.width,r.height)*2.2;
         const rpl = document.createElement('span');
         rpl.style.cssText = `position:absolute;width:${sz}px;height:${sz}px;left:${e.clientX-r.left-sz/2}px;top:${e.clientY-r.top-sz/2}px;border-radius:50%;background:rgba(255,255,255,.25);transform:scale(0);animation:rippleAnim .5s ease-out forwards;pointer-events:none;z-index:10;`;
         this.appendChild(rpl);
@@ -750,12 +968,30 @@
       });
     });
 
-    // Subtle cursor glow (crimson tint)
-    const glow = document.createElement('div');
-    glow.style.cssText = 'position:fixed;pointer-events:none;z-index:9999;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(97,20,28,.045) 0%,transparent 70%);transform:translate(-50%,-50%);transition:left .07s,top .07s,opacity .3s;opacity:0;';
-    document.body.appendChild(glow);
-    document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; glow.style.opacity='1'; }, {passive:true});
-    document.addEventListener('mouseleave', () => glow.style.opacity='0');
+    /* ─── CONTACT FORM — WhatsApp + Email actions ─── */
+    function getFormData() {
+      const get = id => (document.getElementById(id)||{}).value || '';
+      const firstName = get('cf-first');
+      const lastName  = get('cf-last');
+      const email     = get('cf-email');
+      const phone     = get('cf-phone');
+      const msg       = get('cf-msg');
+      return { firstName, lastName, email, phone, msg };
+    }
+    function submitWA() {
+      const d = getFormData();
+      const name = [d.firstName, d.lastName].filter(Boolean).join(' ') || 'a potential buyer';
+      const contact = [d.phone, d.email].filter(Boolean).join(' / ') || 'not provided';
+      const body = `Hi Hanna! My name is ${name}. ${d.msg ? d.msg + ' ' : ''}My contact: ${contact}`;
+      window.open('https://wa.me/48606638400?text=' + encodeURIComponent(body), '_blank');
+    }
+    function submitEmail() {
+      const d = getFormData();
+      const name = [d.firstName, d.lastName].filter(Boolean).join(' ') || 'Potential Buyer';
+      const subject = `Property Enquiry from ${name}`;
+      const body = `Hi Hanna,\n\nMy name is ${name}.\n\n${d.msg || ''}\n\nMy contact:\nPhone/WhatsApp: ${d.phone || 'not provided'}\nEmail: ${d.email || 'not provided'}\n\nLooking forward to hearing from you!`;
+      window.open(`mailto:hrozczka@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+    }
   </script>
 </body>
 </html>
