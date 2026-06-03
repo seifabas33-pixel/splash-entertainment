@@ -242,65 +242,64 @@
     /* ── LOADER ── */
     #loader {
       position:fixed; inset:0; z-index:9999;
-      background:linear-gradient(145deg,#1a0507 0%,#2d0a0f 50%,#3d1015 100%);
+      background:#f2eeeb;
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       overflow:hidden;
-      transition:opacity .8s cubic-bezier(.4,0,.2,1), visibility .8s ease;
+      transition:opacity .7s cubic-bezier(.4,0,.2,1), visibility .7s ease;
     }
     #loader.done { opacity:0; visibility:hidden; pointer-events:none; }
-    #loader.done .loader-center { transform:scale(1.18); opacity:0; transition:transform .8s cubic-bezier(.4,0,.2,1), opacity .8s ease; }
+    #loader.done .loader-center { transform:scale(1.12); opacity:0; transition:transform .7s cubic-bezier(.4,0,.2,1), opacity .7s ease; }
 
-    /* ambient glow blobs */
+    /* subtle warm blob */
     .ld-blob { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
-    .ld-blob1 { width:600px;height:600px; background:radial-gradient(circle,rgba(97,20,28,.20) 0%,transparent 70%); top:-200px;left:-200px; animation:lbm 12s ease-in-out infinite; }
-    .ld-blob2 { width:500px;height:500px; background:radial-gradient(circle,rgba(140,30,44,.12) 0%,transparent 70%); bottom:-150px;right:-150px; animation:lbm 16s ease-in-out infinite reverse 2s; }
-    @keyframes lbm { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-40px)} }
+    .ld-blob1 { width:500px;height:500px; background:radial-gradient(circle,rgba(97,20,28,.07) 0%,transparent 70%); top:-100px;left:-100px; }
+    .ld-blob2 { width:400px;height:400px; background:radial-gradient(circle,rgba(97,20,28,.05) 0%,transparent 70%); bottom:-100px;right:-100px; }
 
     /* ripple waves */
-    .ld-ripple { position:absolute; border-radius:50%; border:1px solid rgba(97,20,28,.5); animation:ldRipple 3s ease-out infinite; }
+    .ld-ripple { position:absolute; border-radius:50%; border:1px solid rgba(97,20,28,.15); animation:ldRipple 3s ease-out infinite; }
     .ld-ripple:nth-child(2){animation-delay:1s;} .ld-ripple:nth-child(3){animation-delay:2s;}
     @keyframes ldRipple {
-      0%  { width:120px;height:120px;opacity:.7; }
-      100%{ width:520px;height:520px;opacity:0; }
+      0%  { width:120px;height:120px;opacity:.6; }
+      100%{ width:480px;height:480px;opacity:0; }
     }
 
     /* center group */
-    .loader-center { position:relative; display:flex; align-items:center; justify-content:center; width:160px;height:160px; transition:transform .8s cubic-bezier(.4,0,.2,1), opacity .8s ease; }
+    .loader-center { position:relative; display:flex; align-items:center; justify-content:center; width:160px;height:160px; transition:transform .7s cubic-bezier(.4,0,.2,1), opacity .7s ease; }
 
     /* spinning rings */
     .ld-ring { position:absolute; border-radius:50%; border-style:solid; border-color:transparent; }
-    .ld-ring-a { width:160px;height:160px; border-width:2px; border-top-color:rgba(97,20,28,.9); border-right-color:rgba(97,20,28,.3); animation:ldSpinA 2.2s linear infinite; }
-    .ld-ring-b { width:130px;height:130px; border-width:2px; border-bottom-color:rgba(180,60,70,.8); border-left-color:rgba(180,60,70,.2); animation:ldSpinB 1.6s linear infinite; }
-    .ld-ring-c { width:100px;height:100px; border-width:1.5px; border-top-color:rgba(220,120,120,.6); border-right-color:rgba(220,120,120,.15); animation:ldSpinA 1s linear infinite; }
+    .ld-ring-a { width:160px;height:160px; border-width:2px; border-top-color:rgba(97,20,28,.7); border-right-color:rgba(97,20,28,.15); animation:ldSpinA 2.2s linear infinite; }
+    .ld-ring-b { width:130px;height:130px; border-width:1.5px; border-bottom-color:rgba(97,20,28,.5); border-left-color:rgba(97,20,28,.1); animation:ldSpinB 1.6s linear infinite; }
+    .ld-ring-c { width:100px;height:100px; border-width:1px; border-top-color:rgba(97,20,28,.35); animation:ldSpinA 1s linear infinite; }
     @keyframes ldSpinA { to{transform:rotate(360deg)} }
     @keyframes ldSpinB { to{transform:rotate(-360deg)} }
 
     /* HR logo */
-    .ld-logo { position:relative; z-index:2; width:70px;height:70px; object-fit:contain; animation:ldLogoPulse 2.4s ease-in-out infinite; filter:drop-shadow(0 0 18px rgba(97,20,28,.9)); }
-    @keyframes ldLogoPulse { 0%,100%{transform:scale(.93);filter:drop-shadow(0 0 12px rgba(97,20,28,.7))} 50%{transform:scale(1.04);filter:drop-shadow(0 0 28px rgba(180,40,50,1))} }
+    .ld-logo { position:relative; z-index:2; width:70px;height:70px; object-fit:contain; animation:ldLogoPulse 2.4s ease-in-out infinite; filter:drop-shadow(0 4px 12px rgba(97,20,28,.25)); }
+    @keyframes ldLogoPulse { 0%,100%{transform:scale(.94)} 50%{transform:scale(1.04)} }
 
     /* text below logo */
     .ld-name {
-      margin-top:32px; font-size:22px; font-weight:800; letter-spacing:5px;
-      color:#fff; text-transform:uppercase; opacity:0;
+      margin-top:32px; font-size:20px; font-weight:800; letter-spacing:5px;
+      color:var(--primary); text-transform:uppercase; opacity:0;
       animation:ldFadeUp .7s ease forwards .5s;
     }
     .ld-sub {
       margin-top:6px; font-size:10px; font-weight:500; letter-spacing:3.5px;
-      color:rgba(200,140,140,.75); text-transform:uppercase; opacity:0;
+      color:var(--text-muted); text-transform:uppercase; opacity:0;
       animation:ldFadeUp .7s ease forwards .75s;
     }
-    @keyframes ldFadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    @keyframes ldFadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
 
     /* progress bar */
-    .ld-bar-wrap { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(255,255,255,.07); }
-    .ld-bar { height:100%; width:0; background:linear-gradient(90deg,#61141c,#c03050); animation:ldProgress 1.35s cubic-bezier(.4,0,.2,1) forwards; }
+    .ld-bar-wrap { position:absolute; bottom:0; left:0; right:0; height:3px; background:rgba(97,20,28,.08); }
+    .ld-bar { height:100%; width:0; background:linear-gradient(90deg,rgba(97,20,28,.6),var(--primary)); animation:ldProgress 1.6s cubic-bezier(.4,0,.2,1) forwards; }
     @keyframes ldProgress { to{width:100%} }
 
-    /* star particles */
-    .ld-particle { position:absolute; border-radius:50%; background:rgba(255,255,255,.55); pointer-events:none; animation:ldFloat linear infinite; }
+    /* particles — tinted warm */
+    .ld-particle { position:absolute; border-radius:50%; background:rgba(97,20,28,.25); pointer-events:none; animation:ldFloat linear infinite; }
     @keyframes ldFloat {
-      0%   { transform:translate(0,0) scale(1); opacity:.6; }
+      0%   { transform:translate(0,0) scale(1); opacity:.5; }
       100% { transform:translate(var(--tx),var(--ty)) scale(0); opacity:0; }
     }
 
@@ -882,12 +881,18 @@
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), {passive:true});
 
     /* ─── SCROLL REVEAL ─── */
+    const revEls = document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, {threshold: 0.11});
-    document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => io.observe(el));
-    // Fallback: force all reveals visible after 2.5s in case IntersectionObserver doesn't fire (iOS quirk)
-    setTimeout(() => { document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => el.classList.add('in')); }, 2500);
+    }, {threshold: 0, rootMargin:'0px 0px -40px 0px'});
+    revEls.forEach(el => {
+      // immediately reveal anything already in the viewport at load time
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) { el.classList.add('in'); }
+      else { io.observe(el); }
+    });
+    // Hard fallback: make everything visible after 1s regardless
+    setTimeout(() => revEls.forEach(el => el.classList.add('in')), 1000);
 
     /* ─── CANVAS PARTICLES ─── */
     (function() {
