@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hanna Różczka · Business Card</title>
+  <meta name="description" content="Contact Hanna Różczka — Real Estate Agent at Homes Bay Hurghada." />
+  <meta name="theme-color" content="#61141c" />
+  <link rel="manifest" href="hanna-manifest.json" />
+  <link rel="apple-touch-icon" href="assets/hanna-apple-touch.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/hanna-icon.svg" />
+  <!-- Open Graph for sharing previews -->
+  <meta property="og:title" content="Hanna Różczka · Real Estate Agent · Hurghada" />
+  <meta property="og:description" content="Verified Red Sea properties. Polish-speaking. Contact me directly on WhatsApp or email." />
+  <meta property="og:image" content="assets/hanna-profile.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary:      #61141c;
+      --primary-dark: #4a0f15;
+      --bg:           #f2eeeb;
+      --glass:        rgba(255,255,255,0.68);
+      --glass-border: rgba(255,255,255,0.88);
+      --font:         'Montserrat', sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html, body { height:100%; font-family:var(--font); }
+    body { background:var(--bg); display:flex; align-items:center; justify-content:center; min-height:100vh; overflow-x:hidden; padding:20px; }
+
+    /* animated blobs */
+    .liquid-bg { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .blob { position:absolute; border-radius:50%; filter:blur(90px); }
+    .b1 { width:500px; height:500px; background:radial-gradient(circle,rgba(97,20,28,.14) 0%,transparent 70%); top:-150px; left:-100px; animation:bm 18s ease-in-out infinite; }
+    .b2 { width:420px; height:420px; background:radial-gradient(circle,rgba(210,170,155,.20) 0%,transparent 70%); top:-60px; right:-80px; animation:bm 22s ease-in-out infinite reverse; }
+    .b3 { width:360px; height:360px; background:radial-gradient(circle,rgba(97,20,28,.08) 0%,transparent 70%); bottom:-80px; left:30%; animation:bm 16s ease-in-out infinite 3s; }
+    @keyframes bm { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.06)} 66%{transform:translate(-24px,36px) scale(.95)} }
+
+    /* card */
+    .card { position:relative; z-index:1; width:100%; max-width:380px; background:var(--glass); backdrop-filter:blur(32px) saturate(180%); -webkit-backdrop-filter:blur(32px) saturate(180%); border:1px solid var(--glass-border); border-radius:28px; overflow:hidden; box-shadow:0 24px 64px rgba(97,20,28,.16), 0 0 0 1px rgba(255,255,255,.7), inset 0 1px 0 rgba(255,255,255,1); animation:cardIn .8s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes cardIn { from{opacity:0;transform:translateY(40px) scale(.96)} to{opacity:1;transform:none} }
+
+    /* header banner */
+    .card-header { position:relative; background:linear-gradient(145deg, var(--primary) 0%, var(--primary-dark) 100%); padding:44px 28px 70px; text-align:center; overflow:hidden; }
+    .card-header::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,transparent 60%); }
+    .card-header::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:44px; background:var(--glass); border-radius:50% 50% 0 0 / 44px 44px 0 0; }
+
+    /* avatar ring */
+    .avatar-wrap { position:relative; display:inline-block; margin-bottom:14px; }
+    .avatar-ring { position:absolute; inset:-5px; border-radius:50%; background:conic-gradient(rgba(255,255,255,.7) 0deg, rgba(255,255,255,.1) 90deg, transparent 180deg, rgba(255,255,255,.1) 270deg, rgba(255,255,255,.7) 360deg); animation:spin 7s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .avatar { width:104px; height:104px; border-radius:50%; object-fit:cover; border:3px solid rgba(255,255,255,.9); position:relative; z-index:1; display:block; box-shadow:0 8px 28px rgba(0,0,0,.22); }
+
+    .card-header h1 { font-size:22px; font-weight:800; color:#fff; line-height:1.2; position:relative; z-index:1; }
+    .card-header h1 em { display:block; font-style:normal; font-weight:300; font-size:14px; color:rgba(255,255,255,.75); letter-spacing:.3px; margin-top:4px; }
+
+    /* badges row */
+    .badges { display:flex; gap:7px; justify-content:center; flex-wrap:wrap; margin-top:10px; position:relative; z-index:1; }
+    .badge { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); border-radius:50px; padding:4px 11px; font-size:10px; font-weight:600; color:rgba(255,255,255,.9); letter-spacing:.5px; backdrop-filter:blur(8px); }
+
+    /* body */
+    .card-body { padding:28px 24px 24px; }
+
+    /* action buttons */
+    .actions { display:flex; flex-direction:column; gap:11px; margin-bottom:22px; }
+    .action-btn { display:flex; align-items:center; gap:13px; padding:15px 18px; border-radius:14px; font-family:var(--font); font-size:14px; font-weight:600; cursor:pointer; border:none; text-decoration:none; transition:all .28s cubic-bezier(.16,1,.3,1); position:relative; overflow:hidden; }
+    .action-btn::before { content:''; position:absolute; inset:0; background:rgba(255,255,255,0); transition:background .2s; }
+    .action-btn:hover::before { background:rgba(255,255,255,.08); }
+    .action-btn:hover { transform:translateY(-2px); }
+    .action-btn:active { transform:scale(.97); }
+    .btn-wa { background:#25D366; color:#fff; box-shadow:0 4px 18px rgba(37,211,102,.38); }
+    .btn-wa:hover { box-shadow:0 8px 26px rgba(37,211,102,.5); }
+    .btn-email { background:var(--primary); color:#fff; box-shadow:0 4px 18px rgba(97,20,28,.32); }
+    .btn-email:hover { background:var(--primary-dark); box-shadow:0 8px 26px rgba(97,20,28,.42); }
+    .btn-vcard { background:rgba(255,255,255,.65); border:1.5px solid rgba(97,20,28,.15); color:var(--primary); backdrop-filter:blur(12px); }
+    .btn-vcard:hover { background:rgba(255,255,255,.88); box-shadow:0 6px 20px rgba(97,20,28,.12); }
+    .btn-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .btn-wa   .btn-icon { background:rgba(255,255,255,.18); }
+    .btn-email .btn-icon { background:rgba(255,255,255,.15); }
+    .btn-vcard .btn-icon { background:rgba(97,20,28,.07); }
+    .btn-label { flex:1; }
+    .btn-label strong { display:block; font-size:14px; }
+    .btn-label span { font-size:11px; opacity:.75; font-weight:400; }
+    .btn-arrow { font-size:17px; opacity:.65; }
+
+    /* divider */
+    .divider { display:flex; align-items:center; gap:10px; margin:18px 0; }
+    .divider::before,.divider::after { content:''; flex:1; height:1px; background:rgba(97,20,28,.09); }
+    .divider span { font-size:10px; font-weight:600; color:rgba(97,20,28,.45); letter-spacing:1.5px; text-transform:uppercase; }
+
+    /* info list */
+    .info-list { display:flex; flex-direction:column; gap:10px; }
+    .info-item { display:flex; align-items:center; gap:12px; }
+    .info-icon { width:34px; height:34px; border-radius:9px; background:rgba(97,20,28,.07); border:1px solid rgba(97,20,28,.1); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+    .info-text strong { display:block; font-size:12px; font-weight:700; color:#2a2a2a; }
+    .info-text span { font-size:11px; color:#7a7a7a; }
+
+    /* portfolio link */
+    .portfolio-link { display:flex; align-items:center; justify-content:center; gap:8px; margin-top:22px; padding-top:18px; border-top:1px solid rgba(97,20,28,.08); font-size:12px; color:var(--primary); font-weight:600; text-decoration:none; letter-spacing:.3px; transition:opacity .2s; }
+    .portfolio-link:hover { opacity:.65; }
+    .portfolio-link svg { width:14px; height:14px; }
+
+    /* company tag */
+    .company-tag { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px; }
+    .company-dot { width:6px; height:6px; border-radius:50%; background:var(--primary); animation:dotPulse 2s ease-in-out infinite; }
+    @keyframes dotPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.7);opacity:.5} }
+    .company-name { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--primary); }
+  </style>
+</head>
+<body>
+
+  <div class="liquid-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div class="avatar-wrap">
+        <div class="avatar-ring"></div>
+        <img class="avatar" src="assets/hanna-profile.jpg" alt="Hanna Różczka"
+             onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&q=80'" />
+      </div>
+      <h1>Hanna Różczka<em>Real Estate Agent · Homes Bay</em></h1>
+      <div class="badges">
+        <span class="badge">🇵🇱 Polish</span>
+        <span class="badge">🌊 Hurghada</span>
+        <span class="badge">✅ Verified</span>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="card-body">
+
+      <div class="company-tag">
+        <div class="company-dot"></div>
+        <span class="company-name">Homes Bay Hurghada</span>
+        <div class="company-dot"></div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+        <a class="action-btn btn-wa" href="https://wa.me/48606638400" target="_blank" rel="noopener">
+          <div class="btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <div class="btn-label">
+            <strong>WhatsApp</strong>
+            <span>+48 606 638 400</span>
+          </div>
+          <span class="btn-arrow">→</span>
+        </a>
+
+        <a class="action-btn btn-email" href="mailto:hrozczka@gmail.com?subject=Property%20Enquiry" target="_blank">
+          <div class="btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div class="btn-label">
+            <strong>Email</strong>
+            <span>hrozczka@gmail.com</span>
+          </div>
+          <span class="btn-arrow">→</span>
+        </a>
+
+        <button class="action-btn btn-vcard" onclick="downloadVCard()">
+          <div class="btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#61141c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div class="btn-label">
+            <strong>Save Contact</strong>
+            <span>Add to phone contacts</span>
+          </div>
+          <span class="btn-arrow" style="color:#61141c">↓</span>
+        </button>
+      </div>
+
+      <!-- INFO -->
+      <div class="divider"><span>Details</span></div>
+      <div class="info-list">
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div class="info-text">
+            <strong>Location</strong>
+            <span>Hurghada, Red Sea, Egypt</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🏢</div>
+          <div class="info-text">
+            <strong>Agency</strong>
+            <span>Homes Bay Hurghada</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">💬</div>
+          <div class="info-text">
+            <strong>Languages</strong>
+            <span>Polish · English · Arabic</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🕐</div>
+          <div class="info-text">
+            <strong>Response Time</strong>
+            <span>Within 24 hours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PORTFOLIO LINK -->
+      <a class="portfolio-link" href="hanna.html">
+        View Full Portfolio & Listings
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+
+    </div>
+  </div>
+
+  <script>
+    function downloadVCard() {
+      const vcard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'FN:Hanna Różczka',
+        'N:Różczka;Hanna;;;',
+        'ORG:Homes Bay Hurghada',
+        'TITLE:Real Estate Agent',
+        'TEL;TYPE=CELL,VOICE:+48606638400',
+        'EMAIL;TYPE=WORK:hrozczka@gmail.com',
+        'ADR;TYPE=WORK:;;Hurghada;Red Sea;;; Egypt',
+        'URL:https://seifabas33-pixel.github.io/splash-entertainment/hanna.html',
+        'NOTE:Polish-speaking real estate agent at Homes Bay Hurghada. Verified listings across the Red Sea Riviera.',
+        'END:VCARD'
+      ].join('\r\n');
+
+      const blob = new Blob([vcard], { type: 'text/vcard' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'Hanna-Rozyczka-HomesBay.vcf';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 500);
+    }
+  </script>
+</body>
+</html>
