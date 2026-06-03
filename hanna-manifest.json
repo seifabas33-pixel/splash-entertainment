@@ -1,10 +1,10 @@
 {
-  "name": "Hanna Różczka | Real Estate Hurghada",
+  "name": "Hanna Różczka | Real Estate",
   "short_name": "Hanna HR",
   "description": "Find verified Red Sea property with Hanna Różczka at Homes Bay Hurghada.",
   "start_url": "/splash-entertainment/hanna.html",
   "display": "standalone",
-  "background_color": "#f2eeeb",
+  "background_color": "#61141c",
   "theme_color": "#61141c",
   "orientation": "portrait-primary",
   "icons": [
@@ -12,19 +12,25 @@
       "src": "assets/hanna-icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "assets/hanna-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "assets/hanna-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "assets/hanna-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "src": "assets/hanna-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
