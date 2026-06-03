@@ -242,7 +242,7 @@
     /* ── LOADER ── */
     #loader {
       position:fixed; inset:0; z-index:9999;
-      background:linear-gradient(145deg,#0d0204 0%,#1c0508 50%,#2a0810 100%);
+      background:linear-gradient(145deg,#1a0507 0%,#2d0a0f 50%,#3d1015 100%);
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       overflow:hidden;
       transition:opacity .8s cubic-bezier(.4,0,.2,1), visibility .8s ease;
@@ -252,8 +252,8 @@
 
     /* ambient glow blobs */
     .ld-blob { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
-    .ld-blob1 { width:600px;height:600px; background:radial-gradient(circle,rgba(97,20,28,.35) 0%,transparent 70%); top:-200px;left:-200px; animation:lbm 12s ease-in-out infinite; }
-    .ld-blob2 { width:500px;height:500px; background:radial-gradient(circle,rgba(140,30,44,.22) 0%,transparent 70%); bottom:-150px;right:-150px; animation:lbm 16s ease-in-out infinite reverse 2s; }
+    .ld-blob1 { width:600px;height:600px; background:radial-gradient(circle,rgba(97,20,28,.20) 0%,transparent 70%); top:-200px;left:-200px; animation:lbm 12s ease-in-out infinite; }
+    .ld-blob2 { width:500px;height:500px; background:radial-gradient(circle,rgba(140,30,44,.12) 0%,transparent 70%); bottom:-150px;right:-150px; animation:lbm 16s ease-in-out infinite reverse 2s; }
     @keyframes lbm { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-40px)} }
 
     /* ripple waves */
@@ -360,6 +360,8 @@
       .form-row { grid-template-columns:1fr; }
       .hero h1 { font-size:38px; }
       .nav-links { display:none; }
+      .nav-inner #i18n-nav-cta { display:none; }
+      .lang-toggle { margin-left:auto; }
       .footer-grid { grid-template-columns:1fr; }
       .about-badge { display:none; }
       .stats-bar { flex-wrap:wrap; }
@@ -884,6 +886,8 @@
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
     }, {threshold: 0.11});
     document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => io.observe(el));
+    // Fallback: force all reveals visible after 2.5s in case IntersectionObserver doesn't fire (iOS quirk)
+    setTimeout(() => { document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => el.classList.add('in')); }, 2500);
 
     /* ─── CANVAS PARTICLES ─── */
     (function() {
