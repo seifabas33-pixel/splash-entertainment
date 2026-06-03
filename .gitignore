@@ -20,3 +20,23 @@ Gemfile.lock
 # Node.js dependencies
 node_modules/
 package-lock.json
+
+# Portfolio / main-branch files (not part of the resort app)
+portfolio.css
+portfolio.js
+app.html
+hanna.html
+hanna-card.html
+hanna-manifest.json
+manifest.json
+assets/favicon.svg
+assets/favicon-32.png
+assets/apple-touch-icon.png
+assets/og-image.png
+assets/seif.jpg
+assets/icon-192.png
+assets/icon-512.png
+assets/hanna-*.png
+assets/hanna-*.jpg
+assets/hanna-*.svg
+.github/
