@@ -4,1104 +4,594 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hanna Różczka | Real Estate Agent · Homes Bay</title>
-  <meta name="description" content="Hanna Różczka — Real Estate Agent at Homes Bay Hurghada. Helping international buyers find verified properties across the Red Sea Riviera." />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ─── CSS VARIABLES (Homes Bay Brand) ─── */
     :root {
-      --primary:       #61141c;
-      --primary-dark:  #4a0f15;
-      --primary-light: #8a1e29;
-      --bg:            #f4f4f4;
-      --bg-white:      #ffffff;
-      --text-dark:     #2a2a2a;
-      --text-muted:    #7a7a7a;
-      --border:        #e2e3e1;
-      --radius:        10px;
-      --radius-lg:     16px;
-      --shadow:        0 4px 24px rgba(97, 20, 28, 0.10);
-      --shadow-card:   0 2px 16px rgba(0,0,0,0.08);
-      --font:          'Montserrat', sans-serif;
-      --letter-spacing: 1.5px;
+      --primary: #c4293a;
+      --primary-dark: #a01f2d;
+      --primary-glow: rgba(196,41,58,0.35);
+      --font: 'Montserrat', sans-serif;
+      --radius: 14px;
+      --radius-lg: 22px;
     }
-
-    /* ─── RESET ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text-dark);
-      font-size: 15px;
-      line-height: 1.7;
-    }
+    body { font-family: var(--font); background: #06040e; color: #fff; font-size: 15px; line-height: 1.7; overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
 
-    /* ─── UTILITY ─── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-    .section { padding: 80px 0; }
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin-bottom: 14px;
-    }
-    .section-label::before {
-      content: '';
-      display: inline-block;
-      width: 8px; height: 8px;
-      border: 2px solid var(--primary);
-      border-radius: 50%;
-    }
-    h1, h2, h3, h4 {
-      font-family: var(--font);
-      font-weight: 700;
-      color: var(--text-dark);
-      line-height: 1.25;
-    }
-    h2 { font-size: clamp(28px, 4vw, 40px); }
-    h3 { font-size: 20px; }
-    p { color: var(--text-muted); }
+    /* ── LIQUID BG ── */
+    .liquid-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(110px); }
+    .b1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(97,20,28,.8) 0%, transparent 70%); top: -180px; left: -120px; animation: bm1 16s ease-in-out infinite; }
+    .b2 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(20,50,140,.65) 0%, transparent 70%); top: -80px; right: -100px; animation: bm2 20s ease-in-out infinite; }
+    .b3 { width: 460px; height: 460px; background: radial-gradient(circle, rgba(140,28,50,.45) 0%, transparent 70%); top: 42%; left: 32%; animation: bm3 22s ease-in-out infinite; }
+    .b4 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(12,32,90,.6) 0%, transparent 70%); bottom: -80px; right: 4%; animation: bm4 18s ease-in-out infinite; }
+    .b5 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(97,20,28,.35) 0%, transparent 70%); bottom: 18%; left: 4%; animation: bm1 24s ease-in-out infinite reverse; }
+    @keyframes bm1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(55px,-38px) scale(1.07)} 66%{transform:translate(-28px,48px) scale(.94)} }
+    @keyframes bm2 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-48px,38px) scale(1.05)} 66%{transform:translate(28px,-26px) scale(.97)} }
+    @keyframes bm3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-55px,-48px) scale(1.09)} }
+    @keyframes bm4 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(38px,-55px) scale(1.05)} 70%{transform:translate(-18px,28px) scale(.95)} }
 
-    /* ─── BUTTONS ─── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 28px;
-      border-radius: var(--radius);
-      font-family: var(--font);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: var(--letter-spacing);
-      text-transform: uppercase;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.25s ease;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      border-color: var(--primary-dark);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--primary);
-      border-color: var(--primary);
-    }
-    .btn-outline:hover {
-      background: var(--primary);
-      color: #fff;
-      transform: translateY(-2px);
-    }
-    .btn-white {
-      background: #fff;
-      color: var(--primary);
-      border-color: #fff;
-    }
-    .btn-white:hover {
-      background: transparent;
-      color: #fff;
-      border-color: #fff;
+    /* ── LAYOUT ── */
+    #app { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 100px 0; }
+
+    /* ── REVEAL ── */
+    .reveal,.reveal-l,.reveal-r { opacity:0; transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+    .reveal { transform: translateY(36px); }
+    .reveal-l { transform: translateX(-40px); }
+    .reveal-r { transform: translateX(40px); }
+    .reveal.in,.reveal-l.in,.reveal-r.in { opacity:1; transform:none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.18s} .d3{transition-delay:.26s}
+    .d4{transition-delay:.34s} .d5{transition-delay:.42s} .d6{transition-delay:.5s}
+
+    /* ── GLASS MIXINS ── */
+    .glass-card {
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(26px) saturate(180%);
+      -webkit-backdrop-filter: blur(26px) saturate(180%);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(255,255,255,.03);
     }
 
-    /* ─── NAVBAR ─── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg-white);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    }
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 70px;
-    }
-    .nav-logo {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--primary);
-      letter-spacing: -0.5px;
-    }
-    .nav-logo span {
-      color: var(--text-dark);
-      font-weight: 400;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--primary);
-      letter-spacing: 0.5px;
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover { opacity: 0.7; }
+    /* ── SECTION LABEL ── */
+    .section-label { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--primary); margin-bottom:14px; }
+    .section-label::before { content:''; width:8px; height:8px; border:2px solid var(--primary); border-radius:50%; }
+    .section-header { text-align:center; max-width:600px; margin:0 auto 60px; }
+    .section-header h2 { color:#fff; margin-bottom:12px; font-size:clamp(26px,4vw,40px); }
+    .section-header p { color:rgba(255,255,255,.55); font-size:15px; }
 
-    /* ─── HERO ─── */
-    .hero {
-      position: relative;
-      min-height: 92vh;
-      display: flex;
-      align-items: center;
-      background:
-        linear-gradient(135deg, rgba(97,20,28,0.82) 0%, rgba(42,42,42,0.55) 100%),
-        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80') center/cover no-repeat;
-      overflow: hidden;
-    }
-    .hero-content {
-      max-width: 620px;
-      color: #fff;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.25);
-      backdrop-filter: blur(8px);
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #fff;
-      margin-bottom: 24px;
-    }
-    .hero-badge::before {
-      content: '';
-      width: 7px; height: 7px;
-      background: #fff;
-      border-radius: 50%;
-    }
-    .hero h1 {
-      font-size: clamp(36px, 6vw, 62px);
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 12px;
-      line-height: 1.1;
-    }
-    .hero h1 em {
-      font-style: normal;
-      color: rgba(255,255,255,0.7);
-      font-weight: 300;
-    }
-    .hero-sub {
-      font-size: 16px;
-      color: rgba(255,255,255,0.80);
-      margin-bottom: 36px;
-      font-weight: 400;
-      max-width: 480px;
-    }
-    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-    .hero-stats {
-      position: absolute;
-      bottom: 40px;
-      left: 0; right: 0;
-    }
-    .hero-stats .container {
-      display: flex;
-      gap: 40px;
-    }
-    .stat { color: #fff; }
-    .stat-num {
-      font-size: 32px;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.7);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
+    /* ── BUTTONS ── */
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; border-radius:12px; font-family:var(--font); font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; border:1.5px solid transparent; transition:all .3s cubic-bezier(.16,1,.3,1); position:relative; overflow:hidden; }
+    .btn-primary { background:var(--primary); border-color:var(--primary); color:#fff; box-shadow:0 4px 20px var(--primary-glow); }
+    .btn-primary:hover { background:var(--primary-dark); transform:translateY(-2px); box-shadow:0 8px 30px var(--primary-glow); }
+    .btn-glass { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.2); color:#fff; backdrop-filter:blur(10px); }
+    .btn-glass:hover { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.35); transform:translateY(-2px); }
+    .btn-outline-glass { background:transparent; border-color:rgba(255,255,255,.28); color:rgba(255,255,255,.8); }
+    .btn-outline-glass:hover { background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.5); transform:translateY(-2px); }
 
-    /* ─── ABOUT SECTION ─── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    .about-img-wrap { position: relative; }
-    .about-img {
-      width: 100%;
-      aspect-ratio: 4/5;
-      object-fit: cover;
-      border-radius: var(--radius-lg);
-    }
-    .about-img-accent {
-      position: absolute;
-      bottom: -20px;
-      right: -20px;
-      width: 160px;
-      height: 160px;
-      background: var(--primary);
-      border-radius: var(--radius-lg);
-      z-index: -1;
-    }
-    .about-badge {
-      position: absolute;
-      top: 24px;
-      right: -24px;
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 14px 20px;
-      box-shadow: var(--shadow-card);
-      text-align: center;
-    }
-    .about-badge strong {
-      display: block;
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary);
-      line-height: 1;
-    }
-    .about-badge span {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
-    .about-text h2 { margin-bottom: 16px; }
-    .about-text p { margin-bottom: 20px; }
-    .about-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 24px 0 32px;
-    }
-    .tag {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--primary);
-      letter-spacing: 0.5px;
-    }
+    /* ── NAVBAR ── */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; transition:background .4s,backdrop-filter .4s,border-color .4s; }
+    nav.scrolled { background:rgba(6,4,14,.75); backdrop-filter:blur(30px) saturate(200%); -webkit-backdrop-filter:blur(30px) saturate(200%); border-bottom:1px solid rgba(255,255,255,.08); }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; height:72px; }
+    .nav-logo { font-size:20px; font-weight:800; color:#fff; letter-spacing:-.5px; }
+    .nav-logo span { color:rgba(255,255,255,.45); font-weight:400; }
+    .nav-links { display:flex; align-items:center; gap:32px; list-style:none; }
+    .nav-links a { font-size:12px; font-weight:600; color:rgba(255,255,255,.7); letter-spacing:.5px; transition:color .2s; }
+    .nav-links a:hover { color:#fff; }
 
-    /* ─── SPECIALTIES ─── */
-    .specialties { background: var(--bg-white); }
-    .section-header {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 56px;
-    }
-    .section-header p { margin-top: 12px; font-size: 15px; }
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .card {
-      background: var(--bg);
-      border-radius: var(--radius-lg);
-      padding: 32px 28px;
-      border: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-    .card:hover {
-      box-shadow: var(--shadow);
-      transform: translateY(-4px);
-      border-color: rgba(97,20,28,0.2);
-    }
-    .card-icon {
-      width: 52px; height: 52px;
-      background: var(--primary);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
-    .card h3 { font-size: 17px; margin-bottom: 10px; }
-    .card p { font-size: 14px; }
+    /* ── HERO ── */
+    .hero { position:relative; min-height:100vh; display:flex; align-items:center; padding-top:72px; overflow:hidden; }
+    .hero-bg { position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80') center/cover no-repeat; filter:brightness(.22) saturate(1.5); transition:transform .1s ease-out; }
+    .hero-overlay { position:absolute; inset:0; background:linear-gradient(135deg, rgba(97,20,28,.25) 0%, rgba(6,4,14,.15) 100%); }
+    .hero > .container { position:relative; z-index:2; padding-top:60px; padding-bottom:140px; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:50px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fff; margin-bottom:28px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.2); backdrop-filter:blur(12px); animation:badgePulse 3s ease-in-out infinite; }
+    @keyframes badgePulse { 0%,100%{box-shadow:0 0 0 0 rgba(196,41,58,0)} 50%{box-shadow:0 0 0 7px rgba(196,41,58,.12)} }
+    .hero-badge::before { content:''; width:6px; height:6px; background:var(--primary); border-radius:50%; animation:dotBlink 1.5s ease-in-out infinite; }
+    @keyframes dotBlink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.75)} }
+    .hero h1 { font-size:clamp(40px,6.5vw,70px); font-weight:800; color:#fff; line-height:1.08; margin-bottom:14px; }
+    .hero h1 em { font-style:normal; font-weight:300; background:linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.22)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-sub { font-size:16px; color:rgba(255,255,255,.65); max-width:480px; margin-bottom:40px; line-height:1.75; }
+    .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
 
-    /* ─── LISTINGS ─── */
-    .listing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .listing-card {
-      background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-      transition: all 0.3s ease;
-      border: 1px solid var(--border);
-    }
-    .listing-card:hover {
-      box-shadow: var(--shadow);
-      transform: translateY(-4px);
-    }
-    .listing-img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .listing-location {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .listing-body { padding: 20px; }
-    .listing-body h3 { font-size: 16px; margin: 8px 0 14px; }
-    .listing-meta {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .listing-price {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--primary);
-    }
+    /* hero particles */
+    .hero-particles { position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+    .particle { position:absolute; border-radius:50%; background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.09); backdrop-filter:blur(4px); animation:particleRise linear infinite; }
+    @keyframes particleRise { 0%{transform:translateY(110vh) scale(0);opacity:0} 5%{opacity:1} 90%{opacity:.5} 100%{transform:translateY(-10vh) scale(1.1);opacity:0} }
 
-    /* ─── PROCESS ─── */
-    .process { background: var(--bg-white); }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      position: relative;
-    }
-    .steps::before {
-      content: '';
-      position: absolute;
-      top: 28px;
-      left: 12.5%;
-      right: 12.5%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), rgba(97,20,28,0.2));
-    }
-    .step { text-align: center; padding: 0 10px; }
-    .step-num {
-      width: 56px; height: 56px;
-      background: var(--primary);
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: 800;
-      margin: 0 auto 20px;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 0 0 6px var(--bg-white), 0 0 0 8px rgba(97,20,28,0.1);
-    }
-    .step h3 { font-size: 15px; margin-bottom: 8px; }
-    .step p { font-size: 13px; }
+    /* stats glass bar */
+    .hero-stats { position:absolute; bottom:0; left:0; right:0; z-index:2; }
+    .stats-bar { display:flex; background:rgba(255,255,255,.055); backdrop-filter:blur(30px) saturate(200%); -webkit-backdrop-filter:blur(30px) saturate(200%); border-top:1px solid rgba(255,255,255,.09); }
+    .stat { flex:1; padding:26px 20px; border-right:1px solid rgba(255,255,255,.07); text-align:center; transition:background .3s; }
+    .stat:last-child { border-right:none; }
+    .stat:hover { background:rgba(255,255,255,.05); }
+    .stat-num { font-size:28px; font-weight:800; color:#fff; line-height:1; margin-bottom:4px; }
+    .stat-label { font-size:10px; font-weight:500; color:rgba(255,255,255,.5); letter-spacing:1px; text-transform:uppercase; }
 
-    /* ─── TESTIMONIALS ─── */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-    .testimonial {
-      background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      border-left: 4px solid var(--primary);
-      box-shadow: var(--shadow-card);
-    }
-    .testimonial-text {
-      font-size: 15px;
-      color: var(--text-dark);
-      font-style: italic;
-      margin-bottom: 24px;
-      line-height: 1.8;
-    }
-    .testimonial-text::before { content: '"'; }
-    .testimonial-text::after  { content: '"'; }
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .author-avatar {
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      background: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-    .author-name {
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-dark);
-    }
-    .author-role { font-size: 12px; color: var(--text-muted); }
-    .stars { color: #f5a623; font-size: 14px; margin-bottom: 4px; }
+    /* ── ABOUT ── */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .about-img-wrap { position:relative; }
+    .about-img { width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:var(--radius-lg); border:1px solid rgba(255,255,255,.09); }
+    .about-img-frame { position:absolute; inset:-4px; border-radius:calc(var(--radius-lg) + 5px); border:1px solid rgba(196,41,58,.28); pointer-events:none; }
+    .about-img-frame::after { content:''; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg, rgba(196,41,58,.12) 0%, transparent 55%); }
+    .about-badge { position:absolute; top:24px; right:-22px; background:rgba(14,10,30,.8); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.12); border-radius:var(--radius); padding:16px 20px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14); }
+    .about-badge strong { display:block; font-size:26px; font-weight:800; color:var(--primary); line-height:1; }
+    .about-badge span { font-size:11px; color:rgba(255,255,255,.45); font-weight:500; }
+    .about-text h2 { color:#fff; margin-bottom:16px; font-size:clamp(24px,3.5vw,36px); }
+    .about-text p { color:rgba(255,255,255,.55); margin-bottom:16px; }
+    .about-tags { display:flex; flex-wrap:wrap; gap:9px; margin:22px 0 30px; }
+    .tag { background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.1); border-radius:50px; padding:7px 15px; font-size:12px; font-weight:600; color:rgba(255,255,255,.72); backdrop-filter:blur(8px); transition:all .3s; }
+    .tag:hover { background:rgba(196,41,58,.14); border-color:rgba(196,41,58,.35); color:#fff; }
 
-    /* ─── CTA SECTION ─── */
-    .cta {
-      background: var(--primary);
-      padding: 80px 0;
-      text-align: center;
-    }
-    .cta h2 {
-      color: #fff;
-      margin-bottom: 14px;
-      font-size: clamp(28px, 4vw, 42px);
-    }
-    .cta p {
-      color: rgba(255,255,255,0.75);
-      font-size: 16px;
-      max-width: 500px;
-      margin: 0 auto 36px;
-    }
-    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    /* ── SERVICE CARDS ── */
+    .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .card { background:rgba(255,255,255,.04); backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius-lg); padding:30px 24px; transition:all .4s cubic-bezier(.16,1,.3,1); position:relative; overflow:hidden; }
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); }
+    .card:hover { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.15); transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(196,41,58,.18), inset 0 1px 0 rgba(255,255,255,.14); }
+    .card-icon { width:50px; height:50px; background:rgba(196,41,58,.14); border:1px solid rgba(196,41,58,.28); border-radius:13px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; font-size:21px; transition:all .3s; }
+    .card:hover .card-icon { background:rgba(196,41,58,.24); box-shadow:0 0 20px rgba(196,41,58,.28); }
+    .card h3 { font-size:15px; color:#fff; margin-bottom:9px; }
+    .card p { font-size:13.5px; color:rgba(255,255,255,.5); }
 
-    /* ─── CONTACT ─── */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 56px;
-    }
-    .contact-info h2 { margin-bottom: 16px; }
-    .contact-info p { margin-bottom: 28px; }
-    .contact-item {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 20px;
-      align-items: flex-start;
-    }
-    .contact-item-icon {
-      width: 44px; height: 44px;
-      background: rgba(97,20,28,0.08);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-    .contact-item-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin-bottom: 2px;
-    }
-    .contact-item-value {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-    .contact-form {
-      background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: 40px;
-      box-shadow: var(--shadow-card);
-    }
-    .form-group { margin-bottom: 20px; }
-    .form-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--text-dark);
-      margin-bottom: 8px;
-    }
-    .form-input {
-      width: 100%;
-      padding: 13px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      font-family: var(--font);
-      font-size: 14px;
-      color: var(--text-dark);
-      background: var(--bg);
-      transition: border-color 0.2s;
-      outline: none;
-    }
-    .form-input:focus { border-color: var(--primary); background: #fff; }
-    textarea.form-input { resize: vertical; min-height: 120px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-note {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    /* ── LISTINGS ── */
+    .listing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .listing-card { background:rgba(255,255,255,.04); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius-lg); overflow:hidden; transition:all .4s cubic-bezier(.16,1,.3,1); }
+    .listing-card:hover { transform:translateY(-6px); border-color:rgba(255,255,255,.17); box-shadow:0 30px 70px rgba(0,0,0,.5), 0 0 0 1px rgba(196,41,58,.18); }
+    .listing-img-wrap { position:relative; overflow:hidden; }
+    .listing-img { width:100%; height:205px; object-fit:cover; transition:transform .6s cubic-bezier(.16,1,.3,1),filter .4s; }
+    .listing-card:hover .listing-img { transform:scale(1.06); filter:brightness(1.1); }
+    .listing-badge { position:absolute; top:12px; left:12px; background:rgba(196,41,58,.85); backdrop-filter:blur(10px); border-radius:7px; padding:4px 11px; font-size:11px; font-weight:700; color:#fff; letter-spacing:1px; }
+    .listing-body { padding:18px; }
+    .listing-location { font-size:11px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
+    .listing-body h3 { font-size:14px; color:#fff; margin-bottom:13px; line-height:1.4; }
+    .listing-meta { display:flex; gap:14px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,.07); }
+    .meta-item { font-size:12px; color:rgba(255,255,255,.5); font-weight:500; }
+    .listing-price { font-size:19px; font-weight:800; color:var(--primary); }
 
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--primary);
-      color: rgba(255,255,255,0.8);
-      padding: 60px 0 0;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 48px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-    .footer-brand {
-      font-size: 22px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 12px;
-    }
-    .footer-desc {
-      font-size: 13px;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 20px;
-    }
-    .footer-social { display: flex; gap: 12px; }
-    .social-link {
-      width: 38px; height: 38px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      transition: background 0.2s;
-    }
-    .social-link:hover { background: rgba(255,255,255,0.25); }
-    .footer-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-    .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 12px; }
-    .footer-links a {
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: #fff; }
-    .footer-bottom {
-      padding: 20px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-    }
+    /* ── PROCESS ── */
+    .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+    .step { background:rgba(255,255,255,.03); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.07); border-radius:var(--radius-lg); padding:30px 18px; text-align:center; transition:all .4s cubic-bezier(.16,1,.3,1); }
+    .step:hover { background:rgba(255,255,255,.07); border-color:rgba(196,41,58,.28); transform:translateY(-5px); box-shadow:0 18px 45px rgba(0,0,0,.35), 0 0 0 1px rgba(196,41,58,.14); }
+    .step-num { width:54px; height:54px; background:var(--primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; margin:0 auto 18px; box-shadow:0 0 0 6px rgba(196,41,58,.1), 0 0 22px rgba(196,41,58,.3); }
+    .step h3 { font-size:14px; color:#fff; margin-bottom:8px; }
+    .step p { font-size:13px; color:rgba(255,255,255,.5); }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .about-grid, .contact-grid { grid-template-columns: 1fr; }
-      .cards-grid, .listing-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps { grid-template-columns: repeat(2, 1fr); }
-      .steps::before { display: none; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .testimonial { background:rgba(255,255,255,.04); backdrop-filter:blur(24px) saturate(180%); -webkit-backdrop-filter:blur(24px) saturate(180%); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius-lg); padding:30px; position:relative; overflow:hidden; transition:all .4s cubic-bezier(.16,1,.3,1); }
+    .testimonial::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg, var(--primary), rgba(196,41,58,.15)); border-radius:0 2px 2px 0; }
+    .testimonial:hover { background:rgba(255,255,255,.07); transform:translateY(-4px); box-shadow:0 22px 55px rgba(0,0,0,.35); }
+    .testimonial-text { font-size:14px; color:rgba(255,255,255,.78); font-style:italic; line-height:1.8; margin-bottom:22px; }
+    .testimonial-text::before { content:'"'; } .testimonial-text::after { content:'"'; }
+    .testimonial-author { display:flex; align-items:center; gap:13px; }
+    .author-avatar { width:42px; height:42px; border-radius:50%; background:rgba(196,41,58,.18); border:1px solid rgba(196,41,58,.32); display:flex; align-items:center; justify-content:center; color:var(--primary); font-weight:700; font-size:14px; flex-shrink:0; }
+    .author-name { font-weight:700; font-size:13px; color:#fff; }
+    .author-role { font-size:11px; color:rgba(255,255,255,.4); }
+    .stars { color:#f5c842; font-size:13px; margin-bottom:4px; letter-spacing:2px; }
+
+    /* ── CTA ── */
+    .cta { padding:100px 0; }
+    .cta-glass { background:rgba(196,41,58,.07); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border:1px solid rgba(196,41,58,.18); border-radius:var(--radius-lg); padding:80px 40px; text-align:center; position:relative; overflow:hidden; }
+    .cta-glass::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(196,41,58,.1) 0%, transparent 60%); pointer-events:none; }
+    .cta-glass::after { content:''; position:absolute; top:-1px; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, rgba(196,41,58,.5), transparent); }
+    .cta-glass h2 { color:#fff; font-size:clamp(26px,4vw,42px); margin-bottom:14px; position:relative; }
+    .cta-glass p { color:rgba(255,255,255,.6); font-size:16px; max-width:480px; margin:0 auto 36px; position:relative; }
+    .cta-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; position:relative; }
+
+    /* ── CONTACT ── */
+    .contact-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:56px; }
+    .contact-info h2 { color:#fff; margin-bottom:16px; font-size:clamp(22px,3vw,34px); }
+    .contact-info > p { color:rgba(255,255,255,.55); margin-bottom:26px; }
+    .contact-item { display:flex; gap:14px; margin-bottom:18px; align-items:flex-start; }
+    .contact-item-icon { width:42px; height:42px; background:rgba(196,41,58,.1); border:1px solid rgba(196,41,58,.2); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+    .contact-item-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--primary); margin-bottom:2px; }
+    .contact-item-value { font-size:14px; font-weight:600; color:rgba(255,255,255,.82); }
+    .contact-form { background:rgba(255,255,255,.04); backdrop-filter:blur(30px) saturate(200%); -webkit-backdrop-filter:blur(30px) saturate(200%); border:1px solid rgba(255,255,255,.10); border-radius:var(--radius-lg); padding:38px; box-shadow:0 20px 60px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12); }
+    .form-group { margin-bottom:16px; }
+    .form-label { display:block; font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:rgba(255,255,255,.55); margin-bottom:7px; }
+    .form-input { width:100%; padding:12px 15px; background:rgba(255,255,255,.05); border:1.5px solid rgba(255,255,255,.08); border-radius:var(--radius); font-family:var(--font); font-size:14px; color:#fff; outline:none; transition:all .3s; }
+    .form-input::placeholder { color:rgba(255,255,255,.22); }
+    .form-input:focus { background:rgba(255,255,255,.08); border-color:rgba(196,41,58,.5); box-shadow:0 0 0 3px rgba(196,41,58,.1); }
+    textarea.form-input { resize:vertical; min-height:115px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-note { font-size:12px; color:rgba(255,255,255,.3); margin-top:12px; display:flex; align-items:center; gap:6px; }
+
+    /* ── FOOTER ── */
+    footer { background:rgba(255,255,255,.025); backdrop-filter:blur(30px); border-top:1px solid rgba(255,255,255,.07); padding:60px 0 0; }
+    .footer-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:48px; padding-bottom:48px; border-bottom:1px solid rgba(255,255,255,.06); }
+    .footer-brand { font-size:20px; font-weight:800; color:#fff; margin-bottom:12px; }
+    .footer-desc { font-size:13px; color:rgba(255,255,255,.4); line-height:1.7; margin-bottom:20px; }
+    .footer-social { display:flex; gap:10px; }
+    .social-link { width:36px; height:36px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.09); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:14px; color:rgba(255,255,255,.55); transition:all .3s; }
+    .social-link:hover { background:rgba(196,41,58,.2); border-color:rgba(196,41,58,.38); color:#fff; }
+    .footer-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.65); margin-bottom:18px; }
+    .footer-links { list-style:none; }
+    .footer-links li { margin-bottom:10px; }
+    .footer-links a { font-size:13px; color:rgba(255,255,255,.38); transition:color .2s; }
+    .footer-links a:hover { color:#fff; }
+    .footer-bottom { padding:20px 0; display:flex; justify-content:space-between; align-items:center; font-size:12px; color:rgba(255,255,255,.22); }
+
+    /* ── SHIMMER SWEEP on cards ── */
+    @keyframes shimmerSweep { from{background-position:-200% center} to{background-position:200% center} }
+    .card:hover::after,.listing-card:hover::after,.testimonial:hover::after { content:''; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(105deg, transparent 40%, rgba(255,255,255,.04) 50%, transparent 60%); background-size:200% 100%; animation:shimmerSweep .8s ease; pointer-events:none; }
+
+    /* ── RIPPLE ── */
+    @keyframes rippleAnim { to{transform:scale(1);opacity:0} }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:900px) {
+      .about-grid,.contact-grid { grid-template-columns:1fr; }
+      .cards-grid,.listing-grid { grid-template-columns:repeat(2,1fr); }
+      .steps { grid-template-columns:repeat(2,1fr); }
+      .testimonials-grid { grid-template-columns:1fr; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
     }
-    @media (max-width: 600px) {
-      .cards-grid, .listing-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 36px; }
-      .nav-links { display: none; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .hero-stats .container { flex-wrap: wrap; gap: 20px; }
-      .about-badge { display: none; }
+    @media (max-width:600px) {
+      .cards-grid,.listing-grid { grid-template-columns:1fr; }
+      .form-row { grid-template-columns:1fr; }
+      .hero h1 { font-size:38px; }
+      .nav-links { display:none; }
+      .footer-grid { grid-template-columns:1fr; }
+      .about-badge { display:none; }
+      .stats-bar { flex-wrap:wrap; }
+      .stat { min-width:50%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ─── NAVBAR ─── -->
-  <nav>
-    <div class="container nav-inner">
-      <div class="nav-logo">Hanna<span> Różczka</span></div>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#specialties">Services</a></li>
-        <li><a href="#listings">Listings</a></li>
-        <li><a href="#process">Process</a></li>
-        <li><a href="#testimonials">Reviews</a></li>
-      </ul>
-      <a href="#contact" class="btn btn-primary">Contact Me</a>
-    </div>
-  </nav>
+  <!-- LIQUID BACKGROUND -->
+  <div class="liquid-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+    <div class="blob b5"></div>
+  </div>
 
-  <!-- ─── HERO ─── -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">Homes Bay Hurghada · Real Estate Agent</div>
-        <h1>Your Perfect Home<br /><em>On The Red Sea</em></h1>
-        <p class="hero-sub">
-          I help international buyers find verified, legally clear properties
-          across Hurghada, Sahl Hasheesh, Soma Bay, and Makadi Bay — with full
-          honesty and care at every step.
-        </p>
-        <div class="hero-btns">
-          <a href="#listings" class="btn btn-primary">Browse Properties</a>
-          <a href="#contact"  class="btn btn-white">Book a Free Call</a>
-        </div>
+  <div id="app">
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+      <div class="container nav-inner">
+        <div class="nav-logo">Hanna<span> Różczka</span></div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#specialties">Services</a></li>
+          <li><a href="#listings">Listings</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Contact Me</a>
       </div>
-    </div>
-    <div class="hero-stats">
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-bg" id="heroBg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-particles" id="particles"></div>
       <div class="container">
-        <div class="stat">
-          <div class="stat-num">4</div>
-          <div class="stat-label">Locations Covered</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">5★</div>
-          <div class="stat-label">Client Rating</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Verified Listings</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">🇵🇱</div>
-          <div class="stat-label">Polish Speaking</div>
+        <div class="hero-badge reveal">Homes Bay Hurghada · Real Estate Agent</div>
+        <h1 class="reveal d1">Your Perfect Home<br /><em>On The Red Sea</em></h1>
+        <p class="hero-sub reveal d2">I help international buyers find verified, legally clear properties across Hurghada, Sahl Hasheesh, Soma Bay, and Makadi Bay — with full honesty and care at every step.</p>
+        <div class="hero-btns reveal d3">
+          <a href="#listings" class="btn btn-primary">Browse Properties</a>
+          <a href="#contact"  class="btn btn-glass">Book a Free Call</a>
         </div>
       </div>
-    </div>
-  </section>
+      <div class="hero-stats">
+        <div class="stats-bar">
+          <div class="stat"><div class="stat-num">4</div><div class="stat-label">Locations Covered</div></div>
+          <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Client Rating</div></div>
+          <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Verified Listings</div></div>
+          <div class="stat"><div class="stat-num">🇵🇱</div><div class="stat-label">Polish Speaking</div></div>
+        </div>
+      </div>
+    </section>
 
-  <!-- ─── ABOUT ─── -->
-  <section id="about" class="section">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-img-wrap">
-          <img
-            class="about-img"
-            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80"
-            alt="Hanna Różczka - Real Estate Agent at Homes Bay"
-          />
-          <div class="about-img-accent"></div>
-          <div class="about-badge">
-            <strong>HB</strong>
-            <span>Homes Bay<br/>Certified</span>
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-img-wrap reveal-l">
+            <img class="about-img" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" alt="Hanna Różczka — Real Estate Agent" />
+            <div class="about-img-frame"></div>
+            <div class="about-badge"><strong>HB</strong><span>Homes Bay<br/>Certified</span></div>
           </div>
-        </div>
-        <div class="about-text">
-          <div class="section-label">About Me</div>
-          <h2>Fresh Energy, Genuine Commitment</h2>
-          <p>
-            Hi, I'm Hanna Różczka — a real estate consultant at Homes Bay Hurghada.
-            I joined the Homes Bay team with one clear mission: to give international
-            buyers the honest, transparent guidance they deserve when exploring
-            Egypt's stunning Red Sea property market.
-          </p>
-          <p>
-            Whether you're looking for a holiday retreat, a rental investment, or a
-            permanent move, I take the time to truly understand what matters to you —
-            and match you only with properties that have passed Homes Bay's rigorous
-            4-step verification process. No pressure, no shortcuts.
-          </p>
-          <p>
-            As a Polish speaker, I'm especially well-placed to support Polish buyers
-            navigating every step of the process — from first enquiry to key handover.
-          </p>
-          <div class="about-tags">
-            <span class="tag">🏖️ Hurghada</span>
-            <span class="tag">🌊 Sahl Hasheesh</span>
-            <span class="tag">🏝️ Soma Bay</span>
-            <span class="tag">🏠 Makadi Bay</span>
-            <span class="tag">✅ Verified Listings</span>
-            <span class="tag">🌍 International Clients</span>
-            <span class="tag">🇵🇱 Polish Speaking</span>
+          <div class="about-text reveal-r">
+            <div class="section-label">About Me</div>
+            <h2>Fresh Energy, Genuine Commitment</h2>
+            <p>Hi, I'm Hanna Różczka — a real estate consultant at Homes Bay Hurghada. I joined the team with one clear mission: to give international buyers the honest, transparent guidance they deserve when exploring Egypt's stunning Red Sea property market.</p>
+            <p>Whether you're looking for a holiday retreat, a rental investment, or a permanent move, I take the time to truly understand what matters to you — and match you only with properties that have passed Homes Bay's rigorous 4-step verification process. No pressure, no shortcuts.</p>
+            <p>As a Polish speaker, I'm especially well-placed to support Polish buyers navigating every step — from first enquiry to key handover.</p>
+            <div class="about-tags">
+              <span class="tag">🏖️ Hurghada</span>
+              <span class="tag">🌊 Sahl Hasheesh</span>
+              <span class="tag">🏝️ Soma Bay</span>
+              <span class="tag">🏠 Makadi Bay</span>
+              <span class="tag">✅ Verified Listings</span>
+              <span class="tag">🌍 International Clients</span>
+              <span class="tag">🇵🇱 Polish Speaking</span>
+            </div>
+            <a href="#contact" class="btn btn-primary">Get in Touch</a>
           </div>
-          <a href="#contact" class="btn btn-primary">Get in Touch</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ─── SPECIALTIES ─── -->
-  <section id="specialties" class="section specialties">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label">What I Do</div>
-        <h2>Services Tailored for You</h2>
-        <p>From your first question to the day you receive your keys — I support you through every stage of the journey.</p>
-      </div>
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-icon">🏡</div>
-          <h3>Property Search</h3>
-          <p>Curated, verified listings matched to your budget, timeline, and lifestyle — no pressure, just the right fit.</p>
+    <!-- SERVICES -->
+    <section id="specialties" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">What I Do</div>
+          <h2>Services Tailored for You</h2>
+          <p>From your first question to the day you receive your keys — I support you through every stage of the journey.</p>
         </div>
-        <div class="card">
-          <div class="card-icon">⚖️</div>
-          <h3>Legal & Title Review</h3>
-          <p>Every property I recommend has been independently verified for legal clarity, developer reliability, and title status.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">📊</div>
-          <h3>Investment Advisory</h3>
-          <p>Honest market analysis, realistic rental yield projections, and long-term value assessment for each property.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">✈️</div>
-          <h3>Relocation Support</h3>
-          <p>I help you settle in — from airport pickup to property handover, utilities, and local registration.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🤝</div>
-          <h3>Developer Negotiations</h3>
-          <p>I negotiate on your behalf to secure the best payment plans, finishes, and delivery guarantees available.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">📞</div>
-          <h3>After-Sale Support</h3>
-          <p>My relationship with clients doesn't end at signing. I'm here for maintenance referrals, resale, and rentals.</p>
+        <div class="cards-grid">
+          <div class="card reveal d1"><div class="card-icon">🏡</div><h3>Property Search</h3><p>Curated, verified listings matched to your budget, timeline, and lifestyle — no pressure, just the right fit.</p></div>
+          <div class="card reveal d2"><div class="card-icon">⚖️</div><h3>Legal & Title Review</h3><p>Every property I recommend has been independently verified for legal clarity, developer reliability, and title status.</p></div>
+          <div class="card reveal d3"><div class="card-icon">📊</div><h3>Investment Advisory</h3><p>Honest market analysis, realistic rental yield projections, and long-term value assessment for each property.</p></div>
+          <div class="card reveal d4"><div class="card-icon">✈️</div><h3>Relocation Support</h3><p>I help you settle in — from airport pickup to property handover, utilities, and local registration.</p></div>
+          <div class="card reveal d5"><div class="card-icon">🤝</div><h3>Developer Negotiations</h3><p>I negotiate on your behalf to secure the best payment plans, finishes, and delivery guarantees available.</p></div>
+          <div class="card reveal d6"><div class="card-icon">📞</div><h3>After-Sale Support</h3><p>My relationship with clients doesn't end at signing. I'm here for maintenance referrals, resale, and rentals.</p></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ─── LISTINGS ─── -->
-  <section id="listings" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label">Featured Properties</div>
-        <h2>Verified Listings I Currently Support</h2>
-        <p>Each property below has passed Homes Bay's full 4-step verification process.</p>
-      </div>
-      <div class="listing-grid">
-
-        <div class="listing-card">
-          <img class="listing-img"
-            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80"
-            alt="Hayat Beach Resort Apartment" />
-          <div class="listing-body">
-            <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-            <h3>Luxury 2-Bed Sea View — Hayat Beach Resort</h3>
-            <div class="listing-meta">
-              <div class="meta-item">📐 76 m²</div>
-              <div class="meta-item">🛏️ 2 Beds</div>
-              <div class="meta-item">🚿 1 Bath</div>
+    <!-- LISTINGS -->
+    <section id="listings" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">Featured Properties</div>
+          <h2>Verified Listings I Currently Support</h2>
+          <p>Each property below has passed Homes Bay's full 4-step verification process.</p>
+        </div>
+        <div class="listing-grid">
+          <div class="listing-card reveal d1">
+            <div class="listing-img-wrap">
+              <img class="listing-img" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Hayat Beach Resort" />
+              <div class="listing-badge">Verified</div>
             </div>
-            <div class="listing-price">€91,724</div>
-          </div>
-        </div>
-
-        <div class="listing-card">
-          <img class="listing-img"
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
-            alt="Aurora Palace Apartment" />
-          <div class="listing-body">
-            <div class="listing-location">📍 Magawish, Hurghada</div>
-            <h3>3-Bedroom Pool View — Aurora Palace</h3>
-            <div class="listing-meta">
-              <div class="meta-item">📐 217 m²</div>
-              <div class="meta-item">🛏️ 3 Beds</div>
-              <div class="meta-item">🚿 1 Bath</div>
-            </div>
-            <div class="listing-price">€212,366</div>
-          </div>
-        </div>
-
-        <div class="listing-card">
-          <img class="listing-img"
-            src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80"
-            alt="Studio Sea View" />
-          <div class="listing-body">
-            <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-            <h3>Stunning Studio Sea View — Hayat Beach Resort</h3>
-            <div class="listing-meta">
-              <div class="meta-item">📐 37 m²</div>
-              <div class="meta-item">🛏️ Studio</div>
-              <div class="meta-item">🚿 1 Bath</div>
-            </div>
-            <div class="listing-price">€47,844</div>
-          </div>
-        </div>
-
-      </div>
-      <div style="text-align:center; margin-top:40px;">
-        <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn btn-outline">
-          View All Listings at Homes Bay →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── PROCESS ─── -->
-  <section id="process" class="section process">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label">How I Work</div>
-        <h2>The Homes Bay Verification Process</h2>
-        <p>Every property I recommend has passed through four independent checks before I ever show it to a client.</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3>Developer Assessment</h3>
-          <p>History, financial standing, and track record in the Hurghada market.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3>Legal & Title Review</h3>
-          <p>Ownership title, legal structure, and documentation checked in full.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3>Project Status Check</h3>
-          <p>Current construction progress and delivery timeline verified on-site.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <h3>Suitability Assessment</h3>
-          <p>Investment fit, rental potential, and ownership risks evaluated honestly.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── TESTIMONIALS ─── -->
-  <section id="testimonials" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label">Client Reviews</div>
-        <h2>What My Clients Say</h2>
-      </div>
-      <div class="testimonials-grid">
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">Hanna made the whole experience feel effortless. She was always available to answer our questions, spoke to us in Polish which made everything so much clearer, and never once pushed us toward a decision. We found our dream apartment in Hurghada and couldn't be happier.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">AW</div>
-            <div>
-              <div class="author-name">Anna W.</div>
-              <div class="author-role">Buyer from Poland · Hurghada</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">As a first-time buyer in Egypt, I was nervous about the legal side of things. Hanna walked me through every document with patience and introduced me to a reliable notary. Her honesty and energy gave me real confidence throughout the entire process.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">JB</div>
-            <div>
-              <div class="author-name">Jonas B.</div>
-              <div class="author-role">Buyer from Germany · Sahl Hasheesh</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">What impressed me most about Hanna was her transparency. She told us everything upfront — the good and the things to watch for — and only showed us properties she genuinely believed were right for us. That kind of honesty is rare.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">SK</div>
-            <div>
-              <div class="author-name">Sofia K.</div>
-              <div class="author-role">Buyer from Czech Republic · Soma Bay</div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial">
-          <div class="stars">★★★★★</div>
-          <p class="testimonial-text">Hanna is exactly the kind of agent you want by your side when buying abroad. She's knowledgeable, warm, and genuinely invested in finding you the right property — not just any property. She's helped us invest with full confidence.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">MR</div>
-            <div>
-              <div class="author-name">Marek R.</div>
-              <div class="author-role">Investor from Poland · Makadi Bay</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── CTA ─── -->
-  <section class="cta">
-    <div class="container">
-      <h2>Ready to Find Your Red Sea Home?</h2>
-      <p>Let's talk — no pressure, no obligation. Just an honest conversation about what's right for you.</p>
-      <div class="cta-btns">
-        <a href="#contact" class="btn btn-white">Send Me a Message</a>
-        <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.5);">Browse All Listings</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── CONTACT ─── -->
-  <section id="contact" class="section">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info">
-          <div class="section-label">Get In Touch</div>
-          <h2>Let's Start the Conversation</h2>
-          <p>
-            Whether you have a specific property in mind or you're just starting to
-            explore, I'm here to help. Reach out and I'll get back to you within 24 hours.
-          </p>
-          <div class="contact-item">
-            <div class="contact-item-icon">📍</div>
-            <div>
-              <div class="contact-item-label">Location</div>
-              <div class="contact-item-value">Hurghada, Red Sea, Egypt</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">🌐</div>
-            <div>
-              <div class="contact-item-label">Agency</div>
-              <div class="contact-item-value">Homes Bay Hurghada</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">💬</div>
-            <div>
-              <div class="contact-item-label">Languages</div>
-              <div class="contact-item-value">Polish · English · Arabic</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">🕐</div>
-            <div>
-              <div class="contact-item-label">Response Time</div>
-              <div class="contact-item-value">Within 24 hours</div>
-            </div>
-          </div>
-        </div>
-        <div class="contact-form">
-          <form>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-input" placeholder="Your first name" />
+            <div class="listing-body">
+              <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
+              <h3>Luxury 2-Bed Sea View — Hayat Beach Resort</h3>
+              <div class="listing-meta">
+                <div class="meta-item">📐 76 m²</div>
+                <div class="meta-item">🛏️ 2 Beds</div>
+                <div class="meta-item">🚿 1 Bath</div>
               </div>
-              <div class="form-group">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-input" placeholder="Your last name" />
+              <div class="listing-price">€91,724</div>
+            </div>
+          </div>
+          <div class="listing-card reveal d2">
+            <div class="listing-img-wrap">
+              <img class="listing-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Aurora Palace" />
+              <div class="listing-badge">Verified</div>
+            </div>
+            <div class="listing-body">
+              <div class="listing-location">📍 Magawish, Hurghada</div>
+              <h3>3-Bedroom Pool View — Aurora Palace</h3>
+              <div class="listing-meta">
+                <div class="meta-item">📐 217 m²</div>
+                <div class="meta-item">🛏️ 3 Beds</div>
+                <div class="meta-item">🚿 1 Bath</div>
               </div>
+              <div class="listing-price">€212,366</div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-input" placeholder="your@email.com" />
+          </div>
+          <div class="listing-card reveal d3">
+            <div class="listing-img-wrap">
+              <img class="listing-img" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80" alt="Studio Sea View" />
+              <div class="listing-badge">Verified</div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Phone / WhatsApp</label>
-              <input type="tel" class="form-input" placeholder="+48 or +44 …" />
+            <div class="listing-body">
+              <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
+              <h3>Stunning Studio Sea View — Hayat Beach Resort</h3>
+              <div class="listing-meta">
+                <div class="meta-item">📐 37 m²</div>
+                <div class="meta-item">🛏️ Studio</div>
+                <div class="meta-item">🚿 1 Bath</div>
+              </div>
+              <div class="listing-price">€47,844</div>
             </div>
-            <div class="form-group">
-              <label class="form-label">What are you looking for?</label>
-              <textarea class="form-input" placeholder="Tell me about your ideal property — location, budget, timeline…"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-              Send Message →
-            </button>
-            <p class="form-note">🔒 Your details are kept private and never shared.</p>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── FOOTER ─── -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand">Hanna Różczka</div>
-          <p class="footer-desc">
-            Real Estate Agent at Homes Bay Hurghada. Helping international buyers
-            find verified, legally clear properties across Egypt's Red Sea Riviera —
-            with full transparency from day one.
-          </p>
-          <div class="footer-social">
-            <a href="#" class="social-link">in</a>
-            <a href="#" class="social-link">fb</a>
-            <a href="#" class="social-link">wa</a>
           </div>
         </div>
-        <div>
-          <div class="footer-title">Quick Links</div>
-          <ul class="footer-links">
-            <li><a href="#about">About Hanna</a></li>
-            <li><a href="#specialties">Services</a></li>
-            <li><a href="#listings">Listings</a></li>
-            <li><a href="#process">Verification Process</a></li>
-            <li><a href="#testimonials">Client Reviews</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="footer-title">Locations</div>
-          <ul class="footer-links">
-            <li><a href="#listings">Hurghada</a></li>
-            <li><a href="#listings">Sahl Hasheesh</a></li>
-            <li><a href="#listings">Soma Bay</a></li>
-            <li><a href="#listings">Makadi Bay</a></li>
-            <li><a href="https://homes-bay.com/apartments-for-sale/" target="_blank">All Listings at Homes Bay</a></li>
-          </ul>
+        <div style="text-align:center;margin-top:40px" class="reveal">
+          <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn btn-outline-glass">View All Listings at Homes Bay →</a>
         </div>
       </div>
-      <div class="footer-bottom">
-        <span>© 2025 Hanna Różczka · Homes Bay Hurghada. All rights reserved.</span>
-        <span>Powered by Homes Bay</span>
-      </div>
-    </div>
-  </footer>
+    </section>
 
+    <!-- PROCESS -->
+    <section id="process" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">How I Work</div>
+          <h2>The Homes Bay Verification Process</h2>
+          <p>Every property I recommend has passed through four independent checks before I ever show it to a client.</p>
+        </div>
+        <div class="steps">
+          <div class="step reveal d1"><div class="step-num">1</div><h3>Developer Assessment</h3><p>History, financial standing, and track record in the Hurghada market.</p></div>
+          <div class="step reveal d2"><div class="step-num">2</div><h3>Legal & Title Review</h3><p>Ownership title, legal structure, and documentation checked in full.</p></div>
+          <div class="step reveal d3"><div class="step-num">3</div><h3>Project Status Check</h3><p>Current construction progress and delivery timeline verified on-site.</p></div>
+          <div class="step reveal d4"><div class="step-num">4</div><h3>Suitability Assessment</h3><p>Investment fit, rental potential, and ownership risks evaluated honestly.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-label">Client Reviews</div>
+          <h2>What My Clients Say</h2>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial reveal d1">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">Hanna made the whole experience feel effortless. She spoke to us in Polish which made everything clearer, and never once pushed us toward a decision. We found our dream apartment in Hurghada and couldn't be happier.</p>
+            <div class="testimonial-author"><div class="author-avatar">AW</div><div><div class="author-name">Anna W.</div><div class="author-role">Buyer from Poland · Hurghada</div></div></div>
+          </div>
+          <div class="testimonial reveal d2">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">As a first-time buyer in Egypt I was nervous about the legal side. Hanna walked me through every document with patience and introduced me to a reliable notary. Her honesty gave me real confidence throughout.</p>
+            <div class="testimonial-author"><div class="author-avatar">JB</div><div><div class="author-name">Jonas B.</div><div class="author-role">Buyer from Germany · Sahl Hasheesh</div></div></div>
+          </div>
+          <div class="testimonial reveal d3">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">What impressed me most was her transparency. She told us everything upfront — the good and the things to watch for — and only showed properties she genuinely believed were right for us. That honesty is rare.</p>
+            <div class="testimonial-author"><div class="author-avatar">SK</div><div><div class="author-name">Sofia K.</div><div class="author-role">Buyer from Czech Republic · Soma Bay</div></div></div>
+          </div>
+          <div class="testimonial reveal d4">
+            <div class="stars">★★★★★</div>
+            <p class="testimonial-text">Hanna is exactly the kind of agent you want by your side when buying abroad. Knowledgeable, warm, and genuinely invested in finding you the right property — not just any property.</p>
+            <div class="testimonial-author"><div class="author-avatar">MR</div><div><div class="author-name">Marek R.</div><div class="author-role">Investor from Poland · Makadi Bay</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta-glass reveal">
+          <h2>Ready to Find Your Red Sea Home?</h2>
+          <p>Let's talk — no pressure, no obligation. Just an honest conversation about what's right for you.</p>
+          <div class="cta-btns">
+            <a href="#contact" class="btn btn-primary">Send Me a Message</a>
+            <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn btn-outline-glass">Browse All Listings</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-info reveal-l">
+            <div class="section-label">Get In Touch</div>
+            <h2>Let's Start the Conversation</h2>
+            <p>Whether you have a specific property in mind or you're just starting to explore, I'm here to help. I'll get back to you within 24 hours.</p>
+            <div class="contact-item"><div class="contact-item-icon">📍</div><div><div class="contact-item-label">Location</div><div class="contact-item-value">Hurghada, Red Sea, Egypt</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">🌐</div><div><div class="contact-item-label">Agency</div><div class="contact-item-value">Homes Bay Hurghada</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">💬</div><div><div class="contact-item-label">Languages</div><div class="contact-item-value">Polish · English · Arabic</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">🕐</div><div><div class="contact-item-label">Response Time</div><div class="contact-item-value">Within 24 hours</div></div></div>
+          </div>
+          <div class="contact-form reveal-r">
+            <form>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="Your first name" /></div>
+                <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Your last name" /></div>
+              </div>
+              <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="your@email.com" /></div>
+              <div class="form-group"><label class="form-label">Phone / WhatsApp</label><input type="tel" class="form-input" placeholder="+48 or +44 …" /></div>
+              <div class="form-group"><label class="form-label">What are you looking for?</label><textarea class="form-input" placeholder="Tell me about your ideal property — location, budget, timeline…"></textarea></div>
+              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message →</button>
+              <p class="form-note">🔒 Your details are kept private and never shared.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand">Hanna Różczka</div>
+            <p class="footer-desc">Real Estate Agent at Homes Bay Hurghada. Helping international buyers find verified, legally clear properties across Egypt's Red Sea Riviera — with full transparency from day one.</p>
+            <div class="footer-social">
+              <a href="#" class="social-link">in</a>
+              <a href="#" class="social-link">fb</a>
+              <a href="#" class="social-link">wa</a>
+            </div>
+          </div>
+          <div>
+            <div class="footer-title">Quick Links</div>
+            <ul class="footer-links">
+              <li><a href="#about">About Hanna</a></li>
+              <li><a href="#specialties">Services</a></li>
+              <li><a href="#listings">Listings</a></li>
+              <li><a href="#process">Verification Process</a></li>
+              <li><a href="#testimonials">Client Reviews</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="footer-title">Locations</div>
+            <ul class="footer-links">
+              <li><a href="#listings">Hurghada</a></li>
+              <li><a href="#listings">Sahl Hasheesh</a></li>
+              <li><a href="#listings">Soma Bay</a></li>
+              <li><a href="#listings">Makadi Bay</a></li>
+              <li><a href="https://homes-bay.com/apartments-for-sale/" target="_blank">All Listings at Homes Bay</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2025 Hanna Różczka · Homes Bay Hurghada. All rights reserved.</span>
+          <span>Powered by Homes Bay</span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- #app -->
+
+  <script>
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), {passive:true});
+
+    // Scroll reveal
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold: 0.11});
+    document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => io.observe(el));
+
+    // Hero particles
+    const pc = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const s = Math.random() * 65 + 18;
+      p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+9}s;animation-delay:${Math.random()*-22}s;`;
+      pc.appendChild(p);
+    }
+
+    // Hero parallax on mouse
+    const heroBg = document.getElementById('heroBg');
+    const heroEl = document.querySelector('.hero');
+    heroEl.addEventListener('mousemove', e => {
+      const r = heroEl.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      heroBg.style.transform = `scale(1.06) translate(${x*22}px,${y*16}px)`;
+    }, {passive:true});
+    heroEl.addEventListener('mouseleave', () => { heroBg.style.transform = ''; });
+
+    // Ripple on buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const r = this.getBoundingClientRect();
+        const sz = Math.max(r.width, r.height) * 2.2;
+        const rpl = document.createElement('span');
+        rpl.style.cssText = `position:absolute;width:${sz}px;height:${sz}px;left:${e.clientX-r.left-sz/2}px;top:${e.clientY-r.top-sz/2}px;border-radius:50%;background:rgba(255,255,255,.13);transform:scale(0);animation:rippleAnim .55s ease-out forwards;pointer-events:none;z-index:10;`;
+        this.appendChild(rpl);
+        setTimeout(() => rpl.remove(), 600);
+      });
+    });
+
+    // Cursor glow
+    const glow = document.createElement('div');
+    glow.style.cssText = 'position:fixed;pointer-events:none;z-index:9999;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(196,41,58,.055) 0%,transparent 70%);transform:translate(-50%,-50%);transition:left .06s,top .06s,opacity .3s;opacity:0;';
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; glow.style.opacity='1'; }, {passive:true});
+    document.addEventListener('mouseleave', () => glow.style.opacity='0');
+  </script>
 </body>
 </html>
