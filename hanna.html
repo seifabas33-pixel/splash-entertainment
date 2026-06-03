@@ -168,8 +168,6 @@
     .listing-body h3 { font-size:15px; font-weight:700; color:var(--text-dark); margin-bottom:13px; line-height:1.4; }
     .listing-meta { display:flex; gap:14px; margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid rgba(97,20,28,.08); }
     .meta-item { font-size:12px; color:var(--text-muted); font-weight:500; }
-    .listing-price { font-size:20px; font-weight:800; color:var(--primary); }
-
     /* ── PROCESS ── */
     .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; position:relative; }
     .steps::before { content:''; position:absolute; top:28px; left:12.5%; right:12.5%; height:2px; background:linear-gradient(90deg, var(--primary), rgba(97,20,28,.15)); pointer-events:none; }
@@ -306,6 +304,11 @@
       100% { transform:translate(var(--tx),var(--ty)) scale(0); opacity:0; }
     }
 
+    /* ── LANG TOGGLE ── */
+    .lang-toggle { display:flex; align-items:center; gap:4px; background:rgba(97,20,28,.10); border:1.5px solid rgba(97,20,28,.22); border-radius:50px; padding:4px; cursor:pointer; margin-left:12px; }
+    .lang-btn { padding:5px 11px; border-radius:40px; font-size:11px; font-weight:700; letter-spacing:.5px; border:none; background:transparent; cursor:pointer; color:var(--text-muted); transition:all .22s; }
+    .lang-btn.active { background:var(--primary); color:#fff; box-shadow:0 2px 8px rgba(97,20,28,.35); }
+
     /* ── CUSTOM CURSOR ── */
     .cursor-dot,.cursor-ring { position:fixed; border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); }
     .cursor-dot { width:6px; height:6px; background:var(--primary); top:0; left:0; transition:opacity .3s; }
@@ -408,13 +411,17 @@
       <div class="container nav-inner">
         <div class="nav-logo">Hanna<span> Różczka</span></div>
         <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#specialties">Services</a></li>
-          <li><a href="#listings">Listings</a></li>
-          <li><a href="#process">Process</a></li>
-          <li><a href="#testimonials">Reviews</a></li>
+          <li><a href="#about" id="i18n-nav-about">About</a></li>
+          <li><a href="#specialties" id="i18n-nav-services">Services</a></li>
+          <li><a href="#listings" id="i18n-nav-listings">Listings</a></li>
+          <li><a href="#process" id="i18n-nav-process">Process</a></li>
+          <li><a href="#testimonials" id="i18n-nav-reviews">Reviews</a></li>
         </ul>
-        <a href="#contact" class="btn btn-primary">Contact Me</a>
+        <div class="lang-toggle" id="langToggle">
+          <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="pl" onclick="setLang('pl')">PL</button>
+        </div>
+        <a href="#contact" class="btn btn-primary" id="i18n-nav-cta">Contact Me</a>
       </div>
     </nav>
 
@@ -424,20 +431,20 @@
       <div class="hero-overlay"></div>
       <canvas id="heroCanvas" style="position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%;"></canvas>
       <div class="container">
-        <div class="hero-badge reveal">Homes Bay · Real Estate Agent</div>
-        <h1 class="reveal d1" style="color:#fff">Your Perfect Home<br /><em>On The Red Sea</em></h1>
-        <p class="hero-sub reveal d2">I help international buyers find<br><span id="tw-text"></span><span class="tw-cursor"></span></p>
+        <div class="hero-badge reveal" id="i18n-hero-badge">Homes Bay · Real Estate Agent</div>
+        <h1 class="reveal d1" style="color:#fff" id="i18n-hero-h1">Your Perfect Home<br /><em>On The Red Sea</em></h1>
+        <p class="hero-sub reveal d2"><span id="i18n-hero-sub">I help international buyers find</span><br><span id="tw-text"></span><span class="tw-cursor"></span></p>
         <div class="hero-btns reveal d3">
-          <a href="#listings" class="btn btn-primary magnetic">Browse Properties</a>
-          <a href="#contact"  class="btn btn-white magnetic">Book a Free Call</a>
+          <a href="#listings" class="btn btn-primary magnetic" id="i18n-hero-btn1">Browse Properties</a>
+          <a href="#contact"  class="btn btn-white magnetic" id="i18n-hero-btn2">Book a Free Call</a>
         </div>
       </div>
       <div class="hero-stats">
         <div class="stats-bar">
-          <div class="stat"><div class="stat-num" data-target="4">4</div><div class="stat-label">Locations Covered</div></div>
-          <div class="stat"><div class="stat-num" data-target="5" data-suffix="★">5★</div><div class="stat-label">Client Rating</div></div>
-          <div class="stat"><div class="stat-num" data-target="100" data-suffix="%">100%</div><div class="stat-label">Verified Listings</div></div>
-          <div class="stat"><div class="stat-num">🇵🇱</div><div class="stat-label">Polish Speaking</div></div>
+          <div class="stat"><div class="stat-num" data-target="4">4</div><div class="stat-label" id="i18n-stat-loc">Locations Covered</div></div>
+          <div class="stat"><div class="stat-num" data-target="5" data-suffix="★">5★</div><div class="stat-label" id="i18n-stat-rating">Client Rating</div></div>
+          <div class="stat"><div class="stat-num" data-target="100" data-suffix="%">100%</div><div class="stat-label" id="i18n-stat-verified">Verified Listings</div></div>
+          <div class="stat"><div class="stat-num">🇵🇱</div><div class="stat-label" id="i18n-stat-polish">Polish Speaking</div></div>
         </div>
       </div>
     </section>
@@ -454,11 +461,11 @@
             <div class="about-badge"><strong>HB</strong><span>Homes Bay<br/>Certified</span></div>
           </div>
           <div class="about-text reveal-r">
-            <div class="section-label">About Me</div>
-            <h2>Fresh Energy, Genuine Commitment</h2>
-            <p>Hi, I'm Hanna Różczka — a real estate consultant at Homes Bay Hurghada. I joined the team with one clear mission: to give international buyers the honest, transparent guidance they deserve when exploring Egypt's stunning Red Sea property market.</p>
-            <p>Whether you're looking for a holiday retreat, a rental investment, or a permanent move, I take the time to truly understand what matters to you — and match you only with properties that have passed Homes Bay's rigorous 4-step verification process. No pressure, no shortcuts.</p>
-            <p>As a Polish speaker, I'm especially well-placed to support Polish buyers navigating every step — from first enquiry to key handover.</p>
+            <div class="section-label" id="i18n-about-label">About Me</div>
+            <h2 id="i18n-about-h2">Fresh Energy, Genuine Commitment</h2>
+            <p id="i18n-about-p1">Hi, I'm Hanna Różczka — a real estate consultant at Homes Bay Hurghada. I joined the team with one clear mission: to give international buyers the honest, transparent guidance they deserve when exploring Egypt's stunning Red Sea property market.</p>
+            <p id="i18n-about-p2">Whether you're looking for a holiday retreat, a rental investment, or a permanent move, I take the time to truly understand what matters to you — and match you only with properties that have passed Homes Bay's rigorous 4-step verification process. No pressure, no shortcuts.</p>
+            <p id="i18n-about-p3">As a Polish speaker, I'm especially well-placed to support Polish buyers navigating every step — from first enquiry to key handover.</p>
             <div class="about-tags">
               <span class="tag">🏖️ Hurghada</span>
               <span class="tag">🌊 Sahl Hasheesh</span>
@@ -468,7 +475,7 @@
               <span class="tag">🌍 International Clients</span>
               <span class="tag">🇵🇱 Polish Speaking</span>
             </div>
-            <a href="#contact" class="btn btn-primary magnetic">Get in Touch</a>
+            <a href="#contact" class="btn btn-primary magnetic" id="i18n-about-btn">Get in Touch</a>
           </div>
         </div>
       </div>
@@ -478,17 +485,17 @@
     <section id="specialties" class="section">
       <div class="container">
         <div class="section-header reveal">
-          <div class="section-label">What I Do</div>
-          <h2>Services Tailored for You</h2>
-          <p>From your first question to the day you receive your keys — I support you through every stage of the journey.</p>
+          <div class="section-label" id="i18n-svc-label">What I Do</div>
+          <h2 id="i18n-svc-h2">Services Tailored for You</h2>
+          <p id="i18n-svc-p">From your first question to the day you receive your keys — I support you through every stage of the journey.</p>
         </div>
         <div class="cards-grid">
-          <div class="card reveal d1"><div class="card-icon">🏡</div><h3>Property Search</h3><p>Curated, verified listings matched to your budget, timeline, and lifestyle — no pressure, just the right fit.</p></div>
-          <div class="card reveal d2"><div class="card-icon">⚖️</div><h3>Legal & Title Review</h3><p>Every property I recommend has been independently verified for legal clarity, developer reliability, and title status.</p></div>
-          <div class="card reveal d3"><div class="card-icon">📊</div><h3>Investment Advisory</h3><p>Honest market analysis, realistic rental yield projections, and long-term value assessment for each property.</p></div>
-          <div class="card reveal d4"><div class="card-icon">✈️</div><h3>Relocation Support</h3><p>I help you settle in — from airport pickup to property handover, utilities, and local registration.</p></div>
-          <div class="card reveal d5"><div class="card-icon">🤝</div><h3>Developer Negotiations</h3><p>I negotiate on your behalf to secure the best payment plans, finishes, and delivery guarantees available.</p></div>
-          <div class="card reveal d6"><div class="card-icon">📞</div><h3>After-Sale Support</h3><p>My relationship with clients doesn't end at signing. I'm here for maintenance referrals, resale, and rentals.</p></div>
+          <div class="card reveal d1" id="i18n-svc-1"><div class="card-icon">🏡</div><h3>Property Search</h3><p>Curated, verified listings matched to your budget, timeline, and lifestyle — no pressure, just the right fit.</p></div>
+          <div class="card reveal d2" id="i18n-svc-2"><div class="card-icon">⚖️</div><h3>Legal & Title Review</h3><p>Every property I recommend has been independently verified for legal clarity, developer reliability, and title status.</p></div>
+          <div class="card reveal d3" id="i18n-svc-3"><div class="card-icon">📊</div><h3>Investment Advisory</h3><p>Honest market analysis, realistic rental yield projections, and long-term value assessment for each property.</p></div>
+          <div class="card reveal d4" id="i18n-svc-4"><div class="card-icon">✈️</div><h3>Relocation Support</h3><p>I help you settle in — from airport pickup to property handover, utilities, and local registration.</p></div>
+          <div class="card reveal d5" id="i18n-svc-5"><div class="card-icon">🤝</div><h3>Developer Negotiations</h3><p>I negotiate on your behalf to secure the best payment plans, finishes, and delivery guarantees available.</p></div>
+          <div class="card reveal d6" id="i18n-svc-6"><div class="card-icon">📞</div><h3>After-Sale Support</h3><p>My relationship with clients doesn't end at signing. I'm here for maintenance referrals, resale, and rentals.</p></div>
         </div>
       </div>
     </section>
@@ -497,218 +504,206 @@
     <section id="listings" class="section">
       <div class="container">
         <div class="section-header reveal">
-          <div class="section-label">Featured Properties</div>
-          <h2>Verified Listings I Currently Support</h2>
-          <p>Each property below has passed Homes Bay's full 4-step verification process.</p>
+          <div class="section-label" id="i18n-lst-label">Featured Properties</div>
+          <h2 id="i18n-lst-h2">Verified Listings I Currently Support</h2>
+          <p id="i18n-lst-p">Each property below has passed Homes Bay's full 4-step verification process.</p>
         </div>
         <div class="listing-grid">
           <!-- 1 -->
           <div class="listing-card reveal d1">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-4.jpg" alt="Hayat Beach Resort 2-Bed Sea View" onerror="this.src='https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-1">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>2-Bed Sea View Apartment — Hayat Beach Resort</h3>
+              <h3 id="i18n-lst-title-1">2-Bed Sea View Apartment — Hayat Beach Resort</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 76 m²</div>
-                <div class="meta-item">🛏️ 2 Beds</div>
-                <div class="meta-item">🌊 Sea View</div>
+                <div class="meta-item" id="i18n-lst-beds-1">🛏️ 2 Beds</div>
+                <div class="meta-item" id="i18n-lst-view-1">🌊 Sea View</div>
               </div>
-              <div class="listing-price">From €91,724</div>
             </div>
           </div>
           <!-- 2 -->
           <div class="listing-card reveal d2">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-5.jpg" alt="Hayat Beach Resort 1-Bed Sea View" onerror="this.src='https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-2">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>1-Bed Sea View Apartment — Hayat Beach Resort</h3>
+              <h3 id="i18n-lst-title-2">1-Bed Sea View Apartment — Hayat Beach Resort</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 58 m²</div>
-                <div class="meta-item">🛏️ 1 Bed</div>
-                <div class="meta-item">🌊 Sea View</div>
+                <div class="meta-item" id="i18n-lst-beds-2">🛏️ 1 Bed</div>
+                <div class="meta-item" id="i18n-lst-view-2">🌊 Sea View</div>
               </div>
-              <div class="listing-price">From €70,000</div>
             </div>
           </div>
           <!-- 3 -->
           <div class="listing-card reveal d3">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-11.jpg" alt="Hayat Beach Resort Studio" onerror="this.src='https://images.unsplash.com/photo-1540541338287-41700207dee6?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-3">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>Studio Sea View — Hayat Beach Resort</h3>
+              <h3 id="i18n-lst-title-3">Studio Sea View — Hayat Beach Resort</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 37 m²</div>
-                <div class="meta-item">🛏️ Studio</div>
-                <div class="meta-item">🌊 Sea View</div>
+                <div class="meta-item" id="i18n-lst-beds-3">🛏️ Studio</div>
+                <div class="meta-item" id="i18n-lst-view-3">🌊 Sea View</div>
               </div>
-              <div class="listing-price">From €47,844</div>
             </div>
           </div>
           <!-- 4 -->
           <div class="listing-card reveal d4">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-2-2.jpg" alt="Marvento 2-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-4">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>2-Bed Pool View Apartment — Marvento</h3>
+              <h3 id="i18n-lst-title-4">2-Bed Pool View Apartment — Marvento</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 101 m²</div>
-                <div class="meta-item">🛏️ 2 Beds</div>
-                <div class="meta-item">🏊 Pool View</div>
+                <div class="meta-item" id="i18n-lst-beds-4">🛏️ 2 Beds</div>
+                <div class="meta-item" id="i18n-lst-view-4">🏊 Pool View</div>
               </div>
-              <div class="listing-price">From €127,363</div>
             </div>
           </div>
           <!-- 5 -->
           <div class="listing-card reveal d5">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-01-04-at-1-elementor-io-optimized-6.webp" alt="Marvento Studio Garden View" onerror="this.src='https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-5">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>Studio Garden View — Marvento</h3>
+              <h3 id="i18n-lst-title-5">Studio Garden View — Marvento</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 70 m²</div>
-                <div class="meta-item">🛏️ Studio</div>
-                <div class="meta-item">🌿 Garden View</div>
+                <div class="meta-item" id="i18n-lst-beds-5">🛏️ Studio</div>
+                <div class="meta-item" id="i18n-lst-view-5">🌿 Garden View</div>
               </div>
-              <div class="listing-price">From €77,544</div>
             </div>
           </div>
           <!-- 6 -->
           <div class="listing-card reveal d6">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-2-3.jpg" alt="Aurora Palace 3-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-6">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Magawish, Hurghada</div>
-              <h3>3-Bed Pool View — Aurora Palace</h3>
+              <h3 id="i18n-lst-title-6">3-Bed Pool View — Aurora Palace</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 217 m²</div>
-                <div class="meta-item">🛏️ 3 Beds</div>
-                <div class="meta-item">🏊 Pool View</div>
+                <div class="meta-item" id="i18n-lst-beds-6">🛏️ 3 Beds</div>
+                <div class="meta-item" id="i18n-lst-view-6">🏊 Pool View</div>
               </div>
-              <div class="listing-price">From €212,366</div>
             </div>
           </div>
           <!-- 7 -->
           <div class="listing-card reveal d1">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-9-3.jpg" alt="Aurora Palace 2-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-7">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Magawish, Hurghada</div>
-              <h3>2-Bed Pool View — Aurora Palace</h3>
+              <h3 id="i18n-lst-title-7">2-Bed Pool View — Aurora Palace</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 136 m²</div>
-                <div class="meta-item">🛏️ 2 Beds</div>
-                <div class="meta-item">🏊 Pool View</div>
+                <div class="meta-item" id="i18n-lst-beds-7">🛏️ 2 Beds</div>
+                <div class="meta-item" id="i18n-lst-view-7">🏊 Pool View</div>
               </div>
-              <div class="listing-price">From €133,096</div>
             </div>
           </div>
           <!-- 8 -->
           <div class="listing-card reveal d2">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-7-3.jpg" alt="Aurora Palace 1-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-8">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Magawish, Hurghada</div>
-              <h3>1-Bed Pool View — Aurora Palace</h3>
+              <h3 id="i18n-lst-title-8">1-Bed Pool View — Aurora Palace</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 91 m²</div>
-                <div class="meta-item">🛏️ 1 Bed</div>
-                <div class="meta-item">🏊 Pool View</div>
+                <div class="meta-item" id="i18n-lst-beds-8">🛏️ 1 Bed</div>
+                <div class="meta-item" id="i18n-lst-view-8">🏊 Pool View</div>
               </div>
-              <div class="listing-price">From €73,700</div>
             </div>
           </div>
           <!-- 9 -->
           <div class="listing-card reveal d3">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-6-3.jpg" alt="Aurora Palace Studio Pool View" onerror="this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-9">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Magawish, Hurghada</div>
-              <h3>Studio Pool View — Aurora Palace</h3>
+              <h3 id="i18n-lst-title-9">Studio Pool View — Aurora Palace</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 53 m²</div>
-                <div class="meta-item">🛏️ Studio</div>
-                <div class="meta-item">🏊 Pool View</div>
+                <div class="meta-item" id="i18n-lst-beds-9">🛏️ Studio</div>
+                <div class="meta-item" id="i18n-lst-view-9">🏊 Pool View</div>
               </div>
-              <div class="listing-price">From €47,700</div>
             </div>
           </div>
           <!-- 10 -->
           <div class="listing-card reveal d4">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-4-2.jpg" alt="Marvento 1-Bed Sky Pool View" onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-10">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>1-Bed Sky Pool View — Marvento</h3>
+              <h3 id="i18n-lst-title-10">1-Bed Sky Pool View — Marvento</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 48 m²</div>
-                <div class="meta-item">🛏️ 1 Bed</div>
-                <div class="meta-item">🏊 Sky Pool</div>
+                <div class="meta-item" id="i18n-lst-beds-10">🛏️ 1 Bed</div>
+                <div class="meta-item" id="i18n-lst-view-10">🏊 Sky Pool</div>
               </div>
-              <div class="listing-price">From €69,988</div>
             </div>
           </div>
           <!-- 11 -->
           <div class="listing-card reveal d5">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Artboard-3-2.jpg" alt="Marvento 2-Bed Sky Pool View" onerror="this.src='https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-11">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 Al Ahyaa, Hurghada</div>
-              <h3>2-Bed Sky Pool View — Marvento</h3>
+              <h3 id="i18n-lst-title-11">2-Bed Sky Pool View — Marvento</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 82 m²</div>
-                <div class="meta-item">🛏️ 2 Beds</div>
-                <div class="meta-item">🏊 Sky Pool</div>
+                <div class="meta-item" id="i18n-lst-beds-11">🛏️ 2 Beds</div>
+                <div class="meta-item" id="i18n-lst-view-11">🏊 Sky Pool</div>
               </div>
-              <div class="listing-price">From €103,827</div>
             </div>
           </div>
           <!-- 12 -->
           <div class="listing-card reveal d6">
             <div class="listing-img-wrap">
               <img class="listing-img" src="https://homes-bay.com/wp-content/uploads/2026/03/Blue_27-Photo-1536x864.webp" alt="Blue 27 2-Bed Pool View" onerror="this.src='https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=600&q=80'" />
-              <div class="listing-badge">Verified</div>
+              <div class="listing-badge" id="i18n-lst-badge-12">Verified</div>
             </div>
             <div class="listing-body">
               <div class="listing-location">📍 El Hadaba Road, Hurghada</div>
-              <h3>2-Bed Pool View — Blue 27</h3>
+              <h3 id="i18n-lst-title-12">2-Bed Pool View — Blue 27</h3>
               <div class="listing-meta">
                 <div class="meta-item">📐 101 m²</div>
-                <div class="meta-item">🛏️ 2 Beds</div>
-                <div class="meta-item">🏊 Pool View</div>
+                <div class="meta-item" id="i18n-lst-beds-12">🛏️ 2 Beds</div>
+                <div class="meta-item" id="i18n-lst-view-12">🏊 Pool View</div>
               </div>
-              <div class="listing-price">From €81,305</div>
             </div>
           </div>
         </div>
         <div style="text-align:center;margin-top:40px" class="reveal">
-          <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn btn-outline">View All Listings at Homes Bay →</a>
+          <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn btn-outline" id="i18n-lst-cta">View All Listings at Homes Bay →</a>
         </div>
       </div>
     </section>
@@ -717,15 +712,15 @@
     <section id="process" class="section">
       <div class="container">
         <div class="section-header reveal">
-          <div class="section-label">How I Work</div>
-          <h2>The Homes Bay Verification Process</h2>
-          <p>Every property I recommend has passed through four independent checks before I ever show it to a client.</p>
+          <div class="section-label" id="i18n-proc-label">How I Work</div>
+          <h2 id="i18n-proc-h2">The Homes Bay Verification Process</h2>
+          <p id="i18n-proc-p">Every property I recommend has passed through four independent checks before I ever show it to a client.</p>
         </div>
         <div class="steps">
-          <div class="step reveal d1"><div class="step-num">1</div><h3>Developer Assessment</h3><p>History, financial standing, and track record in the Hurghada market.</p></div>
-          <div class="step reveal d2"><div class="step-num">2</div><h3>Legal & Title Review</h3><p>Ownership title, legal structure, and documentation checked in full.</p></div>
-          <div class="step reveal d3"><div class="step-num">3</div><h3>Project Status Check</h3><p>Current construction progress and delivery timeline verified on-site.</p></div>
-          <div class="step reveal d4"><div class="step-num">4</div><h3>Suitability Assessment</h3><p>Investment fit, rental potential, and ownership risks evaluated honestly.</p></div>
+          <div class="step reveal d1" id="i18n-proc-1"><div class="step-num">1</div><h3>Developer Assessment</h3><p>History, financial standing, and track record in the Hurghada market.</p></div>
+          <div class="step reveal d2" id="i18n-proc-2"><div class="step-num">2</div><h3>Legal & Title Review</h3><p>Ownership title, legal structure, and documentation checked in full.</p></div>
+          <div class="step reveal d3" id="i18n-proc-3"><div class="step-num">3</div><h3>Project Status Check</h3><p>Current construction progress and delivery timeline verified on-site.</p></div>
+          <div class="step reveal d4" id="i18n-proc-4"><div class="step-num">4</div><h3>Suitability Assessment</h3><p>Investment fit, rental potential, and ownership risks evaluated honestly.</p></div>
         </div>
       </div>
     </section>
@@ -734,8 +729,8 @@
     <section id="testimonials" class="section">
       <div class="container">
         <div class="section-header reveal">
-          <div class="section-label">Client Reviews</div>
-          <h2>What My Clients Say</h2>
+          <div class="section-label" id="i18n-rev-label">Client Reviews</div>
+          <h2 id="i18n-rev-h2">What My Clients Say</h2>
         </div>
         <div class="testimonials-grid">
           <div class="testimonial reveal d1">
@@ -766,11 +761,11 @@
     <section class="cta">
       <div class="container">
         <div class="cta-glass reveal">
-          <h2>Ready to Find Your Red Sea Home?</h2>
-          <p>Let's talk — no pressure, no obligation. Just an honest conversation about what's right for you.</p>
+          <h2 id="i18n-cta-h2">Ready to Find Your Red Sea Home?</h2>
+          <p id="i18n-cta-p">Let's talk — no pressure, no obligation. Just an honest conversation about what's right for you.</p>
           <div class="cta-btns">
-            <a href="#contact" class="btn btn-white">Send Me a Message</a>
-            <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn" style="background:transparent;border-color:rgba(255,255,255,.45);color:rgba(255,255,255,.85);">Browse All Listings</a>
+            <a href="#contact" class="btn btn-white" id="i18n-cta-btn1">Send Me a Message</a>
+            <a href="https://homes-bay.com/apartments-for-sale/" target="_blank" class="btn" style="background:transparent;border-color:rgba(255,255,255,.45);color:rgba(255,255,255,.85);" id="i18n-cta-btn2">Browse All Listings</a>
           </div>
         </div>
       </div>
@@ -781,32 +776,32 @@
       <div class="container">
         <div class="contact-grid">
           <div class="contact-info reveal-l">
-            <div class="section-label">Get In Touch</div>
-            <h2>Let's Start the Conversation</h2>
-            <p>Whether you have a specific property in mind or you're just starting to explore, I'm here to help. I'll get back to you within 24 hours.</p>
+            <div class="section-label" id="i18n-cnt-label">Get In Touch</div>
+            <h2 id="i18n-cnt-h2">Let's Start the Conversation</h2>
+            <p id="i18n-cnt-p">Whether you have a specific property in mind or you're just starting to explore, I'm here to help. I'll get back to you within 24 hours.</p>
             <div class="contact-item"><div class="contact-item-icon">📍</div><div><div class="contact-item-label">Location</div><div class="contact-item-value">Hurghada, Red Sea, Egypt</div></div></div>
             <div class="contact-item"><div class="contact-item-icon">📱</div><div><div class="contact-item-label">WhatsApp</div><div class="contact-item-value"><a href="https://wa.me/48606638400" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">+48 606 638 400</a></div></div></div>
             <div class="contact-item"><div class="contact-item-icon">📧</div><div><div class="contact-item-label">Email</div><div class="contact-item-value"><a href="mailto:hrozczka@gmail.com" style="color:inherit;text-decoration:none;">hrozczka@gmail.com</a></div></div></div>
-            <div class="contact-item"><div class="contact-item-icon">💬</div><div><div class="contact-item-label">Languages</div><div class="contact-item-value">Polish · English · Arabic</div></div></div>
-            <div class="contact-item"><div class="contact-item-icon">🕐</div><div><div class="contact-item-label">Response Time</div><div class="contact-item-value">Within 24 hours</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">💬</div><div><div class="contact-item-label" id="i18n-cnt-lang-label">Languages</div><div class="contact-item-value" id="i18n-cnt-lang-val">Polish · English · Arabic</div></div></div>
+            <div class="contact-item"><div class="contact-item-icon">🕐</div><div><div class="contact-item-label" id="i18n-cnt-resp-label">Response Time</div><div class="contact-item-value" id="i18n-cnt-resp-val">Within 24 hours</div></div></div>
           </div>
           <div class="contact-form reveal-r">
             <form>
               <div class="form-row">
-                <div class="form-group"><label class="form-label">First Name</label><input id="cf-first" type="text" class="form-input" placeholder="Your first name" /></div>
-                <div class="form-group"><label class="form-label">Last Name</label><input id="cf-last" type="text" class="form-input" placeholder="Your last name" /></div>
+                <div class="form-group"><label class="form-label" id="i18n-cnt-fname">First Name</label><input id="cf-first" type="text" class="form-input" placeholder="Your first name" /></div>
+                <div class="form-group"><label class="form-label" id="i18n-cnt-lname">Last Name</label><input id="cf-last" type="text" class="form-input" placeholder="Your last name" /></div>
               </div>
-              <div class="form-group"><label class="form-label">Email</label><input id="cf-email" type="email" class="form-input" placeholder="your@email.com" /></div>
-              <div class="form-group"><label class="form-label">Phone / WhatsApp</label><input id="cf-phone" type="tel" class="form-input" placeholder="+48 or +44 …" /></div>
-              <div class="form-group"><label class="form-label">What are you looking for?</label><textarea id="cf-msg" class="form-input" placeholder="Tell me about your ideal property — location, budget, timeline…"></textarea></div>
+              <div class="form-group"><label class="form-label" id="i18n-cnt-email-label">Email</label><input id="cf-email" type="email" class="form-input" placeholder="your@email.com" /></div>
+              <div class="form-group"><label class="form-label" id="i18n-cnt-phone">Phone / WhatsApp</label><input id="cf-phone" type="tel" class="form-input" placeholder="+48 or +44 …" /></div>
+              <div class="form-group"><label class="form-label" id="i18n-cnt-msg">What are you looking for?</label><textarea id="cf-msg" class="form-input" placeholder="Tell me about your ideal property — location, budget, timeline…"></textarea></div>
               <div class="contact-form-btns">
                 <button type="button" onclick="submitWA()" class="btn btn-whatsapp" style="justify-content:center;">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                  WhatsApp Hanna
+                  <span id="i18n-cnt-wa-btn">WhatsApp Hanna</span>
                 </button>
-                <button type="button" onclick="submitEmail()" class="btn btn-outline" style="justify-content:center;">Send Email</button>
+                <button type="button" onclick="submitEmail()" class="btn btn-outline" style="justify-content:center;" id="i18n-cnt-email-btn">Send Email</button>
               </div>
-              <p class="form-note">🔒 Your details are kept private and never shared.</p>
+              <p class="form-note" id="i18n-cnt-note">🔒 Your details are kept private and never shared.</p>
             </form>
           </div>
         </div>
@@ -819,7 +814,7 @@
         <div class="footer-grid">
           <div>
             <div class="footer-brand">Hanna Różczka</div>
-            <p class="footer-desc">Real Estate Agent at Homes Bay Hurghada. Helping international buyers find verified, legally clear properties across Egypt's Red Sea Riviera — with full transparency from day one.</p>
+            <p class="footer-desc" id="i18n-ftr-desc">Real Estate Agent at Homes Bay Hurghada. Helping international buyers find verified, legally clear properties across Egypt's Red Sea Riviera — with full transparency from day one.</p>
             <div class="footer-social">
               <a href="mailto:hrozczka@gmail.com" class="social-link" title="Email">✉</a>
               <a href="https://wa.me/48606638400" target="_blank" rel="noopener" class="social-link" title="WhatsApp">wa</a>
@@ -945,31 +940,43 @@
       heroEl.addEventListener('mouseleave', () => { heroBg.style.transform=''; });
     })();
 
-    /* ─── TYPEWRITER ─── */
-    (function() {
-      const phrases = [
+    /* ─── TYPEWRITER PHRASES (shared with lang toggle) ─── */
+    const phrasesByLang = {
+      en: [
         'verified Red Sea properties.',
         'investment flats with real returns.',
         'your perfect holiday home.',
         'trusted guidance, start to finish.'
-      ];
+      ],
+      pl: [
+        'zweryfikowane nieruchomości nad Morzem Czerwonym.',
+        'mieszkania inwestycyjne z realnym zyskiem.',
+        'Twój wymarzony dom wakacyjny.',
+        'rzetelne wsparcie od A do Z.'
+      ]
+    };
+
+    /* ─── TYPEWRITER ─── */
+    (function() {
+      let phrases = phrasesByLang.en;
       const el = document.getElementById('tw-text');
-      let pi=0, ci=0, deleting=false, pause=0;
-      function tick() {
-        if (pause>0) { pause--; setTimeout(tick, 80); return; }
-        const word = phrases[pi];
+      let idx=0, charIdx=0, deleting=false, pause=0, timer=null;
+      function type() {
+        if (pause>0) { pause--; timer=setTimeout(type, 80); return; }
+        const word = phrases[idx];
         if (!deleting) {
-          el.textContent = word.slice(0, ci+1);
-          ci++;
-          if (ci === word.length) { deleting=true; pause=22; setTimeout(tick,80); return; }
+          el.textContent = word.slice(0, charIdx+1);
+          charIdx++;
+          if (charIdx === word.length) { deleting=true; pause=22; timer=setTimeout(type,80); return; }
         } else {
-          el.textContent = word.slice(0, ci-1);
-          ci--;
-          if (ci===0) { deleting=false; pi=(pi+1)%phrases.length; pause=4; }
+          el.textContent = word.slice(0, charIdx-1);
+          charIdx--;
+          if (charIdx===0) { deleting=false; idx=(idx+1)%phrases.length; pause=4; }
         }
-        setTimeout(tick, deleting ? 38 : 80);
+        timer=setTimeout(type, deleting ? 38 : 80);
       }
-      setTimeout(tick, 1800);
+      timer=setTimeout(type, 1800);
+      window._twRestart = function(newPhrases) { phrases = newPhrases; idx = 0; charIdx = 0; clearTimeout(timer); type(); };
     })();
 
     /* ─── CUSTOM CURSOR ─── */
@@ -1077,6 +1084,222 @@
       const body = `Hi Hanna,\n\nMy name is ${name}.\n\n${d.msg || ''}\n\nMy contact:\nPhone/WhatsApp: ${d.phone || 'not provided'}\nEmail: ${d.email || 'not provided'}\n\nLooking forward to hearing from you!`;
       window.open(`mailto:hrozczka@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
     }
+
+    // ── LANGUAGE TOGGLE ──
+    const TRANSLATIONS = {
+      en: {
+        'i18n-nav-about': 'About',
+        'i18n-nav-services': 'Services',
+        'i18n-nav-listings': 'Listings',
+        'i18n-nav-process': 'Process',
+        'i18n-nav-reviews': 'Reviews',
+        'i18n-nav-cta': 'Contact Me',
+        'i18n-hero-badge': 'Homes Bay · Real Estate Agent',
+        'i18n-hero-h1': 'Your Perfect Home<br /><em>On The Red Sea</em>',
+        'i18n-hero-sub': 'I help international buyers find',
+        'i18n-hero-btn1': 'Browse Properties',
+        'i18n-hero-btn2': 'Book a Free Call',
+        'i18n-stat-loc': 'Locations Covered',
+        'i18n-stat-rating': 'Client Rating',
+        'i18n-stat-verified': 'Verified Listings',
+        'i18n-stat-polish': 'Polish Speaking',
+        'i18n-about-label': 'About Me',
+        'i18n-about-h2': 'Fresh Energy, Genuine Commitment',
+        'i18n-about-p1': "Hi, I'm Hanna Różczka — a real estate consultant at Homes Bay Hurghada. I joined the team with one clear mission: to give international buyers the honest, transparent guidance they deserve when exploring Egypt's stunning Red Sea property market.",
+        'i18n-about-p2': "Whether you're looking for a holiday retreat, a rental investment, or a permanent move, I take the time to truly understand what matters to you — and match you only with properties that have passed Homes Bay's rigorous 4-step verification process. No pressure, no shortcuts.",
+        'i18n-about-p3': "As a Polish speaker, I'm especially well-placed to support Polish buyers navigating every step — from first enquiry to key handover.",
+        'i18n-about-btn': 'Get in Touch',
+        'i18n-svc-label': 'What I Do',
+        'i18n-svc-h2': 'Services Tailored for You',
+        'i18n-svc-p': "From your first question to the day you receive your keys — I support you through every stage of the journey.",
+        'i18n-svc-1': '<div class="card-icon">🏡</div><h3>Property Search</h3><p>Curated, verified listings matched to your budget, timeline, and lifestyle — no pressure, just the right fit.</p>',
+        'i18n-svc-2': '<div class="card-icon">⚖️</div><h3>Legal &amp; Title Review</h3><p>Every property I recommend has been independently verified for legal clarity, developer reliability, and title status.</p>',
+        'i18n-svc-3': '<div class="card-icon">📊</div><h3>Investment Advisory</h3><p>Honest market analysis, realistic rental yield projections, and long-term value assessment for each property.</p>',
+        'i18n-svc-4': '<div class="card-icon">✈️</div><h3>Relocation Support</h3><p>I help you settle in — from airport pickup to property handover, utilities, and local registration.</p>',
+        'i18n-svc-5': '<div class="card-icon">🤝</div><h3>Developer Negotiations</h3><p>I negotiate on your behalf to secure the best payment plans, finishes, and delivery guarantees available.</p>',
+        'i18n-svc-6': '<div class="card-icon">📞</div><h3>After-Sale Support</h3><p>My relationship with clients doesn\'t end at signing. I\'m here for maintenance referrals, resale, and rentals.</p>',
+        'i18n-lst-label': 'Featured Properties',
+        'i18n-lst-h2': 'Verified Listings I Currently Support',
+        'i18n-lst-p': "Each property below has passed Homes Bay's full 4-step verification process.",
+        'i18n-lst-badge-1':'Verified','i18n-lst-badge-2':'Verified','i18n-lst-badge-3':'Verified','i18n-lst-badge-4':'Verified','i18n-lst-badge-5':'Verified','i18n-lst-badge-6':'Verified','i18n-lst-badge-7':'Verified','i18n-lst-badge-8':'Verified','i18n-lst-badge-9':'Verified','i18n-lst-badge-10':'Verified','i18n-lst-badge-11':'Verified','i18n-lst-badge-12':'Verified',
+        'i18n-lst-title-1':'2-Bed Sea View Apartment — Hayat Beach Resort',
+        'i18n-lst-title-2':'1-Bed Sea View Apartment — Hayat Beach Resort',
+        'i18n-lst-title-3':'Studio Sea View — Hayat Beach Resort',
+        'i18n-lst-title-4':'2-Bed Pool View Apartment — Marvento',
+        'i18n-lst-title-5':'Studio Garden View — Marvento',
+        'i18n-lst-title-6':'3-Bed Pool View — Aurora Palace',
+        'i18n-lst-title-7':'2-Bed Pool View — Aurora Palace',
+        'i18n-lst-title-8':'1-Bed Pool View — Aurora Palace',
+        'i18n-lst-title-9':'Studio Pool View — Aurora Palace',
+        'i18n-lst-title-10':'1-Bed Sky Pool View — Marvento',
+        'i18n-lst-title-11':'2-Bed Sky Pool View — Marvento',
+        'i18n-lst-title-12':'2-Bed Pool View — Blue 27',
+        'i18n-lst-beds-1':'🛏️ 2 Beds','i18n-lst-beds-2':'🛏️ 1 Bed','i18n-lst-beds-3':'🛏️ Studio','i18n-lst-beds-4':'🛏️ 2 Beds','i18n-lst-beds-5':'🛏️ Studio','i18n-lst-beds-6':'🛏️ 3 Beds','i18n-lst-beds-7':'🛏️ 2 Beds','i18n-lst-beds-8':'🛏️ 1 Bed','i18n-lst-beds-9':'🛏️ Studio','i18n-lst-beds-10':'🛏️ 1 Bed','i18n-lst-beds-11':'🛏️ 2 Beds','i18n-lst-beds-12':'🛏️ 2 Beds',
+        'i18n-lst-view-1':'🌊 Sea View','i18n-lst-view-2':'🌊 Sea View','i18n-lst-view-3':'🌊 Sea View','i18n-lst-view-4':'🏊 Pool View','i18n-lst-view-5':'🌿 Garden View','i18n-lst-view-6':'🏊 Pool View','i18n-lst-view-7':'🏊 Pool View','i18n-lst-view-8':'🏊 Pool View','i18n-lst-view-9':'🏊 Pool View','i18n-lst-view-10':'🏊 Sky Pool','i18n-lst-view-11':'🏊 Sky Pool','i18n-lst-view-12':'🏊 Pool View',
+        'i18n-lst-cta': 'View All Listings at Homes Bay →',
+        'i18n-proc-label': 'How I Work',
+        'i18n-proc-h2': 'The Homes Bay Verification Process',
+        'i18n-proc-p': "Every property I recommend has passed through four independent checks before I ever show it to a client.",
+        'i18n-proc-1': '<div class="step-num">1</div><h3>Developer Assessment</h3><p>History, financial standing, and track record in the Hurghada market.</p>',
+        'i18n-proc-2': '<div class="step-num">2</div><h3>Legal &amp; Title Review</h3><p>Ownership title, legal structure, and documentation checked in full.</p>',
+        'i18n-proc-3': '<div class="step-num">3</div><h3>Project Status Check</h3><p>Current construction progress and delivery timeline verified on-site.</p>',
+        'i18n-proc-4': '<div class="step-num">4</div><h3>Suitability Assessment</h3><p>Investment fit, rental potential, and ownership risks evaluated honestly.</p>',
+        'i18n-rev-label': 'Client Reviews',
+        'i18n-rev-h2': 'What My Clients Say',
+        'i18n-cta-h2': 'Ready to Find Your Red Sea Home?',
+        'i18n-cta-p': "Let's talk — no pressure, no obligation. Just an honest conversation about what's right for you.",
+        'i18n-cta-btn1': 'Send Me a Message',
+        'i18n-cta-btn2': 'Browse All Listings',
+        'i18n-cnt-label': 'Get In Touch',
+        'i18n-cnt-h2': "Let's Start the Conversation",
+        'i18n-cnt-p': "Whether you have a specific property in mind or you're just starting to explore, I'm here to help. I'll get back to you within 24 hours.",
+        'i18n-cnt-lang-label': 'Languages',
+        'i18n-cnt-lang-val': 'Polish · English · Arabic',
+        'i18n-cnt-resp-label': 'Response Time',
+        'i18n-cnt-resp-val': 'Within 24 hours',
+        'i18n-cnt-fname': 'First Name',
+        'i18n-cnt-lname': 'Last Name',
+        'i18n-cnt-email-label': 'Email',
+        'i18n-cnt-phone': 'Phone / WhatsApp',
+        'i18n-cnt-msg': 'What are you looking for?',
+        'i18n-cnt-wa-btn': 'WhatsApp Hanna',
+        'i18n-cnt-email-btn': 'Send Email',
+        'i18n-cnt-note': '🔒 Your details are kept private and never shared.',
+        'i18n-ftr-desc': "Real Estate Agent at Homes Bay Hurghada. Helping international buyers find verified, legally clear properties across Egypt's Red Sea Riviera — with full transparency from day one.",
+      },
+      pl: {
+        'i18n-nav-about': 'O mnie',
+        'i18n-nav-services': 'Usługi',
+        'i18n-nav-listings': 'Nieruchomości',
+        'i18n-nav-process': 'Proces',
+        'i18n-nav-reviews': 'Opinie',
+        'i18n-nav-cta': 'Skontaktuj się',
+        'i18n-hero-badge': 'Homes Bay · Agent Nieruchomości',
+        'i18n-hero-h1': 'Twój Wymarzony Dom<br /><em>Nad Morzem Czerwonym</em>',
+        'i18n-hero-sub': 'Pomagam zagranicznym kupującym znaleźć',
+        'i18n-hero-btn1': 'Przeglądaj oferty',
+        'i18n-hero-btn2': 'Umów bezpłatną rozmowę',
+        'i18n-stat-loc': 'Lokalizacje',
+        'i18n-stat-rating': 'Ocena klientów',
+        'i18n-stat-verified': 'Zweryfikowane oferty',
+        'i18n-stat-polish': 'Mówię po polsku',
+        'i18n-about-label': 'O mnie',
+        'i18n-about-h2': 'Świeże podejście, prawdziwe zaangażowanie',
+        'i18n-about-p1': "Cześć, jestem Hanna Różczka — doradca ds. nieruchomości w Homes Bay Hurghada. Dołączyłam do zespołu z jedną misją: zapewnić zagranicznym kupującym rzetelne i przejrzyste wsparcie podczas zakupu wymarzonej nieruchomości nad Morzem Czerwonym w Egipcie.",
+        'i18n-about-p2': "Niezależnie od tego, czy szukasz apartamentu wakacyjnego, inwestycji pod wynajem czy stałego miejsca do życia — poświęcam czas, by poznać Twoje potrzeby i polecam wyłącznie nieruchomości, które przeszły rygorystyczny 4-etapowy proces weryfikacji Homes Bay. Bez presji, bez skrótów.",
+        'i18n-about-p3': "Jako Polka jestem szczególnie dobrze przygotowana, by towarzyszyć polskim kupującym na każdym etapie — od pierwszego zapytania aż do odbioru kluczy.",
+        'i18n-about-btn': 'Skontaktuj się',
+        'i18n-svc-label': 'Co robię',
+        'i18n-svc-h2': 'Usługi dopasowane do Ciebie',
+        'i18n-svc-p': "Od pierwszego pytania aż do dnia odbioru kluczy — towarzyszę Ci na każdym etapie zakupu.",
+        'i18n-svc-1': '<div class="card-icon">🏡</div><h3>Wyszukiwanie nieruchomości</h3><p>Zweryfikowane oferty dopasowane do Twojego budżetu, harmonogramu i stylu życia — bez presji, tylko to, co odpowiednie.</p>',
+        'i18n-svc-2': '<div class="card-icon">⚖️</div><h3>Weryfikacja prawna i tytułu</h3><p>Każda polecana przeze mnie nieruchomość jest niezależnie zweryfikowana pod kątem jasności prawnej, wiarygodności dewelopera i stanu tytułu.</p>',
+        'i18n-svc-3': '<div class="card-icon">📊</div><h3>Doradztwo inwestycyjne</h3><p>Rzetelna analiza rynku, realistyczne prognozy rentowności najmu i długoterminowa ocena wartości każdej nieruchomości.</p>',
+        'i18n-svc-4': '<div class="card-icon">✈️</div><h3>Wsparcie relokacyjne</h3><p>Pomagam się zadomowić — od odbioru na lotnisku, przez przekazanie nieruchomości, aż po media i rejestrację lokalną.</p>',
+        'i18n-svc-5': '<div class="card-icon">🤝</div><h3>Negocjacje z deweloperem</h3><p>Negocjuję w Twoim imieniu najlepsze warunki płatności, wykończenia i gwarancje odbioru dostępne na rynku.</p>',
+        'i18n-svc-6': '<div class="card-icon">📞</div><h3>Wsparcie posprzedażowe</h3><p>Moja relacja z klientami nie kończy się na podpisaniu umowy. Jestem tu, gdy potrzeba kontaktów serwisowych, odsprzedaży czy najmu.</p>',
+        'i18n-lst-label': 'Polecane nieruchomości',
+        'i18n-lst-h2': 'Zweryfikowane oferty, którymi aktualnie się zajmuję',
+        'i18n-lst-p': "Każda poniższa nieruchomość przeszła pełny 4-etapowy proces weryfikacji Homes Bay.",
+        'i18n-lst-badge-1':'Zweryfikowana','i18n-lst-badge-2':'Zweryfikowana','i18n-lst-badge-3':'Zweryfikowana','i18n-lst-badge-4':'Zweryfikowana','i18n-lst-badge-5':'Zweryfikowana','i18n-lst-badge-6':'Zweryfikowana','i18n-lst-badge-7':'Zweryfikowana','i18n-lst-badge-8':'Zweryfikowana','i18n-lst-badge-9':'Zweryfikowana','i18n-lst-badge-10':'Zweryfikowana','i18n-lst-badge-11':'Zweryfikowana','i18n-lst-badge-12':'Zweryfikowana',
+        'i18n-lst-title-1':'Apartament 2-pokojowy z widokiem na morze — Hayat Beach Resort',
+        'i18n-lst-title-2':'Apartament 1-pokojowy z widokiem na morze — Hayat Beach Resort',
+        'i18n-lst-title-3':'Studio z widokiem na morze — Hayat Beach Resort',
+        'i18n-lst-title-4':'Apartament 2-pokojowy z widokiem na basen — Marvento',
+        'i18n-lst-title-5':'Studio z widokiem na ogród — Marvento',
+        'i18n-lst-title-6':'3-pokojowy z widokiem na basen — Aurora Palace',
+        'i18n-lst-title-7':'2-pokojowy z widokiem na basen — Aurora Palace',
+        'i18n-lst-title-8':'1-pokojowy z widokiem na basen — Aurora Palace',
+        'i18n-lst-title-9':'Studio z widokiem na basen — Aurora Palace',
+        'i18n-lst-title-10':'1-pokojowy z widokiem na basen na dachu — Marvento',
+        'i18n-lst-title-11':'2-pokojowy z widokiem na basen na dachu — Marvento',
+        'i18n-lst-title-12':'2-pokojowy z widokiem na basen — Blue 27',
+        'i18n-lst-beds-1':'🛏️ 2 sypialnie','i18n-lst-beds-2':'🛏️ 1 sypialnia','i18n-lst-beds-3':'🛏️ Studio','i18n-lst-beds-4':'🛏️ 2 sypialnie','i18n-lst-beds-5':'🛏️ Studio','i18n-lst-beds-6':'🛏️ 3 sypialnie','i18n-lst-beds-7':'🛏️ 2 sypialnie','i18n-lst-beds-8':'🛏️ 1 sypialnia','i18n-lst-beds-9':'🛏️ Studio','i18n-lst-beds-10':'🛏️ 1 sypialnia','i18n-lst-beds-11':'🛏️ 2 sypialnie','i18n-lst-beds-12':'🛏️ 2 sypialnie',
+        'i18n-lst-view-1':'🌊 Widok na morze','i18n-lst-view-2':'🌊 Widok na morze','i18n-lst-view-3':'🌊 Widok na morze','i18n-lst-view-4':'🏊 Widok na basen','i18n-lst-view-5':'🌿 Widok na ogród','i18n-lst-view-6':'🏊 Widok na basen','i18n-lst-view-7':'🏊 Widok na basen','i18n-lst-view-8':'🏊 Widok na basen','i18n-lst-view-9':'🏊 Widok na basen','i18n-lst-view-10':'🏊 Basen na dachu','i18n-lst-view-11':'🏊 Basen na dachu','i18n-lst-view-12':'🏊 Widok na basen',
+        'i18n-lst-cta': 'Zobacz wszystkie oferty w Homes Bay →',
+        'i18n-proc-label': 'Jak działam',
+        'i18n-proc-h2': 'Proces weryfikacji Homes Bay',
+        'i18n-proc-p': "Każda polecana przeze mnie nieruchomość przeszła cztery niezależne kontrole, zanim kiedykolwiek ją pokazałam klientowi.",
+        'i18n-proc-1': '<div class="step-num">1</div><h3>Ocena dewelopera</h3><p>Historia, kondycja finansowa i dotychczasowe realizacje na rynku Hurghady.</p>',
+        'i18n-proc-2': '<div class="step-num">2</div><h3>Weryfikacja prawna i tytułu</h3><p>Tytuł własności, struktura prawna i dokumentacja sprawdzone w całości.</p>',
+        'i18n-proc-3': '<div class="step-num">3</div><h3>Status projektu</h3><p>Aktualny postęp budowy i harmonogram odbioru zweryfikowane na miejscu.</p>',
+        'i18n-proc-4': '<div class="step-num">4</div><h3>Ocena przydatności</h3><p>Dopasowanie inwestycyjne, potencjał najmu i ryzyka własnościowe ocenione rzetelnie.</p>',
+        'i18n-rev-label': 'Opinie klientów',
+        'i18n-rev-h2': 'Co mówią moi klienci',
+        'i18n-cta-h2': 'Gotowy, by znaleźć swój dom nad Morzem Czerwonym?',
+        'i18n-cta-p': "Porozmawiajmy — bez presji, bez zobowiązań. Tylko szczera rozmowa o tym, co jest dla Ciebie najlepsze.",
+        'i18n-cta-btn1': 'Napisz do mnie',
+        'i18n-cta-btn2': 'Przeglądaj wszystkie oferty',
+        'i18n-cnt-label': 'Skontaktuj się',
+        'i18n-cnt-h2': 'Zacznijmy rozmowę',
+        'i18n-cnt-p': "Niezależnie od tego, czy masz konkretną nieruchomość na oku, czy dopiero zaczynasz szukać — jestem tu, by pomóc. Odezwę się w ciągu 24 godzin.",
+        'i18n-cnt-lang-label': 'Języki',
+        'i18n-cnt-lang-val': 'Polski · Angielski · Arabski',
+        'i18n-cnt-resp-label': 'Czas odpowiedzi',
+        'i18n-cnt-resp-val': 'W ciągu 24 godzin',
+        'i18n-cnt-fname': 'Imię',
+        'i18n-cnt-lname': 'Nazwisko',
+        'i18n-cnt-email-label': 'E-mail',
+        'i18n-cnt-phone': 'Telefon / WhatsApp',
+        'i18n-cnt-msg': 'Czego szukasz?',
+        'i18n-cnt-wa-btn': 'WhatsApp do Hanny',
+        'i18n-cnt-email-btn': 'Wyślij e-mail',
+        'i18n-cnt-note': '🔒 Twoje dane są prywatne i nigdy nie są udostępniane.',
+        'i18n-ftr-desc': "Agent nieruchomości w Homes Bay Hurghada. Pomagam zagranicznym kupującym znaleźć zweryfikowane, legalnie czyste nieruchomości na egipskiej Riwierze Morza Czerwonego — z pełną przejrzystością od pierwszego dnia.",
+      }
+    };
+
+    let currentLang = 'en';
+
+    // Input placeholder translations
+    const placeholdersByLang = {
+      en: {
+        'cf-first': 'Your first name',
+        'cf-last': 'Your last name',
+        'cf-email': 'your@email.com',
+        'cf-phone': '+48 or +44 …',
+        'cf-msg': 'Tell me about your ideal property — location, budget, timeline…'
+      },
+      pl: {
+        'cf-first': 'Twoje imię',
+        'cf-last': 'Twoje nazwisko',
+        'cf-email': 'twoj@email.com',
+        'cf-phone': '+48 …',
+        'cf-msg': 'Opisz wymarzoną nieruchomość — lokalizacja, budżet, termin…'
+      }
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      const t = TRANSLATIONS[lang];
+      // swap text content for each id
+      Object.keys(t).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = t[id];
+      });
+      // swap input placeholders
+      const ph = placeholdersByLang[lang];
+      Object.keys(ph).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.placeholder = ph[id];
+      });
+      // update toggle button states
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      // restart typewriter with new phrases
+      if (window._twRestart) window._twRestart(phrasesByLang[lang]);
+      // persist
+      try { localStorage.setItem('lang', lang); } catch(e){}
+    }
+
+    // Restore language on load
+    (function(){
+      try {
+        const saved = localStorage.getItem('lang');
+        if (saved === 'pl') setLang('pl');
+      } catch(e){}
+    })();
   </script>
 </body>
 </html>
