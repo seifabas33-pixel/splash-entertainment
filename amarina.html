@@ -323,6 +323,40 @@
       .act { gap: 12px; }
       .act-cat { display: none; }
     }
+
+    /* ── Brand logo chip ───────────────────────────────────── */
+    .brand-chip { background: rgba(255,255,255,0.95); border-radius: 12px; padding: 6px 11px; display: inline-flex; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.22); }
+    .brand-chip img { height: 26px; max-width: 134px; width: auto; object-fit: contain; display: block; }
+    .loader-chip { padding: 16px 24px; border-radius: 18px; animation: floaty 3s ease-in-out infinite; }
+    .loader-chip img { height: 56px; max-width: 230px; }
+
+    /* ── Venue photo header ────────────────────────────────── */
+    .vcard-head.photo { height: 198px; padding: 0; display: block; cursor: pointer; }
+    .vhead-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .vhead-img.imgfail { display: none; }
+    .vhead-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,12,26,0.94) 2%, rgba(6,12,26,0.30) 48%, rgba(6,12,26,0.04) 100%); }
+    .vcard-head.photo .pill { position: absolute; top: 13px; left: 13px; z-index: 3; }
+    .photo-count { position: absolute; top: 13px; right: 13px; z-index: 3; background: rgba(0,0,0,0.5); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .5px; padding: 5px 11px; border-radius: 20px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+    .vhead-content { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px; display: flex; align-items: center; gap: 14px; z-index: 2; }
+
+    /* ── Thumbnail strip ───────────────────────────────────── */
+    .thumbs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 16px; scrollbar-width: thin; }
+    .thumbs::-webkit-scrollbar { height: 5px; }
+    .thumbs::-webkit-scrollbar-thumb { background: var(--line); border-radius: 5px; }
+    .thumb { width: 76px; height: 56px; object-fit: cover; border-radius: 10px; cursor: pointer; flex-shrink: 0; border: 1px solid var(--line); transition: transform .2s, border-color .2s; }
+    .thumb:hover { transform: translateY(-2px); border-color: var(--gold-border); }
+
+    /* ── Lightbox ──────────────────────────────────────────── */
+    .lb { position: fixed; inset: 0; z-index: 9990; background: rgba(4,8,18,0.95); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s ease; }
+    .lb.open { opacity: 1; visibility: visible; }
+    .lb-img { max-width: 90vw; max-height: 82vh; border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+    .lb button { position: absolute; background: rgba(255,255,255,0.08); border: 1px solid var(--line); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background .2s, color .2s; line-height: 1; }
+    .lb button:hover { background: var(--gold); color: #06101F; border-color: var(--gold); }
+    .lb-close { top: 20px; right: 20px; width: 46px; height: 46px; font-size: 26px; }
+    .lb-prev, .lb-next { top: 50%; transform: translateY(-50%); width: 54px; height: 54px; font-size: 30px; }
+    .lb-prev { left: 20px; } .lb-next { right: 20px; }
+    .lb-count { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 13px; letter-spacing: 1px; background: rgba(0,0,0,0.45); padding: 7px 16px; border-radius: 20px; }
+    @media (max-width: 600px) { .lb-prev, .lb-next { width: 44px; height: 44px; font-size: 24px; } .lb-close { width: 42px; height: 42px; font-size: 22px; } }
   </style>
 </head>
 <body>
@@ -339,9 +373,9 @@
 
   <!-- ── Loader ── -->
   <div id="loader">
-    <img class="loader-mark" src="assets/amarina-icon.svg" alt="Amarina Jannah" />
+    <span class="brand-chip loader-chip"><img src="https://www.amarinahotels.com/wp-content/uploads/2018/12/AMARINA_Logo_mittig_4C_transparent_RGB.png" alt="Amarina Jannah" onerror="this.onerror=null;this.src='assets/amarina-icon.svg'" /></span>
     <div style="text-align:center">
-      <div class="loader-name">Amarina Jannah</div>
+      <div class="loader-name">Jannah</div>
       <div class="loader-sub">Resort &amp; Aqua Park</div>
     </div>
     <div class="loader-bar"><i></i></div>
@@ -353,8 +387,8 @@
     <nav id="navbar">
       <div class="container nav-inner">
         <a href="#home" class="nav-logo">
-          <img src="assets/amarina-icon.svg" alt="" />
-          <span class="nl-txt"><b>Amarina Jannah</b><span>Coraya Bay · Marsa Alam</span></span>
+          <span class="brand-chip"><img src="https://www.amarinahotels.com/wp-content/uploads/2018/12/AMARINA_Logo_mittig_4C_transparent_RGB.png" alt="Amarina" onerror="this.onerror=null;this.src='assets/amarina-icon.svg'" /></span>
+          <span class="nl-txt"><b>Jannah</b><span>Coraya Bay · Marsa Alam</span></span>
         </a>
         <ul class="nav-links">
           <li><a href="#about"      class="nav-link">Resort</a></li>
@@ -525,6 +559,15 @@
 
   </div>
 
+  <!-- ── Lightbox ── -->
+  <div class="lb" id="lightbox" aria-hidden="true">
+    <button class="lb-close" aria-label="Close gallery">×</button>
+    <button class="lb-prev" aria-label="Previous photo">‹</button>
+    <img class="lb-img" id="lbImg" alt="Venue photo" />
+    <button class="lb-next" aria-label="Next photo">›</button>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+
   <!-- ── WhatsApp ── -->
   <a class="wa" href="https://www.amarinagroup.com/amarina-hotels-resorts/amarina-jannah-resort" target="_blank" rel="noopener" aria-label="Contact resort">
     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.519 5.26l-.999 3.648 3.969-1.519zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
@@ -541,6 +584,12 @@
       name: 'Element', icon: '🍽️', type: 'Main Buffet', cuisine: 'International & Egyptian',
       accent: ['#0096C7', '#00B4D8'], location: 'Main Building',
       desc: "The resort's main all-inclusive restaurant — generous international and Egyptian buffets with live cooking stations, grills and a dessert spread.",
+      images: [
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/496116585.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/496116855.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/496116865.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/535460855.jpg',
+      ],
       periods: [
         { label: 'Breakfast', open: '07:00', close: '10:00' },
         { label: 'Lunch',     open: '13:00', close: '15:00' },
@@ -553,14 +602,26 @@
       name: 'Luctoni', icon: '🍝', type: 'À la Carte', cuisine: 'Italian',
       accent: ['#C1121F', '#E63946'], location: 'Resort Complex',
       desc: 'Themed Italian à-la-carte — hand-made pasta, pizza and classic mains. A guest favourite, frequently singled out in reviews.',
+      images: [
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/496116670.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/537198510.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/537200114.jpg',
+      ],
       periods: [ { label: 'Dinner', open: '19:00', close: '22:00' } ],
       allInclusive: false, reservation: true, reservationNote: 'One complimentary dinner per stay included · reserve in advance',
       dresscode: 'Smart / Formal', note: null,
     },
     {
       name: 'Zeina', icon: '🍢', type: 'À la Carte', cuisine: 'Oriental & Egyptian',
-      accent: ['#D4882B', '#F4A261'], location: 'Resort Complex',
-      desc: 'Themed Oriental à-la-carte celebrating authentic Egyptian and Middle-Eastern specialities in an intimate setting.',
+      accent: ['#D4882B', '#F4A261'], location: 'Outdoor Terrace',
+      desc: 'Themed Oriental à-la-carte on a relaxed outdoor terrace — authentic Egyptian and Middle-Eastern specialities served under the stars.',
+      images: [
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/536487464.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/496117651.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/635128155.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/535457273.jpg',
+        'https://cf.bstatic.com/xdata/images/hotel/max1024x768/535460849.jpg',
+      ],
       periods: [ { label: 'Dinner', open: '19:00', close: '22:00' } ],
       allInclusive: false, reservation: true, reservationNote: 'One complimentary dinner per stay included · reserve in advance',
       dresscode: 'Smart / Formal', note: null,
@@ -589,6 +650,7 @@
     {
       name: 'Pool Bar', icon: '🍹', location: 'Poolside', open: '10:00', close: '24:00',
       desc: 'Stay refreshed between swims without leaving the water. Light snacks served through the afternoon.',
+      images: ['https://cf.bstatic.com/xdata/images/hotel/max1024x768/537203869.jpg'],
       highlights: ['Poolside service', 'Cocktails', 'Snacks 13:00–17:00'],
     },
     {
@@ -680,8 +742,46 @@
       : '<span class="pill pill-closed">CLOSED</span>';
   }
 
+  // ── Image galleries / photo headers ──
+  const GALLERIES = {};
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  function registerGallery(v) { if (v.images && v.images.length) GALLERIES[slug(v.name)] = v.images; }
+
+  function venueHeader(v, accent, open, metaHTML) {
+    const grad = `linear-gradient(120deg, ${accent[0]}, ${accent[1]})`;
+    if (v.images && v.images.length) {
+      const sl = slug(v.name);
+      return `
+        <div class="vcard-head photo" style="background:${grad}" data-gal="${sl}" data-i="0" role="button" tabindex="0" aria-label="View ${esc(v.name)} photos">
+          <img class="vhead-img" src="${v.images[0]}" alt="${esc(v.name)}" onerror="this.classList.add('imgfail')">
+          <div class="vhead-shade"></div>
+          ${statusPill(open)}
+          ${v.images.length > 1 ? `<div class="photo-count">📷 ${v.images.length}</div>` : ''}
+          <div class="vhead-content">
+            <div class="vicon">${v.icon}</div>
+            <div class="vt"><div class="vname">${esc(v.name)}</div><div class="vmeta">${metaHTML}</div></div>
+          </div>
+        </div>`;
+    }
+    return `
+      <div class="vcard-head" style="background:${grad}">
+        <div class="vicon">${v.icon}</div>
+        <div class="vt"><div class="vname">${esc(v.name)}</div><div class="vmeta">${metaHTML}</div></div>
+        ${statusPill(open)}
+      </div>`;
+  }
+
+  function thumbStrip(v) {
+    if (!v.images || v.images.length < 2) return '';
+    const sl = slug(v.name);
+    return `<div class="thumbs">${v.images.map((src, i) =>
+      `<img class="thumb" src="${src}" alt="${esc(v.name)} photo ${i + 1}" loading="lazy" data-gal="${sl}" data-i="${i}" onerror="this.remove()">`
+    ).join('')}</div>`;
+  }
+
   function renderRestaurants(now) {
     document.getElementById('restaurantCards').innerHTML = RESTAURANTS.map(r => {
+      registerGallery(r);
       const open = restaurantOpen(r, now);
       const periods = r.periods.map(p =>
         `<div class="period" style="border-color:${PERIOD_COLOR[p.label] || '#555'}">
@@ -696,12 +796,9 @@
         ${r.dresscode ? `<span class="badge badge-dc">👔 ${esc(r.dresscode)}</span>` : ''}`;
       return `
         <article class="vcard">
-          <div class="vcard-head" style="background:linear-gradient(120deg, ${r.accent[0]}, ${r.accent[1]})">
-            <div class="vicon">${r.icon}</div>
-            <div class="vt"><div class="vname">${esc(r.name)}</div><div class="vmeta">${esc(r.type)} · ${esc(r.cuisine)}</div></div>
-            ${statusPill(open)}
-          </div>
+          ${venueHeader(r, r.accent, open, `${esc(r.type)} · ${esc(r.cuisine)}`)}
           <div class="vcard-body">
+            ${thumbStrip(r)}
             <p class="vdesc">${esc(r.desc)}</p>
             <div class="vloc">📍 ${esc(r.location)}</div>
             <div class="periods">${periods}</div>
@@ -715,17 +812,15 @@
 
   function renderBars(now) {
     document.getElementById('barCards').innerHTML = BARS.map(b => {
+      registerGallery(b);
       const open = isOpen(b.open, b.close, now);
       const chips = b.highlights.map(h => `<span class="chip">${esc(h)}</span>`).join('');
       const closeLabel = b.close === '24:00' ? '00:00' : b.close;
       return `
         <article class="vcard">
-          <div class="vcard-head" style="background:linear-gradient(120deg, #1B1464, #2C3E7A)">
-            <div class="vicon">${b.icon}</div>
-            <div class="vt"><div class="vname">${esc(b.name)}</div><div class="vmeta">📍 ${esc(b.location)}</div></div>
-            ${statusPill(open)}
-          </div>
+          ${venueHeader(b, ['#1B1464', '#2C3E7A'], open, `📍 ${esc(b.location)}`)}
           <div class="vcard-body">
+            ${thumbStrip(b)}
             <p class="vdesc">${esc(b.desc)}</p>
             <div class="chips">${chips}</div>
             <div class="hours">🕐 ${b.open} – ${closeLabel}</div>
@@ -785,6 +880,34 @@
   document.addEventListener('DOMContentLoaded', () => {
     renderRooms(); renderActivities(); renderFacilities(); renderHighlights(); renderAll();
     setInterval(renderAll, 60000); // refresh open/closed status each minute
+
+    // Lightbox gallery
+    const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCount = document.getElementById('lbCount');
+    let lbImgs = [], lbIdx = 0;
+    const showLB = () => { lbImg.src = lbImgs[lbIdx]; lbCount.textContent = (lbIdx + 1) + ' / ' + lbImgs.length; };
+    const openLB = (gal, i) => { lbImgs = GALLERIES[gal] || []; if (!lbImgs.length) return; lbIdx = i; showLB(); lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
+    const closeLB = () => { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
+    const moveLB = d => { lbIdx = (lbIdx + d + lbImgs.length) % lbImgs.length; showLB(); };
+    const dining = document.getElementById('dining');
+    dining.addEventListener('click', e => {
+      const t = e.target.closest('[data-gal]');
+      if (t) { e.preventDefault(); openLB(t.dataset.gal, +t.dataset.i || 0); }
+    });
+    dining.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const t = e.target.closest('[data-gal]');
+      if (t) { e.preventDefault(); openLB(t.dataset.gal, +t.dataset.i || 0); }
+    });
+    lb.querySelector('.lb-close').addEventListener('click', closeLB);
+    lb.querySelector('.lb-prev').addEventListener('click', () => moveLB(-1));
+    lb.querySelector('.lb-next').addEventListener('click', () => moveLB(1));
+    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLB();
+      else if (e.key === 'ArrowRight') moveLB(1);
+      else if (e.key === 'ArrowLeft') moveLB(-1);
+    });
 
     // Loader
     window.addEventListener('load', () => setTimeout(() => document.getElementById('loader').classList.add('done'), 1500));
