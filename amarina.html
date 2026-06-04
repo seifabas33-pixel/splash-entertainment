@@ -176,7 +176,12 @@
     #mobileMenu a.m-cta { font-size: 14px; font-family: var(--sans); letter-spacing: 1px; text-transform: uppercase; padding: 12px 28px; border: 1px solid var(--gold-border); border-radius: 40px; color: var(--gold); }
 
     /* ── Hero ──────────────────────────────────────────────── */
-    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 24px 60px; }
+    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 24px 60px; overflow: hidden; }
+    .hero > *:not(.hero-bg) { position: relative; z-index: 1; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+    .hero-bg::before { content: ''; position: absolute; inset: -5%; background: url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/537203869.jpg') center/cover no-repeat; transform: scale(1.02); animation: kenburns 24s ease-in-out infinite alternate; }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(3,8,22,0.74) 0%, rgba(3,8,22,0.50) 38%, rgba(6,12,26,0.93) 100%); }
+    @keyframes kenburns { 0% { transform: scale(1.02) translate(0, 0); } 100% { transform: scale(1.16) translate(-2.5%, -2%); } }
     .hero-eyebrow { font-size: 11px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
     .hero-stars { color: var(--gold); letter-spacing: 6px; font-size: 15px; margin-bottom: 18px; }
     .hero h1 { font-size: clamp(40px, 8vw, 84px); font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; text-shadow: 0 4px 40px rgba(0,0,0,0.5); }
@@ -435,7 +440,7 @@
     /* Respect reduced-motion */
     @media (prefers-reduced-motion: reduce) {
       .stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
-      .fac-ico, .btn-gold::after, .wa, .hero-divider, .head-rule, .em-arc, .em-sun, .hero h1 em { animation: none !important; }
+      .fac-ico, .btn-gold::after, .wa, .hero-divider, .head-rule, .em-arc, .em-sun, .hero-bg::before, .hero h1 em { animation: none !important; }
       .em-ring { stroke-dashoffset: 0 !important; animation: none !important; }
       .em-ray, .em-w { opacity: 1 !important; }
     }
@@ -529,6 +534,7 @@
 
     <!-- ── Hero ── -->
     <header class="hero" id="home">
+      <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-eyebrow reveal">Amarina Hotels &amp; Resorts</div>
       <div class="hero-stars reveal d1">★ ★ ★ ★ ★</div>
       <h1 class="reveal d1">Amarina <em>Jannah</em></h1>
