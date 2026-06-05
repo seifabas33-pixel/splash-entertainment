@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Amarina Jannah Resort &amp; Aqua Park · Marsa Alam — Guest Experience</title>
-  <meta name="description" content="The official guest-experience platform for Amarina Jannah Resort & Aqua Park, Coraya Bay, Marsa Alam. Explore dining & outlets, daily activities, the aqua park, dive centre, spa and beach." />
+  <meta name="description" content="The official guest-experience platform for Amarina Jannah Resort & Aqua Park, Marsa Alam, Red Sea. Explore dining & outlets, daily activities, the aqua park, dive centre, spa and beach." />
 
   <meta property="og:type"        content="website" />
   <meta property="og:title"       content="Amarina Jannah Resort & Aqua Park · Marsa Alam" />
-  <meta property="og:description" content="Dining & outlets, daily activities, aqua park, dive centre, spa and a 175 m private beach in Coraya Bay, Marsa Alam." />
+  <meta property="og:description" content="Dining & outlets, daily activities, aqua park, dive centre, spa and a 175 m private beach in Marsa Alam, on the Red Sea." />
   <meta property="og:image"       content="assets/amarina-icon.svg" />
   <meta name="theme-color" content="#0A0608" />
 
@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/amarina-icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/amarina-icon-512.png" />
   <link rel="apple-touch-icon" href="assets/amarina-icon-512.png" />
-  <link rel="preload" as="image" href="assets/amarina-logo.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/amarina-logo-light.png" fetchpriority="high" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -99,8 +99,8 @@
     }
     #loader.done { opacity: 0; visibility: hidden; transform: scale(1.08); filter: blur(8px); }
     .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; }
-    .loader-logo { background: #fff; border-radius: 20px; padding: 18px 26px; box-shadow: 0 26px 70px rgba(0,0,0,0.5); opacity: 1; animation: loaderLogoIn .9s .15s cubic-bezier(.2,.8,.3,1.2) both; }
-    .loader-logo img { display: block; width: 230px; max-width: 70vw; height: auto; }
+    .loader-logo { opacity: 1; animation: loaderLogoIn .9s .15s cubic-bezier(.2,.8,.3,1.2) both; }
+    .loader-logo img { display: block; width: 270px; max-width: 74vw; height: auto; filter: drop-shadow(0 0 28px rgba(255,39,51,0.22)); }
     @keyframes loaderLogoIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
     @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
@@ -152,7 +152,7 @@
     }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { display: flex; align-items: center; gap: 11px; }
-    .nav-logo img { width: 38px; height: 38px; border-radius: 10px; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
+    .nav-logo img { width: 42px; height: 42px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
     .nav-logo .nl-txt b { font-family: var(--serif); font-size: 17px; font-weight: 700; letter-spacing: .5px; display: block; line-height: 1; }
     .nav-logo .nl-txt span { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--red); }
     .nav-links { display: flex; align-items: center; gap: 30px; }
@@ -201,9 +201,9 @@
     @keyframes emberRise { 0% { transform: translate3d(0,0,0) scale(.5); opacity: 0; } 12% { opacity: .75; } 78% { opacity: .45; } 100% { transform: translate3d(var(--drift,20px), -88vh, 0) scale(1.15); opacity: 0; } }
     @keyframes vfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     @keyframes heroSheen { 0%,100% { background-position: 130% 0, 0 0; } 50% { background-position: -30% 0, 0 0; } }
-    .hero-logo { background: #fff; border-radius: 22px; padding: 20px 30px; margin-bottom: 30px; box-shadow: 0 28px 70px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.7); position: relative; }
+    .hero-logo { margin-bottom: 30px; position: relative; }
     .hero-logo::after { content: ''; position: absolute; inset: -34% -20%; z-index: -1; background: radial-gradient(58% 58% at 50% 50%, rgba(255,39,51,0.28), transparent 70%); filter: blur(16px); pointer-events: none; }
-    .hero-logo img { display: block; width: 250px; max-width: 64vw; height: auto; }
+    .hero-logo img { display: block; width: 290px; max-width: 72vw; height: auto; }
     .hero-eyebrow { font-size: 11px; letter-spacing: 6px; text-transform: uppercase; color: var(--red); margin-bottom: 22px; }
     .hero-stars { color: var(--red); letter-spacing: 6px; font-size: 15px; margin-bottom: 18px; }
     .hero h1 { font-size: clamp(40px, 8vw, 84px); font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; text-shadow: 0 4px 40px rgba(0,0,0,0.5); }
@@ -504,7 +504,7 @@
   <!-- ── Loader ── -->
   <div id="loader">
     <div class="loader-inner">
-      <div class="loader-logo"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" fetchpriority="high" decoding="async" /></div>
+      <div class="loader-logo"><img src="assets/amarina-logo-light.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" fetchpriority="high" decoding="async" /></div>
       <div class="loader-word">
         <span class="lw-main">Jannah</span>
       </div>
@@ -519,8 +519,8 @@
     <nav id="navbar">
       <div class="container nav-inner">
         <a href="#home" class="nav-logo">
-          <img class="brand-mark" src="assets/amarina-mark.png" alt="Amarina" width="256" height="256" />
-          <span class="nl-txt"><b>Jannah</b><span>Coraya Bay · Marsa Alam</span></span>
+          <img class="brand-mark" src="assets/amarina-mark-light.png" alt="Amarina" width="256" height="256" />
+          <span class="nl-txt"><b>Jannah</b><span>Marsa Alam · Red Sea</span></span>
         </a>
         <ul class="nav-links">
           <li><a href="#about"      class="nav-link">Resort</a></li>
@@ -546,12 +546,12 @@
     <!-- ── Hero ── -->
     <header class="hero" id="home">
       <div class="hero-bg" aria-hidden="true"></div>
-      <div class="hero-logo reveal"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" decoding="async" /></div>
+      <div class="hero-logo reveal"><img src="assets/amarina-logo-light.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" decoding="async" /></div>
       <div class="hero-stars reveal d1">★ ★ ★ ★ ★</div>
       <h1 class="reveal d1">Amarina <em>Jannah</em></h1>
       <div class="hero-divider reveal d2"></div>
-      <p class="hero-sub reveal d2">Resort &amp; Aqua Park — a five-star Red Sea retreat on the shores of Coraya Bay, where turquoise water meets a private 175-metre beach.</p>
-      <p class="hero-loc reveal d3">📍 Coraya Bay · Marsa Alam · Red Sea, Egypt</p>
+      <p class="hero-sub reveal d2">Resort &amp; Aqua Park — a five-star Red Sea retreat where turquoise water meets a private 175-metre beach.</p>
+      <p class="hero-loc reveal d3">📍 Marsa Alam · Red Sea, Egypt</p>
       <div class="hero-btns reveal d3">
         <a href="#dining" class="btn btn-red magnetic">🍽️ Dining &amp; Outlets</a>
         <a href="#facilities" class="btn btn-ghost magnetic">Explore the Resort</a>
@@ -572,8 +572,8 @@
           <div class="about-copy reveal">
             <div class="section-label">The Resort</div>
             <h2 style="font-size:clamp(28px,4.5vw,42px); margin-bottom:20px;">A brand-new five-star escape on the Red Sea</h2>
-            <p><strong>Amarina Jannah Resort &amp; Aqua Park</strong> opened in 2023 in Coraya Bay, midway between Port Ghalib and El Quseir and just minutes from Marsa Alam International Airport.</p>
-            <p>Set directly on a sandy <strong>175-metre private beach</strong> beside the celebrated Coraya Bay house reef, the resort blends all-inclusive comfort with one of the region's best aqua parks, a PADI dive centre, and a full wellness spa.</p>
+            <p><strong>Amarina Jannah Resort &amp; Aqua Park</strong> opened in 2023 on Egypt's southern Red Sea coast, midway between Port Ghalib and El Quseir and just minutes from Marsa Alam International Airport.</p>
+            <p>Set directly on a sandy <strong>175-metre private beach</strong> beside a celebrated house reef, the resort blends all-inclusive comfort with one of the region's best aqua parks, a PADI dive centre, and a full wellness spa.</p>
             <p>With <strong>280 rooms</strong>, four restaurants and a lively daily entertainment programme, Amarina Jannah is built for families, couples and divers alike.</p>
             <div class="about-tags">
               <span class="tag">All-Inclusive</span>
@@ -671,7 +671,7 @@
             <div class="ci">🌐</div><div class="clab">Official Website</div><div class="cval">amarinagroup.com</div>
           </a>
           <div class="ccard">
-            <div class="ci">📍</div><div class="clab">Location</div><div class="cval">Coraya Bay, Marsa Alam, Red Sea, Egypt</div>
+            <div class="ci">📍</div><div class="clab">Location</div><div class="cval">Marsa Alam, Red Sea, Egypt</div>
           </div>
           <div class="ccard">
             <div class="ci">✈️</div><div class="clab">Airport</div><div class="cval">~10 min · Marsa Alam Int'l (RMF)</div>
@@ -684,7 +684,7 @@
     <footer>
       <div class="container">
         <div class="fname">Amarina Jannah Resort &amp; Aqua Park</div>
-        <div class="fsub">CORAYA BAY · MARSA ALAM · RED SEA, EGYPT</div>
+        <div class="fsub">MARSA ALAM · RED SEA · EGYPT</div>
         <p class="fdisc">Guest-experience platform. Dining, activity and facility details are compiled from publicly available resort information and may change seasonally — please confirm à-la-carte bookings, opening hours and surcharges with the resort on arrival.</p>
         <p class="fcredit">Crafted by <a href="index.html">Splash Entertainment</a> · Guest Experience Platform</p>
       </div>
@@ -802,7 +802,7 @@
     { time: '10:30', icon: '🤸', title: 'Morning Stretch & Aqua Gym', loc: 'Main Pool', cat: 'Aqua', desc: 'Gentle wake-up stretching followed by water aerobics in the pool.' },
     { time: '11:30', icon: '🏐', title: 'Beach Volleyball', loc: 'Private Beach', cat: 'Beach', desc: 'Friendly teams on the sand — all levels welcome.' },
     { time: '12:00', icon: '🎯', title: 'Boccia & Darts', loc: 'Games Area', cat: 'Games', desc: 'Classic lawn boccia and darts tournaments with the animation crew.' },
-    { time: '15:30', icon: '🤿', title: 'Snorkelling Intro', loc: 'House Reef', cat: 'Beach', desc: 'Guided intro to the Coraya Bay house reef with Coraya Divers.' },
+    { time: '15:30', icon: '🤿', title: 'Snorkelling Intro', loc: 'House Reef', cat: 'Beach', desc: 'Guided intro to the house reef with our dive team.' },
     { time: '16:30', icon: '💧', title: 'Water Polo & Pool Games', loc: 'Main Pool', cat: 'Aqua', desc: 'High-energy pool games and water polo for the whole family.' },
     { time: '20:00', icon: '🕺', title: 'Kids Mini-Disco', loc: 'Lobby Stage', cat: 'Kids', desc: 'The little ones take the floor before the evening show.' },
     { time: '21:00', icon: '🎭', title: 'Evening Show', loc: 'Lobby / Lounge', cat: 'Evening', desc: 'Live music, dance and themed shows — a different highlight every night.' },
@@ -819,8 +819,8 @@
     { icon: '🎢', tint: 'rgba(255,77,64,0.16)',  title: 'Aqua Park', desc: '8 thrilling slides plus 4 baby slides for little ones — including the Octopus, Turtle, Rabbit and Frog kids’ slides.', meta: '8 + 4 slides' },
     { icon: '🏊', tint: 'rgba(255,39,51,0.16)',  title: 'Pools', desc: 'Multiple freshwater pools across the grounds, including a heated main pool in cooler months and a dedicated children’s pool.', meta: 'Heated main pool · kids pool' },
     { icon: '🏖️', tint: 'rgba(255,90,100,0.16)', title: 'Private Beach', desc: 'A sandy 175-metre private beach on the Red Sea, with free sun loungers, parasols and towels.', meta: '175 m · Red Sea' },
-    { icon: '🤿', tint: 'rgba(255,39,51,0.18)',  title: 'House Reef Snorkelling', desc: 'Direct access to the Coraya Bay house reef (Marsa Umm Gerifat) — vibrant coral and reef fish steps from shore.', meta: 'Marsa Umm Gerifat reef' },
-    { icon: '🌊', tint: 'rgba(122,5,17,0.18)',   title: 'Coraya Divers', desc: 'On-site PADI dive centre offering guided dives, courses and equipment for all certification levels.', meta: 'Dives & courses' },
+    { icon: '🤿', tint: 'rgba(255,39,51,0.18)',  title: 'House Reef Snorkelling', desc: 'Direct access to the house reef (Marsa Umm Gerifat) — vibrant coral and reef fish steps from shore.', meta: 'Marsa Umm Gerifat reef' },
+    { icon: '🌊', tint: 'rgba(122,5,17,0.18)',   title: 'Dive Centre', desc: 'On-site PADI dive centre offering guided dives, courses and equipment for all certification levels.', meta: 'Dives & courses' },
     { icon: '💆', tint: 'rgba(255,90,100,0.18)', title: 'Amarina Spa & Wellness', desc: 'Massages, facials, a relaxation lounge and sauna. Most treatments are chargeable and by reservation.', meta: '≈ 09:00 – 19:00' },
     { icon: '🏋️', tint: 'rgba(122,5,17,0.18)',  title: 'Fitness Centre', desc: 'Equipped gym for cardio and weights to keep your routine going on holiday.', meta: 'Complimentary' },
     { icon: '🎠', tint: 'rgba(255,120,92,0.16)',  title: 'Amarina Kids Club', desc: 'Supervised activities, swimming lessons, a playground and the daily mini-disco for younger guests.', meta: 'Daily programme' },
@@ -831,7 +831,7 @@
     { icon: '🆕', title: 'New for 2023', sub: '5-star build' },
     { icon: '🏖️', title: 'Private Beach', sub: '175 metres' },
     { icon: '🎢', title: 'Aqua Park', sub: '8 + 4 slides' },
-    { icon: '🤿', title: 'Coraya Divers', sub: 'PADI centre' },
+    { icon: '🤿', title: 'Dive Centre', sub: 'PADI centre' },
     { icon: '💆', title: 'Amarina Spa', sub: 'Full wellness' },
     { icon: '🥂', title: 'All-Inclusive', sub: '10:00 – 00:00' },
   ];
