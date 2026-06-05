@@ -13,8 +13,9 @@
   <meta name="theme-color" content="#0A0608" />
 
   <link rel="manifest" href="amarina-manifest.json" />
-  <link rel="icon" type="image/svg+xml" href="assets/amarina-icon.svg" />
-  <link rel="apple-touch-icon" href="assets/amarina-icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/amarina-icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/amarina-icon-512.png" />
+  <link rel="apple-touch-icon" href="assets/amarina-icon-512.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -196,6 +197,9 @@
     @keyframes emberRise { 0% { transform: translate3d(0,0,0) scale(.5); opacity: 0; } 12% { opacity: .75; } 78% { opacity: .45; } 100% { transform: translate3d(var(--drift,20px), -88vh, 0) scale(1.15); opacity: 0; } }
     @keyframes vfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     @keyframes heroSheen { 0%,100% { background-position: 130% 0, 0 0; } 50% { background-position: -30% 0, 0 0; } }
+    .hero-logo { background: #fff; border-radius: 22px; padding: 20px 30px; margin-bottom: 30px; box-shadow: 0 28px 70px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.7); position: relative; }
+    .hero-logo::after { content: ''; position: absolute; inset: -34% -20%; z-index: -1; background: radial-gradient(58% 58% at 50% 50%, rgba(255,39,51,0.28), transparent 70%); filter: blur(16px); pointer-events: none; }
+    .hero-logo img { display: block; width: 250px; max-width: 64vw; height: auto; }
     .hero-eyebrow { font-size: 11px; letter-spacing: 6px; text-transform: uppercase; color: var(--red); margin-bottom: 22px; }
     .hero-stars { color: var(--red); letter-spacing: 6px; font-size: 15px; margin-bottom: 18px; }
     .hero h1 { font-size: clamp(40px, 8vw, 84px); font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; text-shadow: 0 4px 40px rgba(0,0,0,0.5); }
@@ -557,7 +561,7 @@
     <!-- ── Hero ── -->
     <header class="hero" id="home">
       <div class="hero-bg" aria-hidden="true"></div>
-      <div class="hero-eyebrow reveal">Amarina Hotels &amp; Resorts</div>
+      <div class="hero-logo reveal"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" width="835" height="605" /></div>
       <div class="hero-stars reveal d1">★ ★ ★ ★ ★</div>
       <h1 class="reveal d1">Amarina <em>Jannah</em></h1>
       <div class="hero-divider reveal d2"></div>
