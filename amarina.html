@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/amarina-icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/amarina-icon-512.png" />
   <link rel="apple-touch-icon" href="assets/amarina-icon-512.png" />
-  <link rel="preload" as="image" href="assets/amarina-logo-light.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/amarina-logo-white.png" fetchpriority="high" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,16 +92,34 @@
 
     /* ── Loader ────────────────────────────────────────────── */
     #loader {
-      position: fixed; inset: 0; z-index: 9999;
-      background: radial-gradient(circle at 50% 38%, #240810 0%, #080406 72%);
+      position: fixed; inset: 0; z-index: 9999; overflow: hidden;
+      background: radial-gradient(circle at 50% 42%, #1c0a0e 0%, #0A0608 72%);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 26px; transition: opacity .8s ease, visibility .8s ease, transform .8s cubic-bezier(.7,0,.3,1), filter .8s ease;
+      transition: opacity .5s ease .15s, visibility .5s ease .15s;
     }
-    #loader.done { opacity: 0; visibility: hidden; transform: scale(1.08); filter: blur(8px); }
-    .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; }
-    .loader-logo { opacity: 1; animation: loaderLogoIn .9s .15s cubic-bezier(.2,.8,.3,1.2) both; }
-    .loader-logo img { display: block; width: 270px; max-width: 74vw; height: auto; filter: drop-shadow(0 0 28px rgba(255,39,51,0.22)); }
-    @keyframes loaderLogoIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+    #loader.done { opacity: 0; visibility: hidden; }
+    /* ── Liquid wave reveal ── */
+    .water { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; transform: translateY(100%); z-index: 1;
+      background: linear-gradient(180deg, #FF2E3B 0%, #C20A1C 42%, #6E0414 100%);
+      animation: waterRise 1.15s cubic-bezier(.6,0,.3,1) .15s forwards; }
+    @keyframes waterRise { to { transform: translateY(0); } }
+    .wave { position: absolute; left: 0; width: 200%; height: 52px; }
+    .wave-back  { top: -42px; animation: waveScroll 3.3s linear infinite; }
+    .wave-front { top: -30px; animation: waveScroll 2.0s linear infinite; }
+    .wave-back path  { fill: rgba(255,122,126,0.45); }
+    .wave-front path { fill: #FF2E3B; }
+    @keyframes waveScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .loader-stage { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;
+      opacity: 0; transform: translateY(56px); animation: stageEmerge 1.0s .5s cubic-bezier(.2,.85,.3,1) forwards; }
+    @keyframes stageEmerge { to { opacity: 1; transform: none; } }
+    .loader-logo img { display: block; width: 285px; max-width: 76vw; height: auto; filter: drop-shadow(0 10px 26px rgba(0,0,0,0.32)); }
+    #loader.done .water { transform: translateY(100%); transition: transform .6s cubic-bezier(.6,0,.35,1); }
+    #loader.done .loader-stage { opacity: 0; transform: translateY(-22px); transition: opacity .35s ease, transform .5s ease; }
+    @media (prefers-reduced-motion: reduce) {
+      .water { animation: none; transform: translateY(0); }
+      .wave-back, .wave-front { animation: none; }
+      .loader-stage { animation: none; opacity: 1; transform: none; }
+    }
     @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
     /* Animated emblem */
@@ -124,10 +142,10 @@
     /* Wordmark */
     .loader-word { text-align: center; }
     .lw-top  { display: block; font-size: 13px; letter-spacing: 9px; color: var(--red); font-weight: 700; opacity: 0; animation: lwTop .8s 1.0s both; }
-    .lw-main { display: block; font-family: var(--serif); font-size: 40px; font-weight: 600; color: #fff; letter-spacing: 2px; margin-top: 2px; opacity: 0; animation: lwMain .6s .45s both; }
+    .lw-main { display: block; font-family: var(--serif); font-size: 38px; font-weight: 600; color: #fff; letter-spacing: 2px; }
     @keyframes lwTop  { from{ opacity:0; letter-spacing: 22px } to{ opacity:1; letter-spacing: 9px } }
     @keyframes lwMain { from{ opacity:0; transform: translateY(14px) } to{ opacity:1; transform: none } }
-    .loader-sub  { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); opacity: 0; animation: emFade .5s .75s both; }
+    .loader-sub  { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.82); }
     .loader-bar  { width: 190px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; opacity: 0; animation: emFade .35s .85s both; }
     .loader-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red), var(--red-bright)); animation: fill 1.0s .9s ease forwards; }
     @keyframes fill { to { width: 100%; } }
@@ -503,13 +521,14 @@
 
   <!-- ── Loader ── -->
   <div id="loader">
-    <div class="loader-inner">
-      <div class="loader-logo"><img src="assets/amarina-logo-light.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" fetchpriority="high" decoding="async" /></div>
-      <div class="loader-word">
-        <span class="lw-main">Jannah</span>
-      </div>
+    <div class="water" aria-hidden="true">
+      <svg class="wave wave-back" viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0,72 C180,112 360,112 600,72 C840,32 1020,32 1200,72 C1380,112 1560,112 1800,72 C2040,32 2220,32 2400,72 L2400,120 L0,120 Z"/></svg>
+      <svg class="wave wave-front" viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0,60 C150,20 300,20 450,60 C600,100 750,100 900,60 C1000,30 1100,30 1200,60 C1350,20 1500,20 1650,60 C1800,100 1950,100 2100,60 C2200,30 2300,30 2400,60 L2400,120 L0,120 Z"/></svg>
+    </div>
+    <div class="loader-stage">
+      <div class="loader-logo"><img src="assets/amarina-logo-white.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" fetchpriority="high" decoding="async" /></div>
+      <div class="loader-word"><span class="lw-main">Jannah</span></div>
       <div class="loader-sub">Resort &amp; Aqua Park · Marsa Alam</div>
-      <div class="loader-bar"><i></i></div>
     </div>
   </div>
 
@@ -1038,7 +1057,7 @@
 
     // Loader — let the intro animation play, then reveal the page
     const hideLoader = () => document.getElementById('loader').classList.add('done');
-    setTimeout(hideLoader, 2000); // 2s branded intro
+    setTimeout(hideLoader, 1900); // liquid wave reveal
 
     // Dining tabs
     const rc = document.getElementById('restaurantCards'), bc = document.getElementById('barCards');
