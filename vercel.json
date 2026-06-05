@@ -2,5 +2,8 @@
   "framework": null,
   "buildCommand": "echo 'Static site — no build step required'",
   "installCommand": "echo 'No install required'",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "redirects": [
+    { "source": "/amarina.html", "destination": "/", "permanent": false }
+  ]
 }

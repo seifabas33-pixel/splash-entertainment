@@ -2,7 +2,7 @@
   "name": "Amarina Jannah Resort & Aqua Park",
   "short_name": "Amarina Jannah",
   "description": "Guest experience platform for Amarina Jannah Resort & Aqua Park — dining, outlets, activities, and facilities in Coraya Bay, Marsa Alam.",
-  "start_url": "/amarina.html",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0A0608",
