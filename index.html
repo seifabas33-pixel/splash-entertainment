@@ -16,6 +16,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/amarina-icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/amarina-icon-512.png" />
   <link rel="apple-touch-icon" href="assets/amarina-icon-512.png" />
+  <link rel="preload" as="image" href="assets/amarina-logo.png" fetchpriority="high" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -123,12 +124,12 @@
     /* Wordmark */
     .loader-word { text-align: center; }
     .lw-top  { display: block; font-size: 13px; letter-spacing: 9px; color: var(--red); font-weight: 700; opacity: 0; animation: lwTop .8s 1.0s both; }
-    .lw-main { display: block; font-family: var(--serif); font-size: 40px; font-weight: 600; color: #fff; letter-spacing: 2px; margin-top: 2px; opacity: 0; animation: lwMain .9s 1.2s both; }
+    .lw-main { display: block; font-family: var(--serif); font-size: 40px; font-weight: 600; color: #fff; letter-spacing: 2px; margin-top: 2px; opacity: 0; animation: lwMain .8s .5s both; }
     @keyframes lwTop  { from{ opacity:0; letter-spacing: 22px } to{ opacity:1; letter-spacing: 9px } }
     @keyframes lwMain { from{ opacity:0; transform: translateY(14px) } to{ opacity:1; transform: none } }
-    .loader-sub  { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); opacity: 0; animation: emFade .8s 1.45s both; }
-    .loader-bar  { width: 190px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; opacity: 0; animation: emFade .4s 1.5s both; }
-    .loader-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red), var(--red-bright)); animation: fill 1.7s 1.5s ease forwards; }
+    .loader-sub  { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); opacity: 0; animation: emFade .6s .75s both; }
+    .loader-bar  { width: 190px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; opacity: 0; animation: emFade .4s .4s both; }
+    .loader-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red), var(--red-bright)); animation: fill 1.15s .5s ease forwards; }
     @keyframes fill { to { width: 100%; } }
 
     /* ── Custom cursor (desktop) ───────────────────────────── */
@@ -493,7 +494,7 @@
   <!-- ── Loader ── -->
   <div id="loader">
     <div class="loader-inner">
-      <div class="loader-logo"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" /></div>
+      <div class="loader-logo"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" fetchpriority="high" decoding="async" /></div>
       <div class="loader-word">
         <span class="lw-main">Jannah</span>
       </div>
@@ -535,7 +536,7 @@
     <!-- ── Hero ── -->
     <header class="hero" id="home">
       <div class="hero-bg" aria-hidden="true"></div>
-      <div class="hero-logo reveal"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" width="835" height="605" /></div>
+      <div class="hero-logo reveal"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" decoding="async" /></div>
       <div class="hero-stars reveal d1">★ ★ ★ ★ ★</div>
       <h1 class="reveal d1">Amarina <em>Jannah</em></h1>
       <div class="hero-divider reveal d2"></div>
@@ -994,6 +995,9 @@
     renderRestaurants(new Date()); renderBars(new Date());
     setInterval(() => updateStatuses(new Date()), 60000); // refresh open/closed status each minute
 
+    // Intro must never sit blank: reveal the hero immediately, independent of observers/images
+    document.querySelectorAll('#home .reveal').forEach(el => el.classList.add('in'));
+
     // Lightbox gallery
     const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCount = document.getElementById('lbCount');
     let lbImgs = [], lbIdx = 0;
@@ -1024,8 +1028,7 @@
 
     // Loader — let the intro animation play, then reveal the page
     const hideLoader = () => document.getElementById('loader').classList.add('done');
-    window.addEventListener('load', () => setTimeout(hideLoader, 2400));
-    setTimeout(hideLoader, 4200); // safety
+    setTimeout(hideLoader, 1700); // don't wait on window.load (fonts/images) — open fast
 
     // Dining tabs
     const rc = document.getElementById('restaurantCards'), bc = document.getElementById('barCards');
