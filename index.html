@@ -124,12 +124,12 @@
     /* Wordmark */
     .loader-word { text-align: center; }
     .lw-top  { display: block; font-size: 13px; letter-spacing: 9px; color: var(--red); font-weight: 700; opacity: 0; animation: lwTop .8s 1.0s both; }
-    .lw-main { display: block; font-family: var(--serif); font-size: 40px; font-weight: 600; color: #fff; letter-spacing: 2px; margin-top: 2px; opacity: 0; animation: lwMain .8s .5s both; }
+    .lw-main { display: block; font-family: var(--serif); font-size: 40px; font-weight: 600; color: #fff; letter-spacing: 2px; margin-top: 2px; opacity: 0; animation: lwMain .9s 1.0s both; }
     @keyframes lwTop  { from{ opacity:0; letter-spacing: 22px } to{ opacity:1; letter-spacing: 9px } }
     @keyframes lwMain { from{ opacity:0; transform: translateY(14px) } to{ opacity:1; transform: none } }
-    .loader-sub  { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); opacity: 0; animation: emFade .6s .75s both; }
-    .loader-bar  { width: 190px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; opacity: 0; animation: emFade .4s .4s both; }
-    .loader-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red), var(--red-bright)); animation: fill 1.15s .5s ease forwards; }
+    .loader-sub  { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.55); opacity: 0; animation: emFade .7s 1.6s both; }
+    .loader-bar  { width: 190px; height: 2px; background: rgba(255,255,255,0.12); border-radius: 2px; overflow: hidden; opacity: 0; animation: emFade .4s 1.8s both; }
+    .loader-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red), var(--red-bright)); animation: fill 1.9s 1.95s ease forwards; }
     @keyframes fill { to { width: 100%; } }
 
     /* ── Custom cursor (desktop) ───────────────────────────── */
@@ -1028,7 +1028,7 @@
 
     // Loader — let the intro animation play, then reveal the page
     const hideLoader = () => document.getElementById('loader').classList.add('done');
-    setTimeout(hideLoader, 1700); // don't wait on window.load (fonts/images) — open fast
+    setTimeout(hideLoader, 4000); // 4s branded intro
 
     // Dining tabs
     const rc = document.getElementById('restaurantCards'), bc = document.getElementById('barCards');
