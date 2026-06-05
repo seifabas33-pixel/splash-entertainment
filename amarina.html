@@ -242,6 +242,16 @@
     .reveal.d5 { transition-delay: .40s; } .reveal.d6 { transition-delay: .48s; }
     @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; filter: none; transition: none; } .blob { animation: none; } .embers { display: none; } .vicon { animation: none; } .hero-bg { transform: none !important; } }
 
+    /* ── Mobile: drop GPU-heavy effects so scrolling stays smooth ── */
+    @media (max-width: 820px) {
+      .liquid-bg { display: none; }                 /* 110px-blur animated blobs are too costly on phones */
+      .embers { display: none; }
+      .hero-bg::before, .hero-bg::after { animation: none; }
+      .reveal { filter: none; }
+      .vicon { animation: none; -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255,255,255,0.16); }
+      #navbar.scrolled { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(10,6,8,0.96); }
+    }
+
     /* ── About ─────────────────────────────────────────────── */
     .about-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
     .about-copy p { color: var(--muted); font-weight: 300; margin-bottom: 16px; }
@@ -1051,24 +1061,38 @@
     const sections = document.querySelectorAll('section[id], header[id]');
     const links = document.querySelectorAll('.nav-link');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const coarse = window.matchMedia('(hover: none), (max-width: 820px)').matches; // touch / phone
     const heroBg = document.querySelector('.hero-bg');
     const liquid = document.querySelector('.liquid-bg');
+    // Cache layout metrics so the scroll handler never forces a reflow
+    let offsets = [], maxScroll = 0;
+    const measure = () => {
+      offsets = [...sections].map(s => ({ id: s.id, top: s.offsetTop }));
+      maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    };
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('load', measure, { passive: true });
+    let ticking = false;
     const onScroll = () => {
-      const y = window.scrollY;
-      nav.classList.toggle('scrolled', y > 40);
-      if (!reduce && liquid) liquid.style.transform = 'translate3d(0,' + (y * 0.08).toFixed(1) + 'px,0)';
-      const docEl = document.documentElement;
-      const max = docEl.scrollHeight - docEl.clientHeight;
-      sp.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
-      let cur = '';
-      sections.forEach(s => { if (y >= s.offsetTop - 140) cur = s.id; });
-      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 40);
+        if (!reduce && !coarse && liquid) liquid.style.transform = 'translate3d(0,' + (y * 0.08).toFixed(1) + 'px,0)';
+        sp.style.width = (maxScroll > 0 ? (y / maxScroll) * 100 : 0) + '%';
+        let cur = '';
+        for (const o of offsets) { if (y >= o.top - 140) cur = o.id; }
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+        ticking = false;
+      });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
     // Hero pointer parallax + ambient embers
-    if (!reduce && heroBg) {
+    if (!reduce && !coarse && heroBg) {
       const heroEl = document.getElementById('home');
       if (window.matchMedia('(hover: hover)').matches) {
         heroEl.addEventListener('mousemove', e => {
