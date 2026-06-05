@@ -98,6 +98,9 @@
     }
     #loader.done { opacity: 0; visibility: hidden; transform: scale(1.08); filter: blur(8px); }
     .loader-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+    .loader-logo { background: #fff; border-radius: 20px; padding: 18px 26px; box-shadow: 0 26px 70px rgba(0,0,0,0.5); opacity: 1; animation: loaderLogoIn .9s .15s cubic-bezier(.2,.8,.3,1.2) both; }
+    .loader-logo img { display: block; width: 230px; max-width: 70vw; height: auto; }
+    @keyframes loaderLogoIn { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
     @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
     /* Animated emblem */
@@ -148,7 +151,7 @@
     }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { display: flex; align-items: center; gap: 11px; }
-    .nav-logo img { width: 34px; height: 34px; }
+    .nav-logo img { width: 38px; height: 38px; border-radius: 10px; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
     .nav-logo .nl-txt b { font-family: var(--serif); font-size: 17px; font-weight: 700; letter-spacing: .5px; display: block; line-height: 1; }
     .nav-logo .nl-txt span { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--red); }
     .nav-links { display: flex; align-items: center; gap: 30px; }
@@ -490,31 +493,8 @@
   <!-- ── Loader ── -->
   <div id="loader">
     <div class="loader-inner">
-      <svg class="emblem" viewBox="0 0 120 120" aria-hidden="true">
-        <defs>
-          <radialGradient id="sunG" cx="50%" cy="42%" r="62%">
-            <stop offset="0" stop-color="#FFB3B3" />
-            <stop offset="1" stop-color="#FF2733" />
-          </radialGradient>
-        </defs>
-        <circle class="em-ring" cx="60" cy="60" r="55" fill="none" stroke="#FF2733" stroke-width="1.5" />
-        <circle class="em-arc"  cx="60" cy="60" r="55" fill="none" stroke="#FF5A64" stroke-width="2.5" stroke-linecap="round" />
-        <g class="em-rays" stroke="#FF2733" stroke-width="2" stroke-linecap="round">
-          <line class="em-ray" x1="60" y1="21" x2="60" y2="29" />
-          <line class="em-ray" x1="37" y1="30" x2="42" y2="36" />
-          <line class="em-ray" x1="83" y1="30" x2="78" y2="36" />
-          <line class="em-ray" x1="27" y1="50" x2="35" y2="50" />
-          <line class="em-ray" x1="93" y1="50" x2="85" y2="50" />
-        </g>
-        <circle class="em-sun" cx="60" cy="50" r="16" fill="url(#sunG)" />
-        <g class="em-waves" fill="none" stroke-linecap="round">
-          <path class="em-w em-w1" d="M30 76 q7.5 -7 15 0 t15 0 t15 0" stroke="#FF5A64" stroke-width="3.2" />
-          <path class="em-w em-w2" d="M30 86 q7.5 -7 15 0 t15 0 t15 0" stroke="#C20813" stroke-width="2.8" />
-          <path class="em-w em-w3" d="M30 96 q7.5 -7 15 0 t15 0 t15 0" stroke="#FF2733" stroke-width="2.4" />
-        </g>
-      </svg>
+      <div class="loader-logo"><img src="assets/amarina-logo.png" alt="Amarina Hotels &amp; Resorts" /></div>
       <div class="loader-word">
-        <span class="lw-top">AMARINA</span>
         <span class="lw-main">Jannah</span>
       </div>
       <div class="loader-sub">Resort &amp; Aqua Park · Marsa Alam</div>
@@ -528,13 +508,7 @@
     <nav id="navbar">
       <div class="container nav-inner">
         <a href="#home" class="nav-logo">
-          <span class="brand-chip">
-            <svg class="brand-fallback" viewBox="0 0 120 120" aria-hidden="true">
-              <circle cx="60" cy="48" r="18" fill="#FF2733" />
-              <path d="M20 76 q10 -9 20 0 t20 0 t20 0 t20 0" fill="none" stroke="#FF5A64" stroke-width="6" stroke-linecap="round" />
-              <path d="M20 92 q10 -9 20 0 t20 0 t20 0 t20 0" fill="none" stroke="#7A0511" stroke-width="5" stroke-linecap="round" />
-            </svg>
-          </span>
+          <img class="brand-mark" src="assets/amarina-mark.png" alt="Amarina" width="256" height="256" />
           <span class="nl-txt"><b>Jannah</b><span>Coraya Bay · Marsa Alam</span></span>
         </a>
         <ul class="nav-links">
