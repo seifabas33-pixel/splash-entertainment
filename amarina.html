@@ -500,6 +500,14 @@
       .em-ring { stroke-dashoffset: 0 !important; animation: none !important; }
       .em-ray, .em-w { opacity: 1 !important; }
     }
+    /* ── Language switcher ── */
+    .lang-select { -webkit-appearance: none; appearance: none; background: rgba(255,255,255,0.06); color: #fff; border: 1px solid var(--red-border); border-radius: 40px; padding: 7px 14px; font-size: 12px; font-weight: 600; letter-spacing: .5px; cursor: pointer; font-family: var(--sans); margin-left: 8px; }
+    .lang-select:hover { border-color: var(--red); }
+    .lang-select option { background: #14070B; color: #fff; }
+    #mobileMenu .lang-select { margin: 22px 0 0; font-size: 15px; padding: 10px 22px; }
+    @media (max-width: 880px) { #navbar .lang-select { display: none; } }
+    [dir="rtl"] .about-copy { text-align: right; }
+    [dir="rtl"] .lang-select { margin-left: 0; margin-right: 8px; }
   </style>
 </head>
 <body>
@@ -548,6 +556,16 @@
           <li><a href="#facilities" class="nav-link">Facilities</a></li>
           <li><a href="#contact"    class="nav-link">Contact</a></li>
         </ul>
+        <select class="lang-select" aria-label="Language">
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="nl">Nederlands</option>
+          <option value="de">Deutsch</option>
+          <option value="pl">Polski</option>
+          <option value="cs">Čeština</option>
+          <option value="fr">Français</option>
+          <option value="ru">Русский</option>
+        </select>
         <a href="#dining" class="nav-cta desktop-cta">Explore Dining</a>
         <div class="burger" id="burger"><span></span><span></span><span></span></div>
       </div>
@@ -560,6 +578,16 @@
       <a href="#activities" class="m-link">Activities</a>
       <a href="#facilities" class="m-link">Facilities</a>
       <a href="#contact"    class="m-link m-cta">Contact</a>
+      <select class="lang-select" aria-label="Language">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+        <option value="nl">Nederlands</option>
+        <option value="de">Deutsch</option>
+        <option value="pl">Polski</option>
+        <option value="cs">Čeština</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+      </select>
     </div>
 
     <!-- ── Hero ── -->
@@ -591,9 +619,9 @@
           <div class="about-copy reveal">
             <div class="section-label">The Resort</div>
             <h2 style="font-size:clamp(28px,4.5vw,42px); margin-bottom:20px;">A brand-new five-star escape on the Red Sea</h2>
-            <p><strong>Amarina Jannah Resort &amp; Aqua Park</strong> opened in 2023 on Egypt's southern Red Sea coast, midway between Port Ghalib and El Quseir and just minutes from Marsa Alam International Airport.</p>
-            <p>Set directly on a sandy <strong>175-metre private beach</strong> beside a celebrated house reef, the resort blends all-inclusive comfort with one of the region's best aqua parks, a PADI dive centre, and a full wellness spa.</p>
-            <p>With <strong>280 rooms</strong>, four restaurants and a lively daily entertainment programme, Amarina Jannah is built for families, couples and divers alike.</p>
+            <p data-i18n="about_p1"><strong>Amarina Jannah Resort &amp; Aqua Park</strong> opened in 2023 on Egypt's southern Red Sea coast, midway between Port Ghalib and El Quseir and just minutes from Marsa Alam International Airport.</p>
+            <p data-i18n="about_p2">Set directly on a sandy <strong>175-metre private beach</strong> beside a celebrated house reef, the resort blends all-inclusive comfort with one of the region's best aqua parks, a PADI dive centre, and a full wellness spa.</p>
+            <p data-i18n="about_p3">With <strong>280 rooms</strong>, four restaurants and a lively daily entertainment programme, Amarina Jannah is built for families, couples and divers alike.</p>
             <div class="about-tags">
               <span class="tag">All-Inclusive</span>
               <span class="tag">Family Friendly</span>
@@ -629,7 +657,7 @@
         <div class="cards stagger" id="restaurantCards"></div>
         <div class="cards stagger" id="barCards" style="display:none"></div>
 
-        <div class="bev-note reveal">
+        <div class="bev-note reveal" data-i18n="bev_note">
           🥂 <b>All-Inclusive beverage service runs 10:00 – 00:00</b> — soft &amp; hot drinks, beer, wine, cocktails and local spirits, plus a welcome drink and light snacks 13:00 – 17:00. Fresh juices &amp; Turkish coffee carry a small surcharge.
         </div>
       </div>
@@ -705,7 +733,7 @@
         <div class="fname">Amarina Jannah Resort &amp; Aqua Park</div>
         <div class="fsub">MARSA ALAM · RED SEA · EGYPT</div>
         <p class="fdisc">Guest-experience platform. Dining, activity and facility details are compiled from publicly available resort information and may change seasonally — please confirm à-la-carte bookings, opening hours and surcharges with the resort on arrival.</p>
-        <p class="fcredit">Crafted by <a href="index.html">Splash Entertainment</a> · Guest Experience Platform</p>
+        <p class="fcredit" data-i18n="footer_credit">Crafted by <a href="index.html">Splash Entertainment</a> · Guest Experience Platform</p>
       </div>
     </footer>
 
@@ -725,6 +753,7 @@
     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.519 5.26l-.999 3.648 3.969-1.519zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
   </a>
 
+  <script src="assets/i18n.js"></script>
   <script>
   /* ═══════════════════════════════════════════════════════
      DATA — Amarina Jannah Resort & Aqua Park
@@ -1022,7 +1051,17 @@
   document.addEventListener('DOMContentLoaded', () => {
     renderRooms(); renderActivities(); renderFacilities(); renderHighlights();
     renderRestaurants(new Date()); renderBars(new Date());
-    setInterval(() => updateStatuses(new Date()), 60000); // refresh open/closed status each minute
+    setInterval(() => { updateStatuses(new Date()); if (window.AmarinaI18N) AmarinaI18N.apply(); }, 60000); // refresh open/closed status each minute
+
+    // Language switcher (i18n)
+    if (window.AmarinaI18N) {
+      AmarinaI18N.apply();
+      const _cur = AmarinaI18N.get();
+      document.querySelectorAll('.lang-select').forEach(sel => {
+        sel.value = _cur;
+        sel.addEventListener('change', e => AmarinaI18N.set(e.target.value));
+      });
+    }
 
     // Intro must never sit blank: reveal the hero immediately, independent of observers/images
     document.querySelectorAll('#home .reveal').forEach(el => el.classList.add('in'));
