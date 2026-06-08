@@ -699,9 +699,7 @@
           <div class="section-label">After Dark</div>
           <h2 style="font-size:clamp(24px,4vw,34px)">Evening Entertainment</h2>
         </div>
-        <div class="cal-embed reveal">
-          <iframe title="Amarina Jannah — live entertainment programme" loading="lazy" src="https://calendar.google.com/calendar/embed?src=c_43d0b6a0aa1f084fec73f405fed00cd8f5826dfc1bd5553dd6e23db5a8dbb59d%40group.calendar.google.com&amp;ctz=Africa%2FCairo&amp;mode=AGENDA&amp;showTitle=0&amp;showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;showTabs=0"></iframe>
-        </div>
+        <div class="shows stagger" id="showList"></div>
         <p class="sample-note">Programme shown is representative of a typical week. Exact activities &amp; times are posted daily by the animation team at the resort.</p>
       </div>
     </section>
@@ -1054,6 +1052,32 @@
       `<div class="high"><div class="hi">${h.icon}</div><div class="ht">${esc(h.title)}</div><div class="hs">${esc(h.sub)}</div></div>`).join('');
   }
 
+  // ── Evening programme — custom cards, auto-updating from Google Calendar when a key is set ──
+  function showCard(s) {
+    return `<div class="show"><div class="sday">${esc(s.day)}</div><div class="st">${esc(s.title)}</div><div class="stime">🎭 ${esc(s.time)}</div>${s.desc ? `<div class="sd">${esc(s.desc)}</div>` : ''}</div>`;
+  }
+  function renderShows(list) {
+    const el = document.getElementById('showList');
+    if (el) { el.innerHTML = list.map(showCard).join(''); if (window.AmarinaI18N) AmarinaI18N.apply(); }
+  }
+  const CAL_ID = 'c_43d0b6a0aa1f084fec73f405fed00cd8f5826dfc1bd5553dd6e23db5a8dbb59d@group.calendar.google.com';
+  const CAL_KEY = ''; // ← paste a Google Calendar API key here to pull the live programme into these cards
+  function loadLiveProgramme() {
+    if (!CAL_KEY) return; // no key → keep the built-in programme (SHOWS) below
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const now = new Date(), max = new Date(Date.now() + 8 * 864e5);
+    const url = 'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(CAL_ID) +
+      '/events?key=' + CAL_KEY + '&singleEvents=true&orderBy=startTime&timeMin=' +
+      now.toISOString() + '&timeMax=' + max.toISOString() + '&maxResults=40';
+    fetch(url).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+      const items = (d.items || []).filter(e => e.start && e.start.dateTime && e.summary).map(e => {
+        const iso = e.start.dateTime;
+        return { day: days[new Date(iso.slice(0, 10) + 'T12:00:00Z').getUTCDay()], time: iso.slice(11, 16), title: e.summary.trim() };
+      });
+      if (items.length) renderShows(items);
+    }).catch(() => { /* keep static fallback */ });
+  }
+
   function updatePill(card, open) {
     const pill = card.querySelector('.pill');
     if (pill) pill.outerHTML = statusPill(open);
@@ -1072,7 +1096,7 @@
      INTERACTIONS
   ═══════════════════════════════════════════════════════ */
   document.addEventListener('DOMContentLoaded', () => {
-    renderRooms(); renderActivities(); renderFacilities(); renderHighlights();
+    renderRooms(); renderActivities(); renderFacilities(); renderHighlights(); renderShows(SHOWS); loadLiveProgramme();
     renderRestaurants(new Date()); renderBars(new Date());
     setInterval(() => { updateStatuses(new Date()); if (window.AmarinaI18N) AmarinaI18N.apply(); }, 60000); // refresh open/closed status each minute
 
