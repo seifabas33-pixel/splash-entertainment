@@ -99,25 +99,39 @@
     }
     #loader.done { opacity: 0; visibility: hidden; }
     /* ── Liquid wave reveal ── */
-    .water { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; transform: translateY(100%); z-index: 1;
-      background: linear-gradient(180deg, #FF2E3B 0%, #C20A1C 42%, #6E0414 100%);
-      animation: waterRise 1.15s cubic-bezier(.6,0,.3,1) .15s forwards; }
-    @keyframes waterRise { to { transform: translateY(0); } }
-    .wave { position: absolute; left: 0; width: 200%; height: 52px; }
-    .wave-back  { top: -42px; animation: waveScroll 3.3s linear infinite; }
-    .wave-front { top: -30px; animation: waveScroll 2.0s linear infinite; }
-    .wave-back path  { fill: rgba(255,122,126,0.45); }
-    .wave-front path { fill: #FF2E3B; }
-    @keyframes waveScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .water { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; transform: translateY(101%); z-index: 1;
+      background: linear-gradient(180deg, #FF3A47 0%, #E11226 28%, #A50C1E 64%, #5C0410 100%);
+      animation: waterRise 1.05s cubic-bezier(.3,.7,.25,1) .1s forwards; }
+    @keyframes waterRise { 0% { transform: translateY(101%); } 72% { transform: translateY(-2.5%); } 100% { transform: translateY(0); } }
+    .wave { position: absolute; left: 0; width: 200%; height: 58px; will-change: transform; }
+    .wave-back  { top: -46px; animation: waveScroll 2.6s linear infinite; }
+    .wave-mid   { top: -37px; animation: waveScroll 1.7s linear infinite reverse; }
+    .wave-front { top: -28px; animation: waveScroll 1.2s linear infinite; }
+    .wave-back path  { fill: rgba(255,140,146,0.40); }
+    .wave-mid path   { fill: rgba(255,72,82,0.60); }
+    .wave-front path { fill: #FF3A47; }
+    @keyframes waveScroll { 0% { transform: translate(0,0); } 50% { transform: translate(-25%,-6px); } 100% { transform: translate(-50%,0); } }
+    .bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .bubbles i { position: absolute; bottom: -24px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.92), rgba(255,255,255,0.18) 58%, transparent 72%); opacity: 0; animation: bubbleRise 2.6s ease-in infinite; }
+    @keyframes bubbleRise { 0% { transform: translateY(0) scale(.5); opacity: 0; } 16% { opacity: .85; } 100% { transform: translateY(-74vh) scale(1.15); opacity: 0; } }
+    .bubbles i:nth-child(1){ left:10%; width:7px;  height:7px;  animation-duration:2.3s; animation-delay:0s; }
+    .bubbles i:nth-child(2){ left:22%; width:11px; height:11px; animation-duration:2.9s; animation-delay:.5s; }
+    .bubbles i:nth-child(3){ left:34%; width:6px;  height:6px;  animation-duration:2.1s; animation-delay:.9s; }
+    .bubbles i:nth-child(4){ left:46%; width:9px;  height:9px;  animation-duration:2.6s; animation-delay:.3s; }
+    .bubbles i:nth-child(5){ left:58%; width:7px;  height:7px;  animation-duration:2.4s; animation-delay:.7s; }
+    .bubbles i:nth-child(6){ left:70%; width:12px; height:12px; animation-duration:3.0s; animation-delay:.2s; }
+    .bubbles i:nth-child(7){ left:82%; width:6px;  height:6px;  animation-duration:2.2s; animation-delay:1s; }
+    .bubbles i:nth-child(8){ left:90%; width:9px;  height:9px;  animation-duration:2.7s; animation-delay:.4s; }
     .loader-stage { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;
-      opacity: 0; transform: translateY(56px); animation: stageEmerge 1.0s .5s cubic-bezier(.2,.85,.3,1) forwards; }
+      opacity: 0; transform: translateY(64px) scale(.92); animation: stageEmerge .9s .45s cubic-bezier(.34,1.56,.4,1) forwards; }
     @keyframes stageEmerge { to { opacity: 1; transform: none; } }
     .loader-logo img { display: block; width: 285px; max-width: 76vw; height: auto; filter: drop-shadow(0 10px 26px rgba(0,0,0,0.32)); }
     #loader.done .water { transform: translateY(100%); transition: transform .6s cubic-bezier(.6,0,.35,1); }
     #loader.done .loader-stage { opacity: 0; transform: translateY(-22px); transition: opacity .35s ease, transform .5s ease; }
     @media (prefers-reduced-motion: reduce) {
       .water { animation: none; transform: translateY(0); }
-      .wave-back, .wave-front { animation: none; }
+      .wave-back, .wave-mid, .wave-front { animation: none; }
+      .bubbles { display: none; }
       .loader-stage { animation: none; opacity: 1; transform: none; }
     }
     @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
@@ -530,7 +544,9 @@
   <!-- ── Loader ── -->
   <div id="loader">
     <div class="water" aria-hidden="true">
+      <span class="bubbles"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
       <svg class="wave wave-back" viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0,72 C180,112 360,112 600,72 C840,32 1020,32 1200,72 C1380,112 1560,112 1800,72 C2040,32 2220,32 2400,72 L2400,120 L0,120 Z"/></svg>
+      <svg class="wave wave-mid" viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0,66 C200,30 400,102 600,66 C800,30 1000,102 1200,66 C1400,30 1600,102 1800,66 C2000,30 2200,102 2400,66 L2400,120 L0,120 Z"/></svg>
       <svg class="wave wave-front" viewBox="0 0 2400 120" preserveAspectRatio="none"><path d="M0,60 C150,20 300,20 450,60 C600,100 750,100 900,60 C1000,30 1100,30 1200,60 C1350,20 1500,20 1650,60 C1800,100 1950,100 2100,60 C2200,30 2300,30 2400,60 L2400,120 L0,120 Z"/></svg>
     </div>
     <div class="loader-stage">
@@ -1096,7 +1112,7 @@
 
     // Loader — let the intro animation play, then reveal the page
     const hideLoader = () => document.getElementById('loader').classList.add('done');
-    setTimeout(hideLoader, 1900); // liquid wave reveal
+    setTimeout(hideLoader, 2100); // liquid wave reveal
 
     // Dining tabs
     const rc = document.getElementById('restaurantCards'), bc = document.getElementById('barCards');
