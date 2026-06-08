@@ -706,13 +706,46 @@
     }
   };
 
+  // ── Attribute strings — page title, aria-labels, alt text ──
+  var I18N4 = {
+    ar: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "منتجع وحديقة أمارينا جنّة المائية · مرسى علم — تجربة الضيوف",
+      "Language": "اللغة", "Close gallery": "إغلاق المعرض", "Previous photo": "الصورة السابقة", "Next photo": "الصورة التالية", "Contact resort": "تواصل مع المنتجع", "Venue photo": "صورة المكان"
+    },
+    nl: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "Amarina Jannah Resort & Aqua Park · Marsa Alam — Gastervaring",
+      "Language": "Taal", "Close gallery": "Galerij sluiten", "Previous photo": "Vorige foto", "Next photo": "Volgende foto", "Contact resort": "Contact met resort", "Venue photo": "Foto van locatie"
+    },
+    de: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "Amarina Jannah Resort & Aqua Park · Marsa Alam — Gästeerlebnis",
+      "Language": "Sprache", "Close gallery": "Galerie schließen", "Previous photo": "Vorheriges Foto", "Next photo": "Nächstes Foto", "Contact resort": "Resort kontaktieren", "Venue photo": "Foto der Location"
+    },
+    pl: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "Amarina Jannah Resort & Aqua Park · Marsa Alam — Obsługa gości",
+      "Language": "Język", "Close gallery": "Zamknij galerię", "Previous photo": "Poprzednie zdjęcie", "Next photo": "Następne zdjęcie", "Contact resort": "Skontaktuj się z resortem", "Venue photo": "Zdjęcie obiektu"
+    },
+    cs: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "Amarina Jannah Resort & Aqua Park · Marsa Alam — Zážitek hostů",
+      "Language": "Jazyk", "Close gallery": "Zavřít galerii", "Previous photo": "Předchozí fotka", "Next photo": "Další fotka", "Contact resort": "Kontaktovat resort", "Venue photo": "Fotka místa"
+    },
+    fr: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "Amarina Jannah Resort & Aqua Park · Marsa Alam — Expérience client",
+      "Language": "Langue", "Close gallery": "Fermer la galerie", "Previous photo": "Photo précédente", "Next photo": "Photo suivante", "Contact resort": "Contacter le complexe", "Venue photo": "Photo du lieu"
+    },
+    ru: {
+      "Amarina Jannah Resort & Aqua Park · Marsa Alam — Guest Experience": "Amarina Jannah Resort & Aqua Park · Марса-Алам — Впечатления гостей",
+      "Language": "Язык", "Close gallery": "Закрыть галерею", "Previous photo": "Предыдущее фото", "Next photo": "Следующее фото", "Contact resort": "Связаться с курортом", "Venue photo": "Фото заведения"
+    }
+  };
+
   // ── Engine ────────────────────────────────────────────────────
   function tr(s) {
     if (LANG === 'en') return s;
-    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG];
+    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG];
     if (d && d[k] != null) return d[k];
     if (d2 && d2[k] != null) return d2[k];
     if (d3 && d3[k] != null) return d3[k];
+    if (d4 && d4[k] != null) return d4[k];
     return s;
   }
   function applyBlocks() {
@@ -749,12 +782,26 @@
       if (cur !== nv) n.nodeValue = nv;
     }
   }
+  function applyAttr(el, attr) {
+    var key = '__a_' + attr;
+    if (el[key] == null) { var v = el.getAttribute(attr); if (v == null) return; el[key] = v; }
+    el.setAttribute(attr, tr(el[key]));
+  }
+  function applyAttrs() {
+    if (document.__title == null) document.__title = document.title;
+    document.title = tr(document.__title);
+    var a = document.querySelectorAll('[aria-label]'), i;
+    for (i = 0; i < a.length; i++) applyAttr(a[i], 'aria-label');
+    var im = document.querySelectorAll('img[alt]');
+    for (i = 0; i < im.length; i++) applyAttr(im[i], 'alt');
+  }
   function applyLang() {
     var html = document.documentElement;
     html.lang = LANG;
     html.dir = RTL.indexOf(LANG) >= 0 ? 'rtl' : 'ltr';
     applyBlocks();
     applyTextNodes();
+    applyAttrs();
   }
   function setLang(l) {
     LANG = l;
