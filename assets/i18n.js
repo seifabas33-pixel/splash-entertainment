@@ -749,15 +749,83 @@
     ru: { "Monday":"Понедельник","Tuesday":"Вторник","Wednesday":"Среда","Thursday":"Четверг","Friday":"Пятница","Saturday":"Суббота","Sunday":"Воскресенье" }
   };
 
+  // ── Daily activity programme (typical day) ──
+  var I18N6 = {
+    ar: { "Sport":"رياضة","Radio Information":"إذاعة المعلومات","Morning Stretching":"تمارين الإطالة الصباحية","Boccia":"بوتشيا","Volleyball":"الكرة الطائرة","Water Polo":"كرة الماء","Darts Game":"لعبة السهام","Aqua Gym":"أكوا جيم","Afternoon Show":"عرض بعد الظهر",
+      "The animation team kicks off the day with music and the daily programme.":"يفتتح فريق الترفيه اليوم بالموسيقى وبرنامج اليوم.",
+      "Gentle wake-up stretching to start the day feeling good.":"تمارين إطالة لطيفة لبدء اليوم بشعور جيد.",
+      "Classic lawn boccia with the animation crew.":"بوتشيا كلاسيكية على العشب مع فريق الترفيه.",
+      "Friendly beach volleyball — all levels welcome.":"كرة طائرة شاطئية ودّية — جميع المستويات مرحّب بها.",
+      "High-energy water polo in the main pool.":"كرة ماء مفعمة بالطاقة في المسبح الرئيسي.",
+      "Darts tournaments for a bit of friendly competition.":"بطولات سهام لبعض المنافسة الودّية.",
+      "Water aerobics to keep moving while you cool off.":"أيروبيك مائي لتبقى نشيطًا بينما تنعش نفسك.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"فقرة مختلفة كل يوم — التنورة، الزومبا، مهرجان الألوان، مسابقة الشاطئ والمزيد." },
+    nl: { "Sport":"Sport","Radio Information":"Radio-info","Morning Stretching":"Ochtendstretching","Boccia":"Jeu de boules","Volleyball":"Volleybal","Water Polo":"Waterpolo","Darts Game":"Darts","Aqua Gym":"Aquagym","Afternoon Show":"Middagshow",
+      "The animation team kicks off the day with music and the daily programme.":"Het animatieteam opent de dag met muziek en het dagprogramma.",
+      "Gentle wake-up stretching to start the day feeling good.":"Rustige ochtendstretching om de dag goed te beginnen.",
+      "Classic lawn boccia with the animation crew.":"Klassieke jeu de boules met het animatieteam.",
+      "Friendly beach volleyball — all levels welcome.":"Gezellig beachvolleybal — alle niveaus welkom.",
+      "High-energy water polo in the main pool.":"Energiek waterpolo in het hoofdzwembad.",
+      "Darts tournaments for a bit of friendly competition.":"Darttoernooien voor een beetje gezellige competitie.",
+      "Water aerobics to keep moving while you cool off.":"Wateraerobics om in beweging te blijven terwijl je afkoelt.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Elke dag een ander hoogtepunt — Tanoura, Zumba, Color Festival, strandcompetitie en meer." },
+    de: { "Sport":"Sport","Radio Information":"Radio-Info","Morning Stretching":"Morgendliches Stretching","Boccia":"Boccia","Volleyball":"Volleyball","Water Polo":"Wasserball","Darts Game":"Darts","Aqua Gym":"Aqua-Gym","Afternoon Show":"Nachmittagsshow",
+      "The animation team kicks off the day with music and the daily programme.":"Das Animationsteam startet den Tag mit Musik und dem Tagesprogramm.",
+      "Gentle wake-up stretching to start the day feeling good.":"Sanftes Aufwach-Stretching für einen guten Start in den Tag.",
+      "Classic lawn boccia with the animation crew.":"Klassische Boccia mit dem Animationsteam.",
+      "Friendly beach volleyball — all levels welcome.":"Lockeres Beachvolleyball — alle Niveaus willkommen.",
+      "High-energy water polo in the main pool.":"Schwungvolles Wasserball im Hauptpool.",
+      "Darts tournaments for a bit of friendly competition.":"Dartturniere für ein bisschen freundlichen Wettkampf.",
+      "Water aerobics to keep moving while you cool off.":"Wassergymnastik, um in Bewegung zu bleiben und sich abzukühlen.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Täglich ein anderes Highlight — Tanoura, Zumba, Color Festival, Strandwettbewerb und mehr." },
+    pl: { "Sport":"Sport","Radio Information":"Informacje radiowe","Morning Stretching":"Poranny stretching","Boccia":"Boccia","Volleyball":"Siatkówka","Water Polo":"Piłka wodna","Darts Game":"Rzutki","Aqua Gym":"Aqua gym","Afternoon Show":"Popołudniowy pokaz",
+      "The animation team kicks off the day with music and the daily programme.":"Zespół animatorów rozpoczyna dzień muzyką i programem dnia.",
+      "Gentle wake-up stretching to start the day feeling good.":"Łagodny poranny stretching na dobry początek dnia.",
+      "Classic lawn boccia with the animation crew.":"Klasyczna boccia z ekipą animatorów.",
+      "Friendly beach volleyball — all levels welcome.":"Towarzyska siatkówka plażowa — wszystkie poziomy mile widziane.",
+      "High-energy water polo in the main pool.":"Energetyczna piłka wodna w basenie głównym.",
+      "Darts tournaments for a bit of friendly competition.":"Turnieje rzutek dla odrobiny przyjacielskiej rywalizacji.",
+      "Water aerobics to keep moving while you cool off.":"Aqua aerobik, aby pozostać w ruchu i się ochłodzić.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Codziennie inna atrakcja — Tanoura, Zumba, Color Festival, konkurs plażowy i więcej." },
+    cs: { "Sport":"Sport","Radio Information":"Rádio info","Morning Stretching":"Ranní protažení","Boccia":"Boccia","Volleyball":"Volejbal","Water Polo":"Vodní pólo","Darts Game":"Šipky","Aqua Gym":"Aqua gym","Afternoon Show":"Odpolední show",
+      "The animation team kicks off the day with music and the daily programme.":"Animační tým zahajuje den hudbou a programem dne.",
+      "Gentle wake-up stretching to start the day feeling good.":"Jemné ranní protažení pro dobrý start do dne.",
+      "Classic lawn boccia with the animation crew.":"Klasická boccia s animačním týmem.",
+      "Friendly beach volleyball — all levels welcome.":"Přátelský plážový volejbal — vítány všechny úrovně.",
+      "High-energy water polo in the main pool.":"Energické vodní pólo v hlavním bazénu.",
+      "Darts tournaments for a bit of friendly competition.":"Turnaje v šipkách pro trochu přátelského soupeření.",
+      "Water aerobics to keep moving while you cool off.":"Vodní aerobik, abyste zůstali v pohybu a zchladili se.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Každý den jiné lákadlo — Tanoura, Zumba, Color Festival, plážová soutěž a další." },
+    fr: { "Sport":"Sport","Radio Information":"Radio info","Morning Stretching":"Étirements du matin","Boccia":"Boccia","Volleyball":"Volley-ball","Water Polo":"Water-polo","Darts Game":"Fléchettes","Aqua Gym":"Aquagym","Afternoon Show":"Spectacle de l'après-midi",
+      "The animation team kicks off the day with music and the daily programme.":"L'équipe d'animation lance la journée avec de la musique et le programme du jour.",
+      "Gentle wake-up stretching to start the day feeling good.":"Étirements doux pour bien commencer la journée.",
+      "Classic lawn boccia with the animation crew.":"Boccia classique sur gazon avec l'équipe d'animation.",
+      "Friendly beach volleyball — all levels welcome.":"Beach-volley convivial — tous niveaux bienvenus.",
+      "High-energy water polo in the main pool.":"Water-polo dynamique dans la piscine principale.",
+      "Darts tournaments for a bit of friendly competition.":"Tournois de fléchettes pour une compétition amicale.",
+      "Water aerobics to keep moving while you cool off.":"Aquagym pour rester actif tout en se rafraîchissant.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Un temps fort différent chaque jour — Tanoura, Zumba, Color Festival, compétition de plage et plus." },
+    ru: { "Sport":"Спорт","Radio Information":"Утреннее радио","Morning Stretching":"Утренняя растяжка","Boccia":"Бочча","Volleyball":"Волейбол","Water Polo":"Водное поло","Darts Game":"Дартс","Aqua Gym":"Аквагимнастика","Afternoon Show":"Дневное шоу",
+      "The animation team kicks off the day with music and the daily programme.":"Команда аниматоров открывает день музыкой и программой дня.",
+      "Gentle wake-up stretching to start the day feeling good.":"Лёгкая утренняя растяжка для хорошего начала дня.",
+      "Classic lawn boccia with the animation crew.":"Классическая бочча с командой аниматоров.",
+      "Friendly beach volleyball — all levels welcome.":"Дружеский пляжный волейбол — приглашаются все уровни.",
+      "High-energy water polo in the main pool.":"Энергичное водное поло в главном бассейне.",
+      "Darts tournaments for a bit of friendly competition.":"Турниры по дартсу для дружеского соревнования.",
+      "Water aerobics to keep moving while you cool off.":"Аквааэробика, чтобы двигаться и освежиться.",
+      "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Каждый день новое событие — Танура, зумба, фестиваль красок, пляжный конкурс и не только." }
+  };
+
   // ── Engine ────────────────────────────────────────────────────
   function tr(s) {
     if (LANG === 'en') return s;
-    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG], d5 = I18N5[LANG];
+    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG], d5 = I18N5[LANG], d6 = I18N6[LANG];
     if (d && d[k] != null) return d[k];
     if (d2 && d2[k] != null) return d2[k];
     if (d3 && d3[k] != null) return d3[k];
     if (d4 && d4[k] != null) return d4[k];
     if (d5 && d5[k] != null) return d5[k];
+    if (d6 && d6[k] != null) return d6[k];
     return s;
   }
   function applyBlocks() {
