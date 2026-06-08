@@ -361,6 +361,7 @@
     .show .st { font-family: var(--serif); font-size: 17px; color: #fff; }
     .show .stime { font-size: 12px; color: var(--red); font-weight: 700; letter-spacing: 1px; margin: 4px 0 8px; }
     .show .sd { font-size: 13px; color: var(--muted); line-height: 1.55; }
+    .show .sday { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red-bright); background: rgba(255,39,51,0.12); border: 1px solid rgba(255,90,100,0.25); padding: 3px 11px; border-radius: 20px; margin-bottom: 11px; }
     .sample-note { text-align: center; font-size: 12px; color: var(--faint); margin-top: 26px; font-style: italic; }
 
     /* ── Facilities grid ───────────────────────────────────── */
@@ -873,10 +874,13 @@
   ];
 
   const SHOWS = [
-    { title: 'Oriental Folklore Night', time: '21:00', desc: 'Traditional Egyptian music, dance and Tanoura spinning in authentic costume.' },
-    { title: 'Live Music Lounge',       time: '21:00', desc: 'Resident musicians and singers set the mood across the lobby and lounge.' },
-    { title: 'Guest Talent & Games',    time: '21:00', desc: 'Interactive games, raffles and a fun guest talent showcase hosted by the team.' },
-    { title: 'Dance & DJ Party',        time: '21:30', desc: 'The animation team brings the party with music and dancing into the night.' },
+    { day: 'Monday',    time: '21:30', title: 'Pirates of the Caribbean', desc: 'A themed stage spectacular — swashbuckling adventure, music and dance for all ages.' },
+    { day: 'Tuesday',   time: '19:00', title: 'Qânun & Solo Singer',      desc: 'Live oriental qânun at sunset (19:00), then a solo singer in the lounge at 21:00.' },
+    { day: 'Wednesday', time: '16:30', title: 'Saxophone Sundowner',      desc: 'Smooth live saxophone by the water as the sun sets — the perfect golden-hour set.' },
+    { day: 'Thursday',  time: '21:30', title: 'Bellydance Show',          desc: 'A dazzling oriental bellydance performance under the stars.' },
+    { day: 'Friday',    time: '16:15', title: 'Latin Night & Live Band',  desc: 'A duet live band from 16:15, then a vibrant mix Latin dance show at 21:30.' },
+    { day: 'Saturday',  time: '21:00', title: 'Solo Singer & Guitar',     desc: 'Live solo vocals at 21:00 followed by acoustic guitar at 21:30.' },
+    { day: 'Sunday',    time: '21:30', title: 'Tanoura Show',             desc: 'Traditional spinning Tanoura with light effects — a mesmerising Red Sea classic.' },
   ];
 
   const FACILITIES = [
@@ -1029,7 +1033,7 @@
         </div>`;
     }).join('');
     document.getElementById('showList').innerHTML = SHOWS.map(s =>
-      `<div class="show"><div class="st">${esc(s.title)}</div><div class="stime">🎭 ${s.time}</div><div class="sd">${esc(s.desc)}</div></div>`).join('');
+      `<div class="show"><div class="sday">${esc(s.day)}</div><div class="st">${esc(s.title)}</div><div class="stime">🎭 ${s.time}</div><div class="sd">${esc(s.desc)}</div></div>`).join('');
   }
 
   function renderFacilities() {

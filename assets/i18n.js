@@ -738,14 +738,26 @@
     }
   };
 
+  // ── Weekday names (entertainment programme) ──
+  var I18N5 = {
+    ar: { "Monday":"الإثنين","Tuesday":"الثلاثاء","Wednesday":"الأربعاء","Thursday":"الخميس","Friday":"الجمعة","Saturday":"السبت","Sunday":"الأحد" },
+    nl: { "Monday":"Maandag","Tuesday":"Dinsdag","Wednesday":"Woensdag","Thursday":"Donderdag","Friday":"Vrijdag","Saturday":"Zaterdag","Sunday":"Zondag" },
+    de: { "Monday":"Montag","Tuesday":"Dienstag","Wednesday":"Mittwoch","Thursday":"Donnerstag","Friday":"Freitag","Saturday":"Samstag","Sunday":"Sonntag" },
+    pl: { "Monday":"Poniedziałek","Tuesday":"Wtorek","Wednesday":"Środa","Thursday":"Czwartek","Friday":"Piątek","Saturday":"Sobota","Sunday":"Niedziela" },
+    cs: { "Monday":"Pondělí","Tuesday":"Úterý","Wednesday":"Středa","Thursday":"Čtvrtek","Friday":"Pátek","Saturday":"Sobota","Sunday":"Neděle" },
+    fr: { "Monday":"Lundi","Tuesday":"Mardi","Wednesday":"Mercredi","Thursday":"Jeudi","Friday":"Vendredi","Saturday":"Samedi","Sunday":"Dimanche" },
+    ru: { "Monday":"Понедельник","Tuesday":"Вторник","Wednesday":"Среда","Thursday":"Четверг","Friday":"Пятница","Saturday":"Суббота","Sunday":"Воскресенье" }
+  };
+
   // ── Engine ────────────────────────────────────────────────────
   function tr(s) {
     if (LANG === 'en') return s;
-    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG];
+    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG], d5 = I18N5[LANG];
     if (d && d[k] != null) return d[k];
     if (d2 && d2[k] != null) return d2[k];
     if (d3 && d3[k] != null) return d3[k];
     if (d4 && d4[k] != null) return d4[k];
+    if (d5 && d5[k] != null) return d5[k];
     return s;
   }
   function applyBlocks() {
