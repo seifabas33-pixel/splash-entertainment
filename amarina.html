@@ -877,13 +877,13 @@
   ];
 
   const SHOWS = [
-    { day: 'Monday',    time: '21:30', title: 'Pirates of the Caribbean', desc: 'A themed stage spectacular — swashbuckling adventure, music and dance for all ages.' },
-    { day: 'Tuesday',   time: '19:00', title: 'Qânun & Solo Singer',      desc: 'Live oriental qânun at sunset (19:00), then a solo singer in the lounge at 21:00.' },
-    { day: 'Wednesday', time: '16:30', title: 'Saxophone Sundowner',      desc: 'Smooth live saxophone by the water as the sun sets — the perfect golden-hour set.' },
-    { day: 'Thursday',  time: '21:30', title: 'Bellydance Show',          desc: 'A dazzling oriental bellydance performance under the stars.' },
-    { day: 'Friday',    time: '16:15', title: 'Latin Night & Live Band',  desc: 'A duet live band from 16:15, then a vibrant mix Latin dance show at 21:30.' },
-    { day: 'Saturday',  time: '21:00', title: 'Solo Singer & Guitar',     desc: 'Live solo vocals at 21:00 followed by acoustic guitar at 21:30.' },
-    { day: 'Sunday',    time: '21:30', title: 'Tanoura Show',             desc: 'Traditional spinning Tanoura with light effects — a mesmerising Red Sea classic.' },
+    { day: 'Monday',    time: '21:30', title: '🌍 International Dance Show + DJ', desc: 'A high-energy international dance show with live DJ. Earlier: Color Festival at 15:30.' },
+    { day: 'Tuesday',   time: '21:30', title: '🎤 Live Singer + Miss Hotel',     desc: 'Live vocals and the fun Miss Hotel contest. Earlier: Zumba at 15:30.' },
+    { day: 'Wednesday', time: '21:30', title: '🎟️ Music Quiz + Lottery',        desc: 'Interactive music quiz and lottery night. Earlier: Tanoura Show at 15:30.' },
+    { day: 'Thursday',  time: '21:30', title: '💃 Belly Dance + DJ Music',       desc: 'A dazzling belly-dance show followed by DJ music. Earlier: Egyptian Zaffa at 15:30.' },
+    { day: 'Friday',    time: '21:30', title: '🇨🇴 Colombian Dance Show',        desc: 'A vibrant Colombian dance spectacular. Earlier: Beach Competition at 15:30.' },
+    { day: 'Saturday',  time: '21:30', title: '🎤 Solo Singer + Mr Hotel',       desc: 'Live solo singer and the Mr Hotel contest. Earlier: Folklore Show at 15:30.' },
+    { day: 'Sunday',    time: '21:30', title: '🌪️ Tanoura + Dance Floor',        desc: 'Mesmerising Tanoura spinning, then an open dance floor. Earlier: Olympic Games at 15:30.' },
   ];
 
   const FACILITIES = [
@@ -1060,7 +1060,7 @@
     const el = document.getElementById('showList');
     if (el) { el.innerHTML = list.map(showCard).join(''); if (window.AmarinaI18N) AmarinaI18N.apply(); }
   }
-  const CAL_ID = 'c_43d0b6a0aa1f084fec73f405fed00cd8f5826dfc1bd5553dd6e23db5a8dbb59d@group.calendar.google.com';
+  const CAL_ID = 'c_8ff7c858a2ff0e52d395a2de0b3354bf11bc087504aa0227d9c8cf4792e299ec@group.calendar.google.com';
   const CAL_KEY = ''; // ← paste a Google Calendar API key here to pull the live programme into these cards
   function loadLiveProgramme() {
     if (!CAL_KEY) return; // no key → keep the built-in programme (SHOWS) below
@@ -1070,7 +1070,7 @@
       '/events?key=' + CAL_KEY + '&singleEvents=true&orderBy=startTime&timeMin=' +
       now.toISOString() + '&timeMax=' + max.toISOString() + '&maxResults=40';
     fetch(url).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
-      const items = (d.items || []).filter(e => e.start && e.start.dateTime && e.summary).map(e => {
+      const items = (d.items || []).filter(e => e.start && e.start.dateTime && e.summary && +e.start.dateTime.slice(11, 13) >= 18).map(e => {
         const iso = e.start.dateTime;
         return { day: days[new Date(iso.slice(0, 10) + 'T12:00:00Z').getUTCDay()], time: iso.slice(11, 16), title: e.summary.trim() };
       });
