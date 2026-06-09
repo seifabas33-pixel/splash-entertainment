@@ -17,6 +17,7 @@
   <link rel="icon" type="image/png" sizes="512x512" href="assets/amarina-icon-512.png" />
   <link rel="apple-touch-icon" href="assets/amarina-icon-512.png" />
   <link rel="preload" as="image" href="assets/amarina-logo-white.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/photos/hero-beach.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -217,7 +218,11 @@
     /* ── Hero ──────────────────────────────────────────────── */
     .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 24px 60px; overflow: hidden; }
     .hero > *:not(.hero-bg) { position: relative; z-index: 1; }
-    .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: radial-gradient(120% 95% at 50% -12%, #2A0610 0%, #14070B 46%, var(--bg) 100%); will-change: transform; transform: translate3d(var(--hx,0px), var(--hy,0px), 0); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #0A0608; will-change: transform; transform: translate3d(var(--hx,0px), var(--hy,0px), 0); transition: transform .3s cubic-bezier(.2,.8,.2,1); }
+    .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; animation: heroZoom 22s ease-in-out infinite alternate; }
+    .hero-shade { position: absolute; inset: 0; background: radial-gradient(125% 100% at 50% 24%, rgba(42,6,16,0.40) 0%, rgba(10,6,8,0.58) 55%, rgba(10,6,8,0.93) 100%), linear-gradient(to bottom, rgba(10,6,8,0.48) 0%, rgba(10,6,8,0.30) 40%, rgba(10,6,8,0.99) 100%); }
+    @keyframes heroZoom { 0% { transform: scale(1.06); } 100% { transform: scale(1.2) translate(-1.5%, -1%); } }
+    @media (prefers-reduced-motion: reduce) { .hero-photo { animation: none; } }
     .hero-bg::before { content: ''; position: absolute; inset: -12%; background:
         radial-gradient(38% 48% at 22% 30%, rgba(255,39,51,0.32), transparent 60%),
         radial-gradient(44% 54% at 80% 16%, rgba(190,12,30,0.30), transparent 62%),
@@ -478,6 +483,14 @@
     /* Card sheen sweep on hover */
     .vcard, .fac { position: relative; }
     .fac { overflow: hidden; }
+    .fac-photo { position: relative; margin: -26px -26px 20px; height: 172px; overflow: hidden; cursor: pointer; }
+    .fac-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s ease; display: block; }
+    .fac.has-photo:hover .fac-photo img { transform: scale(1.06); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 34px; }
+    .gallery-grid .g { position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; cursor: pointer; border: 1px solid var(--line); }
+    .gallery-grid .g img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s ease; display: block; }
+    .gallery-grid .g:hover img { transform: scale(1.07); }
+    @media (max-width: 760px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
     .vcard::after, .fac::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 28%, rgba(255,255,255,0.10) 46%, transparent 64%); transform: translateX(-130%); transition: transform .85s ease; pointer-events: none; z-index: 5; }
     .vcard:hover::after, .fac:hover::after { transform: translateX(130%); }
 
@@ -574,6 +587,7 @@
           <li><a href="#dining"     class="nav-link">Dining</a></li>
           <li><a href="#activities" class="nav-link">Activities</a></li>
           <li><a href="#facilities" class="nav-link">Facilities</a></li>
+          <li><a href="#gallery"    class="nav-link">Gallery</a></li>
           <li><a href="#contact"    class="nav-link">Contact</a></li>
         </ul>
         <select class="lang-select" aria-label="Language">
@@ -597,6 +611,7 @@
       <a href="#dining"     class="m-link">Dining</a>
       <a href="#activities" class="m-link">Activities</a>
       <a href="#facilities" class="m-link">Facilities</a>
+      <a href="#gallery"    class="m-link">Gallery</a>
       <a href="#contact"    class="m-link m-cta">Contact</a>
       <select class="lang-select" aria-label="Language">
         <option value="en">English</option>
@@ -612,7 +627,7 @@
 
     <!-- ── Hero ── -->
     <header class="hero" id="home">
-      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-bg" aria-hidden="true"><img class="hero-photo" src="assets/photos/hero-beach.jpg" alt="" decoding="async" /><div class="hero-shade"></div></div>
       <div class="hero-logo reveal"><img src="assets/amarina-logo-light.png" alt="Amarina Hotels &amp; Resorts" width="500" height="362" decoding="async" /></div>
       <div class="hero-stars reveal d1">★ ★ ★ ★ ★</div>
       <h1 class="reveal d1">Amarina <em>Jannah</em></h1>
@@ -717,6 +732,19 @@
       </div>
     </section>
 
+    <!-- ── Gallery ── -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-label">Gallery</div>
+          <div class="head-rule"></div>
+          <h2>A glimpse of Amarina Jannah</h2>
+          <p>A few snapshots from around the resort — tap any photo to view it full-screen.</p>
+        </div>
+        <div class="gallery-grid stagger" id="galleryGrid"></div>
+      </div>
+    </section>
+
     <!-- ── Highlights ── -->
     <section id="highlights" style="background: var(--bg-2); padding: 70px 0;">
       <div class="container">
@@ -783,6 +811,7 @@
   const RESTAURANTS = [
     {
       name: 'Element', icon: '🍽️', type: 'Main Buffet', cuisine: 'International & Egyptian',
+      images: ['assets/photos/element-restaurant.jpg'],
       accent: ['#6A0F1B', '#2A0A10'], location: 'Main Building',
       desc: "The resort's main all-inclusive restaurant — generous international and Egyptian buffets with live cooking stations, grills and a dessert spread.",
       periods: [
@@ -832,6 +861,7 @@
     },
     {
       name: 'Pool Bar', icon: '🍹', location: 'Poolside', open: '10:00', close: '24:00',
+      images: ['assets/photos/pool-bar.jpg'],
       desc: 'Stay refreshed between swims without leaving the water. Light snacks served through the afternoon.',
       highlights: ['Poolside service', 'Cocktails', 'Snacks 13:00–17:00'],
     },
@@ -887,7 +917,7 @@
   ];
 
   const FACILITIES = [
-    { icon: '🎢', tint: 'rgba(255,77,64,0.16)',  title: 'Aqua Park', desc: '8 thrilling slides plus 4 baby slides for little ones — including the Octopus, Turtle, Rabbit and Frog kids’ slides.', meta: '8 + 4 slides' },
+    { icon: '🎢', tint: 'rgba(255,77,64,0.16)',  title: 'Aqua Park', images: ['assets/photos/aqua-park.jpg'], desc: '8 thrilling slides plus 4 baby slides for little ones — including the Octopus, Turtle, Rabbit and Frog kids’ slides.', meta: '8 + 4 slides' },
     { icon: '🏊', tint: 'rgba(255,39,51,0.16)',  title: 'Pools', desc: 'Multiple freshwater pools across the grounds, including a heated main pool in cooler months and a dedicated children’s pool.', meta: 'Heated main pool · kids pool' },
     { icon: '🏖️', tint: 'rgba(255,90,100,0.16)', title: 'Private Beach', desc: 'A sandy 175-metre private beach on the Red Sea, with free sun loungers, parasols and towels.', meta: '175 m · Red Sea' },
     { icon: '🤿', tint: 'rgba(255,39,51,0.18)',  title: 'House Reef Snorkelling', desc: 'Direct access to the house reef (Marsa Umm Gerifat) — vibrant coral and reef fish steps from shore.', meta: 'Marsa Umm Gerifat reef' },
@@ -938,7 +968,7 @@
       const sl = slug(v.name);
       return `
         <div class="vcard-head photo" style="background:${grad}" data-gal="${sl}" data-i="0" role="button" tabindex="0" aria-label="View ${esc(v.name)} photos">
-          <img class="vhead-img" src="${v.images[0]}" alt="${esc(v.name)}" onerror="this.classList.add('imgfail')">
+          <img class="vhead-img" src="${v.images[0]}" alt="${esc(v.name)}" loading="lazy" decoding="async" onerror="this.classList.add('imgfail')">
           <div class="vhead-shade"></div>
           ${statusPill(open)}
           ${v.images.length > 1 ? `<div class="photo-count">📷 ${v.images.length}</div>` : ''}
@@ -1038,18 +1068,31 @@
   }
 
   function renderFacilities() {
-    document.getElementById('facilityGrid').innerHTML = FACILITIES.map(f =>
-      `<div class="fac">
+    document.getElementById('facilityGrid').innerHTML = FACILITIES.map(f => {
+      const hasimg = f.images && f.images.length;
+      if (hasimg) registerGallery({ name: f.title, images: f.images });
+      const photo = hasimg
+        ? `<div class="fac-photo" data-gal="${slug(f.title)}" data-i="0" role="button" tabindex="0" aria-label="View ${esc(f.title)} photos"><img src="${f.images[0]}" alt="${esc(f.title)}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">${f.images.length > 1 ? `<div class="photo-count">📷 ${f.images.length}</div>` : ''}</div>`
+        : '';
+      return `<div class="fac${hasimg ? ' has-photo' : ''}">${photo}
          <div class="fac-ico" style="background:${f.tint}">${f.icon}</div>
          <h3>${esc(f.title)}</h3>
          <p>${esc(f.desc)}</p>
          <div class="fmeta">✦ ${esc(f.meta)}</div>
-       </div>`).join('');
+       </div>`;
+    }).join('');
   }
 
   function renderHighlights() {
     document.getElementById('highlightGrid').innerHTML = HIGHLIGHTS.map(h =>
       `<div class="high"><div class="hi">${h.icon}</div><div class="ht">${esc(h.title)}</div><div class="hs">${esc(h.sub)}</div></div>`).join('');
+  }
+
+  const PHOTOS = ['assets/photos/hero-beach.jpg', 'assets/photos/pool-bar.jpg', 'assets/photos/aqua-park.jpg', 'assets/photos/element-restaurant.jpg'];
+  function renderGallery() {
+    GALLERIES['gallery'] = PHOTOS;
+    document.getElementById('galleryGrid').innerHTML = PHOTOS.map((src, i) =>
+      `<div class="g" data-gal="gallery" data-i="${i}" role="button" tabindex="0" aria-label="Open photo ${i + 1}"><img src="${src}" alt="Amarina Jannah" loading="lazy" decoding="async"></div>`).join('');
   }
 
   // ── Evening programme — custom cards, auto-updating from Google Calendar when a key is set ──
@@ -1096,7 +1139,7 @@
      INTERACTIONS
   ═══════════════════════════════════════════════════════ */
   document.addEventListener('DOMContentLoaded', () => {
-    renderRooms(); renderActivities(); renderFacilities(); renderHighlights(); renderShows(SHOWS); loadLiveProgramme();
+    renderRooms(); renderActivities(); renderFacilities(); renderHighlights(); renderShows(SHOWS); renderGallery(); loadLiveProgramme();
     renderRestaurants(new Date()); renderBars(new Date());
     setInterval(() => { updateStatuses(new Date()); if (window.AmarinaI18N) AmarinaI18N.apply(); }, 60000); // refresh open/closed status each minute
 
@@ -1120,12 +1163,12 @@
     const openLB = (gal, i) => { lbImgs = GALLERIES[gal] || []; if (!lbImgs.length) return; lbIdx = i; showLB(); lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
     const closeLB = () => { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
     const moveLB = d => { lbIdx = (lbIdx + d + lbImgs.length) % lbImgs.length; showLB(); };
-    const dining = document.getElementById('dining');
-    dining.addEventListener('click', e => {
+    const galRoot = document.querySelector('.wrap');
+    galRoot.addEventListener('click', e => {
       const t = e.target.closest('[data-gal]');
       if (t) { e.preventDefault(); openLB(t.dataset.gal, +t.dataset.i || 0); }
     });
-    dining.addEventListener('keydown', e => {
+    galRoot.addEventListener('keydown', e => {
       if (e.key !== 'Enter' && e.key !== ' ') return;
       const t = e.target.closest('[data-gal]');
       if (t) { e.preventDefault(); openLB(t.dataset.gal, +t.dataset.i || 0); }

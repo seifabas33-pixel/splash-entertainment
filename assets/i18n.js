@@ -816,16 +816,28 @@
       "A different highlight daily — Tanoura, Zumba, Color Festival, Beach Competition and more.":"Каждый день новое событие — Танура, зумба, фестиваль красок, пляжный конкурс и не только." }
   };
 
+  // ── Gallery section ──
+  var I18N7 = {
+    ar: { "Gallery": "معرض الصور", "A glimpse of Amarina Jannah": "لمحة عن أمارينا جنّة", "A few snapshots from around the resort — tap any photo to view it full-screen.": "لقطات من أنحاء المنتجع — انقر على أي صورة لعرضها بملء الشاشة." },
+    nl: { "Gallery": "Galerij", "A glimpse of Amarina Jannah": "Een glimp van Amarina Jannah", "A few snapshots from around the resort — tap any photo to view it full-screen.": "Een paar beelden van het resort — tik op een foto om hem schermvullend te bekijken." },
+    de: { "Gallery": "Galerie", "A glimpse of Amarina Jannah": "Ein Blick auf Amarina Jannah", "A few snapshots from around the resort — tap any photo to view it full-screen.": "Ein paar Eindrücke aus dem Resort — tippen Sie auf ein Foto, um es im Vollbild zu sehen." },
+    pl: { "Gallery": "Galeria", "A glimpse of Amarina Jannah": "Rzut oka na Amarina Jannah", "A few snapshots from around the resort — tap any photo to view it full-screen.": "Kilka ujęć z resortu — dotknij dowolnego zdjęcia, aby zobaczyć je na pełnym ekranie." },
+    cs: { "Gallery": "Galerie", "A glimpse of Amarina Jannah": "Pohled na Amarina Jannah", "A few snapshots from around the resort — tap any photo to view it full-screen.": "Několik záběrů z resortu — klepnutím na fotku ji zobrazíte na celou obrazovku." },
+    fr: { "Gallery": "Galerie", "A glimpse of Amarina Jannah": "Un aperçu d'Amarina Jannah", "A few snapshots from around the resort — tap any photo to view it full-screen.": "Quelques images du complexe — touchez une photo pour l'afficher en plein écran." },
+    ru: { "Gallery": "Галерея", "A glimpse of Amarina Jannah": "Взгляд на Amarina Jannah", "A few snapshots from around the resort — tap any photo to view it full-screen.": "Несколько кадров из курорта — нажмите на любое фото, чтобы открыть его на весь экран." }
+  };
+
   // ── Engine ────────────────────────────────────────────────────
   function tr(s) {
     if (LANG === 'en') return s;
-    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG], d5 = I18N5[LANG], d6 = I18N6[LANG];
+    var k = s.trim(), d = I18N[LANG], d2 = I18N2[LANG], d3 = I18N3[LANG], d4 = I18N4[LANG], d5 = I18N5[LANG], d6 = I18N6[LANG], d7 = I18N7[LANG];
     if (d && d[k] != null) return d[k];
     if (d2 && d2[k] != null) return d2[k];
     if (d3 && d3[k] != null) return d3[k];
     if (d4 && d4[k] != null) return d4[k];
     if (d5 && d5[k] != null) return d5[k];
     if (d6 && d6[k] != null) return d6[k];
+    if (d7 && d7[k] != null) return d7[k];
     return s;
   }
   function applyBlocks() {
