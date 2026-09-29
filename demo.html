@@ -806,7 +806,7 @@
 
   <div class="fx-pick" id="fxPick" role="group" aria-label="Hero animation (demo)">
     <span class="mono">Animation</span>
-    <button type="button" data-fx="globe" aria-pressed="false">Globe</button><button type="button" data-fx="stage" aria-pressed="false">Stage</button><button type="button" data-fx="flow" aria-pressed="false">Flow</button><button type="button" data-fx="network" aria-pressed="false">Network</button>
+    <button type="button" data-fx="flow" aria-pressed="false">Flow</button><button type="button" data-fx="globe" aria-pressed="false">Globe</button><button type="button" data-fx="stage" aria-pressed="false">Stage</button><button type="button" data-fx="network" aria-pressed="false">Network</button>
   </div>
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Show reel" data-ia="aria-label:a.reel">
@@ -1485,13 +1485,12 @@
         else if (!should && running) { running = false; cancelAnimationFrame(raf); }
       }
       function setScene(name) {
-        if (!SCENES[name]) name = 'globe';
+        if (!SCENES[name]) name = 'flow';
         sceneName = name; scene = SCENES[name];
         root.setAttribute('data-fx', name);
         ctx.globalCompositeOperation = 'source-over';
         if (S.W) resize();
         $$('#fxPick button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-fx') === name ? 'true' : 'false'); });
-        try { localStorage.setItem('sa-fx', name); } catch (e) {}
       }
 
       function setPointer(x, y) { var r = hero.getBoundingClientRect(); S.pointer.x = x - r.left; S.pointer.y = y - r.top; S.pointer.on = true; }
@@ -1509,8 +1508,8 @@
       if ('ResizeObserver' in window) new ResizeObserver(function () { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(resize); }).observe(hero);
       else window.addEventListener('resize', resize);
 
-      var first = 'globe';
-      try { var q = new URLSearchParams(location.search).get('fx'); first = SCENES[q] ? q : (localStorage.getItem('sa-fx') || 'globe'); } catch (e) {}
+      var first = 'flow';
+      try { var q = new URLSearchParams(location.search).get('fx'), saved = localStorage.getItem('sa-fx2'); first = SCENES[q] ? q : (SCENES[saved] ? saved : 'flow'); } catch (e) {}
       readTheme(); setScene(first); resize(); update();
       return { set: setScene };
     })();
@@ -1522,6 +1521,7 @@
         var name = b.getAttribute('data-fx');
         if (window.gsap && !reduce) gsap.fromTo('#heroFx', { autoAlpha: 0.15 }, { autoAlpha: 1, duration: 0.8, ease: 'power2.out' });
         heroFx.set(name);
+        try { localStorage.setItem('sa-fx2', name); } catch (e) {}
         try { var u = new URL(location.href); u.searchParams.set('fx', name); history.replaceState(null, '', u.pathname + u.search + u.hash); } catch (e) {}
       });
     });
