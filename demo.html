@@ -224,6 +224,9 @@
     @keyframes drift2 { to { transform: translate3d(-12vw, -12vh, 0) scale(1.08); } }
     .hero-meta { position: relative; display: flex; justify-content: space-between; gap: 20px; color: var(--muted); }
     .hero-meta b { color: var(--text); font-weight: 500; }
+    /* live tech field behind the hero */
+    #heroFx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .coords { color: var(--gold); }
     .hero-title { position: relative; font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5.6vw, 96px); line-height: 0.98; letter-spacing: -0.035em; margin: clamp(28px, 6vh, 70px) 0; }
     .hl { display: flex; flex-wrap: wrap; align-items: center; column-gap: 0.22em; }
     .hl + .hl { margin-top: 0.04em; }
@@ -552,9 +555,10 @@
     <header class="hero" id="top">
       <div class="glow glow-1" aria-hidden="true"></div>
       <div class="glow glow-2" aria-hidden="true"></div>
+      <canvas id="heroFx" aria-hidden="true"></canvas>
       <div class="hero-meta mono intro-fade">
         <span><b data-i="h.role">Entertainment Manager</b> <span class="hide-sm" data-i="h.cof">— Co-founder, Joy Boy Agency</span></span>
-        <span><span data-i="h.place">Red Sea, EG</span> <b class="clock">--:--</b></span>
+        <span><span class="coords hide-sm">25.07°N 34.88°E ·</span> <span data-i="h.place">Red Sea, EG</span> <b class="clock">--:--</b></span>
       </div>
 
       <div class="hero-stack" id="heroStack">
@@ -1159,6 +1163,154 @@
       });
     });
 
+    /* ── hero tech field: drifting network, cursor links, data packets, perspective grid ── */
+    (function heroField() {
+      var canvas = $('#heroFx');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d'), hero = $('#top');
+      var dpr = Math.min(2, window.devicePixelRatio || 1);
+      var W = 0, H = 0, nodes = [], packets = [], floorGrad = null, rgb = '240,199,102', k = 1;
+      var LINK = 132, LINK2 = LINK * LINK, REACH = 180, REACH2 = REACH * REACH;
+      var pointer = { x: 0, y: 0, on: false }, running = false, visible = true, raf = 0;
+      var horizon = function () { return H * (W < 700 ? 0.8 : 0.64); };
+
+      function readTheme() {
+        var light = root.getAttribute('data-theme') === 'light';
+        rgb = light ? '143,98,10' : '240,199,102'; k = light ? 0.9 : 1;
+        buildGrad();
+      }
+      function buildGrad() {
+        if (!H) return;
+        var hz = horizon();
+        floorGrad = ctx.createLinearGradient(0, hz, 0, H);
+        floorGrad.addColorStop(0, 'rgba(' + rgb + ',0)');
+        floorGrad.addColorStop(1, 'rgba(' + rgb + ',' + (0.3 * k) + ')');
+      }
+      function resize() {
+        W = hero.clientWidth; H = hero.clientHeight;
+        if (!W || !H) return;
+        canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var count = Math.round(Math.max(34, Math.min(90, (W * H) / 15000)));
+        nodes = []; packets = [];
+        for (var i = 0; i < count; i++) {
+          nodes.push({ x: Math.random() * W, y: Math.random() * H * 0.72, vx: (Math.random() - 0.5) * 0.45, vy: (Math.random() - 0.5) * 0.45, r: Math.random() * 1.4 + 0.9, p: Math.random() * 6.28 });
+        }
+        buildGrad();
+        if (!running) frame(performance.now());
+      }
+
+      function frame(now) {
+        if (!W) return;
+        var i, j, a, b, dx, dy, d2, hz = horizon(), cx = W / 2, maxY = H * 0.78;
+        ctx.clearRect(0, 0, W, H);
+
+        /* perspective floor: rails converge on the horizon, rungs rush towards the viewer */
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = floorGrad;
+        ctx.beginPath();
+        for (i = -14; i <= 14; i++) { ctx.moveTo(cx + i * (W / 70), hz); ctx.lineTo(cx + i * (W / 9), H); }
+        ctx.stroke();
+        var flow = (now / 1000) * 0.55;
+        for (i = 0; i < 12; i++) {
+          var z = ((i + flow) % 12) / 12, y = hz + z * z * (H - hz);
+          ctx.strokeStyle = 'rgba(' + rgb + ',' + (z * 0.34 * k).toFixed(3) + ')';
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+        }
+        var sc = (now % 4200) / 4200, sy = hz + sc * sc * (H - hz), fade = 1 - sc;
+        ctx.fillStyle = 'rgba(' + rgb + ',' + (0.14 * k * fade).toFixed(3) + ')'; ctx.fillRect(0, sy - 7, W, 14);
+        ctx.fillStyle = 'rgba(' + rgb + ',' + (0.6 * k * fade).toFixed(3) + ')'; ctx.fillRect(0, sy - 1, W, 2);
+
+        /* move the network */
+        for (i = 0; i < nodes.length; i++) {
+          a = nodes[i];
+          if (pointer.on) {
+            dx = a.x - pointer.x; dy = a.y - pointer.y; d2 = dx * dx + dy * dy;
+            if (d2 < REACH2 && d2 > 1) { var d = Math.sqrt(d2), f = (1 - d2 / REACH2) * 0.05; a.vx += (dx / d) * f; a.vy += (dy / d) * f; }
+          }
+          a.vx *= 0.99; a.vy *= 0.99;
+          if (a.vx * a.vx + a.vy * a.vy < 0.03) { a.vx += (Math.random() - 0.5) * 0.04; a.vy += (Math.random() - 0.5) * 0.04; }
+          a.x += a.vx; a.y += a.vy;
+          if (a.x < 0) { a.x = 0; a.vx = Math.abs(a.vx); } else if (a.x > W) { a.x = W; a.vx = -Math.abs(a.vx); }
+          if (a.y < 0) { a.y = 0; a.vy = Math.abs(a.vy); } else if (a.y > maxY) { a.y = maxY; a.vy = -Math.abs(a.vy); }
+        }
+
+        /* links between nearby points */
+        ctx.lineWidth = 0.9;
+        for (i = 0; i < nodes.length; i++) {
+          a = nodes[i];
+          for (j = i + 1; j < nodes.length; j++) {
+            b = nodes[j]; dx = a.x - b.x; dy = a.y - b.y; d2 = dx * dx + dy * dy;
+            if (d2 < LINK2) {
+              ctx.strokeStyle = 'rgba(' + rgb + ',' + ((1 - d2 / LINK2) * 0.38 * k).toFixed(3) + ')';
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+        }
+
+        /* cursor / finger: lines reach out to it */
+        if (pointer.on) {
+          ctx.lineWidth = 1.1;
+          for (i = 0; i < nodes.length; i++) {
+            a = nodes[i]; dx = a.x - pointer.x; dy = a.y - pointer.y; d2 = dx * dx + dy * dy;
+            if (d2 < REACH2) {
+              ctx.strokeStyle = 'rgba(' + rgb + ',' + ((1 - d2 / REACH2) * 0.75 * k).toFixed(3) + ')';
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(pointer.x, pointer.y); ctx.stroke();
+            }
+          }
+          ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.55 * k) + ')';
+          ctx.beginPath(); ctx.arc(pointer.x, pointer.y, 14 + Math.sin(now / 260) * 3, 0, 6.2832); ctx.stroke();
+        }
+
+        /* points, gently twinkling */
+        for (i = 0; i < nodes.length; i++) {
+          a = nodes[i];
+          ctx.fillStyle = 'rgba(' + rgb + ',' + ((0.55 + 0.4 * Math.sin(a.p + now / 700)) * k).toFixed(3) + ')';
+          ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.2832); ctx.fill();
+        }
+
+        /* data packets travelling along links */
+        if (packets.length < 8 && Math.random() < 0.12) {
+          var s0 = nodes[(Math.random() * nodes.length) | 0];
+          for (j = 0; j < nodes.length; j++) {
+            b = nodes[j]; dx = s0.x - b.x; dy = s0.y - b.y; d2 = dx * dx + dy * dy;
+            if (b !== s0 && d2 < LINK2 * 0.8) { packets.push({ a: s0, b: b, t: 0, v: 0.012 + Math.random() * 0.012 }); break; }
+          }
+        }
+        for (i = packets.length - 1; i >= 0; i--) {
+          var pk = packets[i]; pk.t += pk.v;
+          dx = pk.a.x - pk.b.x; dy = pk.a.y - pk.b.y;
+          if (pk.t >= 1 || dx * dx + dy * dy > LINK2) { packets.splice(i, 1); continue; }
+          var px = pk.a.x + (pk.b.x - pk.a.x) * pk.t, py = pk.a.y + (pk.b.y - pk.a.y) * pk.t;
+          ctx.fillStyle = 'rgba(' + rgb + ',' + (0.22 * k) + ')'; ctx.beginPath(); ctx.arc(px, py, 5, 0, 6.2832); ctx.fill();
+          ctx.fillStyle = 'rgba(255,248,225,' + (0.95 * k) + ')'; ctx.beginPath(); ctx.arc(px, py, 1.8, 0, 6.2832); ctx.fill();
+        }
+      }
+
+      function loop(now) { if (!running) return; frame(now); raf = requestAnimationFrame(loop); }
+      function update() {
+        var should = visible && !document.hidden && !reduce;
+        if (should && !running) { running = true; raf = requestAnimationFrame(loop); }
+        else if (!should && running) { running = false; cancelAnimationFrame(raf); }
+      }
+
+      function setPointer(x, y) { var r = hero.getBoundingClientRect(); pointer.x = x - r.left; pointer.y = y - r.top; pointer.on = true; }
+      if (!reduce) {
+        hero.addEventListener('pointermove', function (e) { setPointer(e.clientX, e.clientY); }, { passive: true });
+        hero.addEventListener('pointerdown', function (e) { setPointer(e.clientX, e.clientY); }, { passive: true });
+        hero.addEventListener('touchmove', function (e) { if (e.touches[0]) setPointer(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+        hero.addEventListener('pointerleave', function () { pointer.on = false; });
+        hero.addEventListener('touchend', function () { setTimeout(function () { pointer.on = false; }, 600); }, { passive: true });
+      }
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; update(); }).observe(hero);
+      document.addEventListener('visibilitychange', update);
+      new MutationObserver(function () { readTheme(); if (!running) frame(performance.now()); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      var rsz = 0;
+      if ('ResizeObserver' in window) new ResizeObserver(function () { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(resize); }).observe(hero);
+      else window.addEventListener('resize', resize);
+      readTheme(); resize(); update();
+    })();
+
     /* language switch: quick fade, swap text, rebuild text effects */
     var fading = [$('#main'), $('.nav-links'), $('.status'), $('#menu .menu-links')];
     function switchLang(l) {
@@ -1223,6 +1375,7 @@
         .fromTo('#heroTitle .c', { yPercent: 115, rotate: cursive ? 0 : 6 }, { yPercent: 0, rotate: 0, duration: 1.15, stagger: cursive ? 0.07 : 0.02 })
         .fromTo('.reel-pill', { scale: 0 }, { scale: 1, duration: 1.1 }, 0.3)
         .fromTo(nav, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8 }, 0.2)
+        .fromTo('#heroFx', { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.6, ease: 'power2.out' }, 0.1)
         .fromTo('.intro-fade', { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 1, stagger: 0.07 }, 0.4)
         .fromTo('.hs', { autoAlpha: 0, y: 140 }, { autoAlpha: 1, y: 0, duration: 1.35, stagger: 0.1 }, 0.35);
     }
