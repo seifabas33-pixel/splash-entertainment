@@ -211,6 +211,7 @@
     .menu-links a:nth-child(3) span, .menu-links a:nth-child(3) small { transition-delay: 0.1s; }
     .menu-links a:nth-child(4) span, .menu-links a:nth-child(4) small { transition-delay: 0.15s; }
     .menu-links a:nth-child(5) span, .menu-links a:nth-child(5) small { transition-delay: 0.2s; }
+    .menu-links a:nth-child(6) span, .menu-links a:nth-child(6) small { transition-delay: 0.25s; }
     .menu-foot { display: flex; flex-direction: column; gap: 18px; }
     .menu-foot .row { display: flex; justify-content: space-between; color: var(--muted); }
 
@@ -296,7 +297,7 @@
     .star { display: inline-block; width: 0.42em; height: 0.42em; flex-shrink: 0; background: var(--gold); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
 
     /* ── SECTIONS ── */
-    section { position: relative; padding: clamp(96px, 12vw, 180px) var(--pad); }
+    section { position: relative; padding: clamp(96px, 12vw, 180px) var(--pad); scroll-margin-top: 96px; }
     .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: clamp(44px, 6vw, 88px); }
     .kicker { display: flex; align-items: center; gap: 12px; color: var(--soft); margin-bottom: 22px; }
     .kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
@@ -429,6 +430,64 @@
     .lightbox video { max-width: 100%; max-height: 82vh; border-radius: 18px; background: #000; }
     .lb-close { position: absolute; top: calc(16px + env(safe-area-inset-top)); inset-inline-end: var(--pad); height: 44px; padding: 0 18px; border-radius: 999px; background: #f6f3ec; color: #070605; font-weight: 700; }
 
+    /* Quote builder */
+    .quote-wrap { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+    .qform { justify-content: flex-start; gap: 0; padding: clamp(22px, 2.6vw, 38px); }
+    .qform fieldset { border: 0; margin: 0; padding: 24px 0 8px; border-top: 1px solid var(--line); min-width: 0; }
+    .qform fieldset:first-child { border-top: 0; padding-top: 0; }
+    .qform legend { float: left; width: 100%; display: flex; align-items: baseline; gap: 12px; padding: 0; margin-bottom: 14px; }
+    [dir="rtl"] .qform legend { float: right; }
+    .q-num { color: var(--gold); }
+    .q-title { font-family: var(--display); font-weight: 700; font-size: clamp(20px, 1.8vw, 26px); letter-spacing: -0.02em; color: var(--text); }
+    .q-hint, .q-label { clear: both; font-size: 14px; color: var(--muted); margin-bottom: 12px; }
+    .q-chips { clear: both; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .q-chips button { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 15px; font-weight: 600; color: var(--soft); text-align: start; transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s var(--ease); }
+    .q-chips button:hover { border-color: var(--gold); color: var(--text); }
+    .q-chips button:active { transform: scale(0.97); }
+    .q-chips button[aria-pressed="true"] { background: var(--grad); color: #16110a; border-color: transparent; }
+    .q-tick { width: 16px; height: 16px; display: none; flex-shrink: 0; }
+    .q-chips button[aria-pressed="true"] .q-tick { display: block; }
+    .q-grid { clear: both; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    .q-wide { grid-column: 1 / -1; }
+    .q-field { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600; color: var(--soft); }
+    .q-field input, .q-field select, .q-field textarea { width: 100%; min-height: 52px; padding: 13px 16px; border-radius: 14px; border: 1px solid var(--line-2); background-color: var(--bg); color: var(--text); font: inherit; font-size: 16px; font-weight: 450; -webkit-appearance: none; appearance: none; transition: border-color 0.3s, box-shadow 0.3s; }
+    .q-field textarea { min-height: 100px; resize: vertical; line-height: 1.5; }
+    .q-field select { padding-inline-end: 42px; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23b0a99c' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat: no-repeat; background-position: calc(100% - 16px) center; }
+    [dir="rtl"] .q-field select { background-position: 16px center; }
+    .q-field input:focus, .q-field select:focus, .q-field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(240, 199, 102, 0.2); }
+    .q-field ::placeholder { color: var(--muted); opacity: 0.85; }
+    .q-field.is-missing input { border-color: #e5735b; }
+    .qpreview { position: sticky; top: 104px; }
+    .qp-card { border-radius: var(--radius); border: 1px solid var(--line); background: var(--panel); overflow: hidden; }
+    .qp-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .qp-head img { width: 38px; height: 38px; border-radius: 10px; }
+    .qp-head b { display: block; font-family: var(--display); font-weight: 700; font-size: 16px; }
+    .qp-head .mono { font-size: 11px; color: var(--muted); }
+    .qp-head .qp-dot { margin-inline-start: auto; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #25d366; color: #fff; }
+    .qp-head .qp-dot svg { width: 18px; height: 18px; }
+    .qp-chat { display: flex; flex-direction: column; align-items: flex-end; min-height: 260px; padding: 22px 18px; background-color: var(--bg-deep); background-image: radial-gradient(var(--line-2) 1px, transparent 1.2px); background-size: 18px 18px; }
+    .qp-bubble { position: relative; max-width: 94%; padding: 12px 14px 8px; border-radius: 16px 16px 4px 16px; background: rgba(240, 199, 102, 0.16); border: 1px solid rgba(240, 199, 102, 0.35); color: var(--text); font-size: 15px; line-height: 1.5; }
+    [dir="rtl"] .qp-bubble { border-radius: 16px 16px 16px 4px; }
+    [data-theme="light"] .qp-bubble { background: #f7e6bb; border-color: rgba(143, 98, 10, 0.25); }
+    .qp-bubble p { white-space: pre-wrap; word-break: break-word; }
+    .qp-bubble.is-empty p { color: var(--muted); font-style: italic; }
+    .qp-meta { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 4px; font-family: var(--mono); font-size: 11px; color: var(--muted); direction: ltr; }
+    .qp-meta svg { width: 16px; height: 16px; color: #4fb6ec; }
+    .qp-bubble.is-empty .qp-meta svg { display: none; }
+    .qp-actions { display: flex; flex-direction: column; gap: 12px; padding: 18px; border-top: 1px solid var(--line); }
+    .qp-actions .btn { width: 100%; }
+    .qp-mail { text-align: center; font-size: 14px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+    .qp-mail:hover { color: var(--gold); }
+    .qp-err { text-align: center; font-size: 14px; font-weight: 600; color: #e5735b; }
+    [data-theme="light"] .qp-err { color: #b3401f; }
+    .svc-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-size: 15px; font-weight: 700; color: var(--gold); }
+    .svc-link svg { width: 16px; height: 16px; transition: transform 0.4s var(--ease); }
+    .svc-link:hover svg { transform: translateX(4px); }
+    [dir="rtl"] .svc-link svg { transform: scaleX(-1); }
+    .card-gold .svc-link { color: #16110a; }
+    @media (max-width: 900px) { .quote-wrap { grid-template-columns: 1fr; } .qpreview { position: static; } }
+    @media (max-width: 640px) { .q-grid { grid-template-columns: 1fr; } .qp-chat { min-height: 200px; } }
+
     /* ── ARABIC ── */
     [lang="ar"] * { letter-spacing: 0 !important; }
     [lang="ar"] .serif, [lang="ar"] .voice blockquote:not([lang]) { font-family: 'Cairo', sans-serif; font-style: normal; font-weight: 500; }
@@ -535,7 +594,7 @@
           <li><a href="?lang=it" data-lang="it" lang="it" hreflang="it"><b>IT</b>Italiano</a></li>
         </ul>
       </div>
-      <a href="#contact" class="btn btn-gold magnetic cta-talk" data-link><span data-i="nav.cta" data-roll>Let's talk</span></a>
+      <a href="#quote" class="btn btn-gold magnetic cta-talk" data-link><span data-i="nav.cta" data-roll>Get a quote</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu"><span id="menuLabel">Menu</span><i></i></button>
     </div>
   </nav>
@@ -546,7 +605,8 @@
       <a href="#shows" data-link><span data-i="nav.shows">Shows</span><small>02</small></a>
       <a href="#services" data-link><span data-i="nav.services">Services</span><small>03</small></a>
       <a href="#about" data-link><span data-i="nav.about">About</span><small>04</small></a>
-      <a href="#contact" data-link><span data-i="nav.contact">Contact</span><small>05</small></a>
+      <a href="#quote" data-link><span data-i="nav.quote">Get a quote</span><small>05</small></a>
+      <a href="#contact" data-link><span data-i="nav.contact">Contact</span><small>06</small></a>
     </div>
     <div class="menu-foot">
       <div class="theme-row">
@@ -744,19 +804,19 @@
       <div class="services">
         <article class="card service rv">
           <div class="service-top"><span class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="M19 4l1.5 1.5M5 4L3.5 5.5"/></svg></span><span class="mono">01</span></div>
-          <div><h3 data-i="sv1.h">Entertainment management</h3><ul><li data-i="sv1.a">Daily programmes</li><li data-i="sv1.b">Animation teams</li><li data-i="sv1.c">Kids club</li><li data-i="sv1.d">Guest activities</li></ul></div>
+          <div><h3 data-i="sv1.h">Entertainment management</h3><ul><li data-i="sv1.a">Daily programmes</li><li data-i="sv1.b">Animation teams</li><li data-i="sv1.c">Kids club</li><li data-i="sv1.d">Guest activities</li></ul><a href="#quote" class="svc-link" data-link data-pick="team"><span data-i="q.k">Get a quote</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a></div>
         </article>
         <article class="card service card-gold rv">
           <div class="service-top"><span class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3c2 3 5 4.5 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-7.5z"/></svg></span><span class="mono">02</span></div>
-          <div><h3 data-i="sv2.h">Shows &amp; events</h3><ul><li data-i="m.fire">Fire shows</li><li data-i="m.theme">Theme nights</li><li data-i="m.music">Live music</li><li data-i="sv2.d">Special events</li></ul></div>
+          <div><h3 data-i="sv2.h">Shows &amp; events</h3><ul><li data-i="m.fire">Fire shows</li><li data-i="m.theme">Theme nights</li><li data-i="m.music">Live music</li><li data-i="sv2.d">Special events</li></ul><a href="#quote" class="svc-link" data-link data-pick="shows"><span data-i="q.k">Get a quote</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a></div>
         </article>
         <article class="card service rv">
           <div class="service-top"><span class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M3 8h18M8 21h8"/></svg></span><span class="mono">03</span></div>
-          <div><h3 data-i="sv3.h">Websites &amp; web apps</h3><ul><li data-i="sv3.a">Resort guest apps</li><li data-i="m.rest">Restaurant sites</li><li data-i="sv3.c">Multilingual</li><li data-i="sv3.d">WhatsApp bookings</li></ul></div>
+          <div><h3 data-i="sv3.h">Websites &amp; web apps</h3><ul><li data-i="sv3.a">Resort guest apps</li><li data-i="m.rest">Restaurant sites</li><li data-i="sv3.c">Multilingual</li><li data-i="sv3.d">WhatsApp bookings</li></ul><a href="#quote" class="svc-link" data-link data-pick="web"><span data-i="q.k">Get a quote</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a></div>
         </article>
         <article class="card service rv">
           <div class="service-top"><span class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><span class="mono">04</span></div>
-          <div><h3 data-i="sv4.h">Brands &amp; portfolios</h3><ul><li data-i="sv4.a">Personal brands</li><li data-i="m.agents">Agent portfolios</li><li data-i="sv4.c">Agency sites</li><li data-i="sv4.d">Share-ready links</li></ul></div>
+          <div><h3 data-i="sv4.h">Brands &amp; portfolios</h3><ul><li data-i="sv4.a">Personal brands</li><li data-i="m.agents">Agent portfolios</li><li data-i="sv4.c">Agency sites</li><li data-i="sv4.d">Share-ready links</li></ul><a href="#quote" class="svc-link" data-link data-pick="brand"><span data-i="q.k">Get a quote</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a></div>
         </article>
       </div>
     </section>
@@ -778,6 +838,52 @@
           <blockquote lang="en" dir="ltr">“The staff is kind and welcoming… Quiet entertainment, the guys are very nice, especially Gaia, Choco, and Freska!! Recommended!!”</blockquote>
           <footer class="mono"><span>Giorgia C · TripAdvisor</span><span data-i="v.date">Aug 2026</span></footer>
         </figure>
+      </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section id="quote" style="padding-top:0">
+      <div class="sec-head">
+        <div><p class="kicker mono" data-i="q.k">Get a quote</p><h2 class="h2" data-i="q.h">Plan your <span class="serif gold">next season.</span></h2></div>
+        <p data-i="q.p">Pick what you need and send it straight to my WhatsApp, already written. I'll reply to you personally.</p>
+      </div>
+      <div class="quote-wrap">
+        <form class="card qform rv" id="qForm" novalidate>
+          <fieldset>
+            <legend><span class="mono q-num">01</span><span class="q-title" data-i="q.s1">What do you need?</span></legend>
+            <p class="q-hint" data-i="q.s1h">Choose one or more</p>
+            <div class="q-chips" id="qServices"><button type="button" aria-pressed="false" data-svc="team"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.o.team">Full entertainment team</span></button><button type="button" aria-pressed="false" data-svc="shows"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.o.shows">Evening shows &amp; theme nights</span></button><button type="button" aria-pressed="false" data-svc="kids"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.o.kids">Kids club</span></button><button type="button" aria-pressed="false" data-svc="music"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.o.music">Live music &amp; DJ</span></button><button type="button" aria-pressed="false" data-svc="web"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.o.web">Website or web app</span></button><button type="button" aria-pressed="false" data-svc="brand"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.o.brand">Brand &amp; portfolio</span></button></div>
+          </fieldset>
+          <fieldset>
+            <legend><span class="mono q-num">02</span><span class="q-title" data-i="q.s2">Your property</span></legend>
+            <div class="q-grid">
+              <label class="q-field q-wide" id="qCompanyField"><span data-i="q.company">Resort or company</span><input id="qCompany" type="text" autocomplete="organization" placeholder="e.g. Casa Blue Resort" data-ia="placeholder:q.companyPh" /></label>
+              <label class="q-field"><span data-i="q.loc">Location</span><select id="qLoc"><option value="" data-i="q.locPick">Choose…</option><option value="marsa" data-i="loc.marsa">Marsa Alam</option><option value="ghalib" data-i="loc.ghalib">Port Ghalib</option><option value="hurghada" data-i="loc.hurghada">Hurghada</option><option value="sahl" data-i="loc.sahl">Sahl Hasheesh</option><option value="gouna" data-i="loc.gouna">El Gouna</option><option value="makadi" data-i="loc.makadi">Makadi Bay</option><option value="soma" data-i="loc.soma">Soma Bay</option><option value="sharm" data-i="loc.sharm">Sharm El Sheikh</option><option value="other" data-i="loc.other">Other</option></select></label>
+              <label class="q-field"><span data-i="q.start">Starting from</span><input id="qStart" type="month" /></label>
+            </div>
+            <p class="q-label" id="qRoomsLbl" data-i="q.rooms">Rooms</p>
+            <div class="q-chips" id="qRooms" data-single="1" role="group" aria-labelledby="qRoomsLbl"><button type="button" aria-pressed="false" data-room="150"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.r1">Up to 150</span></button><button type="button" aria-pressed="false" data-room="300"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>150–300</span></button><button type="button" aria-pressed="false" data-room="600"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span>300–600</span></button><button type="button" aria-pressed="false" data-room="600p"><svg class="q-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><span data-i="q.r4">600+</span></button></div>
+          </fieldset>
+          <fieldset>
+            <legend><span class="mono q-num">03</span><span class="q-title" data-i="q.s3">About you</span></legend>
+            <div class="q-grid">
+              <label class="q-field"><span data-i="q.name">Your name</span><input id="qName" type="text" autocomplete="name" /></label>
+              <label class="q-field"><span data-i="q.role">Your role (optional)</span><input id="qRole" type="text" autocomplete="organization-title" placeholder="e.g. General Manager" data-ia="placeholder:q.rolePh" /></label>
+              <label class="q-field q-wide"><span data-i="q.notes">Anything else? (optional)</span><textarea id="qNotes" rows="3" placeholder="Guests' nationalities, shows per week, budget…" data-ia="placeholder:q.notesPh"></textarea></label>
+            </div>
+          </fieldset>
+        </form>
+        <aside class="qpreview rv" aria-label="Message preview" data-ia="aria-label:q.pv">
+          <div class="qp-card">
+            <div class="qp-head"><img src="assets/v2/img/sa-128.png" width="38" height="38" alt="" /><div><b>Seif Abas</b><span class="mono" data-i="q.pv">Message preview</span></div><span class="qp-dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.02c-.25.69-1.44 1.32-1.99 1.36-.51.04-1 .24-3.37-.7-2.84-1.12-4.63-4.03-4.77-4.22-.14-.19-1.13-1.5-1.13-2.87 0-1.36.71-2.03.97-2.31.25-.28.55-.35.73-.35l.53.01c.17.01.4-.07.62.47.25.6.84 2.06.91 2.21.07.15.12.32.02.51-.1.19-.15.31-.29.48l-.44.51c-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.36 1.46.29.15.46.12.63-.07.17-.19.73-.85.92-1.14.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.95.29.15.49.22.56.34.07.12.07.69-.18 1.38z"/></svg></span></div>
+            <div class="qp-chat"><div class="qp-bubble is-empty" id="qBubble"><p id="qText"></p><span class="qp-meta"><span id="qTime">--:--</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12.5l4 4L14 8.5"/><path d="M10 16.5l1 1L20 8.5"/></svg></span></div></div>
+            <div class="qp-actions">
+              <a class="btn btn-gold btn-lg magnetic" id="qSend" href="https://wa.me/201001570273" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.02c-.25.69-1.44 1.32-1.99 1.36-.51.04-1 .24-3.37-.7-2.84-1.12-4.63-4.03-4.77-4.22-.14-.19-1.13-1.5-1.13-2.87 0-1.36.71-2.03.97-2.31.25-.28.55-.35.73-.35l.53.01c.17.01.4-.07.62.47.25.6.84 2.06.91 2.21.07.15.12.32.02.51-.1.19-.15.31-.29.48l-.44.51c-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.03 1.12 1 2.07 1.31 2.36 1.46.29.15.46.12.63-.07.17-.19.73-.85.92-1.14.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.95.29.15.49.22.56.34.07.12.07.69-.18 1.38z"/></svg><span data-i="q.send" data-roll>Send on WhatsApp</span></a>
+              <a class="qp-mail" id="qMail" href="mailto:seif.abas33@icloud.com" data-i="q.mail">or send by email</a>
+              <p class="qp-err" id="qErr" role="alert" hidden></p>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -839,7 +945,12 @@
     var UI_EN = {
       'ui.title': 'Seif Abas — Entertainment & Digital',
       'ui.menu': 'Menu', 'ui.close': 'Close', 'ui.copied': 'Copied to clipboard',
-      'cur.view': 'View', 'cur.play': 'Play', 'cur.chat': 'Chat'
+      'cur.view': 'View', 'cur.play': 'Play', 'cur.chat': 'Chat',
+      'q.empty': 'Your message will appear here as you fill in the form.',
+      'q.err': 'Please choose at least one service and add your resort or company.',
+      'q.m.hi': 'Hello Seif,', 'q.m.me': "I'm {name}{role} from {company}.", 'q.m.co': "I'm writing on behalf of {company}.", 'q.m.name': "I'm {name}{role}.",
+      'q.m.need': "We're interested in:", 'q.m.loc': 'Location:', 'q.m.start': 'Starting:', 'q.m.size': 'Size:', 'q.m.roomsU': 'rooms', 'q.m.notes': 'Notes:',
+      'q.m.sig': 'Sent from seifabas.vercel.app', 'q.m.subject': 'Quote request — {company}'
     };
     var T = {
       ar: {
@@ -848,7 +959,7 @@
         'cur.view': 'عرض', 'cur.play': 'تشغيل', 'cur.chat': 'تواصل',
         'a.nav': 'القائمة الرئيسية', 'a.lang': 'تغيير اللغة', 'a.pill': 'شغّل فيديو عرض النار بالصوت', 'a.stack': 'شغّل فيديو عرض الإضاءة بالصوت', 'a.badge': 'مرّر للاستكشاف', 'a.portrait': 'صورة سيف عباس', 'a.award': 'شهادة جائزة HolidayCheck لعام 2025 لمنتجع كازا بلو', 'a.stars': '5 من 5 نجوم', 'a.reel': 'فيديو العرض',
         'ld.year': 'أعمالي © 2026', 'ld.text': 'العرض على وشك البدء',
-        'nav.work': 'الأعمال', 'nav.shows': 'العروض', 'nav.services': 'الخدمات', 'nav.about': 'عنّي', 'nav.contact': 'تواصل', 'nav.status': 'متاح لمشاريع جديدة', 'nav.cta': 'لنتحدث',
+        'nav.work': 'الأعمال', 'nav.shows': 'العروض', 'nav.services': 'الخدمات', 'nav.about': 'عنّي', 'nav.contact': 'تواصل', 'nav.status': 'متاح لمشاريع جديدة', 'nav.cta': 'اطلب عرضاً',
         'c.wa': 'تواصل عبر واتساب', 'c.place': 'البحر الأحمر، مصر',
         'h.role': 'مدير ترفيه', 'h.cof': '— شريك مؤسس في Joy Boy Agency', 'h.place': 'البحر الأحمر',
         'h.l1a': 'ليالٍ', 'h.l1b': 'لا ينساها', 'h.l2': 'الضيوف،', 'h.l3a': 'على المسرح', 'h.l3b': 'وعلى الشاشة.',
@@ -873,6 +984,18 @@
         'sv4.h': 'علامات شخصية ومواقع أعمال', 'sv4.a': 'علامات شخصية', 'sv4.c': 'مواقع وكالات', 'sv4.d': 'روابط جاهزة للمشاركة',
         'v.k': 'ماذا كتب الضيوف', 'v.h': 'على <span class="serif gold">لسانهم.</span>', 'v.p': 'نصوص حرفية من تقييمات TripAdvisor العامة لمنتجع True Beach، حيث تدير Joy Boy الترفيه هذا الموسم (الاقتباسات بالإنجليزية).', 'v.date': 'أغسطس 2026',
         'th.label': 'المظهر', 'th.auto': 'تلقائي', 'th.light': 'فاتح', 'th.dark': 'داكن', 'th.hint': 'تلقائي: فاتح نهاراً وداكن ليلاً',
+        'nav.quote': 'اطلب عرض سعر',
+        'q.k': 'اطلب عرض سعر', 'q.h': 'خطّط <span class="serif gold">لموسمك القادم.</span>', 'q.p': 'اختر ما تحتاجه وأرسله مباشرة إلى واتساب برسالة جاهزة، وسأرد عليك بنفسي.',
+        'q.s1': 'ماذا تحتاج؟', 'q.s1h': 'اختر خياراً أو أكثر', 'q.s2': 'منشأتك', 'q.s3': 'عنك',
+        'q.o.team': 'فريق ترفيه متكامل', 'q.o.shows': 'عروض مسائية وليالٍ مميزة', 'q.o.kids': 'نادي الأطفال', 'q.o.music': 'موسيقى حيّة ودي جي', 'q.o.web': 'موقع أو تطبيق ويب', 'q.o.brand': 'هوية وموقع شخصي',
+        'q.company': 'المنتجع أو الشركة', 'q.companyPh': 'مثال: Casa Blue Resort', 'q.loc': 'الموقع', 'q.locPick': 'اختر…', 'q.start': 'البداية', 'q.rooms': 'عدد الغرف', 'q.r1': 'حتى 150', 'q.r4': '+600',
+        'loc.marsa': 'مرسى علم', 'loc.ghalib': 'بورت غالب', 'loc.hurghada': 'الغردقة', 'loc.sahl': 'سهل حشيش', 'loc.gouna': 'الجونة', 'loc.makadi': 'مكادي باي', 'loc.soma': 'سوما باي', 'loc.sharm': 'شرم الشيخ', 'loc.other': 'مكان آخر',
+        'q.name': 'اسمك', 'q.role': 'منصبك (اختياري)', 'q.rolePh': 'مثال: المدير العام', 'q.notes': 'تفاصيل أخرى؟ (اختياري)', 'q.notesPh': 'جنسيات الضيوف، عدد العروض أسبوعياً، الميزانية…',
+        'q.pv': 'معاينة الرسالة', 'q.send': 'أرسل عبر واتساب', 'q.mail': 'أو أرسل عبر البريد الإلكتروني',
+        'q.empty': 'ستظهر رسالتك هنا أثناء تعبئة النموذج.', 'q.err': 'يرجى اختيار خدمة واحدة على الأقل وإضافة اسم المنتجع أو الشركة.',
+        'q.m.hi': 'مرحباً سيف،', 'q.m.me': 'أنا {name}{role} من {company}.', 'q.m.co': 'أتواصل معك نيابةً عن {company}.', 'q.m.name': 'أنا {name}{role}.',
+        'q.m.need': 'نحن مهتمون بـ:', 'q.m.loc': 'الموقع:', 'q.m.start': 'البداية:', 'q.m.size': 'الحجم:', 'q.m.roomsU': 'غرفة', 'q.m.notes': 'ملاحظات:',
+        'q.m.sig': 'مُرسلة من seifabas.vercel.app', 'q.m.subject': 'طلب عرض سعر — {company}',
         'c.k': 'تواصل', 'c.l1': 'لنجعلها', 'c.l2': 'لا تُنسى.', 'c.orb': 'WhatsApp • WhatsApp • WhatsApp •', 'c.email': 'البريد · اضغط للنسخ', 'c.copy': '© 2026 سيف عباس · البحر الأحمر، مصر', 'c.top': 'العودة للأعلى ↑'
       },
       de: {
@@ -881,7 +1004,7 @@
         'cur.view': 'Ansehen', 'cur.play': 'Abspielen', 'cur.chat': 'Chat',
         'a.nav': 'Hauptmenü', 'a.lang': 'Sprache ändern', 'a.pill': 'Feuershow-Video mit Ton abspielen', 'a.stack': 'Lichtshow-Video mit Ton abspielen', 'a.badge': 'Scrollen und entdecken', 'a.portrait': 'Porträt von Seif Abas', 'a.award': 'HolidayCheck-Award-2025-Urkunde für das Casa Blue Resort', 'a.stars': '5 von 5 Sternen', 'a.reel': 'Showreel',
         'ld.year': 'Portfolio © 2026', 'ld.text': 'Die Show beginnt',
-        'nav.work': 'Projekte', 'nav.shows': 'Shows', 'nav.services': 'Leistungen', 'nav.about': 'Über mich', 'nav.contact': 'Kontakt', 'nav.status': 'Offen für Projekte', 'nav.cta': 'Lass uns reden',
+        'nav.work': 'Projekte', 'nav.shows': 'Shows', 'nav.services': 'Leistungen', 'nav.about': 'Über mich', 'nav.contact': 'Kontakt', 'nav.status': 'Offen für Projekte', 'nav.cta': 'Angebot anfragen',
         'c.wa': 'Auf WhatsApp schreiben', 'c.place': 'Rotes Meer, Ägypten',
         'h.role': 'Entertainment-Manager', 'h.cof': '— Mitgründer, Joy Boy Agency', 'h.place': 'Rotes Meer, EG',
         'h.l1a': 'Nächte,', 'h.l1b': 'die Gäste', 'h.l2': 'nie vergessen –', 'h.l3a': 'auf der Bühne &amp;', 'h.l3b': 'online.',
@@ -906,6 +1029,18 @@
         'sv4.h': 'Marken &amp; Portfolios', 'sv4.a': 'Personal Brands', 'sv4.c': 'Agentur-Websites', 'sv4.d': 'Teilbare Links',
         'v.k': 'Was Gäste schreiben', 'v.h': 'In ihren <span class="serif gold">Worten.</span>', 'v.p': 'Wörtlich aus öffentlichen TripAdvisor-Bewertungen des True Beach Resort, wo Joy Boy in dieser Saison das Entertainment leitet (Zitate auf Englisch).', 'v.date': 'Aug. 2026',
         'th.label': 'Darstellung', 'th.auto': 'Auto', 'th.light': 'Hell', 'th.dark': 'Dunkel', 'th.hint': 'Auto: tagsüber hell, nachts dunkel',
+        'nav.quote': 'Angebot anfragen',
+        'q.k': 'Angebot anfragen', 'q.h': 'Plane deine <span class="serif gold">nächste Saison.</span>', 'q.p': 'Wähle aus, was du brauchst, und schick es mir fertig formuliert per WhatsApp. Ich antworte dir persönlich.',
+        'q.s1': 'Was brauchst du?', 'q.s1h': 'Eine oder mehrere Optionen', 'q.s2': 'Dein Hotel', 'q.s3': 'Über dich',
+        'q.o.team': 'Komplettes Entertainment-Team', 'q.o.shows': 'Abendshows &amp; Themenabende', 'q.o.kids': 'Kinderclub', 'q.o.music': 'Livemusik &amp; DJ', 'q.o.web': 'Website oder Web-App', 'q.o.brand': 'Marke &amp; Portfolio',
+        'q.company': 'Resort oder Unternehmen', 'q.companyPh': 'z. B. Casa Blue Resort', 'q.loc': 'Ort', 'q.locPick': 'Auswählen …', 'q.start': 'Start ab', 'q.rooms': 'Zimmer', 'q.r1': 'Bis 150', 'q.r4': '600+',
+        'loc.marsa': 'Marsa Alam', 'loc.ghalib': 'Port Ghalib', 'loc.hurghada': 'Hurghada', 'loc.sahl': 'Sahl Hasheesh', 'loc.gouna': 'El Gouna', 'loc.makadi': 'Makadi Bay', 'loc.soma': 'Soma Bay', 'loc.sharm': 'Sharm El-Sheikh', 'loc.other': 'Anderer Ort',
+        'q.name': 'Dein Name', 'q.role': 'Deine Position (optional)', 'q.rolePh': 'z. B. General Manager', 'q.notes': 'Noch etwas? (optional)', 'q.notesPh': 'Nationalitäten der Gäste, Shows pro Woche, Budget …',
+        'q.pv': 'Nachrichtenvorschau', 'q.send': 'Per WhatsApp senden', 'q.mail': 'oder per E-Mail senden',
+        'q.empty': 'Deine Nachricht erscheint hier, während du das Formular ausfüllst.', 'q.err': 'Bitte wähle mindestens eine Leistung und gib dein Resort oder Unternehmen an.',
+        'q.m.hi': 'Hallo Seif,', 'q.m.me': 'ich bin {name}{role} von {company}.', 'q.m.co': 'ich schreibe dir im Namen von {company}.', 'q.m.name': 'ich bin {name}{role}.',
+        'q.m.need': 'Wir interessieren uns für:', 'q.m.loc': 'Ort:', 'q.m.start': 'Start:', 'q.m.size': 'Größe:', 'q.m.roomsU': 'Zimmer', 'q.m.notes': 'Hinweise:',
+        'q.m.sig': 'Gesendet über seifabas.vercel.app', 'q.m.subject': 'Angebotsanfrage — {company}',
         'c.k': 'Kontakt', 'c.l1': 'Machen wir es', 'c.l2': 'unvergesslich.', 'c.orb': 'WhatsApp • Schreib mir • WhatsApp • Schreib mir •', 'c.email': 'E-Mail · zum Kopieren tippen', 'c.copy': '© 2026 Seif Abas · Rotes Meer, Ägypten', 'c.top': 'Nach oben ↑'
       },
       it: {
@@ -914,7 +1049,7 @@
         'cur.view': 'Vedi', 'cur.play': 'Play', 'cur.chat': 'Chat',
         'a.nav': 'Menu principale', 'a.lang': 'Cambia lingua', 'a.pill': 'Riproduci con audio il video dello spettacolo di fuoco', 'a.stack': 'Riproduci con audio il video del light show', 'a.badge': 'Scorri per esplorare', 'a.portrait': 'Ritratto di Seif Abas', 'a.award': 'Certificato HolidayCheck Award 2025 per il Casa Blue Resort', 'a.stars': '5 stelle su 5', 'a.reel': 'Showreel',
         'ld.year': 'Portfolio © 2026', 'ld.text': 'Lo spettacolo sta per iniziare',
-        'nav.work': 'Progetti', 'nav.shows': 'Spettacoli', 'nav.services': 'Servizi', 'nav.about': 'Chi sono', 'nav.contact': 'Contatti', 'nav.status': 'Disponibile per progetti', 'nav.cta': 'Parliamone',
+        'nav.work': 'Progetti', 'nav.shows': 'Spettacoli', 'nav.services': 'Servizi', 'nav.about': 'Chi sono', 'nav.contact': 'Contatti', 'nav.status': 'Disponibile per progetti', 'nav.cta': 'Preventivo',
         'c.wa': 'Scrivimi su WhatsApp', 'c.place': 'Mar Rosso, Egitto',
         'h.role': 'Entertainment Manager', 'h.cof': '— Co-fondatore, Joy Boy Agency', 'h.place': 'Mar Rosso, EG',
         'h.l1a': 'Notti', 'h.l1b': 'che gli ospiti', 'h.l2': 'non dimenticano,', 'h.l3a': 'sul palco e', 'h.l3b': 'online.',
@@ -939,6 +1074,18 @@
         'sv4.h': 'Brand e portfolio', 'sv4.a': 'Personal brand', 'sv4.c': 'Siti per agenzie', 'sv4.d': 'Link pronti da condividere',
         'v.k': 'Cosa scrivono gli ospiti', 'v.h': 'Con parole <span class="serif gold">loro.</span>', 'v.p': 'Testuali, dalle recensioni pubbliche su TripAdvisor del True Beach Resort, dove Joy Boy gestisce l\'intrattenimento in questa stagione (citazioni in inglese).', 'v.date': 'ago 2026',
         'th.label': 'Tema', 'th.auto': 'Auto', 'th.light': 'Chiaro', 'th.dark': 'Scuro', 'th.hint': 'Auto: chiaro di giorno, scuro di notte',
+        'nav.quote': 'Chiedi un preventivo',
+        'q.k': 'Chiedi un preventivo', 'q.h': 'Pianifica la tua <span class="serif gold">prossima stagione.</span>', 'q.p': 'Scegli ciò che ti serve e invialo direttamente al mio WhatsApp, già scritto. Ti risponderò personalmente.',
+        'q.s1': 'Di cosa hai bisogno?', 'q.s1h': 'Scegli una o più opzioni', 'q.s2': 'La tua struttura', 'q.s3': 'Su di te',
+        'q.o.team': 'Team di intrattenimento completo', 'q.o.shows': 'Spettacoli serali e serate a tema', 'q.o.kids': 'Miniclub', 'q.o.music': 'Musica dal vivo e DJ', 'q.o.web': 'Sito web o web app', 'q.o.brand': 'Brand e portfolio',
+        'q.company': 'Resort o azienda', 'q.companyPh': 'es. Casa Blue Resort', 'q.loc': 'Località', 'q.locPick': 'Scegli…', 'q.start': 'A partire da', 'q.rooms': 'Camere', 'q.r1': 'Fino a 150', 'q.r4': '600+',
+        'loc.marsa': 'Marsa Alam', 'loc.ghalib': 'Port Ghalib', 'loc.hurghada': 'Hurghada', 'loc.sahl': 'Sahl Hasheesh', 'loc.gouna': 'El Gouna', 'loc.makadi': 'Makadi Bay', 'loc.soma': 'Soma Bay', 'loc.sharm': 'Sharm el-Sheikh', 'loc.other': 'Altra località',
+        'q.name': 'Il tuo nome', 'q.role': 'Il tuo ruolo (facoltativo)', 'q.rolePh': 'es. Direttore generale', 'q.notes': 'Altro da aggiungere? (facoltativo)', 'q.notesPh': 'Nazionalità degli ospiti, spettacoli a settimana, budget…',
+        'q.pv': 'Anteprima del messaggio', 'q.send': 'Invia su WhatsApp', 'q.mail': 'oppure invia via email',
+        'q.empty': 'Il tuo messaggio apparirà qui mentre compili il modulo.', 'q.err': 'Scegli almeno un servizio e indica il resort o l\'azienda.',
+        'q.m.hi': 'Ciao Seif,', 'q.m.me': 'sono {name}{role} di {company}.', 'q.m.co': 'ti scrivo per conto di {company}.', 'q.m.name': 'sono {name}{role}.',
+        'q.m.need': 'Siamo interessati a:', 'q.m.loc': 'Località:', 'q.m.start': 'Inizio:', 'q.m.size': 'Dimensioni:', 'q.m.roomsU': 'camere', 'q.m.notes': 'Note:',
+        'q.m.sig': 'Inviato da seifabas.vercel.app', 'q.m.subject': 'Richiesta di preventivo — {company}',
         'c.k': 'Contatti', 'c.l1': 'Rendiamolo', 'c.l2': 'indimenticabile.', 'c.orb': 'WhatsApp • Scrivimi • WhatsApp • Scrivimi •', 'c.email': 'Email · tocca per copiare', 'c.copy': '© 2026 Seif Abas · Mar Rosso, Egitto', 'c.top': 'Torna su ↑'
       }
     };
@@ -1001,6 +1148,7 @@
       $$('#langList a').forEach(function (a) { a.setAttribute('aria-current', a.getAttribute('data-lang') === l ? 'true' : 'false'); });
       $('#menuLabel').textContent = body.classList.contains('menu-open') ? t('ui.close') : t('ui.menu');
       updateThemeUI();
+      if (quoteApi) quoteApi.render();
       try { localStorage.setItem('sa-lang', l); } catch (e) {}
       try {
         var u = new URL(location.href);
@@ -1081,7 +1229,7 @@
     function scrollToTarget(hash) {
       var target = hash === '#top' ? 0 : $(hash);
       if (target === null) return;
-      if (lenis) { lenis.scrollTo(target, { duration: 1.1 }); return; }
+      if (lenis) { lenis.scrollTo(target, { duration: 1.1, offset: target === 0 ? 0 : -96 }); return; }
       if (target === 0) window.scrollTo({ top: 0, behavior: 'smooth' });
       else target.scrollIntoView({ behavior: 'smooth' });
     }
@@ -1525,6 +1673,84 @@
         try { var u = new URL(location.href); u.searchParams.set('fx', name); history.replaceState(null, '', u.pathname + u.search + u.hash); } catch (e) {}
       });
     });
+
+    /* ════════════ QUOTE BUILDER → WHATSAPP ════════════ */
+    var quoteApi = (function () {
+      var form = $('#qForm');
+      if (!form) return null;
+      var WA = '201001570273', EMAIL = 'seif.abas33@icloud.com';
+      var bubble = $('#qBubble'), text = $('#qText'), send = $('#qSend'), mail = $('#qMail'), err = $('#qErr'), companyField = $('#qCompanyField');
+      var val = function (id) { return ($('#' + id).value || '').replace(/\s+/g, ' ').trim(); };
+      var picked = function (id) { return $$('#' + id + ' [aria-pressed="true"]').map(function (b) { return b.textContent.trim(); }); };
+      var fill = function (tpl, map) { return tpl.replace(/\{(\w+)\}/g, function (m, k) { return map[k] || ''; }); };
+      var cap = function (x) { return x ? x.charAt(0).toUpperCase() + x.slice(1) : x; };
+      function month(v) {
+        if (!v) return '';
+        var p = v.split('-');
+        try { return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString(lang === 'ar' ? 'ar-EG' : lang, { month: 'long', year: 'numeric' }); } catch (e) { return v; }
+      }
+      function build() {
+        var services = picked('qServices'), company = val('qCompany'), name = val('qName'), role = val('qRole'), notes = val('qNotes');
+        var locSel = $('#qLoc'), loc = locSel.value ? locSel.options[locSel.selectedIndex].textContent.trim() : '';
+        var start = month($('#qStart').value), rooms = picked('qRooms')[0] || '';
+        var who = { name: name, role: role ? ' (' + role + ')' : '', company: company };
+        var lines = [t('q.m.hi')];
+        if (company && name) lines.push(cap(fill(t('q.m.me'), who)));
+        else if (company) lines.push(cap(fill(t('q.m.co'), who)));
+        else if (name) lines.push(cap(fill(t('q.m.name'), who)));
+        if (services.length) { lines.push('', t('q.m.need')); services.forEach(function (x) { lines.push('• ' + x); }); }
+        var info = [];
+        if (loc) info.push(t('q.m.loc') + ' ' + loc);
+        if (start) info.push(t('q.m.start') + ' ' + start);
+        if (rooms) info.push(t('q.m.size') + ' ' + rooms + ' ' + t('q.m.roomsU'));
+        if (info.length) lines = lines.concat([''], info);
+        if (notes) lines.push('', t('q.m.notes') + ' ' + notes);
+        lines.push('', '— ' + t('q.m.sig'));
+        return { text: lines.join('\n'), ok: services.length > 0 && company.length > 0, services: services.length, company: company, empty: !services.length && !company && !name && !notes };
+      }
+      function render() {
+        var m = build();
+        text.textContent = m.empty ? t('q.empty') : m.text;
+        bubble.classList.toggle('is-empty', m.empty);
+        send.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(m.text);
+        mail.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(fill(t('q.m.subject'), { company: m.company || 'Seif Abas' })) + '&body=' + encodeURIComponent(m.text);
+        var d = new Date(); $('#qTime').textContent = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+        if (m.ok) { err.hidden = true; companyField.classList.remove('is-missing'); }
+        else if (!err.hidden) err.textContent = t('q.err');
+        return m;
+      }
+      function pop() { if (window.gsap && !reduce) gsap.fromTo(bubble, { scale: 0.97 }, { scale: 1, duration: 0.5, ease: 'back.out(3)', transformOrigin: '100% 100%' }); }
+      $$('.q-chips button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var group = b.parentElement, on = b.getAttribute('aria-pressed') !== 'true';
+          if (group.hasAttribute('data-single')) $$('button', group).forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          render(); pop();
+        });
+      });
+      form.addEventListener('input', render);
+      form.addEventListener('change', render);
+      form.addEventListener('submit', function (e) { e.preventDefault(); });
+      [send, mail].forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var m = render();
+          if (m.ok) return;
+          e.preventDefault();
+          err.textContent = t('q.err'); err.hidden = false;
+          if (!m.company) companyField.classList.add('is-missing');
+          (m.services ? $('#qCompany') : $('#qServices button')).focus({ preventScroll: true });
+          if (window.gsap && !reduce) gsap.fromTo(err, { x: -8 }, { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+        });
+      });
+      $$('[data-pick]').forEach(function (a) {
+        a.addEventListener('click', function () {
+          var b = $('#qServices [data-svc="' + a.getAttribute('data-pick') + '"]');
+          if (b) { b.setAttribute('aria-pressed', 'true'); render(); }
+        });
+      });
+      render();
+      return { render: render };
+    })();
 
     /* language switch: quick fade, swap text, rebuild text effects */
     var fading = [$('#main'), $('.nav-links'), $('.status'), $('#menu .menu-links')];
