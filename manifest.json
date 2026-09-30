@@ -1,11 +1,11 @@
 {
-  "name": "Seif Abas | Portfolio",
+  "name": "Seif Abas — Entertainment & Digital",
   "short_name": "Seif Abas",
-  "description": "Entertainment Manager crafting unforgettable guest experiences.",
+  "description": "Resort entertainment on the Red Sea, and websites and apps for hospitality.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1b1712",
-  "theme_color": "#1b1712",
+  "background_color": "#070605",
+  "theme_color": "#070605",
   "icons": [
     {
       "src": "assets/icon-192.png",

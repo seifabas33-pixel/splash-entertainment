@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /classic.html
+Disallow: /demo.html
+
+Sitemap: https://seifabas.vercel.app/sitemap.xml
