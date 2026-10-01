@@ -22,6 +22,7 @@
       'ui.ctaP': 'Dimmi di cosa hai bisogno e ti rispondo su WhatsApp.', 'ui.next': 'Progetto successivo', 'ui.theme': 'Tema', 'ui.lang': 'Lingua', 'role': 'Design e sviluppo' }
   };
   var PAGE = window.CASE_T || {};
+  var HOME = '/'; try { if (sessionStorage.getItem('sa-demo') === '1') HOME = '/demo.html'; } catch (e) {}
   var LANGS = ['en', 'ar', 'de', 'it'];
 
   /* ── language ── */
@@ -54,7 +55,7 @@
     try { var u = new URL(location.href); if (l === 'en') u.searchParams.delete('lang'); else u.searchParams.set('lang', l); history.replaceState(null, '', u); } catch (e) {}
     /* carry the language to the other pages */
     $$('a[data-keep]').forEach(function (a) {
-      var base = a.getAttribute('data-keep'), hash = '';
+      var base = a.getAttribute('data-keep').replace(/^\/(?=[?#]|$)/, HOME), hash = '';
       var i = base.indexOf('#'); if (i > -1) { hash = base.slice(i); base = base.slice(0, i); }
       a.href = base + (l === 'en' ? '' : (base.indexOf('?') > -1 ? '&' : '?') + 'lang=' + l) + hash;
     });

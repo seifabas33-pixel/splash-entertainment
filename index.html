@@ -1535,6 +1535,8 @@
     });
 
     /* ── Contact card: save contact (.vcf), QR, share ── */
+    /* remember when the visitor came through the demo page, so case studies link back to it */
+    try { if (/demo\.html$/.test(location.pathname)) sessionStorage.setItem('sa-demo', '1'); else sessionStorage.removeItem('sa-demo'); } catch (e) {}
     var sessionSeen = false; try { sessionSeen = sessionStorage.getItem('sa-seen') === '1'; } catch (e) {}
     var vcm = $('#card'), vcLast = null, vcTimer = 0;
     function vcToast(msg) { var el = $('#vcToast'); el.textContent = msg; el.classList.add('show'); clearTimeout(vcTimer); vcTimer = setTimeout(function () { el.classList.remove('show'); }, 2000); }
