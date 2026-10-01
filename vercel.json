@@ -1,20 +1,17 @@
 {
   "framework": null,
-  "buildCommand": "echo 'Static site \u2014 no build step required'",
+  "buildCommand": "echo 'Static site — no build step required'",
   "installCommand": "echo 'No install required'",
   "outputDirectory": ".",
+  "redirects": [
+    { "source": "/card", "destination": "/?card=1", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*)\\.vcf",
       "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/vcard; charset=utf-8"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline; filename=\"Seif Abas.vcf\""
-        }
+        { "key": "Content-Type", "value": "text/vcard; charset=utf-8" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Seif Abas.vcf\"" }
       ]
     }
   ]
