@@ -2,10 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://seifabas.vercel.app/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/?lang=en" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/?lang=ar" />
     <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/?lang=de" />
     <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/?lang=it" />
+  </url>
+  <url>
+    <loc>https://seifabas.vercel.app/work/amarina/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/work/amarina/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/work/amarina/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/work/amarina/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/work/amarina/?lang=it" />
+  </url>
+  <url>
+    <loc>https://seifabas.vercel.app/work/joy-boy/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/work/joy-boy/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/work/joy-boy/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/work/joy-boy/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/work/joy-boy/?lang=it" />
+  </url>
+  <url>
+    <loc>https://seifabas.vercel.app/work/soho-bar/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/work/soho-bar/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/work/soho-bar/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/work/soho-bar/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/work/soho-bar/?lang=it" />
+  </url>
+  <url>
+    <loc>https://seifabas.vercel.app/work/old-palace/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/work/old-palace/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/work/old-palace/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/work/old-palace/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/work/old-palace/?lang=it" />
+  </url>
+  <url>
+    <loc>https://seifabas.vercel.app/work/hanna/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/work/hanna/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/work/hanna/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/work/hanna/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/work/hanna/?lang=it" />
+  </url>
+  <url>
+    <loc>https://seifabas.vercel.app/work/larimar/</loc>
+    <lastmod>2026-10-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://seifabas.vercel.app/work/larimar/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://seifabas.vercel.app/work/larimar/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://seifabas.vercel.app/work/larimar/?lang=de" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://seifabas.vercel.app/work/larimar/?lang=it" />
   </url>
 </urlset>
