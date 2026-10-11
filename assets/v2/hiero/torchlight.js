@@ -254,7 +254,7 @@ return{
   /* phones: dim behind copy, dimmest by the gold word */
   if(mob){
    q=(act?.65:.4)+(light&&ph?.2:0);
-   q=(q+(1-q)*sm((gap(px,py,0,0,TX)+12)/36))*(light?1:1-.78*(1-sm(gap(px,py,0,0,N.a)/(.35*R)-.14)));
+   q=(q+(1-q)*sm((M.min(gap(px,py,0,0,TX),light&&!ph?gap(px,py-.35*ry,0,0,TX):1e9)+12)/36))*(light?1:1-.78*(1-sm(gap(px,py,0,0,N.a)/(.35*R)-.14)));
    Z.op+=(q-Z.op)*(snap?1:1-M.exp(-dt*(q<Z.op?12:3)));
   }
   U[0]=M.min(gx,PR[0]);U[1]=M.min(gy,PR[1]);U[2]=M.max(gx+Gw,PR[2]);U[3]=M.max(gy+Gh,PR[3]);
