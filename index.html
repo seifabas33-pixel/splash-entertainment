@@ -214,7 +214,8 @@
     .lang-list a[aria-current="true"] { color: var(--gold); }
     .lang-list a[aria-current="true"]::after { content: ''; margin-inline-start: auto; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
 
-    .menu { position: fixed; inset: 0; z-index: 65; background: var(--bg-deep); display: flex; flex-direction: column; justify-content: space-between; padding: calc(110px + env(safe-area-inset-top)) var(--pad) calc(28px + env(safe-area-inset-bottom)); clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path 0.8s var(--ease), visibility 0.8s; }
+    .menu { position: fixed; inset: 0; z-index: 65; background: var(--bg-deep); display: flex; flex-direction: column; justify-content: space-between; padding: calc(110px + env(safe-area-inset-top)) var(--pad) calc(28px + env(safe-area-inset-bottom)); clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path 0.8s var(--ease), visibility 0.8s; gap: 30px; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+    @media (max-height: 920px) { .menu-links a { font-size: clamp(32px, 8.6vw, 60px); } }
     .menu-open .menu { clip-path: inset(0 0 0 0); visibility: visible; }
     .menu-links { display: flex; flex-direction: column; }
     .menu-links a { display: flex; align-items: baseline; gap: 14px; font-family: var(--display); font-weight: 700; font-size: clamp(36px, 10vw, 72px); line-height: 1.12; letter-spacing: -0.04em; overflow: hidden; }
@@ -475,6 +476,31 @@
     }
     @media (min-width: 721px) { .st-frame .st-close { display: none; } }
 
+    /* Sound: nav button with equaliser bars, menu row */
+    .snd-btn { width: 44px; height: 44px; flex: none; display: inline-grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-2); color: var(--gold); transition: border-color 0.3s, background 0.3s; }
+    .snd-btn:hover, .snd-btn[aria-pressed="true"] { border-color: var(--gold); background: var(--hover); }
+    .snd-btn[hidden], .snd-row[hidden] { display: none; }
+    .snd-bars { display: inline-flex; align-items: center; gap: 2.5px; height: 16px; }
+    .snd-bars i { width: 2.5px; height: 16px; border-radius: 2px; background: currentColor; transform: scaleY(0.22); transform-origin: center; transition: transform 0.4s var(--ease); }
+    [aria-pressed="true"] > .snd-bars i { animation: sndbar 1.2s ease-in-out infinite; }
+    [aria-pressed="true"] > .snd-bars i:nth-child(2) { animation-delay: -0.45s; }
+    [aria-pressed="true"] > .snd-bars i:nth-child(3) { animation-delay: -0.8s; }
+    [aria-pressed="true"] > .snd-bars i:nth-child(4) { animation-delay: -0.2s; }
+    .is-loading-snd .snd-bars i { opacity: 0.45; }
+    .snd-btn.is-pending { animation: sndpulse 2.2s ease-in-out infinite; }
+    @keyframes sndpulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240, 199, 102, 0); } 50% { box-shadow: 0 0 0 6px rgba(240, 199, 102, 0.22); } }
+    @keyframes sndbar { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+    @media (prefers-reduced-motion: reduce) {
+      [aria-pressed="true"] > .snd-bars i:nth-child(1) { transform: scaleY(0.6); } [aria-pressed="true"] > .snd-bars i:nth-child(2) { transform: scaleY(1); }
+      [aria-pressed="true"] > .snd-bars i:nth-child(3) { transform: scaleY(0.45); } [aria-pressed="true"] > .snd-bars i:nth-child(4) { transform: scaleY(0.8); }
+    }
+    .snd-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 48px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-weight: 700; transition: border-color 0.3s, background 0.3s; }
+    .snd-toggle .snd-bars { color: var(--gold); }
+    .snd-toggle[aria-pressed="true"] { border-color: var(--gold); background: var(--hover); }
+    .snd-tracks { grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
+    .snd-tracks button { font-size: 13.5px; padding: 0 6px; line-height: 1.15; }
+    .snd-tracks[hidden] { display: none; }
+
     /* Contact card: save contact, QR, share */
     .vcm { position: fixed; inset: 0; z-index: 99; display: grid; place-items: center; padding: var(--pad); background: rgba(5, 4, 3, 0.72); opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
     .vcm.open { opacity: 1; visibility: visible; }
@@ -659,6 +685,7 @@
     </div>
     <div class="nav-right">
       <span class="status mono"><i></i><span data-i="nav.status">Open to projects</span></span>
+      <button type="button" class="snd-btn" id="sndBtn" data-snd aria-pressed="false" aria-label="Music" data-ia="aria-label:snd.label" title="Music"><span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
       <button type="button" class="theme-btn" id="themeBtn" aria-label="Theme">
         <svg class="i-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg>
         <svg class="i-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
@@ -680,7 +707,7 @@
     </div>
   </nav>
 
-  <div class="menu" id="menu">
+  <div class="menu" id="menu" data-lenis-prevent>
     <div class="menu-links">
       <a href="#work" data-link><span data-i="nav.work">Work</span><small>01</small></a>
       <a href="#shows" data-link><span data-i="nav.shows">Shows</span><small>02</small></a>
@@ -697,6 +724,12 @@
         </div>
         <span class="theme-hint" data-i="th.hint">Auto: light by day, dark at night</span>
       </div>
+      <div class="theme-row snd-row">
+        <span class="mono" data-i="snd.label">Music</span>
+        <button type="button" class="snd-toggle" id="sndToggle" data-snd aria-pressed="false"><span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="sndToggleLabel">Play the soundtrack</span></button>
+        <div class="theme-seg snd-tracks" id="sndTracks" role="group" aria-label="Soundtrack" data-ia="aria-label:snd.pick"></div>
+        <span class="theme-hint" data-i="snd.hint">Original music, composed in code for this site</span>
+      </div>
       <a href="https://wa.me/201001570273" target="_blank" rel="noopener" class="btn btn-gold btn-lg"><span data-i="c.wa" data-roll>Chat on WhatsApp</span></a>
       <button type="button" class="menu-card" data-card><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h3v4h-3"/></svg><span data-i="vc.open">Save contact · QR</span></button>
       <div class="row mono"><span data-i="c.place">Red Sea, Egypt</span><span class="clock">--:--</span></div>
@@ -705,7 +738,7 @@
 
   <main id="main">
     <!-- HERO -->
-    <header class="hero" id="top">
+    <header class="hero" data-energy="0.3" id="top">
       <div class="glow glow-1" aria-hidden="true"></div>
       <div class="glow glow-2" aria-hidden="true"></div>
       <canvas id="heroFx" aria-hidden="true"></canvas>
@@ -763,7 +796,7 @@
     </div>
 
     <!-- ABOUT -->
-    <section id="about">
+    <section data-energy="0.45" id="about">
       <div class="about">
         <div>
           <p class="kicker mono" data-i="ab.k">About</p>
@@ -780,7 +813,7 @@
     </section>
 
     <!-- NUMBERS -->
-    <section id="numbers" style="padding-top:0;padding-bottom:0">
+    <section data-energy="0.55" id="numbers" style="padding-top:0;padding-bottom:0">
       <div class="bento">
         <div class="card span-2 rv"><span class="mono" data-i="n.expk">Experience</span><div><div class="big-num"><span class="num" data-to="9">0</span>+</div><p data-i="n.exp">years running entertainment for Red Sea resorts.</p></div></div>
         <div class="card card-award row-2 rv"><img src="assets/v2/img/award-holidaycheck-2025.jpg" alt="HolidayCheck Award 2025 certificate for Casa Blue Resort" data-ia="alt:a.award" loading="lazy" decoding="async" /><span class="tag mono">HolidayCheck 2025</span></div>
@@ -798,7 +831,7 @@
     </section>
 
     <!-- WORK -->
-    <section id="work" class="work-section">
+    <section data-energy="0.7" id="work" class="work-section">
       <div class="sec-head">
         <div><p class="kicker mono" data-i="w.k">Selected work</p><h2 class="h2" data-i="w.h">Built for <span class="serif gold">guests</span><span class="count">(07)</span></h2></div>
         <p data-i="w.p">Resort apps, restaurant and agency sites, and personal brands, all designed and built by me.</p>
@@ -839,7 +872,7 @@
     </section>
 
     <!-- SHOWS -->
-    <section id="shows">
+    <section data-energy="1" id="shows">
       <div class="sec-head">
         <div><p class="kicker mono" data-i="s.k">On stage</p><h2 class="h2" data-i="s.h">The shows, <span class="serif gold">on film.</span></h2></div>
         <p data-i="s.p">Straight from the floor at resorts the Joy Boy team runs. Real guests on ordinary programme nights. Tap any clip for sound.</p>
@@ -879,7 +912,7 @@
     </section>
 
     <!-- SERVICES -->
-    <section id="services" style="padding-top:0">
+    <section data-energy="0.7" id="services" style="padding-top:0">
       <div class="sec-head">
         <div><p class="kicker mono" data-i="sv.k">Services</p><h2 class="h2" data-i="sv.h">From the stage <span class="serif gold">to the screen.</span></h2></div>
       </div>
@@ -904,7 +937,7 @@
     </section>
 
     <!-- VOICES -->
-    <section id="voices" style="padding-top:0">
+    <section data-energy="0.5" id="voices" style="padding-top:0">
       <div class="sec-head">
         <div><p class="kicker mono" data-i="v.k">What guests wrote</p><h2 class="h2" data-i="v.h">In their <span class="serif gold">words.</span></h2></div>
         <p data-i="v.p">Verbatim from public TripAdvisor reviews of True Beach Resort, where Joy Boy runs the entertainment this season.</p>
@@ -924,7 +957,7 @@
     </section>
 
     <!-- QUOTE -->
-    <section id="quote" style="padding-top:0">
+    <section data-energy="0.25" id="quote" style="padding-top:0">
       <div class="sec-head">
         <div><p class="kicker mono" data-i="q.k">Get a quote</p><h2 class="h2" data-i="q.h">Plan your <span class="serif gold">next season.</span></h2></div>
         <p data-i="q.p">Pick what you need and send it straight to my WhatsApp, already written. I'll reply to you personally.</p>
@@ -970,7 +1003,7 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="contact">
+    <section data-energy="0.5" id="contact" class="contact">
       <p class="kicker mono" data-i="c.k">Contact</p>
       <h2 class="contact-title" id="contactTitle"><span class="split" data-i="c.l1">Let's make it</span><br /><span class="split serif grad-text" data-i="c.l2">unforgettable.</span></h2>
       <div class="contact-row">
@@ -1037,6 +1070,7 @@
   <script src="assets/vendor/gsap.min.js"></script>
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/v2/music/player.js"></script>
   <script>
   (function () {
     'use strict';
@@ -1065,7 +1099,8 @@
       'q.m.hi': 'Hello Seif,', 'q.m.me': "I'm {name}{role} from {company}.", 'q.m.co': "I'm writing on behalf of {company}.", 'q.m.name': "I'm {name}{role}.",
       'q.m.need': "We're interested in:", 'q.m.loc': 'Location:', 'q.m.start': 'Starting:', 'q.m.size': 'Size:', 'q.m.roomsU': 'rooms', 'q.m.notes': 'Notes:',
       'q.m.sig': 'Sent from seifabas.vercel.app', 'q.m.subject': 'Quote request — {company}',
-      'vc.shareText': 'Seif Abas — resort entertainment and websites for hotels on the Red Sea.', 'vc.copied': 'Link copied'
+      'vc.shareText': 'Seif Abas — resort entertainment and websites for hotels on the Red Sea.', 'vc.copied': 'Link copied',
+      'snd.play': 'Play the soundtrack', 'snd.pause': 'Pause the music', 'snd.loading': 'Loading…'
     };
     var T = {
       ar: {
@@ -1114,6 +1149,7 @@
         'st.prev': 'السابق', 'st.next': 'التالي', 'st.sound': 'الصوت', 'st.cta': 'احجز هذا العرض',
         'vc.k': 'بطاقة العمل', 'vc.open': 'حفظ جهة الاتصال · QR', 'vc.role': 'مدير ترفيه ومصمم مواقع', 'vc.hint': 'امسح الرمز بكاميرا أي هاتف لفتح موقعي.', 'vc.save': 'حفظ جهة الاتصال', 'vc.share': 'مشاركة',
         'vc.shareText': 'سيف عباس — ترفيه المنتجعات ومواقع الفنادق على البحر الأحمر.', 'vc.copied': 'تم نسخ الرابط',
+        'snd.label': 'الموسيقى', 'snd.pick': 'اختر المقطوعة', 'snd.hint': 'موسيقى أصلية مؤلَّفة بالكود لهذا الموقع', 'snd.play': 'شغّل الموسيقى', 'snd.pause': 'أوقف الموسيقى', 'snd.loading': 'جارٍ التحميل…',
         'c.k': 'تواصل', 'c.l1': 'لنجعلها', 'c.l2': 'لا تُنسى.', 'c.orb': 'WhatsApp • WhatsApp • WhatsApp •', 'c.email': 'البريد · اضغط للنسخ', 'c.copy': '© 2026 سيف عباس · البحر الأحمر، مصر', 'c.top': 'العودة للأعلى ↑'
       },
       de: {
@@ -1162,6 +1198,7 @@
         'st.prev': 'Zurück', 'st.next': 'Weiter', 'st.sound': 'Ton', 'st.cta': 'Diese Show buchen',
         'vc.k': 'Visitenkarte', 'vc.open': 'Kontakt speichern · QR', 'vc.role': 'Entertainment-Manager & Webdesigner', 'vc.hint': 'Mit jeder Handykamera scannen, um meine Seite zu öffnen.', 'vc.save': 'Kontakt speichern', 'vc.share': 'Teilen',
         'vc.shareText': 'Seif Abas — Resort-Entertainment und Websites für Hotels am Roten Meer.', 'vc.copied': 'Link kopiert',
+        'snd.label': 'Musik', 'snd.pick': 'Soundtrack wählen', 'snd.hint': 'Originalmusik, für diese Seite in Code komponiert', 'snd.play': 'Soundtrack abspielen', 'snd.pause': 'Musik pausieren', 'snd.loading': 'Wird geladen…',
         'c.k': 'Kontakt', 'c.l1': 'Machen wir es', 'c.l2': 'unvergesslich.', 'c.orb': 'WhatsApp • Schreib mir • WhatsApp • Schreib mir •', 'c.email': 'E-Mail · zum Kopieren tippen', 'c.copy': '© 2026 Seif Abas · Rotes Meer, Ägypten', 'c.top': 'Nach oben ↑'
       },
       it: {
@@ -1210,6 +1247,7 @@
         'st.prev': 'Precedente', 'st.next': 'Successivo', 'st.sound': 'Audio', 'st.cta': 'Prenota questo show',
         'vc.k': 'Biglietto da visita', 'vc.open': 'Salva contatto · QR', 'vc.role': 'Entertainment manager e web designer', 'vc.hint': 'Inquadra con la fotocamera del telefono per aprire il mio sito.', 'vc.save': 'Salva contatto', 'vc.share': 'Condividi',
         'vc.shareText': 'Seif Abas — animazione per resort e siti per hotel sul Mar Rosso.', 'vc.copied': 'Link copiato',
+        'snd.label': 'Musica', 'snd.pick': 'Scegli la colonna sonora', 'snd.hint': 'Musica originale, composta in codice per questo sito', 'snd.play': 'Ascolta la colonna sonora', 'snd.pause': 'Metti in pausa la musica', 'snd.loading': 'Caricamento…',
         'c.k': 'Contatti', 'c.l1': 'Rendiamolo', 'c.l2': 'indimenticabile.', 'c.orb': 'WhatsApp • Scrivimi • WhatsApp • Scrivimi •', 'c.email': 'Email · tocca per copiare', 'c.copy': '© 2026 Seif Abas · Mar Rosso, Egitto', 'c.top': 'Torna su ↑'
       }
     };
@@ -1273,6 +1311,7 @@
       $('#menuLabel').textContent = body.classList.contains('menu-open') ? t('ui.close') : t('ui.menu');
       updateThemeUI();
       if (quoteApi) quoteApi.render();
+      if (typeof musicUI === 'function') musicUI();
       try { localStorage.setItem('sa-lang', l); } catch (e) {}
       try {
         var u = new URL(location.href);
@@ -1292,7 +1331,7 @@
       var mode = root.getAttribute('data-mode') || 'auto';
       var btn = $('#themeBtn');
       if (btn) { var label = t('th.label') + ': ' + t('th.' + mode) + (mode === 'auto' ? ' (' + t('th.' + themeFor('auto')) + ')' : ''); btn.setAttribute('aria-label', label); btn.setAttribute('title', label); }
-      $$('.theme-seg button').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-mode') === mode ? 'true' : 'false'); });
+      $$('.theme-seg [data-mode]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-mode') === mode ? 'true' : 'false'); });
       if (themeMeta) themeMeta.setAttribute('content', root.getAttribute('data-theme') === 'light' ? '#f5efe3' : '#070605');
     }
     function swapTheme(next, origin) {
@@ -1331,7 +1370,7 @@
       var cur = root.getAttribute('data-mode') || 'auto';
       setThemeMode(ORDER[(ORDER.indexOf(cur) + 1) % 3], this);
     });
-    $$('.theme-seg button').forEach(function (b) { b.addEventListener('click', function () { setThemeMode(b.getAttribute('data-mode'), b); }); });
+    $$('.theme-seg [data-mode]').forEach(function (b) { b.addEventListener('click', function () { setThemeMode(b.getAttribute('data-mode'), b); }); });
 
     /* ════════════ BASICS (work with or without animation) ════════════ */
     function tick() {
@@ -1452,6 +1491,7 @@
       var i = 0; reels.forEach(function (r, k) { if (r.src === src) i = k; });
       lastFocus = document.activeElement; stOpen = true;
       st.classList.add('open'); body.style.overflow = 'hidden'; if (lenis) lenis.stop();
+      if (window.SAMusic) SAMusic.duck(true);
       stLoad(i); cancelAnimationFrame(stRaf); stTick();
       $('#stSound').focus({ preventScroll: true });
     }
@@ -1462,6 +1502,7 @@
       stv.pause(); stv.removeAttribute('src'); stv.load();
       stFrame.style.transform = ''; st.style.opacity = '';
       if (lenis) lenis.start();
+      if (window.SAMusic) SAMusic.duck(false);
       if (lastFocus) lastFocus.focus({ preventScroll: true });
     }
     function stToggle() { if (stv.paused) { st.classList.remove('paused'); stPlay(); } else { stv.pause(); st.classList.add('paused'); } }
@@ -1573,6 +1614,35 @@
       else prompt('', url);
     });
     if (/[?&]card\b/.test(location.search) || location.hash === '#card') setTimeout(openCard, sessionSeen ? 300 : 2200);
+
+    /* ── Music: original soundtrack, off until tapped; follows the theme and the section on screen ── */
+    var musicUI = null;
+    if (window.SAMusic && SAMusic.state().supported) {
+      var sndBtn = $('#sndBtn'), sndToggle = $('#sndToggle'), sndLabel = $('#sndToggleLabel'), sndTracks = $('#sndTracks');
+      sndTracks.style.setProperty('--n', SAMusic.tracks.length);
+      sndTracks.hidden = SAMusic.tracks.length < 2;
+      sndTracks.innerHTML = SAMusic.tracks.map(function (tr) { return '<button type="button" data-track="' + tr.id + '">' + esc(tr.title) + '</button>'; }).join('');
+      musicUI = function (s) {
+        s = s || SAMusic.state();
+        [sndBtn, sndToggle].forEach(function (b) { b.setAttribute('aria-pressed', String(s.on)); b.classList.toggle('is-loading-snd', s.loading); b.classList.toggle('is-pending', !!s.pending && !s.on); });
+        sndLabel.textContent = t(s.loading ? 'snd.loading' : s.on ? 'snd.pause' : 'snd.play');
+        sndBtn.title = t('snd.label') + (s.on && s.title ? ' · ' + s.title : '');
+        $$('button', sndTracks).forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-track') === s.id)); });
+      };
+      SAMusic.on(musicUI);
+      sndBtn.addEventListener('click', function () { SAMusic.toggle(); });
+      sndToggle.addEventListener('click', function () { SAMusic.toggle(); });
+      sndTracks.addEventListener('click', function (e) { var b = e.target.closest('[data-track]'); if (b) SAMusic.select(b.getAttribute('data-track')); });
+      ['pointerenter', 'focus'].forEach(function (ev) { sndBtn.addEventListener(ev, function () { SAMusic.prefetch(); }, { once: true }); });
+      $('#menuBtn').addEventListener('click', function () { SAMusic.prefetch(); }, { once: true });
+      /* calmer while reading the quote form, fullest over the shows */
+      if ('IntersectionObserver' in window) {
+        var eio = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) SAMusic.setEnergy(parseFloat(e.target.getAttribute('data-energy'))); });
+        }, { rootMargin: '-45% 0px -45% 0px' });
+        $$('[data-energy]').forEach(function (el) { eio.observe(el); });
+      }
+    } else { $('#sndBtn').hidden = true; $('.snd-row').hidden = true; }
 
     var copyBtn = $('#copyEmail');
     copyBtn.addEventListener('click', function () {

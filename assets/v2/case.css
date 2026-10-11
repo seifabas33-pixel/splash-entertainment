@@ -96,6 +96,16 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .c-theme { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); transition: background 0.25s; }
 .c-theme:hover { background: var(--hover); }
 .c-theme svg { width: 18px; height: 18px; display: none; }
+.c-snd { color: var(--gold); }
+.c-snd[hidden] { display: none; }
+.c-snd[aria-pressed="true"] { border-color: var(--gold); background: var(--hover); }
+.snd-bars { display: inline-flex; align-items: center; gap: 2.5px; height: 16px; }
+.snd-bars i { width: 2.5px; height: 16px; border-radius: 2px; background: currentColor; transform: scaleY(0.22); transition: transform 0.4s var(--ease); }
+[aria-pressed="true"] > .snd-bars i { animation: sndbar 1.2s ease-in-out infinite; }
+[aria-pressed="true"] > .snd-bars i:nth-child(2) { animation-delay: -0.45s; } [aria-pressed="true"] > .snd-bars i:nth-child(3) { animation-delay: -0.8s; } [aria-pressed="true"] > .snd-bars i:nth-child(4) { animation-delay: -0.2s; }
+@keyframes sndbar { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+.c-snd.is-pending { animation: sndpulse 2.2s ease-in-out infinite; }
+@keyframes sndpulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240, 199, 102, 0); } 50% { box-shadow: 0 0 0 6px rgba(240, 199, 102, 0.22); } }
 [data-mode="auto"] .c-theme .i-auto, [data-mode="light"] .c-theme .i-sun, [data-mode="dark"] .c-theme .i-moon { display: block; }
 .c-langs { display: flex; padding: 3px; border-radius: 999px; border: 1px solid var(--line); }
 .c-langs button { height: 34px; min-width: 38px; padding: 0 8px; border-radius: 999px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--muted); transition: background 0.25s, color 0.25s; }
