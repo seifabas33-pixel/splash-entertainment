@@ -1714,6 +1714,24 @@
       })();
 
       var SCENES = { flow: flow };
+      /* plug-in scenes (e.g. the hieroglyph scenes in assets/v2/hiero/) register a factory on window.SA_SCENES */
+      var EXT = window.SA_SCENES || (window.SA_SCENES = {});
+      var params = new URLSearchParams(location.search), beatTest = params.get('fxbeat') === '1', t0beat = performance.now();
+      var env = {
+        reduce: reduce,
+        glyphs: function () { return window.SA_GLYPHS || null; },
+        /* 0..1, follows the soundtrack when it plays (?fxbeat=1 fakes an 84 bpm pulse for testing) */
+        music: function () {
+          if (beatTest) { var ph = ((performance.now() - t0beat) / (60000 / 84)) % 1; return Math.exp(-ph * 6) * 0.8 + 0.15; }
+          return window.SAMusic && SAMusic.level ? SAMusic.level() : 0;
+        }
+      };
+      function getScene(name) {
+        if (SCENES[name]) return SCENES[name];
+        if (EXT[name]) { try { SCENES[name] = EXT[name](ctx, env); return SCENES[name]; } catch (e) { if (window.console) console.error(e); } }
+        return null;
+      }
+      var stats = { on: false, frames: [] };
 
       function readTheme() {
         S.light = root.getAttribute('data-theme') === 'light';
@@ -1729,7 +1747,11 @@
         if (scene) { scene.init(S); if (scene.theme) scene.theme(S); }
         if (!running) draw(performance.now());
       }
-      function draw(now) { if (scene && S.W) scene.frame(S, now); }
+      function draw(now) {
+        if (!scene || !S.W) return;
+        if (!stats.on) { scene.frame(S, now); return; }
+        var a = performance.now(); scene.frame(S, now); stats.frames.push(performance.now() - a);
+      }
       function loop(now) { if (!running) return; draw(now); raf = requestAnimationFrame(loop); }
       function update() {
         var should = visible && !document.hidden && !reduce;
@@ -1737,8 +1759,10 @@
         else if (!should && running) { running = false; cancelAnimationFrame(raf); }
       }
       function setScene(name) {
-        if (!SCENES[name]) name = 'flow';
-        sceneName = name; scene = SCENES[name];
+        var next = getScene(name);
+        if (!next) { name = 'flow'; next = SCENES.flow; }
+        if (scene && scene !== next && scene.destroy) scene.destroy();
+        sceneName = name; scene = next;
         ctx.globalCompositeOperation = 'source-over';
         if (S.W) resize();
       }
@@ -1759,7 +1783,15 @@
       else window.addEventListener('resize', resize);
 
       readTheme(); setScene('flow'); resize(); update();
-      return { set: setScene };
+      /* ?fx=<scene> loads a plug-in scene (used to compare designs) */
+      var fx = params.get('fx');
+      if (fx && /^[a-z0-9-]{2,30}$/.test(fx)) {
+        var add = function (src) { return new Promise(function (res, rej) { var s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); };
+        add('assets/v2/hiero/glyphs.js').then(function () { return add('assets/v2/hiero/' + fx + '.js'); }).then(function () { setScene(fx); window.__fxReady = fx; }, function () { window.__fxReady = 'failed'; });
+      }
+      var api = { set: setScene, name: function () { return sceneName; }, stats: stats };
+      window.__fx = api;
+      return api;
     })();
 
     /* ════════════ QUOTE BUILDER → WHATSAPP ════════════ */

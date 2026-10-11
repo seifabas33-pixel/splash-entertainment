@@ -6,15 +6,14 @@
   var me = document.currentScript;
   var BASE = me ? me.src.replace(/[^/]*$/, '') : '/assets/v2/music/';
   var TRACKS = [
-    { id: 'golden-hour', title: 'Golden Hour' },
-    { id: 'red-sea-night', title: 'Red Sea Night' },
-    { id: 'tide', title: 'Tide' }
+    { id: 'red-sea-night', title: 'Red Sea Night' }
   ];
   var VOLUME = 0.7;            /* background level, below the show videos */
   var LOOKAHEAD = 1.5, TICK = 250;
   var root = document.documentElement;
   var S = { on: false, loading: false, pending: false, id: null, energy: 0.4, mood: 'night', ducked: false, hidden: document.hidden };
   var ctx = null, out = null, master = null, track = null, timer = 0, token = 0, listeners = [], scripts = {}, unlockEl = null, needsGesture = false;
+  var meter = null, meterBuf = null, meterLevel = 0;
 
   try { var saved = localStorage.getItem('sa-track'); if (saved && find(saved)) S.id = saved; } catch (e) {}
   if (!S.id) S.id = TRACKS[0].id;
@@ -57,6 +56,7 @@
     if (!ctx) {
       try { ctx = new AC({ latencyHint: 'playback' }); } catch (e) { ctx = new AC(); }
       out = ctx.createGain(); out.gain.value = 0; out.connect(ctx.destination);
+      meter = ctx.createAnalyser(); meter.fftSize = 512; meter.smoothingTimeConstant = 0; out.connect(meter); meterBuf = new Float32Array(meter.fftSize);
       ctx.onstatechange = function () { if (S.on && !S.hidden && ctx.state !== 'running') needsGesture = true; };
     }
     unlockSession();
@@ -163,6 +163,15 @@
     duck: function (d) { S.ducked = !!d; if (S.on) fadeTo(level(), d ? 0.35 : 1.2); },
     setEnergy: function (e) { e = Math.max(0, Math.min(1, +e || 0)); if (Math.abs(e - S.energy) < 0.01) return; S.energy = e; if (track && ctx) track.setEnergy(e, ctx.currentTime + 0.05); },
     prefetch: function () { load('master').catch(function () {}); load(S.id).catch(function () {}); },
+    /* 0..1 loudness of what is playing right now — lets visuals move with the music */
+    level: function () {
+      if (!meter || !S.on || S.hidden || ctx.state !== 'running') { meterLevel *= 0.9; return meterLevel; }
+      meter.getFloatTimeDomainData(meterBuf);
+      var acc = 0; for (var i = 0; i < meterBuf.length; i++) acc += meterBuf[i] * meterBuf[i];
+      var v = Math.min(1, Math.sqrt(acc / meterBuf.length) * 5);
+      meterLevel = v > meterLevel ? v : meterLevel * 0.92 + v * 0.08;
+      return meterLevel;
+    },
     _debug: function () { return { ctx: ctx, out: out, track: track }; }   /* used by automated tests */
   };
 })();
