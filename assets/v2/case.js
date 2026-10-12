@@ -11,15 +11,15 @@
     ar: { 'ui.back': 'كل الأعمال', 'ui.k': 'دراسة حالة', 'ui.client': 'العميل', 'ui.where': 'الموقع', 'ui.year': 'السنة', 'ui.langs': 'اللغات', 'ui.role': 'دوري',
       'ui.live': 'زيارة الموقع', 'ui.quote': 'اطلب عرض سعر', 'ui.wa': 'تواصل عبر واتساب', 'ui.brief': 'المطلوب', 'ui.built': 'ما صمّمته وبنيته', 'ui.feats': 'أهم المزايا',
       'ui.palette': 'الألوان', 'ui.type': 'الخطوط', 'ui.tech': 'التقنيات', 'ui.ctaH': 'تريد شيئًا مثل هذا <span class="serif gold">لفندقك؟</span>',
-      'ui.ctaP': 'أخبرني بما تحتاجه وسأرد عليك عبر واتساب.', 'ui.next': 'المشروع التالي', 'ui.theme': 'المظهر', 'ui.lang': 'اللغة', 'role': 'التصميم والتطوير' },
+      'ui.ctaP': 'أخبرني بما تحتاجه وسأرد عليك عبر واتساب.', 'ui.next': 'المشروع التالي', 'ui.theme': 'المظهر', 'ui.lang': 'اللغة', 'snd.label': 'الموسيقى', 'role': 'التصميم والتطوير' },
     de: { 'ui.back': 'Alle Projekte', 'ui.k': 'Fallstudie', 'ui.client': 'Kunde', 'ui.where': 'Ort', 'ui.year': 'Jahr', 'ui.langs': 'Sprachen', 'ui.role': 'Rolle',
       'ui.live': 'Live-Seite ansehen', 'ui.quote': 'Angebot anfragen', 'ui.wa': 'Auf WhatsApp schreiben', 'ui.brief': 'Die Aufgabe', 'ui.built': 'Was ich gebaut habe', 'ui.feats': 'Die wichtigsten Funktionen',
       'ui.palette': 'Farbpalette', 'ui.type': 'Schriften', 'ui.tech': 'Gebaut mit', 'ui.ctaH': 'So etwas für <span class="serif gold">Ihr Hotel?</span>',
-      'ui.ctaP': 'Sagen Sie mir, was Sie brauchen. Ich melde mich auf WhatsApp.', 'ui.next': 'Nächstes Projekt', 'ui.theme': 'Design', 'ui.lang': 'Sprache', 'role': 'Design & Entwicklung' },
+      'ui.ctaP': 'Sagen Sie mir, was Sie brauchen. Ich melde mich auf WhatsApp.', 'ui.next': 'Nächstes Projekt', 'ui.theme': 'Design', 'ui.lang': 'Sprache', 'snd.label': 'Musik', 'role': 'Design & Entwicklung' },
     it: { 'ui.back': 'Tutti i progetti', 'ui.k': 'Case study', 'ui.client': 'Cliente', 'ui.where': 'Luogo', 'ui.year': 'Anno', 'ui.langs': 'Lingue', 'ui.role': 'Ruolo',
       'ui.live': 'Visita il sito', 'ui.quote': 'Chiedi un preventivo', 'ui.wa': 'Scrivimi su WhatsApp', 'ui.brief': 'La richiesta', 'ui.built': 'Cosa ho realizzato', 'ui.feats': 'Funzioni principali',
       'ui.palette': 'Palette colori', 'ui.type': 'Caratteri', 'ui.tech': 'Realizzato con', 'ui.ctaH': 'Vuoi qualcosa così per <span class="serif gold">il tuo hotel?</span>',
-      'ui.ctaP': 'Dimmi di cosa hai bisogno e ti rispondo su WhatsApp.', 'ui.next': 'Progetto successivo', 'ui.theme': 'Tema', 'ui.lang': 'Lingua', 'role': 'Design e sviluppo' }
+      'ui.ctaP': 'Dimmi di cosa hai bisogno e ti rispondo su WhatsApp.', 'ui.next': 'Progetto successivo', 'ui.theme': 'Tema', 'ui.lang': 'Lingua', 'snd.label': 'Musica', 'role': 'Design e sviluppo' }
   };
   var PAGE = window.CASE_T || {};
   var HOME = '/'; try { if (sessionStorage.getItem('sa-demo') === '1') HOME = '/demo.html'; } catch (e) {}
@@ -73,6 +73,21 @@
     root.setAttribute('data-mode', mode); root.setAttribute('data-theme', themeFor(mode));
   });
   setInterval(function () { if ((root.getAttribute('data-mode') || 'auto') === 'auto') root.setAttribute('data-theme', themeFor('auto')); }, 60000);
+
+  /* ── music: continues from the homepage on the first tap; the button turns it on or off ── */
+  var snd = document.getElementById('sndBtn');
+  if (snd && window.SAMusic && SAMusic.state().supported) {
+    snd.hidden = false;
+    SAMusic.setEnergy(0.4);
+    SAMusic.on(function (s) {
+      snd.setAttribute('aria-pressed', String(s.on));
+      snd.classList.toggle('is-on', s.on && !s.silent);
+      snd.classList.toggle('is-pending', (!!s.pending && !s.on) || !!s.silent);
+      snd.title = (s.on && s.title) ? s.title : '';
+    });
+    snd.addEventListener('click', function () { SAMusic.toggle(); });
+    snd.addEventListener('pointerenter', function () { SAMusic.prefetch(); }, { once: true });
+  }
 
   /* ── reveals ── */
   var rv = $$('.rv');
