@@ -40,8 +40,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="preload" href="assets/fonts/syne.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/v2/hiero/glyphs.js" as="script" />
-  <link rel="preload" href="assets/v2/hiero/torchlight.js" as="script" />
+  <link rel="preload" href="assets/v2/hiero/glyphs.js" as="script" fetchpriority="low" />
+  <link rel="preload" href="assets/v2/hiero/torchlight.js" as="script" fetchpriority="low" />
   <style>
     @font-face { font-family: 'Syne'; src: url('assets/fonts/syne.woff2') format('woff2'); font-weight: 400 800; font-style: normal; font-display: swap; }
     @font-face { font-family: 'Manrope'; src: url('assets/fonts/manrope.woff2') format('woff2'); font-weight: 200 800; font-style: normal; font-display: swap; }
@@ -219,6 +219,7 @@
     .menu { position: fixed; inset: 0; z-index: 65; background: var(--bg-deep); display: flex; flex-direction: column; justify-content: space-between; padding: calc(110px + env(safe-area-inset-top)) var(--pad) calc(28px + env(safe-area-inset-bottom)); clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path 0.8s var(--ease), visibility 0.8s; gap: 30px; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
     @media (max-height: 920px) { .menu-links a { font-size: clamp(32px, 8.6vw, 60px); } }
     .menu-open .menu { clip-path: inset(0 0 0 0); visibility: visible; }
+    .menu-open .nav { background: var(--bg-deep); }
     .menu-links { display: flex; flex-direction: column; }
     .menu-links a { display: flex; align-items: baseline; gap: 14px; font-family: var(--display); font-weight: 700; font-size: clamp(36px, 10vw, 72px); line-height: 1.12; letter-spacing: -0.04em; overflow: hidden; }
     .menu-links a span { display: inline-block; transform: translateY(110%); transition: transform 0.8s var(--ease); }
@@ -479,26 +480,27 @@
     @media (min-width: 721px) { .st-frame .st-close { display: none; } }
 
     /* Sound: nav button with equaliser bars, menu row */
-    .snd-btn { width: 44px; height: 44px; flex: none; display: inline-grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-2); color: var(--gold); transition: border-color 0.3s, background 0.3s; }
-    .snd-btn:hover, .snd-btn[aria-pressed="true"] { border-color: var(--gold); background: var(--hover); }
+    .snd-btn { position: relative; width: 44px; height: 44px; flex: none; display: inline-grid; place-items: center; border-radius: 50%; border: 1px solid var(--line-2); color: var(--gold); transition: border-color 0.3s, background 0.3s; }
+    .snd-btn:hover, .snd-btn.is-on { border-color: var(--gold); background: var(--hover); }
     .snd-btn[hidden], .snd-row[hidden] { display: none; }
     .snd-bars { display: inline-flex; align-items: center; gap: 2.5px; height: 16px; }
     .snd-bars i { width: 2.5px; height: 16px; border-radius: 2px; background: currentColor; transform: scaleY(0.22); transform-origin: center; transition: transform 0.4s var(--ease); }
-    [aria-pressed="true"] > .snd-bars i { animation: sndbar 1.2s ease-in-out infinite; }
-    [aria-pressed="true"] > .snd-bars i:nth-child(2) { animation-delay: -0.45s; }
-    [aria-pressed="true"] > .snd-bars i:nth-child(3) { animation-delay: -0.8s; }
-    [aria-pressed="true"] > .snd-bars i:nth-child(4) { animation-delay: -0.2s; }
+    .is-on > .snd-bars i { animation: sndbar 1.2s ease-in-out infinite; }
+    .is-on > .snd-bars i:nth-child(2) { animation-delay: -0.45s; }
+    .is-on > .snd-bars i:nth-child(3) { animation-delay: -0.8s; }
+    .is-on > .snd-bars i:nth-child(4) { animation-delay: -0.2s; }
     .is-loading-snd .snd-bars i { opacity: 0.45; }
-    .snd-btn.is-pending { animation: sndpulse 2.2s ease-in-out infinite; }
-    @keyframes sndpulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(240, 199, 102, 0); } 50% { box-shadow: 0 0 0 6px rgba(240, 199, 102, 0.22); } }
+    /* waiting for a tap (music was on on another page, or the phone paused it): a soft ring pulses on its own layer */
+    .snd-btn.is-pending::after { content: ''; position: absolute; inset: -1px; border-radius: 50%; box-shadow: 0 0 0 6px rgba(240, 199, 102, 0.22); opacity: 0; pointer-events: none; will-change: opacity; animation: sndpulse 2.2s ease-in-out infinite; }
+    @keyframes sndpulse { 50% { opacity: 1; } }
     @keyframes sndbar { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
     @media (prefers-reduced-motion: reduce) {
-      [aria-pressed="true"] > .snd-bars i:nth-child(1) { transform: scaleY(0.6); } [aria-pressed="true"] > .snd-bars i:nth-child(2) { transform: scaleY(1); }
-      [aria-pressed="true"] > .snd-bars i:nth-child(3) { transform: scaleY(0.45); } [aria-pressed="true"] > .snd-bars i:nth-child(4) { transform: scaleY(0.8); }
+      .is-on > .snd-bars i:nth-child(1) { transform: scaleY(0.6); } .is-on > .snd-bars i:nth-child(2) { transform: scaleY(1); }
+      .is-on > .snd-bars i:nth-child(3) { transform: scaleY(0.45); } .is-on > .snd-bars i:nth-child(4) { transform: scaleY(0.8); }
     }
     .snd-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 48px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-weight: 700; transition: border-color 0.3s, background 0.3s; }
     .snd-toggle .snd-bars { color: var(--gold); }
-    .snd-toggle[aria-pressed="true"] { border-color: var(--gold); background: var(--hover); }
+    .snd-toggle.is-on { border-color: var(--gold); background: var(--hover); }
     .snd-tracks { grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
     .snd-tracks button { font-size: 13.5px; padding: 0 6px; line-height: 1.15; }
     .snd-tracks[hidden] { display: none; }
@@ -617,6 +619,9 @@
       .contact-links { grid-template-columns: 1fr; }
       .status { display: none; }
     }
+    /* the sound button made the German/Italian desktop nav wider than its pill */
+    @media (max-width: 1240px) { html[lang="de"] .status, html[lang="it"] .status { display: none; } }
+    @media (min-width: 901px) and (max-width: 1000px) { html[lang="de"] .brand b { display: none; } }
     @media (max-width: 900px) {
       .nav-links, .nav .cta-talk { display: none; }
       .menu-btn { display: inline-flex; }
@@ -728,7 +733,7 @@
       </div>
       <div class="theme-row snd-row">
         <span class="mono" data-i="snd.label">Music</span>
-        <button type="button" class="snd-toggle" id="sndToggle" data-snd aria-pressed="false"><span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="sndToggleLabel">Play the soundtrack</span></button>
+        <button type="button" class="snd-toggle" id="sndToggle" data-snd><span class="snd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="sndToggleLabel">Play the soundtrack</span></button>
         <div class="theme-seg snd-tracks" id="sndTracks" role="group" aria-label="Soundtrack" data-ia="aria-label:snd.pick"></div>
         <span class="theme-hint" data-i="snd.hint">Original music, composed in code for this site</span>
       </div>
@@ -1407,6 +1412,7 @@
 
     var menuBtn = $('#menuBtn');
     function setMenu(open) {
+      if (open) $('#menu').scrollTop = 0;
       body.classList.toggle('menu-open', open);
       menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       $('#menuLabel').textContent = open ? t('ui.close') : t('ui.menu');
@@ -1467,7 +1473,7 @@
     function stPlay() {
       stv.muted = stMuted;
       var p = stv.play();
-      if (p && p.catch) p.catch(function () { if (!stv.muted) { stMuted = true; stUI(); stPlay(); } });
+      if (p && p.catch) p.catch(function () { if (!stv.muted) { stMuted = true; stUI(); stPlay(); if (window.SAMusic) SAMusic.duck(false); } });
     }
     function stLoad(i) {
       cur = i; var r = reels[i];
@@ -1493,7 +1499,7 @@
       var i = 0; reels.forEach(function (r, k) { if (r.src === src) i = k; });
       lastFocus = document.activeElement; stOpen = true;
       st.classList.add('open'); body.style.overflow = 'hidden'; if (lenis) lenis.stop();
-      if (window.SAMusic) SAMusic.duck(true);
+      if (window.SAMusic) SAMusic.duck(!stMuted);
       stLoad(i); cancelAnimationFrame(stRaf); stTick();
       $('#stSound').focus({ preventScroll: true });
     }
@@ -1516,7 +1522,7 @@
     $$('.st-close', st).forEach(function (b) { b.addEventListener('click', closeReel); });
     $('#stPrev').addEventListener('click', function () { stGo(-1); });
     $('#stNext').addEventListener('click', function () { stGo(1); });
-    $('#stSound').addEventListener('click', function () { stMuted = !stMuted; stv.muted = stMuted; stUI(); if (stv.paused && !st.classList.contains('paused')) stPlay(); });
+    $('#stSound').addEventListener('click', function () { stMuted = !stMuted; stv.muted = stMuted; stUI(); if (window.SAMusic) SAMusic.duck(!stMuted); if (stv.paused && !st.classList.contains('paused')) stPlay(); });
     $('#stCta').addEventListener('click', function (e) {
       e.preventDefault(); closeReel();
       var chip = $('#qServices [data-svc="shows"]');
@@ -1626,7 +1632,9 @@
       sndTracks.innerHTML = SAMusic.tracks.map(function (tr) { return '<button type="button" data-track="' + tr.id + '">' + esc(tr.title) + '</button>'; }).join('');
       musicUI = function (s) {
         s = s || SAMusic.state();
-        [sndBtn, sndToggle].forEach(function (b) { b.setAttribute('aria-pressed', String(s.on)); b.classList.toggle('is-loading-snd', s.loading); b.classList.toggle('is-pending', !!s.pending && !s.on); });
+        var audible = s.on && !s.silent;
+        sndBtn.setAttribute('aria-pressed', String(s.on));
+        [sndBtn, sndToggle].forEach(function (b) { b.classList.toggle('is-on', audible); b.classList.toggle('is-loading-snd', s.loading); b.classList.toggle('is-pending', (!!s.pending && !s.on) || !!s.silent); });
         sndLabel.textContent = t(s.loading ? 'snd.loading' : s.on ? 'snd.pause' : 'snd.play');
         sndBtn.title = t('snd.label') + (s.on && s.title ? ' · ' + s.title : '');
         $$('button', sndTracks).forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-track') === s.id)); });

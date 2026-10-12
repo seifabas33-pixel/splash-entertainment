@@ -81,7 +81,8 @@
     SAMusic.setEnergy(0.4);
     SAMusic.on(function (s) {
       snd.setAttribute('aria-pressed', String(s.on));
-      snd.classList.toggle('is-pending', !!s.pending && !s.on);
+      snd.classList.toggle('is-on', s.on && !s.silent);
+      snd.classList.toggle('is-pending', (!!s.pending && !s.on) || !!s.silent);
       snd.title = (s.on && s.title) ? s.title : '';
     });
     snd.addEventListener('click', function () { SAMusic.toggle(); });
